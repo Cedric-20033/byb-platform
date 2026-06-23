@@ -1,0 +1,25 @@
+// src/domain/shared/EmailProvider.ts
+
+/**
+ * Port de sortie : contrat pour l'envoi d'emails.
+ * Resend, SendGrid ou Mailgun l'implémentent depuis l'infrastructure.
+ */
+export interface EmailProvider {
+  send(payload: EmailPayload): Promise<void>;
+}
+
+export type EmailPayload = {
+  to: string;
+  subject: string;
+  /** Type d'email — détermine le template React Email à utiliser */
+  type: EmailType;
+  /** Données dynamiques injectées dans le template */
+  data: Record<string, unknown>;
+};
+
+export enum EmailType {
+  APPOINTMENT_CONFIRMATION = 'appointment_confirmation',
+  APPOINTMENT_CANCELLATION = 'appointment_cancellation',
+  APPOINTMENT_REMINDER = 'appointment_reminder',
+  ADMIN_NEW_APPOINTMENT = 'admin_new_appointment',
+}

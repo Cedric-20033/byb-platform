@@ -1,0 +1,164 @@
+{
+  "metadata": {
+    "siteName": "BYB Building & Renovation",
+    "defaultTitle": "BYB — Your trusted craftsman",
+    "defaultDescription": "BYB Building & Renovation, your specialist in roofing, renovation and construction in the Lyon area. Over 20 years of experience."
+  },
+
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "realisations": "Projects",
+    "about": "About",
+    "contact": "Contact",
+    "bookAppointment": "Book an appointment",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+
+  "home": {
+    "hero": {
+      "tagline": "Trusted craftsman since 2005",
+      "title": "Your building deserves the best",
+      "subtitle": "Roofing, renovation, new construction — BYB delivers your projects with care, on time and within budget.",
+      "ctaPrimary": "Discover our services",
+      "ctaSecondary": "See our projects"
+    },
+    "about": {
+      "eyebrow": "Who are we?",
+      "title": "A family business at your service",
+      "description": "For over 20 years, the BYB team has been supporting individuals and businesses in all their building projects."
+    },
+    "services": {
+      "eyebrow": "Our services",
+      "title": "What we offer",
+      "subtitle": "Complete services delivered by qualified craftsmen."
+    },
+    "stats": {
+      "eyebrow": "BYB in numbers"
+    },
+    "projects": {
+      "eyebrow": "Our projects",
+      "title": "Some recent work",
+      "cta": "See all projects"
+    },
+    "testimonials": {
+      "eyebrow": "Testimonials",
+      "title": "What our clients say",
+      "cta": "Contact us"
+    },
+    "cta": {
+      "title": "Your project starts here",
+      "subtitle": "Contact us for a free, no-obligation quote.",
+      "button": "Request a quote"
+    }
+  },
+
+  "services": {
+    "pageTitle": "Our services",
+    "pageDescription": "Discover all the services offered by BYB Building & Renovation.",
+    "subServices": "Included services",
+    "gallery": "Gallery",
+    "bookService": "Request a quote for this service",
+    "backToServices": "Back to services"
+  },
+
+  "realisations": {
+    "pageTitle": "Our projects",
+    "pageDescription": "Discover some of our recent work.",
+    "filterAll": "All",
+    "noResults": "No projects for this category."
+  },
+
+  "about": {
+    "pageTitle": "About",
+    "pageDescription": "The history and values of BYB Building & Renovation.",
+    "history": {
+      "eyebrow": "Our history",
+      "title": "20 years of passion and expertise"
+    },
+    "values": {
+      "eyebrow": "Our values",
+      "title": "What guides us every day"
+    },
+    "team": {
+      "eyebrow": "Our team",
+      "title": "Passionate craftsmen"
+    }
+  },
+
+  "contact": {
+    "pageTitle": "Contact",
+    "pageDescription": "Contact BYB Building & Renovation for a quote or information.",
+    "title": "A question? A project?",
+    "subtitle": "We reply within 24 hours.",
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Your message",
+      "submit": "Send message",
+      "sending": "Sending...",
+      "successTitle": "Message sent!",
+      "successMessage": "We will reply as soon as possible.",
+      "errorMessage": "An error occurred. Please try again."
+    },
+    "info": {
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Opening hours"
+    }
+  },
+
+  "admin": {
+    "dashboard": { "title": "Dashboard", "welcome": "Welcome" },
+    "services": { "title": "Services management", "add": "Add service", "edit": "Edit", "delete": "Delete", "confirmDelete": "Confirm deletion?" },
+    "users": { "title": "Users management", "role": "Role", "permissions": "Permissions" },
+    "auditLogs": { "title": "Audit log", "actor": "Actor", "action": "Action", "target": "Target", "date": "Date" }
+  },
+
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "learnMore": "Learn more",
+    "seeAll": "See all",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "noData": "No data available"
+  },
+
+  "footer": {
+    "quickLinks": "Quick links",
+    "contact": "Contact us",
+    "legal": "Legal",
+    "rights": "All rights reserved"
+  },
+
+  "legal": {
+    "pageTitle": "Legal notice",
+    "privacyTitle": "Privacy policy"
+  },
+
+  "errors": {
+    "notFound": "Page not found",
+    "notFoundDescription": "The page you are looking for does not exist or has been moved.",
+    "backHome": "Back to home",
+    "unauthorized": "Unauthorized",
+    "unauthorizedDescription": "You do not have permission to access this page."
+  }
+}

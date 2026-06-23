@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "siteName": "BYB Bâtiment & Rénovation",
+    "defaultTitle": "BYB — Votre artisan de confiance",
+    "defaultDescription": "BYB Bâtiment & Rénovation, votre spécialiste en toiture, rénovation et construction dans la région lyonnaise. Plus de 20 ans d'expérience."
+  },
+
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "realisations": "Réalisations",
+    "about": "À propos",
+    "contact": "Contact",
+    "bookAppointment": "Prendre un RDV",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
+  },
+
+  "home": {
+    "hero": {
+      "tagline": "Artisan de confiance depuis 2005",
+      "title": "Votre bâtiment mérite le meilleur",
+      "subtitle": "Toiture, rénovation, construction neuve — BYB réalise vos projets avec soin, dans les délais et le respect de votre budget.",
+      "ctaPrimary": "Découvrir nos services",
+      "ctaSecondary": "Voir nos réalisations"
+    },
+    "about": {
+      "eyebrow": "Qui sommes-nous ?",
+      "title": "Une entreprise familiale à votre service",
+      "description": "Depuis plus de 20 ans, l'équipe BYB accompagne les particuliers et professionnels dans tous leurs projets de bâtiment. Notre force : des artisans qualifiés, formés en interne, qui mettent leur savoir-faire au service de la qualité."
+    },
+    "services": {
+      "eyebrow": "Nos services",
+      "title": "Ce que nous vous proposons",
+      "subtitle": "Des prestations complètes, réalisées par des artisans qualifiés."
+    },
+    "stats": {
+      "eyebrow": "BYB en chiffres"
+    },
+    "projects": {
+      "eyebrow": "Nos réalisations",
+      "title": "Quelques chantiers récents",
+      "cta": "Voir toutes les réalisations"
+    },
+    "testimonials": {
+      "eyebrow": "Témoignages",
+      "title": "Ce que disent nos clients",
+      "cta": "Nous contacter"
+    },
+    "cta": {
+      "title": "Votre projet commence ici",
+      "subtitle": "Contactez-nous pour un devis gratuit et sans engagement.",
+      "button": "Demander un devis"
+    }
+  },
+
+  "services": {
+    "pageTitle": "Nos services",
+    "pageDescription": "Découvrez l'ensemble des prestations proposées par BYB Bâtiment & Rénovation.",
+    "subServices": "Prestations incluses",
+    "gallery": "Galerie",
+    "bookService": "Demander un devis pour ce service",
+    "backToServices": "Retour aux services"
+  },
+
+  "realisations": {
+    "pageTitle": "Nos réalisations",
+    "pageDescription": "Découvrez quelques-uns de nos chantiers récents.",
+    "filterAll": "Tous",
+    "noResults": "Aucune réalisation pour cette catégorie."
+  },
+
+  "about": {
+    "pageTitle": "À propos",
+    "pageDescription": "L'histoire et les valeurs de BYB Bâtiment & Rénovation.",
+    "history": {
+      "eyebrow": "Notre histoire",
+      "title": "20 ans de passion et de savoir-faire"
+    },
+    "values": {
+      "eyebrow": "Nos valeurs",
+      "title": "Ce qui nous guide au quotidien"
+    },
+    "team": {
+      "eyebrow": "Notre équipe",
+      "title": "Des artisans passionnés"
+    }
+  },
+
+  "contact": {
+    "pageTitle": "Contact",
+    "pageDescription": "Contactez BYB Bâtiment & Rénovation pour un devis ou un renseignement.",
+    "title": "Une question ? Un projet ?",
+    "subtitle": "Répondons-nous dans les 24 heures.",
+    "form": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Email",
+      "phone": "Téléphone",
+      "subject": "Sujet",
+      "message": "Votre message",
+      "submit": "Envoyer le message",
+      "sending": "Envoi en cours...",
+      "successTitle": "Message envoyé !",
+      "successMessage": "Nous vous répondrons dans les plus brefs délais.",
+      "errorMessage": "Une erreur est survenue. Veuillez réessayer."
+    },
+    "info": {
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "email": "Email",
+      "hours": "Horaires"
+    }
+  },
+
+  "admin": {
+    "dashboard": {
+      "title": "Tableau de bord",
+      "welcome": "Bienvenue"
+    },
+    "services": {
+      "title": "Gestion des services",
+      "add": "Ajouter un service",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "confirmDelete": "Confirmer la suppression ?"
+    },
+    "users": {
+      "title": "Gestion des utilisateurs",
+      "role": "Rôle",
+      "permissions": "Permissions"
+    },
+    "auditLogs": {
+      "title": "Journal des actions",
+      "actor": "Auteur",
+      "action": "Action",
+      "target": "Cible",
+      "date": "Date"
+    }
+  },
+
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "learnMore": "En savoir plus",
+    "seeAll": "Tout voir",
+    "close": "Fermer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "export": "Exporter",
+    "noData": "Aucune donnée disponible"
+  },
+
+  "footer": {
+    "quickLinks": "Liens rapides",
+    "contact": "Nous contacter",
+    "legal": "Légal",
+    "rights": "Tous droits réservés"
+  },
+
+  "legal": {
+    "pageTitle": "Mentions légales",
+    "privacyTitle": "Politique de confidentialité"
+  },
+
+  "errors": {
+    "notFound": "Page introuvable",
+    "notFoundDescription": "La page que vous cherchez n'existe pas ou a été déplacée.",
+    "backHome": "Retour à l'accueil",
+    "unauthorized": "Accès non autorisé",
+    "unauthorizedDescription": "Vous n'avez pas les droits pour accéder à cette page."
+  }
+}

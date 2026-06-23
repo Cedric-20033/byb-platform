@@ -1,0 +1,50 @@
+{
+  "_note": "À compléter par un traducteur natif. Structure identique à fr.json.",
+
+  "metadata": {
+    "siteName": "BYB Bau & Renovierung",
+    "defaultTitle": "BYB — Ihr vertrauenswürdiger Handwerker",
+    "defaultDescription": "BYB Bau & Renovierung, Ihr Spezialist für Dachdeckerarbeiten, Renovierung und Neubau im Raum Lyon. Über 20 Jahre Erfahrung."
+  },
+
+  "nav": {
+    "home": "Startseite",
+    "services": "Leistungen",
+    "realisations": "Referenzen",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "bookAppointment": "Termin buchen",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen"
+  },
+
+  "common": {
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "retry": "Erneut versuchen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "view": "Ansehen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "learnMore": "Mehr erfahren",
+    "seeAll": "Alle anzeigen",
+    "close": "Schließen",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "export": "Exportieren",
+    "noData": "Keine Daten verfügbar"
+  },
+
+  "errors": {
+    "notFound": "Seite nicht gefunden",
+    "notFoundDescription": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "backHome": "Zurück zur Startseite",
+    "unauthorized": "Nicht autorisiert",
+    "unauthorizedDescription": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen."
+  }
+}
