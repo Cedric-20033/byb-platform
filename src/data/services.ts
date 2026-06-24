@@ -105,7 +105,7 @@ export const services: Service[] = [
         slug: 'renovation-exterieure',
         name: { fr: 'Rénovation extérieure', en: 'Exterior renovation', de: 'Außenrenovierung' },
         description: {
-          fr: 'Ravalement de façade, isolation thermique par l'extérieur (ITE), bardage.',
+          fr: 'Ravalement de façade, isolation thermique par l&rsquo;extérieur (ITE), bardage.',
           en: 'Facade renovation, external thermal insulation (ETI), cladding.',
           de: 'Fassadenrenovierung, Außendämmung (WDVS), Verkleidung.',
         },
