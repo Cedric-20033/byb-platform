@@ -40,6 +40,9 @@ npm install --save-dev @types/react-big-calendar
 # --- Formulaires ---
 npm install react-hook-form @hookform/resolvers
 
+
+npm install next-themes
+
 echo ""
 echo "✅ Installation terminée."
 echo ""

@@ -25,14 +25,19 @@
       "ctaSecondary": "Voir nos réalisations"
     },
     "about": {
+      "imageSrc": "/images/equipe.jpg",
+      "imageAlt": "équipe BYB",
       "eyebrow": "Qui sommes-nous ?",
       "title": "Une entreprise familiale à votre service",
-      "description": "Depuis plus de 20 ans, l'équipe BYB accompagne les particuliers et professionnels dans tous leurs projets de bâtiment. Notre force : des artisans qualifiés, formés en interne, qui mettent leur savoir-faire au service de la qualité."
+      "description": "Depuis plus de 20 ans, l'équipe BYB accompagne les particuliers et professionnels dans tous leurs projets de bâtiment. Notre force : des artisans qualifiés, formés en interne, qui mettent leur savoir-faire au service de la qualité.",
+      "experienceNumber": "20+",
+      "experienceLabel": "ans d'expérience"
     },
     "services": {
       "eyebrow": "Nos services",
       "title": "Ce que nous vous proposons",
-      "subtitle": "Des prestations complètes, réalisées par des artisans qualifiés."
+      "subtitle": "Des prestations complètes, réalisées par des artisans qualifiés.",
+      "cta": "Voir tous les services"
     },
     "stats": {
       "eyebrow": "BYB en chiffres"
@@ -79,7 +84,15 @@
     },
     "values": {
       "eyebrow": "Nos valeurs",
-      "title": "Ce qui nous guide au quotidien"
+      "title": "Ce qui nous guide au quotidien",
+      "value1Title": "Qualité",
+      "value1Desc": "Chaque chantier est réalisé avec des matériaux certifiés et dans le respect des normes DTU.",
+      "value2Title": "Ponctualité",
+      "value2Desc": "Nous respectons les délais convenus. Votre temps est précieux.",
+      "value3Title": "Transparence",
+      "value3Desc": "Devis détaillé, pas de mauvaise surprise. Nous communiquons à chaque étape.",
+      "value4Title": "Proximité",
+      "value4Desc": "Une équipe à votre écoute, disponible et réactive pour toutes vos questions."
     },
     "team": {
       "eyebrow": "Notre équipe",

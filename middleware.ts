@@ -5,33 +5,23 @@ import { routing } from '@/lib/routing';
 
 const intlMiddleware = createMiddleware(routing);
 
-/**
- * Routes qui nécessitent une authentification admin.
- * Le middleware vérifie la présence d'un token Supabase valide.
- * Si absent, redirige vers la page de connexion.
- */
-const PROTECTED_ROUTES = ['/dashboard'];
+/** Routes nécessitant une session admin active. */
+const PROTECTED_PREFIXES = ['/dashboard'];
 
-/**
- * Vérifie si le chemin demandé correspond à une route protégée.
- * Prend en compte le préfixe de locale (ex: /fr/dashboard, /en/dashboard).
- */
-function isProtectedRoute(pathname: string): boolean {
-  return PROTECTED_ROUTES.some((route) =>
-    // Matche /dashboard, /fr/dashboard, /en/dashboard, etc.
-    pathname === route ||
-    pathname.startsWith(`${route}/`) ||
-    pathname.match(new RegExp(`^/(fr|en|de)${route}(/|$)`)) !== null
+function isProtectedPath(pathname: string): boolean {
+  return PROTECTED_PREFIXES.some(
+    (prefix) =>
+      pathname === prefix ||
+      pathname.startsWith(`${prefix}/`) ||
+      pathname.match(new RegExp(`^/(fr|en|de)${prefix}(/|$)`)) !== null
   );
 }
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // --- Protection des routes admin ---
-  if (isProtectedRoute(pathname)) {
-    // Lecture du cookie de session Supabase
-    // Note : la vérification complète JWT sera faite dans les layouts serveur
+  // Protection des routes admin
+  if (isProtectedPath(pathname)) {
     const hasSession =
       request.cookies.has('sb-access-token') ||
       request.cookies.has('sb-refresh-token');
@@ -43,13 +33,14 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // --- Gestion i18n sur toutes les routes ---
+  // Déléguer tout le reste à next-intl (gère /en, /de, / → /fr)
   return intlMiddleware(request);
 }
 
 export const config = {
-  // Applique le middleware à toutes les routes sauf les assets statiques
+  // Applique le middleware à toutes les routes sauf assets statiques
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    // Inclut / et toutes les routes sans extension de fichier
+    '/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$).*)',
   ],
 };

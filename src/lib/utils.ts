@@ -1,21 +1,23 @@
 // src/lib/utils.ts
-import { type ClassValue, clsx } from 'clsx';
+
+import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import type { Locale } from './routing';
 
 /**
- * Fusionne les classes Tailwind en évitant les conflits.
- * Utilisé dans tous les composants pour les classes conditionnelles.
- *
- * @example cn('px-4 py-2', isActive && 'bg-primary', className)
+ * Fusionne les classes Tailwind en résolvant les conflits.
+ * Fonction existante — inchangée.
  */
-export function cn(...inputs: ClassValue[]): string {
+export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// ─── I18n ─────────────────────────────────────────────────────────────────────
+
 /**
- * Type pour les champs traduisibles stockés en JSONB dans Supabase.
- * Toutes les colonnes de texte multilingue suivent cette structure.
+ * Champ traduisible stocké en JSONB dans Supabase.
+ * Le français est obligatoire. Les autres langues sont des fallbacks.
+ *
+ * Pour ajouter une langue : ajouter la clé ici ET dans src/lib/routing.ts.
  */
 export type I18nField = {
   fr: string;
@@ -24,36 +26,56 @@ export type I18nField = {
 };
 
 /**
- * Extrait la valeur traduite d'un champ i18n.
- * Applique un fallback sur le français si la traduction est absente.
+ * Extrait la valeur traduite d'un champ I18nField avec fallback sur le français.
+ * Utilisé dans tous les composants pour afficher les données multilingues de src/data/.
  *
- * @param field - L'objet i18n avec les traductions disponibles
- * @param locale - La locale demandée
- * @returns La chaîne traduite, ou la valeur française par défaut
+ * @example t(service.name, 'en') → "Roofing"
+ * @example t(service.name, 'zh') → "Toiture" (fallback fr)
  */
-export function t(field: I18nField, locale: Locale): string {
-  return field[locale] ?? field.fr;
+export function t(field: I18nField, locale: string): string {
+  return (field as Record<string, string>)[locale] ?? field.fr;
 }
 
+// ─── Images ───────────────────────────────────────────────────────────────────
+
 /**
- * Génère un slug URL-safe depuis une chaîne de caractères.
- * Utilisé pour les URLs des services, réalisations, etc.
+ * Point de passage UNIQUE pour tous les chemins d'images de l'application.
+ *
+ * Aujourd'hui (Phase 1-2) : retourne le chemin /public tel quel.
+ * Phase 3 (Cloudinary) : modifier UNIQUEMENT cette fonction.
+ * Tous les composants l'utilisent → un seul changement met à jour tout le site.
+ *
+ * @example getImageUrl('/images/services/toiture.jpg')
+ *   → aujourd'hui : '/images/services/toiture.jpg'
+ *   → phase 3     : 'https://res.cloudinary.com/byb/image/upload/services/toiture.jpg'
+ */
+export function getImageUrl(path: string): string {
+  // TODO Phase 3 : décommenter et configurer Cloudinary
+  // const cloud = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  // if (cloud) return `https://res.cloudinary.com/${cloud}/image/upload${path}`;
+  return path;
+}
+
+// ─── Utilitaires ──────────────────────────────────────────────────────────────
+
+/**
+ * Transforme une chaîne en slug URL-safe.
+ * "Toiture Pentue" → "toiture-pentue"
  */
 export function slugify(text: string): string {
   return text
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // supprime les accents
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 }
 
 /**
- * Formate une date en tenant compte de la locale active.
- *
- * @example formatDate('2025-06-23', 'fr') → '23 juin 2025'
+ * Formate une date ISO selon la locale active.
+ * @example formatDate('2024-10-15', 'fr') → "15 octobre 2024"
  */
-export function formatDate(date: string | Date, locale: Locale): string {
+export function formatDate(date: string | Date, locale: string): string {
   return new Intl.DateTimeFormat(locale, {
     year: 'numeric',
     month: 'long',

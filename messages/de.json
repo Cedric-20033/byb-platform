@@ -18,6 +18,121 @@
     "closeMenu": "Menü schließen"
   },
 
+  "home": {
+    "hero": {
+      "tagline": "Ihr Handwerker seit 2005",
+      "title": "Ihr Gebäude verdient das Beste",
+      "subtitle": "Dach, Renovierung, Neubau — BYB realisiert Ihre Projekte sorgfältig, pünktlich und budgetgerecht.",
+      "ctaPrimary": "Unsere Leistungen entdecken",
+      "ctaSecondary": "Referenzen ansehen"
+    },
+    "about": {
+      "eyebrow": "Wer sind wir?",
+      "title": "Ein Unternehmen zu Ihren Diensten",
+      "description": "Seit über 20 Jahren begleitet BYB Privatpersonen und Unternehmen bei all ihren Bauprojekten.",
+      "experienceNumber": "20+",
+      "experienceLabel": "Jahre Erfahrung"
+    },
+    "services": {
+      "eyebrow": "Unsere Leistungen",
+      "title": "Was wir anbieten",
+      "subtitle": "Vollständige Leistungen von qualifizierten Handwerkern.",
+      "cta": "Alle Leistungen"
+    },
+    "stats": {
+      "eyebrow": "BYB in Zahlen"
+    },
+    "projects": {
+      "eyebrow": "Referenzen",
+      "title": "Aktuelle Projekte",
+      "cta": "Alle Referenzen"
+    },
+    "testimonials": {
+      "eyebrow": "Bewertungen",
+      "title": "Was unsere Kunden sagen",
+      "cta": "Kontakt aufnehmen"
+    },
+    "cta": {
+      "title": "Ihr Projekt beginnt hier",
+      "subtitle": "Kontaktieren Sie uns für ein kostenloses Angebot.",
+      "button": "Angebot anfordern"
+    }
+  },
+
+  "services": {
+    "pageTitle": "Unsere Leistungen",
+    "pageDescription": "Entdecken Sie alle Leistungen von BYB Bau & Renovierung.",
+    "subServices": "Enthaltene Leistungen",
+    "gallery": "Galerie",
+    "bookService": "Angebot für diese Leistung anfordern",
+    "backToServices": "Zurück zu den Leistungen"
+  },
+
+  "realisations": {
+    "pageTitle": "Unsere Referenzen",
+    "pageDescription": "Entdecken Sie einige unserer aktuellen Projekte.",
+    "filterAll": "Alle",
+    "noResults": "Keine Projekte für diese Kategorie."
+  },
+
+  "about": {
+    "pageTitle": "Über BYB",
+    "pageDescription": "Geschichte und Werte von BYB Bau & Renovierung.",
+    "history": {
+      "eyebrow": "Unsere Geschichte",
+      "title": "20 Jahre Leidenschaft und Fachwissen"
+    },
+    "values": {
+      "eyebrow": "Unsere Werte",
+      "title": "Was uns täglich leitet",
+      "value1Title": "Qualität",
+      "value1Desc": "Jedes Projekt wird mit zertifizierten Materialien gemäß DTU-Normen durchgeführt.",
+      "value2Title": "Pünktlichkeit",
+      "value2Desc": "Wir halten vereinbarte Fristen ein. Ihre Zeit ist wertvoll.",
+      "value3Title": "Transparenz",
+      "value3Desc": "Detailliertes Angebot, keine Überraschungen. Wir kommunizieren bei jedem Schritt.",
+      "value4Title": "Nähe",
+      "value4Desc": "Ein aufmerksames Team, das für alle Ihre Fragen verfügbar und reaktionsschnell ist."
+    },
+    "team": {
+      "eyebrow": "Unser Team",
+      "title": "Leidenschaftliche Handwerker"
+    }
+  },
+
+  "contact": {
+    "pageTitle": "Kontakt",
+    "pageDescription": "Kontaktieren Sie BYB für ein Angebot oder Informationen.",
+    "title": "Eine Frage? Ein Projekt?",
+    "subtitle": "Wir antworten innerhalb von 24 Stunden.",
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "subject": "Betreff",
+      "message": "Ihre Nachricht",
+      "submit": "Nachricht senden",
+      "sending": "Wird gesendet...",
+      "successTitle": "Nachricht gesendet!",
+      "successMessage": "Wir antworten so schnell wie möglich.",
+      "errorMessage": "Ein Fehler ist aufgetreten. Bitte erneut versuchen."
+    },
+    "info": {
+      "address": "Adresse",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "hours": "Öffnungszeiten"
+    }
+  },
+
+  "admin": {
+    "dashboard": { "title": "Dashboard", "welcome": "Willkommen" },
+    "services": { "title": "Leistungsverwaltung", "add": "Leistung hinzufügen", "edit": "Bearbeiten", "delete": "Löschen", "confirmDelete": "Löschen bestätigen?" },
+    "users": { "title": "Benutzerverwaltung", "role": "Rolle", "permissions": "Berechtigungen" },
+    "auditLogs": { "title": "Audit-Protokoll", "actor": "Akteur", "action": "Aktion", "target": "Ziel", "date": "Datum" }
+  },
+
   "common": {
     "loading": "Laden...",
     "error": "Ein Fehler ist aufgetreten",
@@ -40,10 +155,22 @@
     "noData": "Keine Daten verfügbar"
   },
 
+  "footer": {
+    "quickLinks": "Schnelllinks",
+    "contact": "Kontakt",
+    "legal": "Rechtliches",
+    "rights": "Alle Rechte vorbehalten"
+  },
+
+  "legal": {
+    "pageTitle": "Impressum",
+    "privacyTitle": "Datenschutzerklärung"
+  },
+
   "errors": {
     "notFound": "Seite nicht gefunden",
     "notFoundDescription": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
-    "backHome": "Zurück zur Startseite",
+    "backHome": "Zur Startseite",
     "unauthorized": "Nicht autorisiert",
     "unauthorizedDescription": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen."
   }

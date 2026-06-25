@@ -27,12 +27,15 @@
     "about": {
       "eyebrow": "Who are we?",
       "title": "A family business at your service",
-      "description": "For over 20 years, the BYB team has been supporting individuals and businesses in all their building projects."
+      "description": "For over 20 years, the BYB team has been supporting individuals and businesses in all their building projects. Our strength: qualified craftsmen, trained in-house, who put their expertise at the service of quality.",
+      "experienceNumber": "20+",
+      "experienceLabel": "years of experience"
     },
     "services": {
       "eyebrow": "Our services",
       "title": "What we offer",
-      "subtitle": "Complete services delivered by qualified craftsmen."
+      "subtitle": "Complete services delivered by qualified craftsmen.",
+      "cta": "See all services"
     },
     "stats": {
       "eyebrow": "BYB in numbers"
@@ -79,7 +82,15 @@
     },
     "values": {
       "eyebrow": "Our values",
-      "title": "What guides us every day"
+      "title": "What guides us every day",
+      "value1Title": "Quality",
+      "value1Desc": "Every project is completed with certified materials in compliance with DTU standards.",
+      "value2Title": "Punctuality",
+      "value2Desc": "We respect agreed deadlines. Your time is valuable.",
+      "value3Title": "Transparency",
+      "value3Desc": "Detailed quote, no surprises. We communicate at every step.",
+      "value4Title": "Proximity",
+      "value4Desc": "A team that listens, available and responsive to all your questions."
     },
     "team": {
       "eyebrow": "Our team",
