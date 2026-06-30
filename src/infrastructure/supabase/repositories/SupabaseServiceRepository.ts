@@ -1,4 +1,4 @@
-import { createClient } from '../server'
+/*import { createClient } from '../server'
 import type { Service } from '@/types'
 
 export class SupabaseServiceRepository {
@@ -24,4 +24,4 @@ export class SupabaseServiceRepository {
       // ...
     }
   }
-}
+}*/
