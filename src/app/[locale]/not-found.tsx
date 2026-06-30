@@ -15,9 +15,9 @@ export default function NotFound() {
         <p className="font-[var(--font-display)] font-black text-9xl text-[var(--color-primary)]/20">404</p>
         <h1 className="text-4xl font-[var(--font-display)] font-black">Page introuvable</h1>
         <p className="text-[var(--color-muted)] max-w-sm mx-auto">
-          La page que vous cherchez n'existe pas ou a été déplacée.
+          La page que vous cherchez n&rsquo;existe pas ou a été déplacée.
         </p>
-        <Link href={getLocalizedPath('/', locale)}><Button>Retour à l'accueil</Button></Link>
+        <Link href={getLocalizedPath('/', locale)}><Button>Retour à l&rsquo;accueil</Button></Link>
       </div>
     </div>
   );

@@ -2,14 +2,16 @@
 import type { Service } from '@/types';
 
 /**
- * Catalogue des services proposés par BYB.
+ * Catalogue des services proposés par BYB Construction.
  * Structure prête pour la migration Supabase :
  *   - les champs i18n (name, shortDescription, fullDescription) correspondent
  *     aux colonnes JSONB de la table `services`
  *   - les slugs servent d'identifiants d'URL (/services/[slug])
  *   - les images pointent vers /public/images/services/
  *
- * À ENRICHIR avec les vraies données client dès réception.
+ * Source : carte de visite + informations transmises par le client.
+ * Les textes "fullDescription" sont des rédactions provisoires à valider
+ * avec le client — seuls les intitulés de métiers sont des données confirmées.
  */
 export const services: Service[] = [
   {
@@ -26,14 +28,14 @@ export const services: Service[] = [
       de: 'Verlegung, Renovierung und Wartung aller Dacharten.',
     },
     fullDescription: {
-      fr: "Notre équipe intervient sur tous types de toitures : tuiles, ardoises, zinc, membranes asphaltiques. Nous réalisons la pose de toitures neuves, la rénovation complète ou partielle, et l'entretien régulier pour prolonger la durée de vie de votre couverture. Chaque chantier est réalisé dans le respect des normes DTU et avec des matériaux certifiés.",
-      en: 'Our team works on all types of roofs: tiles, slates, zinc, bituminous membranes.',
-      de: 'Unser Team arbeitet an allen Arten von Dächern: Ziegel, Schiefer, Zink, Bitumenmembranen.',
+      fr: "Notre équipe intervient sur tous types de toitures : tuiles, ardoises, zinc, membranes EPDM. Nous réalisons la pose de toitures neuves, la rénovation complète ou partielle, ainsi que l'entretien régulier pour prolonger la durée de vie de votre couverture.",
+      en: 'Our team works on all types of roofs: tiles, slates, zinc, EPDM membranes.',
+      de: 'Unser Team arbeitet an allen Arten von Dächern: Ziegel, Schiefer, Zink, EPDM-Membranen.',
     },
     icon: 'Home',
-    coverImage: '/images/services/toiture-cover.jpg',
+    coverImage: '/images/services/toiture-cover.jpeg',
     galleryImages: [
-      '/images/services/toiture-1.jpg',
+      '/images/services/toiture-1.webp',
       '/images/services/toiture-2.jpg',
       '/images/services/toiture-3.jpg',
     ],
@@ -65,77 +67,58 @@ export const services: Service[] = [
 
   {
     id: 'svc-002',
-    slug: 'renovation',
+    slug: 'charpente',
     name: {
-      fr: 'Rénovation',
-      en: 'Renovation',
-      de: 'Renovierung',
+      fr: 'Charpente',
+      en: 'Roof framing',
+      de: 'Dachstuhl',
     },
     shortDescription: {
-      fr: 'Rénovation intérieure et extérieure pour particuliers et professionnels.',
-      en: 'Interior and exterior renovation for individuals and businesses.',
-      de: 'Innen- und Außenrenovierung für Privatpersonen und Unternehmen.',
+      fr: 'Conception, fabrication et pose de charpentes traditionnelles et industrielles.',
+      en: 'Design, manufacturing and installation of traditional and industrial roof framing.',
+      de: 'Planung, Herstellung und Montage von traditionellen und industriellen Dachstühlen.',
     },
     fullDescription: {
-      fr: "De la rénovation d'une salle de bain à la transformation complète d'un logement, nous prenons en charge l'intégralité de votre projet. Nos artisans qualifiés maîtrisent les techniques traditionnelles et les dernières innovations pour un résultat qui dépasse vos attentes.",
-      en: 'From bathroom renovation to complete home transformation, we handle your entire project.',
-      de: 'Von der Badsanierung bis zur kompletten Wohnungsumgestaltung übernehmen wir Ihr gesamtes Projekt.',
+      fr: 'Nous concevons et posons des charpentes en bois adaptées à tous types de constructions, qu’il s’agisse d’une création neuve, d’un remplacement ou d’un renforcement de structure existante. Chaque charpente est dimensionnée selon les contraintes du bâtiment et les normes en vigueur.',
+      en: 'We design and install wooden roof frames adapted to all types of buildings.',
+      de: 'Wir planen und montieren Holzdachstühle, die für alle Gebäudetypen geeignet sind.',
     },
-    icon: 'Hammer',
-    coverImage: '/images/services/renovation-cover.jpg',
+    icon: 'Triangle',
+    coverImage: '/images/services/charpente-cover.jpg',
     galleryImages: [
-      '/images/services/renovation-1.jpg',
-      '/images/services/renovation-2.jpg',
+      '/images/services/charpente-1.jpg',
+      '/images/services/charpente-2.jpg',
+      '/images/services/charpente-3.webp',
+      '/images/services/charpente-4.jpg'
     ],
     isActive: true,
     order: 2,
-    subServices: [
-      {
-        id: 'sub-003',
-        slug: 'renovation-interieure',
-        name: { fr: 'Rénovation intérieure', en: 'Interior renovation', de: 'Innenrenovierung' },
-        description: {
-          fr: 'Plomberie, électricité, cloisons, peinture, revêtements de sol.',
-          en: 'Plumbing, electricity, partitions, painting, floor coverings.',
-          de: 'Sanitär, Elektro, Trennwände, Malerarbeiten, Bodenbeläge.',
-        },
-      },
-      {
-        id: 'sub-004',
-        slug: 'renovation-exterieure',
-        name: { fr: 'Rénovation extérieure', en: 'Exterior renovation', de: 'Außenrenovierung' },
-        description: {
-          fr: 'Ravalement de façade, isolation thermique par l&rsquo;extérieur (ITE), bardage.',
-          en: 'Facade renovation, external thermal insulation (ETI), cladding.',
-          de: 'Fassadenrenovierung, Außendämmung (WDVS), Verkleidung.',
-        },
-      },
-    ],
+    subServices: [],
   },
 
   {
     id: 'svc-003',
-    slug: 'construction-neuve',
+    slug: 'bardage',
     name: {
-      fr: 'Construction neuve',
-      en: 'New construction',
-      de: 'Neubau',
+      fr: 'Bardage',
+      en: 'Cladding',
+      de: 'Verkleidung',
     },
     shortDescription: {
-      fr: 'Gros œuvre et second œuvre pour vos projets de construction neuve.',
-      en: 'Structural and finishing work for your new construction projects.',
-      de: 'Rohbau und Ausbau für Ihre Neubauprojekte.',
+      fr: 'Habillage et protection des façades par bardage bois, métal ou composite.',
+      en: 'Facade cladding and protection in wood, metal or composite materials.',
+      de: 'Fassadenverkleidung und -schutz aus Holz, Metall oder Verbundwerkstoff.',
     },
     fullDescription: {
-      fr: "Nous accompagnons les maîtres d'ouvrage de la dalle de fondation jusqu'aux finitions. Notre coordination avec les architectes et les bureaux d'études garantit le respect des plans, des délais et du budget.",
-      en: 'We support project owners from the foundation slab to the finishes.',
-      de: 'Wir begleiten Bauherren von der Fundamentplatte bis zu den Fertigstellungsarbeiten.',
+      fr: 'Le bardage protège votre façade des intempéries tout en lui donnant un nouveau cachet esthétique. Nous posons des bardages bois, métalliques ou composites, adaptés à votre style architectural et à vos contraintes d’isolation.',
+      en: 'Cladding protects your facade from the weather while giving it a fresh look.',
+      de: 'Die Verkleidung schützt Ihre Fassade vor Witterungseinflüssen und verleiht ihr ein neues Erscheinungsbild.',
     },
-    icon: 'Building2',
-    coverImage: '/images/services/construction-cover.jpg',
+    icon: 'PanelsTopLeft',
+    coverImage: '/images/services/bardage-cover.jpg',
     galleryImages: [
-      '/images/services/construction-1.jpg',
-      '/images/services/construction-2.jpg',
+      '/images/services/bardage-1.jpg',
+      '/images/services/bardage-2.jpg'
     ],
     isActive: true,
     order: 3,
@@ -144,39 +127,212 @@ export const services: Service[] = [
 
   {
     id: 'svc-004',
-    slug: 'isolation',
+    slug: 'epdm',
     name: {
-      fr: 'Isolation',
-      en: 'Insulation',
-      de: 'Dämmung',
+      fr: 'EPDM',
+      en: 'EPDM roofing',
+      de: 'EPDM-Dach',
     },
     shortDescription: {
-      fr: 'Isolation thermique et acoustique pour réduire vos factures énergétiques.',
-      en: 'Thermal and acoustic insulation to reduce your energy bills.',
-      de: 'Wärme- und Schalldämmung zur Reduzierung Ihrer Energiekosten.',
+      fr: 'Pose de membranes EPDM pour toitures plates, étanches et durables.',
+      en: 'Installation of EPDM membranes for flat, waterproof and durable roofs.',
+      de: 'Verlegung von EPDM-Membranen für dichte und langlebige Flachdächer.',
     },
     fullDescription: {
-      fr: "L'isolation est un investissement rentable à long terme. Nous réalisons l'isolation des combles, des murs, des planchers et des toitures pour améliorer le confort thermique et acoustique de votre habitat tout en réduisant votre consommation énergétique.",
-      en: 'Insulation is a profitable long-term investment. We insulate attics, walls, floors and roofs.',
-      de: 'Dämmung ist eine rentable Langzeitinvestition. Wir dämmen Dachböden, Wände, Böden und Dächer.',
+      fr: "L'EPDM est une membrane en caoutchouc synthétique reconnue pour sa durabilité et son étanchéité. Idéale pour les toitures plates, elle résiste aux UV, aux intempéries et nécessite très peu d'entretien sur le long terme.",
+      en: 'EPDM is a synthetic rubber membrane known for its durability and waterproofing.',
+      de: 'EPDM ist eine Synthesekautschuk-Membran, die für ihre Langlebigkeit und Dichtheit bekannt ist.',
     },
     icon: 'Layers',
-    coverImage: '/images/services/isolation-cover.jpg',
-    galleryImages: [],
+    coverImage: '/images/services/epdm-cover.webp',
+    galleryImages: [
+      '/images/services/epdm-1.jpg',
+      '/images/services/epdm-2.jpg',
+      '/images/services/epdm-3.jpg'
+    ],
     isActive: true,
     order: 4,
-    subServices: [
-      {
-        id: 'sub-005',
-        slug: 'isolation-combles',
-        name: { fr: 'Isolation des combles', en: 'Attic insulation', de: 'Dachbodendämmung' },
-        description: {
-          fr: 'Soufflage laine de verre, ouate de cellulose ou laine de roche.',
-          en: 'Glass wool, cellulose wadding or rock wool blowing.',
-          de: 'Glaswolle-, Zellulosewatte- oder Steinwolle-Einblasung.',
-        },
-      },
+    subServices: [],
+  },
+
+  {
+    id: 'svc-005',
+    slug: 'facade',
+    name: {
+      fr: 'Façade',
+      en: 'Facade',
+      de: 'Fassade',
+    },
+    shortDescription: {
+      fr: 'Ravalement et rénovation de façades pour protéger et embellir votre bâtiment.',
+      en: 'Facade renovation to protect and enhance your building.',
+      de: 'Fassadensanierung zum Schutz und zur Verschönerung Ihres Gebäudes.',
+    },
+    fullDescription: {
+      fr: 'Le ravalement de façade redonne vie à votre bâtiment tout en le protégeant des infiltrations et de l’usure du temps. Nous intervenons sur les enduits, les peintures extérieures et les traitements d’étanchéité.',
+      en: 'Facade renovation revives your building while protecting it from water infiltration and ageing.',
+      de: 'Die Fassadensanierung verleiht Ihrem Gebäude neuen Glanz und schützt es vor Feuchtigkeit und Alterung.',
+    },
+    icon: 'Building',
+    coverImage: '/images/services/facade-cover.jpg',
+    galleryImages: [
+      '/images/services/facade-1.jpg',
+      '/images/services/facade-2.jpg',
+      '/images/services/facade-3.jpg'
     ],
+    isActive: true,
+    order: 5,
+    subServices: [],
+  },
+
+  {
+    id: 'svc-006',
+    slug: 'plafonnage',
+    name: {
+      fr: 'Plafonnage',
+      en: 'Plastering',
+      de: 'Verputzarbeiten',
+    },
+    shortDescription: {
+      fr: 'Plafonnage intérieur pour des murs et plafonds parfaitement lisses.',
+      en: 'Interior plastering for perfectly smooth walls and ceilings.',
+      de: 'Innenverputz für perfekt glatte Wände und Decken.',
+    },
+    fullDescription: {
+      fr: "Le plafonnage prépare vos murs et plafonds avant peinture ou décoration. Nous réalisons des finitions soignées, garantissant des surfaces lisses et uniformes, que ce soit en construction neuve ou en rénovation.",
+      en: 'Plastering prepares your walls and ceilings before painting or decoration.',
+      de: 'Der Verputz bereitet Ihre Wände und Decken vor dem Anstreichen oder Dekorieren vor.',
+    },
+    icon: 'Paintbrush',
+    coverImage: '/images/services/plafonnage-cover.jpeg',
+    galleryImages: [
+      '/images/services/plafonnage-1.jpg',
+      '/images/services/plafonnage-2.jpg',
+      '/images/services/plafonnage-3.jpg',
+      '/images/services/plafonnage-4.jpg'
+    ],
+    isActive: true,
+    order: 6,
+    subServices: [],
+  },
+
+  {
+    id: 'svc-007',
+    slug: 'carrelage',
+    name: {
+      fr: 'Carrelage',
+      en: 'Tiling',
+      de: 'Fliesenarbeiten',
+    },
+    shortDescription: {
+      fr: 'Pose de carrelage intérieur et extérieur, pour sols et murs.',
+      en: 'Indoor and outdoor floor and wall tiling.',
+      de: 'Verlegung von Innen- und Außenfliesen für Boden und Wand.',
+    },
+    fullDescription: {
+      fr: "Nous posons tous types de carrelage — grès cérame, faïence, pierre naturelle — pour vos sols et murs, intérieurs comme extérieurs. Une attention particulière est portée à la préparation du support pour un résultat durable.",
+      en: 'We install all types of tiling — porcelain stoneware, ceramic, natural stone — for floors and walls.',
+      de: 'Wir verlegen alle Arten von Fliesen — Feinsteinzeug, Keramik, Naturstein — für Böden und Wände.',
+    },
+    icon: 'Grid3x3',
+    coverImage: '/images/services/carrelage-cover.jpg',
+    galleryImages: [
+      '/images/services/carrelage-3.jpg',
+      '/images/services/carrelage-1.jpg',
+      '/images/services/carrelage-2.jpg'
+    ],
+    isActive: true,
+    order: 7,
+    subServices: [],
+  },
+
+  {
+    id: 'svc-008',
+    slug: 'panneaux-solaires',
+    name: {
+      fr: 'Panneaux solaires',
+      en: 'Solar panels',
+      de: 'Solarpaneele',
+    },
+    shortDescription: {
+      fr: 'Installation de panneaux photovoltaïques pour réduire votre facture énergétique.',
+      en: 'Installation of photovoltaic panels to reduce your energy bill.',
+      de: 'Installation von Photovoltaikanlagen zur Senkung Ihrer Energiekosten.',
+    },
+    fullDescription: {
+      fr: "Nous installons des panneaux solaires photovoltaïques adaptés à votre toiture et à votre consommation. Une solution durable pour produire votre propre électricité et réduire votre dépendance énergétique.",
+      en: 'We install photovoltaic solar panels adapted to your roof and your energy consumption.',
+      de: 'Wir installieren Photovoltaikanlagen, die auf Ihr Dach und Ihren Energieverbrauch abgestimmt sind.',
+    },
+    icon: 'Sun',
+    coverImage: '/images/services/panneaux-solaires-cover.jpg',
+    galleryImages: [
+      '/images/services/panneaux-solaires-1.jpg',
+      '/images/services/panneaux-solaires-2.jpg',
+      '/images/services/panneaux-solaires-3.jpg',
+      '/images/services/panneaux-solaires-4.avif',
+      '/images/services/panneaux-solaires-5.jpg',
+      '/images/services/panneaux-solaires-6.jpg'
+    ],
+    isActive: true,
+    order: 8,
+    subServices: [],
+  },
+
+  {
+    id: 'svc-009',
+    slug: 'chauffage-sanitaire',
+    name: {
+      fr: 'Chauffage sanitaire',
+      en: 'Heating & sanitary',
+      de: 'Heizung & Sanitär',
+    },
+    shortDescription: {
+      fr: 'Installation et entretien de systèmes de chauffage et sanitaires.',
+      en: 'Installation and maintenance of heating and sanitary systems.',
+      de: 'Installation und Wartung von Heizungs- und Sanitäranlagen.',
+    },
+    fullDescription: {
+      fr: "Nous installons et entretenons vos équipements de chauffage et sanitaires : chaudières, radiateurs, sanitaires, robinetterie. Notre objectif est de garantir confort et fiabilité au quotidien.",
+      en: 'We install and maintain heating and sanitary equipment: boilers, radiators, fixtures, plumbing.',
+      de: 'Wir installieren und warten Heizungs- und Sanitäranlagen: Kessel, Heizkörper, Sanitäranlagen, Armaturen.',
+    },
+    icon: 'Flame',
+    coverImage: '/images/services/chauffage-sanitaire-cover.jpg',
+    galleryImages: [],
+    isActive: true,
+    order: 9,
+    subServices: [],
+  },
+
+  {
+    id: 'svc-010',
+    slug: 'maconnerie',
+    name: {
+      fr: 'Maçonnerie',
+      en: 'Masonry',
+      de: 'Maurerarbeiten',
+    },
+    shortDescription: {
+      fr: 'Travaux de gros œuvre : fondations, murs, dalles et structures en béton.',
+      en: 'Structural masonry work: foundations, walls, slabs and concrete structures.',
+      de: 'Rohbauarbeiten: Fundamente, Wände, Platten und Betonstrukturen.',
+    },
+    fullDescription: {
+      fr: "Nous réalisons l'ensemble des travaux de maçonnerie : fondations, élévation de murs, dalles, ouvertures. Un savoir-faire solide pour garantir la stabilité et la durabilité de votre construction.",
+      en: 'We carry out all masonry work: foundations, wall construction, slabs, openings.',
+      de: 'Wir führen alle Maurerarbeiten durch: Fundamente, Wandbau, Platten, Öffnungen.',
+    },
+    icon: 'Bricks',
+    coverImage: '/images/services/maconnerie-cover.jpg',
+    galleryImages: [
+      '/images/services/maconnerie-1.jpg',
+      '/images/services/maconnerie-2.jpg',
+      '/images/services/maconnerie-3.jpg'
+    ],
+    isActive: true,
+    order: 10,
+    subServices: [],
   },
 ];
 

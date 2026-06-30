@@ -12,7 +12,7 @@ export type HomeAboutData = {
 };
 
 export const homeAbout: HomeAboutData = {
-  imageSrc: '/Images/WhatsApp Image 2026-06-16 at 10.08.11.jpeg',
+  imageSrc: '/Images/equipe.jpg',
   imageAlt: {
     fr: "Photo de l'équipe BYB",
     en: 'Photo of the BYB team',

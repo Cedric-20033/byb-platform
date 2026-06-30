@@ -20,16 +20,40 @@ export const mainNavLinks: NavLink[] = [
         href: `${PUBLIC_ROUTES.SERVICES}/toiture`,
       },
       {
-        label: { fr: 'Rénovation', en: 'Renovation', de: 'Renovierung' },
-        href: `${PUBLIC_ROUTES.SERVICES}/renovation`,
+        label: { fr: 'Charpente', en: 'Roof framing', de: 'Dachstuhl' },
+        href: `${PUBLIC_ROUTES.SERVICES}/charpente`,
       },
       {
-        label: { fr: 'Construction neuve', en: 'New construction', de: 'Neubau' },
-        href: `${PUBLIC_ROUTES.SERVICES}/construction-neuve`,
+        label: { fr: 'Bardage', en: 'Cladding', de: 'Verkleidung' },
+        href: `${PUBLIC_ROUTES.SERVICES}/bardage`,
       },
       {
-        label: { fr: 'Isolation', en: 'Insulation', de: 'Dämmung' },
-        href: `${PUBLIC_ROUTES.SERVICES}/isolation`,
+        label: { fr: 'EPDM', en: 'EPDM roofing', de: 'EPDM-Dach' },
+        href: `${PUBLIC_ROUTES.SERVICES}/epdm`,
+      },
+      {
+        label: { fr: 'Façade', en: 'Facade', de: 'Fassade' },
+        href: `${PUBLIC_ROUTES.SERVICES}/facade`,
+      },
+      {
+        label: { fr: 'Plafonnage', en: 'Plastering', de: 'Verputzarbeiten' },
+        href: `${PUBLIC_ROUTES.SERVICES}/plafonnage`,
+      },
+      {
+        label: { fr: 'Carrelage', en: 'Tiling', de: 'Fliesenarbeiten' },
+        href: `${PUBLIC_ROUTES.SERVICES}/carrelage`,
+      },
+      {
+        label: { fr: 'Panneaux solaires', en: 'Solar panels', de: 'Solarpaneele' },
+        href: `${PUBLIC_ROUTES.SERVICES}/panneaux-solaires`,
+      },
+      {
+        label: { fr: 'Chauffage sanitaire', en: 'Heating & sanitary', de: 'Heizung & Sanitär' },
+        href: `${PUBLIC_ROUTES.SERVICES}/chauffage-sanitaire`,
+      },
+      {
+        label: { fr: 'Maçonnerie', en: 'Masonry', de: 'Maurerarbeiten' },
+        href: `${PUBLIC_ROUTES.SERVICES}/maconnerie`,
       },
     ],
   },

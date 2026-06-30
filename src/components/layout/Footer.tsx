@@ -1,18 +1,18 @@
-import Link from 'next/link';
-import { useTranslations, useLocale } from 'next-intl';
-import { Phone, Mail, MapPin, Clock } from 'lucide-react';
-import { t } from '@/lib/utils';
-import { getLocalizedPath, Locale } from '@/lib/routing';
-import { company } from '@/data/company';
-import { footerQuickLinks, footerLegalLinks } from '@/data/navigation';
+import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { t } from "@/lib/utils";
+import { getLocalizedPath, Locale } from "@/lib/routing";
+import { company } from "@/data/company";
+import { footerQuickLinks, footerLegalLinks } from "@/data/navigation";
 
 export function Footer() {
   // Clés issues de fr.json : "footer.quickLinks", "footer.contact", "footer.rights"
-  const tFooter  = useTranslations('footer');
+  const tFooter = useTranslations("footer");
   // Clés issues de fr.json : "contact.info.address", "contact.info.phone", etc.
   //const tContact = useTranslations('contact');
-  const locale   = useLocale() as Locale;
-  const year     = new Date().getFullYear();
+  const locale = useLocale() as Locale;
+  const year = new Date().getFullYear();
 
   return (
     <footer className="bg-[var(--color-foreground)] text-[var(--color-background)]">
@@ -20,14 +20,13 @@ export function Footer() {
 
       <div className="container-custom py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-
           {/* Identité */}
           <div className="lg:col-span-2 space-y-4">
             <div className="font-[var(--font-display)] font-bold text-3xl">
-              <span className="text-[var(--color-secondary)]">BYB</span>{' '}
-              <span className="text-white/90">Bâtiment</span>
+              <span className="text-[var(--color-secondary)]">BYB</span>{" "}
+              <span className="text-[var(--color-background)]">Bâtiment</span>
             </div>
-            <p className="text-white/60 text-sm leading-relaxed max-w-xs">
+            <p className="text-[color:color-mix(in_srgb,var(--color-background)_75%,transparent)] text-sm leading-relaxed max-w-xs">
               {t(company.description, locale)}
             </p>
             <div className="flex gap-3 pt-2">
@@ -39,13 +38,16 @@ export function Footer() {
 
           {/* Liens rapides — clé fr.json : footer.quickLinks */}
           <div className="space-y-4">
-            <h3 className="font-[var(--font-display)] font-bold text-sm uppercase tracking-widest text-white/50">
-              {tFooter('quickLinks')}
+            <h3 className="font-[var(--font-display)] font-bold text-sm uppercase tracking-widest text-[color:color-mix(in_srgb,var(--color-background)_60%,transparent)]">
+              {tFooter("quickLinks")}
             </h3>
             <ul className="space-y-2">
               {footerQuickLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={getLocalizedPath(link.href, locale)} className="text-sm text-white/70 hover:text-[var(--color-secondary)] transition-colors">
+                  <Link
+                    href={getLocalizedPath(link.href, locale)}
+                    className="text-sm text-[color:color-mix(in_srgb,var(--color-background)_80%,transparent)] hover:text-[var(--color-secondary)] transition-colors"
+                  >
                     {t(link.label, locale)}
                   </Link>
                 </li>
@@ -55,28 +57,51 @@ export function Footer() {
 
           {/* Contact — clé fr.json : footer.contact + contact.info.* */}
           <div className="space-y-4">
-            <h3 className="font-[var(--font-display)] font-bold text-sm uppercase tracking-widest text-white/50">
-              {tFooter('contact')}
+            <h3 className="font-[var(--font-display)] font-bold text-sm uppercase tracking-widest text-[color:color-mix(in_srgb,var(--color-background)_60%,transparent)]">
+              {tFooter("contact")}
             </h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-white/70">
-                <MapPin size={15} className="mt-0.5 shrink-0 text-[var(--color-secondary)]" />
-                <span>{company.contact.address.street}<br />{company.contact.address.postalCode} {company.contact.address.city}</span>
+              <li className="flex items-start gap-3 text-sm text-[color:color-mix(in_srgb,var(--color-background)_80%,transparent)]">
+                <MapPin
+                  size={15}
+                  className="mt-0.5 shrink-0 text-[var(--color-secondary)]"
+                />
+                <span>
+                  {company.contact.address.street}
+                  <br />
+                  {company.contact.address.postalCode}{" "}
+                  {company.contact.address.city}
+                </span>
               </li>
               <li>
-                <a href={`tel:${company.contact.phone}`} className="flex items-center gap-3 text-sm text-white/70 hover:text-white transition-colors">
-                  <Phone size={15} className="shrink-0 text-[var(--color-secondary)]" />
+                <a
+                  href={`tel:${company.contact.phone}`}
+                  className="flex items-center gap-3 text-sm text-[color:color-mix(in_srgb,var(--color-background)_80%,transparent)] hover:text-[var(--color-secondary)] transition-colors"
+                >
+                  <Phone
+                    size={15}
+                    className="shrink-0 text-[var(--color-secondary)]"
+                  />
                   {company.contact.phone}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${company.contact.email}`} className="flex items-center gap-3 text-sm text-white/70 hover:text-white transition-colors">
-                  <Mail size={15} className="shrink-0 text-[var(--color-secondary)]" />
+                <a
+                  href={`mailto:${company.contact.email}`}
+                  className="flex items-center gap-3 text-sm text-[color:color-mix(in_srgb,var(--color-background)_80%,transparent)] hover:text-[var(--color-secondary)] transition-colors"
+                >
+                  <Mail
+                    size={15}
+                    className="shrink-0 text-[var(--color-secondary)]"
+                  />
                   {company.contact.email}
                 </a>
               </li>
-              <li className="flex items-center gap-3 text-sm text-white/70">
-                <Clock size={15} className="shrink-0 text-[var(--color-secondary)]" />
+              <li className="flex items-center gap-3 text-sm text-[color:color-mix(in_srgb,var(--color-background)_80%,transparent)]">
+                <Clock
+                  size={15}
+                  className="shrink-0 text-[var(--color-secondary)]"
+                />
                 {t(company.openingHours, locale)}
               </li>
             </ul>
@@ -85,15 +110,18 @@ export function Footer() {
       </div>
 
       {/* Bas de page — clé fr.json : footer.rights + legal.* */}
-      <div className="border-t border-white/10">
+      <div className="border-t border-[color:color-mix(in_srgb,var(--color-background)_12%,transparent)]">
         <div className="container-custom py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-white/40">
-            © {year} {company.fullName}. {tFooter('rights')}.
+          <p className="text-xs text-[color:color-mix(in_srgb,var(--color-background)_55%,transparent)]">
+            © {year} {company.fullName}. {tFooter("rights")}.
           </p>
           <ul className="flex gap-4">
             {footerLegalLinks.map((link) => (
               <li key={link.href}>
-                <Link href={getLocalizedPath(link.href, locale)} className="text-xs text-white/40 hover:text-white/70 transition-colors">
+                <Link
+                  href={getLocalizedPath(link.href, locale)}
+                  className="text-xs text-[color:color-mix(in_srgb,var(--color-background)_55%,transparent)] hover:text-[var(--color-secondary)] transition-colors"
+                >
                   {t(link.label, locale)}
                 </Link>
               </li>
@@ -105,10 +133,23 @@ export function Footer() {
   );
 }
 
-function SocialLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+function SocialLink({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-      className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-[var(--color-secondary)] transition-colors">
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="w-8 h-8 flex items-center justify-center rounded-full bg-[color:color-mix(in_srgb,var(--color-background)_10%,transparent)] hover:bg-[var(--color-secondary)] transition-colors"
+    >
       {children}
     </a>
   );
