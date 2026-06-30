@@ -11,7 +11,7 @@ export const projects: Project[] = [
     id: 'prj-001',
     title: { fr: 'Réfection toiture — Maison individuelle', en: 'Roof renovation — Detached house' },
     description: { fr: 'Remplacement complet de la couverture en tuiles canal. Isolation des combles incluse.' },
-    image: '/images/projects/toiture-maison-1.jpg',
+    image: '/images/projects/toiture-maison-1.JPG',
     category: 'toiture',
     date: '2024-10-01',
     isHighlighted: true,
