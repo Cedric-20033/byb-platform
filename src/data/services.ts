@@ -33,11 +33,11 @@ export const services: Service[] = [
       de: 'Unser Team arbeitet an allen Arten von Dächern: Ziegel, Schiefer, Zink, EPDM-Membranen.',
     },
     icon: 'Home',
-    coverImage: '/images/services/toiture-cover.jpeg',
+    coverImage: '/Images/services/toiture-cover.jpeg',
     galleryImages: [
-      '/images/services/toiture-1.webp',
-      '/images/services/toiture-2.jpg',
-      '/images/services/toiture-3.jpg',
+      '/Images/services/toiture-1.webp',
+      '/Images/services/toiture-2.jpg',
+      '/Images/services/toiture-3.jpg',
     ],
     isActive: true,
     order: 1,
@@ -84,12 +84,12 @@ export const services: Service[] = [
       de: 'Wir planen und montieren Holzdachstühle, die für alle Gebäudetypen geeignet sind.',
     },
     icon: 'Triangle',
-    coverImage: '/images/services/charpente-cover.jpg',
+    coverImage: '/Images/services/charpente-cover.jpg',
     galleryImages: [
-      '/images/services/charpente-1.jpg',
-      '/images/services/charpente-2.jpg',
-      '/images/services/charpente-3.webp',
-      '/images/services/charpente-4.jpg'
+      '/Images/services/charpente-1.jpg',
+      '/Images/services/charpente-2.jpg',
+      '/Images/services/charpente-3.webp',
+      '/Images/services/charpente-4.jpg'
     ],
     isActive: true,
     order: 2,
@@ -115,10 +115,10 @@ export const services: Service[] = [
       de: 'Die Verkleidung schützt Ihre Fassade vor Witterungseinflüssen und verleiht ihr ein neues Erscheinungsbild.',
     },
     icon: 'PanelsTopLeft',
-    coverImage: '/images/services/bardage-cover.jpg',
+    coverImage: '/Images/services/bardage-cover.jpg',
     galleryImages: [
-      '/images/services/bardage-1.jpg',
-      '/images/services/bardage-2.jpg'
+      '/Images/services/bardage-1.jpg',
+      '/Images/services/bardage-2.jpg'
     ],
     isActive: true,
     order: 3,
@@ -144,11 +144,11 @@ export const services: Service[] = [
       de: 'EPDM ist eine Synthesekautschuk-Membran, die für ihre Langlebigkeit und Dichtheit bekannt ist.',
     },
     icon: 'Layers',
-    coverImage: '/images/services/epdm-cover.webp',
+    coverImage: '/Images/services/epdm-cover.webp',
     galleryImages: [
-      '/images/services/epdm-1.jpg',
-      '/images/services/epdm-2.jpg',
-      '/images/services/epdm-3.jpg'
+      '/Images/services/epdm-1.jpg',
+      '/Images/services/epdm-2.jpg',
+      '/Images/services/epdm-3.jpg'
     ],
     isActive: true,
     order: 4,
@@ -174,11 +174,11 @@ export const services: Service[] = [
       de: 'Die Fassadensanierung verleiht Ihrem Gebäude neuen Glanz und schützt es vor Feuchtigkeit und Alterung.',
     },
     icon: 'Building',
-    coverImage: '/images/services/facade-cover.jpg',
+    coverImage: '/Images/services/facade-cover.jpg',
     galleryImages: [
-      '/images/services/facade-1.jpg',
-      '/images/services/facade-2.jpg',
-      '/images/services/facade-3.jpg'
+      '/Images/services/facade-1.jpg',
+      '/Images/services/facade-2.jpg',
+      '/Images/services/facade-3.jpg'
     ],
     isActive: true,
     order: 5,
@@ -204,12 +204,12 @@ export const services: Service[] = [
       de: 'Der Verputz bereitet Ihre Wände und Decken vor dem Anstreichen oder Dekorieren vor.',
     },
     icon: 'Paintbrush',
-    coverImage: '/images/services/plafonnage-cover.jpeg',
+    coverImage: '/Images/services/plafonnage-cover.jpeg',
     galleryImages: [
-      '/images/services/plafonnage-1.jpg',
-      '/images/services/plafonnage-2.jpg',
-      '/images/services/plafonnage-3.jpg',
-      '/images/services/plafonnage-4.jpg'
+      '/Images/services/plafonnage-1.jpg',
+      '/Images/services/plafonnage-2.jpg',
+      '/Images/services/plafonnage-3.jpg',
+      '/Images/services/plafonnage-4.jpg'
     ],
     isActive: true,
     order: 6,
@@ -235,11 +235,11 @@ export const services: Service[] = [
       de: 'Wir verlegen alle Arten von Fliesen — Feinsteinzeug, Keramik, Naturstein — für Böden und Wände.',
     },
     icon: 'Grid3x3',
-    coverImage: '/images/services/carrelage-cover.jpg',
+    coverImage: '/Images/services/carrelage-cover.jpg',
     galleryImages: [
-      '/images/services/carrelage-3.jpg',
-      '/images/services/carrelage-1.jpg',
-      '/images/services/carrelage-2.jpg'
+      '/Images/services/carrelage-3.jpg',
+      '/Images/services/carrelage-1.jpg',
+      '/Images/services/carrelage-2.jpg'
     ],
     isActive: true,
     order: 7,
@@ -265,14 +265,14 @@ export const services: Service[] = [
       de: 'Wir installieren Photovoltaikanlagen, die auf Ihr Dach und Ihren Energieverbrauch abgestimmt sind.',
     },
     icon: 'Sun',
-    coverImage: '/images/services/panneaux-solaires-cover.jpg',
+    coverImage: '/Images/services/panneaux-solaires-cover.jpg',
     galleryImages: [
-      '/images/services/panneaux-solaires-1.jpg',
-      '/images/services/panneaux-solaires-2.jpg',
-      '/images/services/panneaux-solaires-3.jpg',
-      '/images/services/panneaux-solaires-4.avif',
-      '/images/services/panneaux-solaires-5.jpg',
-      '/images/services/panneaux-solaires-6.jpg'
+      '/Images/services/panneaux-solaires-1.jpg',
+      '/Images/services/panneaux-solaires-2.jpg',
+      '/Images/services/panneaux-solaires-3.jpg',
+      '/Images/services/panneaux-solaires-4.avif',
+      '/Images/services/panneaux-solaires-5.jpg',
+      '/Images/services/panneaux-solaires-6.jpg'
     ],
     isActive: true,
     order: 8,
@@ -298,7 +298,7 @@ export const services: Service[] = [
       de: 'Wir installieren und warten Heizungs- und Sanitäranlagen: Kessel, Heizkörper, Sanitäranlagen, Armaturen.',
     },
     icon: 'Flame',
-    coverImage: '/images/services/chauffage-sanitaire-cover.jpg',
+    coverImage: '/Images/services/chauffage-sanitaire-cover.jpg',
     galleryImages: [],
     isActive: true,
     order: 9,
@@ -324,11 +324,11 @@ export const services: Service[] = [
       de: 'Wir führen alle Maurerarbeiten durch: Fundamente, Wandbau, Platten, Öffnungen.',
     },
     icon: 'Bricks',
-    coverImage: '/images/services/maconnerie-cover.jpg',
+    coverImage: '/Images/services/maconnerie-cover.jpg',
     galleryImages: [
-      '/images/services/maconnerie-1.jpg',
-      '/images/services/maconnerie-2.jpg',
-      '/images/services/maconnerie-3.jpg'
+      '/Images/services/maconnerie-1.jpg',
+      '/Images/services/maconnerie-2.jpg',
+      '/Images/services/maconnerie-3.jpg'
     ],
     isActive: true,
     order: 10,
