@@ -1,0 +1,16 @@
+services:
+  byb:
+
+    container_name: byb-platform
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - "3000:3000"
+
+    env_file:
+      - .env
+
+    restart: unless-stopped

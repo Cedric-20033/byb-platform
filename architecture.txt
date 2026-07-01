@@ -1,0 +1,102 @@
+.
+|-- messages
+|   |-- de.json
+|   |-- en.json
+|   `-- fr.json
+|-- src
+|   |-- app
+|   |   |-- [locale]
+|   |   |   |-- (admin)
+|   |   |   |   |-- dashbord
+|   |   |   |   |   `-- page.tsx
+|   |   |   |   `-- layout.tsx
+|   |   |   |-- (public)
+|   |   |   |   |-- a-propos
+|   |   |   |   |   `-- page.tsx
+|   |   |   |   |-- contact
+|   |   |   |   |   `-- page.tsx
+|   |   |   |   |-- realisations
+|   |   |   |   |   `-- page.tsx
+|   |   |   |   |-- services
+|   |   |   |   |   |-- [slug]
+|   |   |   |   |   |   `-- page.tsx
+|   |   |   |   |   `-- page.tsx
+|   |   |   |   `-- layout.tsx
+|   |   |   |-- mentions-legales
+|   |   |   |   `-- page.tsx
+|   |   |   |-- globals.css
+|   |   |   |-- layout.tsx
+|   |   |   |-- not-found.tsx
+|   |   |   `-- page.tsx
+|   |   |-- favicon.ico
+|   |   `-- page.tsx
+|   |-- components
+|   |   |-- layout
+|   |   |   |-- Floatingcta.tsx
+|   |   |   |-- Footer.tsx
+|   |   |   `-- NavBar.tsx
+|   |   |-- sections
+|   |   |   |-- HeroSection.tsx
+|   |   |   |-- HomesSection.tsx
+|   |   |   |-- ProjectsSection.tsx
+|   |   |   |-- ServicesSection.tsx
+|   |   |   `-- StatsSection.tsx
+|   |   `-- ui
+|   |       |-- Button.tsx
+|   |       |-- Card.tsx
+|   |       |-- ShowImage.tsx
+|   |       |-- ThemeProvider.tsx
+|   |       `-- ThemeToggle.tsx
+|   |-- data
+|   |   |-- company.ts
+|   |   |-- home.ts
+|   |   |-- navigation.ts
+|   |   |-- projects.ts
+|   |   |-- services.ts
+|   |   |-- stats.ts
+|   |   |-- testimonials.ts
+|   |   `-- timeline.ts
+|   |-- domain
+|   |   |-- appointment
+|   |   |   |-- Appointment.ts
+|   |   |   `-- AppointmentRepository.ts
+|   |   `-- shared
+|   |       |-- AuditLogger.ts
+|   |       `-- EmailProvider.ts
+|   |-- infrastructure
+|   |   |-- audit
+|   |   |   `-- SupabaseAuditLogger.ts
+|   |   |-- email
+|   |   |   `-- ResendEmailProvider.ts
+|   |   `-- supabase
+|   |       |-- repositories
+|   |       |   |-- SupabaseAppointmentRepository.ts
+|   |       |   `-- SupabaseServiceRepository.ts
+|   |       |-- client.ts
+|   |       `-- server.ts
+|   |-- lib
+|   |   |-- constants.ts
+|   |   |-- i18n.ts
+|   |   |-- routing.ts
+|   |   `-- utils.ts
+|   `-- types
+|       |-- database.ts
+|       `-- index.ts
+|-- .gitignore
+|-- AGENTS.md
+|-- ARCHITECTURE.md
+|-- CLAUDE.md
+|-- README.md
+|-- architecture.txt
+|-- components.json
+|-- eslint.config.mjs
+|-- install-deps.sh
+|-- middleware.ts
+|-- next-env.d.ts
+|-- next.config.ts
+|-- package-lock.json
+|-- package.json
+|-- postcss.config.mjs
+`-- tsconfig.json
+
+28 directories, 71 files
