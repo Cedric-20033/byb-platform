@@ -8,7 +8,9 @@ import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { t, getImageUrl } from "@/lib/utils";
 import { getLocalizedPath, Locale } from "@/lib/routing";
 import { getServiceBySlug, getActiveServices } from "@/data/services";
+import { company } from "@/data/company";
 import { Button } from "@/components/ui/Button";
+import { ServiceBookingButton } from "@/components/booking/ServiceBookingButton";
 import { CtaSection } from "@/components/sections/HomesSection";
 
 interface Props {
@@ -140,16 +142,15 @@ export default async function ServiceDetailPage({ params }: Props) {
                 <p className="text-white/75 text-sm">
                   Devis gratuit et sans engagement.
                 </p>
-                <Link
-                  href={getLocalizedPath("/contact", locale)}
-                  className="block"
-                >
-                  {/* Clé fr.json : services.bookService */}
-                  <Button variant="secondary" className="w-full">
-                    {tPage("bookService")}
-                  </Button>
-                </Link>
-                <a href={`tel:${"+33400000000"}`} className="block">
+                {/* Clé fr.json : services.bookService — ouvre le wizard
+                    directement sur ce service, sans repasser par /contact. */}
+                <ServiceBookingButton
+                  services={getActiveServices()}
+                  initialService={service}
+                  label={tPage("bookService")}
+                  className="w-full"
+                />
+                <a href={`tel:${company.contact.phone.replace(/\s/g, "")}`} className="block">
                   <Button
                     variant="outline"
                     className="w-full border-white/40 text-white hover:bg-white hover:text-[var(--color-primary)]"

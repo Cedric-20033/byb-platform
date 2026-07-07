@@ -126,6 +126,50 @@
     }
   },
 
+  "booking": {
+    "dialogTitle": "Prendre rendez-vous",
+    "steps": {
+      "service": "Service",
+      "subService": "Prestation",
+      "slot": "Créneau",
+      "confirmation": "Confirmation"
+    },
+    "service": {
+      "title": "Quel service vous intéresse ?",
+      "subtitle": "Choisissez le type de prestation souhaité."
+    },
+    "subService": {
+      "title": "Précisez votre besoin",
+      "subtitle": "Sélectionnez la prestation qui correspond le mieux à votre projet.",
+      "skip": "Aucune prestation spécifique — passer à l'étape suivante"
+    },
+    "slot": {
+      "title": "Choisissez un créneau",
+      "subtitle": "Sélectionnez une date puis un horaire disponible.",
+      "noSlots": "Aucun créneau disponible à cette date. Essayez un autre jour.",
+      "loading": "Recherche des créneaux disponibles..."
+    },
+    "confirmation": {
+      "title": "Vos coordonnées",
+      "subtitle": "Dernière étape avant la confirmation de votre rendez-vous.",
+      "name": "Nom complet",
+      "email": "Email",
+      "phone": "Téléphone",
+      "notes": "Message (facultatif)",
+      "submit": "Confirmer le rendez-vous",
+      "submitting": "Confirmation en cours...",
+      "successTitle": "Rendez-vous confirmé !",
+      "successMessage": "Un email de confirmation vient de vous être envoyé.",
+      "errorMessage": "Une erreur est survenue. Veuillez réessayer."
+    },
+    "summary": {
+      "service": "Service",
+      "subService": "Prestation",
+      "date": "Date",
+      "time": "Heure"
+    }
+  },
+
   "admin": {
     "dashboard": {
       "title": "Tableau de bord",

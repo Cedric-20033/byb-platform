@@ -8,6 +8,7 @@ import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { Navbar } from '@/components/layout/NavBar';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingCTA } from '@/components/layout/Floatingcta';
+import { getActiveServices } from '@/data/services';
 import '@/app/[locale]/globals.css';
 
 interface RootLayoutProps {
@@ -35,6 +36,10 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
 
   const messages = await getMessages();
 
+  // Layout = Server Component : seul endroit autorisé à lire src/data/
+  // directement. Le bouton flottant (Client Component) reçoit la liste en prop.
+  const services = getActiveServices();
+
   return (
     /*
       suppressHydrationWarning est obligatoire ici.
@@ -49,7 +54,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             <Navbar />
             <main className="pt-16 lg:pt-20">{children}</main>
             <Footer />
-            <FloatingCTA />
+            <FloatingCTA services={services} />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

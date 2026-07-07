@@ -15,6 +15,8 @@ export type EmailPayload = {
   type: EmailType;
   /** Données dynamiques injectées dans le template */
   data: Record<string, unknown>;
+  /** Langue du destinataire — prépare le multilingue des emails (fr par défaut). */
+  locale?: 'fr' | 'en' | 'de';
 };
 
 export enum EmailType {
