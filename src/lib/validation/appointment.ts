@@ -1,5 +1,6 @@
 // src/lib/validation/appointment.ts
 import { z } from 'zod';
+import { AppointmentStatus } from '@/domain/appointment/Appointment';
 
 /**
  * Schémas Zod partagés entre le formulaire front (wizard de réservation,
@@ -102,7 +103,9 @@ export type CreateHolidayValues = z.infer<typeof createHolidaySchema>;
  * Tous les champs sont optionnels — un objet vide retourne tout.
  */
 export const appointmentSearchFiltersSchema = z.object({
-  status: z.enum(['pending', 'confirmed', 'cancelled']).optional(),
+  // z.enum() sur l'enum du domaine (pas une liste de chaînes recopiée à la main) :
+  // le statut reste garanti aligné avec AppointmentStatus si celui-ci évolue.
+  status: z.enum(AppointmentStatus).optional(),
   serviceId: z.string().optional(),
   clientEmail: z.email().optional(),
   dateFrom: z.iso.date().optional(),
