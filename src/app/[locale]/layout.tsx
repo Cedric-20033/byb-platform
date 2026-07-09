@@ -5,9 +5,8 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/lib/routing';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
-import { Navbar } from '@/components/layout/NavBar';
-import { Footer } from '@/components/layout/Footer';
-import { FloatingCTA } from '@/components/layout/Floatingcta';
+import { Toaster } from 'sonner';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import '@/app/[locale]/globals.css';
 
 interface RootLayoutProps {
@@ -46,10 +45,11 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
       <body>
         <ThemeProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
-            <Navbar />
-            <main className="pt-16 lg:pt-20">{children}</main>
-            <Footer />
-            <FloatingCTA />
+            <ProgressBar />
+            {children}
+            {/* position="top-right" : cohérent avec la cloche de notifications
+                du dashboard admin, qui vit au même endroit de l'écran. */}
+            <Toaster position="top-right" richColors closeButton />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

@@ -1,8 +1,83 @@
 .
+|-- AGENTS.md
+|-- ARCHITECTURE.md
+|-- CLAUDE.md
+|-- Dockerfile
+|-- README.md
+|-- architecture.txt
+|-- components.json
+|-- docker-compose.yaml
+|-- eslint.config.mjs
+|-- install-deps.sh
 |-- messages
 |   |-- de.json
 |   |-- en.json
 |   `-- fr.json
+|-- middleware.ts
+|-- next-env.d.ts
+|-- next.config.ts
+|-- package-lock.json
+|-- package.json
+|-- postcss.config.mjs
+|-- public
+|   |-- Images
+|   |   |-- WhatsApp Image 2026-06-16 at 10.08.11.jpeg
+|   |   |-- equipe.jpg
+|   |   |-- logo.png
+|   |   |-- projects
+|   |   |   |-- construction-1.jpg
+|   |   |   |-- isolation-combles-1.jpg
+|   |   |   |-- renovation-facade-1.jpg
+|   |   |   |-- renovation-sdb-1.jpg
+|   |   |   |-- toiture-maison-1.jpg
+|   |   |   `-- toiture-plate-1.jpg
+|   |   `-- services
+|   |       |-- bardage-1.jpg
+|   |       |-- bardage-2.jpg
+|   |       |-- bardage-cover.jpg
+|   |       |-- carrelage-1.jpg
+|   |       |-- carrelage-2.jpg
+|   |       |-- carrelage-3.jpg
+|   |       |-- carrelage-cover.jpg
+|   |       |-- charpente-1.jpg
+|   |       |-- charpente-2.jpg
+|   |       |-- charpente-3.webp
+|   |       |-- charpente-4.jpg
+|   |       |-- charpente-cover.jpg
+|   |       |-- chauffage-sanitaire-cover.jpg
+|   |       |-- epdm-1.jpg
+|   |       |-- epdm-2.jpg
+|   |       |-- epdm-3.jpg
+|   |       |-- epdm-cover.webp
+|   |       |-- facade-1.jpg
+|   |       |-- facade-2.jpg
+|   |       |-- facade-3.jpg
+|   |       |-- facade-cover.jpeg
+|   |       |-- maconnerie-1.jpg
+|   |       |-- maconnerie-2.jpg
+|   |       |-- maconnerie-3.jpg
+|   |       |-- maconnerie-cover.jpg
+|   |       |-- panneaux-solaires-1.jpg
+|   |       |-- panneaux-solaires-2.jpg
+|   |       |-- panneaux-solaires-3.jpg
+|   |       |-- panneaux-solaires-4.avif
+|   |       |-- panneaux-solaires-5.jpg
+|   |       |-- panneaux-solaires-6.jpg
+|   |       |-- panneaux-solaires-cover.jpg
+|   |       |-- plafonnage-1.jpg
+|   |       |-- plafonnage-2.jpg
+|   |       |-- plafonnage-3.jpg
+|   |       |-- plafonnage-4.jpg
+|   |       |-- plafonnage-cover.jpeg
+|   |       |-- toiture-1.webp
+|   |       |-- toiture-2.jpg
+|   |       |-- toiture-3.jpg
+|   |       `-- toiture-cover.jpeg
+|   |-- file.svg
+|   |-- globe.svg
+|   |-- next.svg
+|   |-- vercel.svg
+|   `-- window.svg
 |-- src
 |   |-- app
 |   |   |-- [locale]
@@ -15,17 +90,17 @@
 |   |   |   |   |   `-- page.tsx
 |   |   |   |   |-- contact
 |   |   |   |   |   `-- page.tsx
+|   |   |   |   |-- layout.tsx
 |   |   |   |   |-- realisations
 |   |   |   |   |   `-- page.tsx
-|   |   |   |   |-- services
-|   |   |   |   |   |-- [slug]
-|   |   |   |   |   |   `-- page.tsx
-|   |   |   |   |   `-- page.tsx
-|   |   |   |   `-- layout.tsx
-|   |   |   |-- mentions-legales
-|   |   |   |   `-- page.tsx
+|   |   |   |   `-- services
+|   |   |   |       |-- [slug]
+|   |   |   |       |   `-- page.tsx
+|   |   |   |       `-- page.tsx
 |   |   |   |-- globals.css
 |   |   |   |-- layout.tsx
+|   |   |   |-- mentions-legales
+|   |   |   |   `-- page.tsx
 |   |   |   |-- not-found.tsx
 |   |   |   `-- page.tsx
 |   |   |-- favicon.ico
@@ -69,10 +144,10 @@
 |   |   |-- email
 |   |   |   `-- ResendEmailProvider.ts
 |   |   `-- supabase
+|   |       |-- client.ts
 |   |       |-- repositories
 |   |       |   |-- SupabaseAppointmentRepository.ts
 |   |       |   `-- SupabaseServiceRepository.ts
-|   |       |-- client.ts
 |   |       `-- server.ts
 |   |-- lib
 |   |   |-- constants.ts
@@ -82,21 +157,6 @@
 |   `-- types
 |       |-- database.ts
 |       `-- index.ts
-|-- .gitignore
-|-- AGENTS.md
-|-- ARCHITECTURE.md
-|-- CLAUDE.md
-|-- README.md
-|-- architecture.txt
-|-- components.json
-|-- eslint.config.mjs
-|-- install-deps.sh
-|-- middleware.ts
-|-- next-env.d.ts
-|-- next.config.ts
-|-- package-lock.json
-|-- package.json
-|-- postcss.config.mjs
 `-- tsconfig.json
 
-28 directories, 71 files
+32 directories, 127 files

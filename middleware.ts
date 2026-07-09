@@ -1,5 +1,6 @@
 // middleware.ts
 import createMiddleware from 'next-intl/middleware';
+import { createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 import { routing } from '@/lib/routing';
 
@@ -20,27 +21,50 @@ function isProtectedPath(pathname: string): boolean {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protection des routes admin
-  if (isProtectedPath(pathname)) {
-    const hasSession =
-      request.cookies.has('sb-access-token') ||
-      request.cookies.has('sb-refresh-token');
-
-    if (!hasSession) {
-      const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('redirect', pathname);
-      return NextResponse.redirect(loginUrl);
-    }
+  if (!isProtectedPath(pathname)) {
+    return intlMiddleware(request);
   }
 
-  // Déléguer tout le reste à next-intl (gère /en, /de, / → /fr)
-  return intlMiddleware(request);
+  // @supabase/ssr ne pose jamais de cookies nommés "sb-access-token" /
+  // "sb-refresh-token" (l'ancienne vérification ici ne matchait donc jamais
+  // rien) — la seule façon fiable de savoir si la session est valide est de
+  // demander à Supabase lui-même via getUser().
+  let response = NextResponse.next({ request });
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll: () => request.cookies.getAll(),
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          response = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+        },
+      },
+    }
+  );
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Session valide : on laisse next-intl gérer le préfixe de locale, en
+  // propageant la réponse (et ses cookies éventuellement rafraîchis).
+  const intlResponse = intlMiddleware(request);
+  response.cookies.getAll().forEach((cookie) => intlResponse.cookies.set(cookie.name, cookie.value));
+  return intlResponse;
 }
 
 export const config = {
-  // Applique le middleware à toutes les routes sauf assets statiques
   matcher: [
-    // Inclut / et toutes les routes sans extension de fichier
     '/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$).*)',
   ],
 };

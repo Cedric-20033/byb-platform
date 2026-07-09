@@ -345,6 +345,15 @@ export function getServiceBySlug(slug: string): Service | undefined {
 }
 
 /**
+ * Retourne un service par son id — c'est ce qui est stocké comme `service_id`
+ * sur un rendez-vous (appointments.service_id), pas le slug. Utilisé par le
+ * dashboard admin pour afficher un nom de service lisible.
+ */
+export function getServiceById(id: string): Service | undefined {
+  return services.find((s) => s.id === id);
+}
+
+/**
  * Retourne uniquement les services actifs, triés par ordre.
  */
 export function getActiveServices(): Service[] {

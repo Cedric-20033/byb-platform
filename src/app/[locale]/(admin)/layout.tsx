@@ -1,28 +1,40 @@
 // src/app/[locale]/(admin)/layout.tsx
+import { redirect } from 'next/navigation';
+import { getCurrentAdmin } from '@/lib/auth/getCurrentAdmin';
+import { getLocalizedPath, routing, type Locale } from '@/lib/routing';
+import { AdminShell } from '@/components/admin/AdminShell';
+
+interface AdminLayoutProps {
+  children: React.ReactNode;
+  // Next.js type ce segment dynamique comme `string` (voir .next/types/validator.ts) :
+  // le narrowing vers `Locale` se fait nous-mêmes juste en dessous, pas via ce type.
+  params: Promise<{ locale: string }>;
+}
 
 /**
- * Layout protégé admin.
- *
- * Architecture hexagonale :
- *   Phase 3 — remplacer le commentaire par la vérification JWT Supabase.
- *   Le middleware fait une vérification légère (cookie présent).
- *   Ce layout fait la vérification complète côté serveur.
- *
- * TODO Phase 3 :
- *   const supabase = await createClient();
- *   const { data: { user } } = await supabase.auth.getUser();
- *   if (!user) redirect('/login');
- *   const { data: profile } = await supabase.from('profiles').select('role, permissions').eq('id', user.id).single();
- *   if (!profile || !['admin','superadmin'].includes(profile.role)) redirect('/');
+ * Layout protégé admin — dernière ligne de défense côté serveur.
+ * Le middleware fait déjà une vérification légère (cookie de session présent)
+ * avant même de rendre cette page ; ici on résout le profil complet et on
+ * s'assure qu'il porte bien un rôle admin/superadmin.
  */
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children, params }: AdminLayoutProps) {
+  const { locale: rawLocale } = await params;
+  const locale = (routing.locales.includes(rawLocale as Locale) ? rawLocale : routing.defaultLocale) as Locale;
+
+  let admin;
+  try {
+    admin = await getCurrentAdmin();
+  } catch {
+    redirect(getLocalizedPath('/login', locale));
+  }
+
+  if (admin.role !== 'admin' && admin.role !== 'superadmin') {
+    redirect(getLocalizedPath('/', locale));
+  }
+
   return (
-    <div className="flex min-h-screen bg-[var(--color-background)]">
-      <aside className="w-64 bg-[var(--color-surface)] border-r border-[var(--color-border)] p-6">
-        <p className="font-[var(--font-display)] font-bold text-lg text-[var(--color-primary)]">BYB Admin</p>
-        <p className="text-xs text-[var(--color-muted)] mt-1">Phase 3 — à compléter</p>
-      </aside>
-      <main className="flex-1 p-8">{children}</main>
-    </div>
+    <AdminShell fullName={admin.fullName} role={admin.role}>
+      {children}
+    </AdminShell>
   );
 }

@@ -33,6 +33,24 @@ export class Appointment {
   canBeConfirmed(): boolean {
     return this.status === AppointmentStatus.PENDING;
   }
+
+  /**
+   * Valide qu'une transition de statut est autorisée par les règles métier.
+   * Centralise la matrice des transitions interdites (ex: réanuler un RDV déjà annulé,
+   * confirmer un RDV déjà confirmé). Les use cases appellent cette méthode avant
+   * de persister un changement de statut.
+   */
+  assertCanTransitionTo(newStatus: AppointmentStatus): void {
+    const allowedTransitions: Record<AppointmentStatus, AppointmentStatus[]> = {
+      [AppointmentStatus.PENDING]: [AppointmentStatus.CONFIRMED, AppointmentStatus.CANCELLED],
+      [AppointmentStatus.CONFIRMED]: [AppointmentStatus.CANCELLED],
+      [AppointmentStatus.CANCELLED]: [],
+    };
+
+    if (!allowedTransitions[this.status].includes(newStatus)) {
+      throw new Error(`Transition de statut interdite : ${this.status} → ${newStatus}`);
+    }
+  }
 }
 
 export enum AppointmentStatus {
