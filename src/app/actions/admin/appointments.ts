@@ -8,9 +8,47 @@ import { SupabaseAppointmentRepository } from '@/infrastructure/supabase/reposit
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createClient } from '@/infrastructure/supabase/server';
 import { getCurrentAdmin, assertPermission, toActorRole } from '@/lib/auth/getCurrentAdmin';
-import type { Appointment } from '@/domain/appointment/Appointment';
+import type { AppointmentWithSlot } from '@/domain/appointment/AppointmentWithSlot';
+import type { AppointmentStatus } from '@/domain/appointment/Appointment';
 
-type ListResult = { success: true; appointments: Appointment[] } | { success: false; error: string };
+/**
+ * DTO plat : `AppointmentWithSlot.appointment` est une instance de la classe
+ * `Appointment`, non sérialisable à travers la frontière Server Action →
+ * Client Component. On aplatit tout en un seul objet, `createdAt` inclus
+ * (converti en chaîne ISO — un `Date` traverse la frontière RSC, mais autant
+ * rester explicite puisque le composant ne fait que l'afficher).
+ */
+export type AppointmentListItemDTO = {
+  id: string;
+  slotId: string;
+  serviceId: string;
+  clientEmail: string;
+  clientName: string;
+  clientPhone: string;
+  status: AppointmentStatus;
+  createdAt: string;
+  slotDate: string;
+  slotStartTime: string;
+  slotEndTime: string;
+};
+
+function toAppointmentListItemDTO({ appointment, slotDate, slotStartTime, slotEndTime }: AppointmentWithSlot): AppointmentListItemDTO {
+  return {
+    id: appointment.id,
+    slotId: appointment.slotId,
+    serviceId: appointment.serviceId,
+    clientEmail: appointment.clientEmail,
+    clientName: appointment.clientName,
+    clientPhone: appointment.clientPhone,
+    status: appointment.status,
+    createdAt: appointment.createdAt.toISOString(),
+    slotDate,
+    slotStartTime,
+    slotEndTime,
+  };
+}
+
+type ListResult = { success: true; appointments: AppointmentListItemDTO[] } | { success: false; error: string };
 type ExportResult = { success: true; rows: AppointmentExportRow[] } | { success: false; error: string };
 
 /**
@@ -26,7 +64,7 @@ export async function listAppointmentsAction(filters: unknown): Promise<ListResu
   const supabase = await createClient();
   const useCase = new ListAppointments(new SupabaseAppointmentRepository(supabase));
   const appointments = await useCase.execute(parsed.data);
-  return { success: true, appointments };
+  return { success: true, appointments: appointments.map(toAppointmentListItemDTO) };
 }
 
 /**

@@ -6,6 +6,8 @@ import type { PermissionsMap } from '@/types';
 
 export type CurrentAdmin = {
   id: string;
+  email: string;
+  fullName: string;
   role: UserRole;
   permissions: PermissionsMap;
 };
@@ -30,7 +32,7 @@ export async function getCurrentAdmin(): Promise<CurrentAdmin> {
 
   const { data: profile, error } = await supabase
     .from('profiles')
-    .select('id, role, permissions')
+    .select('id, email, full_name, role, permissions')
     .eq('id', user.id)
     .single();
 
@@ -40,6 +42,8 @@ export async function getCurrentAdmin(): Promise<CurrentAdmin> {
 
   return {
     id: profile.id,
+    email: profile.email,
+    fullName: profile.full_name,
     role: profile.role,
     permissions: (profile.permissions ?? {}) as PermissionsMap,
   };

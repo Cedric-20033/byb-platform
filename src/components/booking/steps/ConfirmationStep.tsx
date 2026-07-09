@@ -40,8 +40,8 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
     resolver: zodResolver(createAppointmentSchema),
     defaultValues: {
       slotId: selectedSlot?.id ?? '',
-      serviceId: selectedService?.slug ?? '',
-      subServiceId: selectedSubService?.slug,
+      serviceId: selectedService?.id ?? '',
+      subServiceId: selectedSubService?.id,
     },
   });
 

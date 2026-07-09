@@ -46,7 +46,7 @@ export function SlotStep() {
     setError(null);
 
     getAvailableSlotsAction({
-      serviceId: selectedService.slug,
+      serviceId: selectedService.id,
       from: selectedDate,
       to: selectedDate,
     }).then((result) => {

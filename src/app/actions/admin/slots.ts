@@ -1,6 +1,7 @@
 'use server';
 
 // src/app/actions/admin/slots.ts
+import { z } from 'zod';
 import { blockSlotSchema, generateAvailableSlotsSchema } from '@/lib/validation/appointment';
 import { BlockSlot } from '@/application/admin/BlockSlot';
 import { UnblockSlot } from '@/application/admin/UnblockSlot';
@@ -10,10 +11,64 @@ import { SupabaseHolidayRepository } from '@/infrastructure/supabase/repositorie
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createClient } from '@/infrastructure/supabase/server';
 import { getCurrentAdmin, assertPermission, toActorRole } from '@/lib/auth/getCurrentAdmin';
+import type { Slot, SlotStatus } from '@/domain/slot/Slot';
 
 type SlotActionState = { success: true } | { success: false; error: string };
 
 type GenerateSlotsActionState = { success: true; created: number } | { success: false; error: string };
+
+const listSlotsByDateSchema = z.object({
+  date: z.iso.date({ error: 'Date invalide (format attendu : AAAA-MM-JJ).' }),
+  serviceId: z.string().optional(),
+});
+
+/**
+ * DTO plat : un Server Action ne peut renvoyer que des objets sérialisables
+ * au Client Component qui l'appelle. L'entité `Slot` (classe, avec un objet
+ * `TimeRange` imbriqué) ne l'est pas — Next.js rejette explicitement les
+ * instances de classe à la frontière RSC ("Classes ... are not supported").
+ */
+export type SlotDTO = {
+  id: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  status: SlotStatus;
+  serviceId: string | null;
+};
+
+function toSlotDTO(slot: Slot): SlotDTO {
+  return {
+    id: slot.id,
+    date: slot.date,
+    startTime: slot.range.startTime,
+    endTime: slot.range.endTime,
+    status: slot.status,
+    serviceId: slot.serviceId,
+  };
+}
+
+type ListSlotsResult = { success: true; slots: SlotDTO[] } | { success: false; error: string };
+
+/**
+ * Liste les créneaux d'une journée pour l'écran admin "Créneaux" — lecture
+ * simple, aucune permission dédiée (voir listHolidaysAction pour la même convention).
+ */
+export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsResult> {
+  const parsed = listSlotsByDateSchema.safeParse(input);
+  if (!parsed.success) return { success: false, error: 'Date invalide.' };
+
+  const supabase = await createClient();
+  const repository = new SupabaseSlotRepository(supabase);
+  const slots = await repository.findByDate(parsed.data.date);
+
+  const filtered = parsed.data.serviceId
+    ? slots.filter((slot) => slot.serviceId === parsed.data.serviceId)
+    : slots;
+
+  const sorted = filtered.sort((a, b) => a.range.startTime.localeCompare(b.range.startTime));
+  return { success: true, slots: sorted.map(toSlotDTO) };
+}
 
 /**
  * Bloquer/débloquer un créneau n'est pas accordé par défaut à un admin

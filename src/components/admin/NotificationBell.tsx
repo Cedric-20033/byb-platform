@@ -1,0 +1,114 @@
+// src/components/admin/NotificationBell.tsx
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useTranslations, useLocale } from 'next-intl';
+import { Bell } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
+import type { Locale } from '@/lib/routing';
+import { getLocalizedPath } from '@/lib/routing';
+import { ADMIN_ROUTES } from '@/lib/constants';
+import { getPendingNotificationsAction } from '@/app/actions/admin/dashboard';
+import { cn, formatDate, t as translateField } from '@/lib/utils';
+import { getServiceById } from '@/data/services';
+
+/**
+ * Cloche de notifications : signale les RDV en attente de confirmation.
+ * Rafraîchie toutes les 60s via TanStack Query — un compromis simple entre
+ * "temps réel" (Supabase Realtime, hors périmètre actuel) et une valeur figée.
+ */
+export function NotificationBell() {
+  const t = useTranslations('admin.navbar');
+  const locale = useLocale() as Locale;
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { data } = useQuery({
+    queryKey: ['admin', 'notifications', 'pending'],
+    queryFn: async () => {
+      const result = await getPendingNotificationsAction();
+      if (!result.success) throw new Error(result.error);
+      return result;
+    },
+    refetchInterval: 60_000,
+  });
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const pendingCount = data?.pendingCount ?? 0;
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        aria-label={t('notifications')}
+        className="relative w-9 h-9 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--color-muted)] hover:text-[var(--color-foreground)] hover:bg-[var(--color-surface-raised)] transition-colors"
+      >
+        <Bell size={18} />
+        {pendingCount > 0 && (
+          <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full bg-[var(--color-secondary)] text-white text-[10px] font-bold flex items-center justify-center">
+            {pendingCount > 9 ? '9+' : pendingCount}
+          </span>
+        )}
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.15 }}
+            className={cn(
+              'absolute right-0 mt-2 w-80 rounded-[var(--radius-lg)] border border-[var(--color-border)]',
+              'bg-[var(--color-surface)] shadow-[var(--shadow-lg)] z-50 overflow-hidden',
+            )}
+          >
+            <div className="px-4 py-3 border-b border-[var(--color-border)]">
+              <p className="text-sm font-semibold">{t('notifications')}</p>
+              {pendingCount > 0 && (
+                <p className="text-xs text-[var(--color-muted)] mt-0.5">
+                  {pendingCount} {t('pendingAppointments')}
+                </p>
+              )}
+            </div>
+
+            <div className="max-h-80 overflow-y-auto">
+              {!data || data.items.length === 0 ? (
+                <p className="px-4 py-6 text-center text-sm text-[var(--color-muted)]">{t('noNotifications')}</p>
+              ) : (
+                data.items.map((item) => {
+                  const service = getServiceById(item.serviceId) ?? null;
+                  return (
+                    <Link
+                      key={item.id}
+                      href={getLocalizedPath(ADMIN_ROUTES.APPOINTMENTS, locale)}
+                      onClick={() => setOpen(false)}
+                      className="block px-4 py-3 hover:bg-[var(--color-surface-raised)] transition-colors border-b border-[var(--color-border)] last:border-0"
+                    >
+                      <p className="text-sm font-medium">{item.clientName}</p>
+                      <p className="text-xs text-[var(--color-muted)] mt-0.5">
+                        {service ? translateField(service.name, locale) : item.serviceId} · {formatDate(item.slotDate, locale)} à{' '}
+                        {item.slotStartTime}
+                      </p>
+                    </Link>
+                  );
+                })
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

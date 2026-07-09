@@ -99,6 +99,13 @@ export const createHolidaySchema = z.object({
 export type CreateHolidayValues = z.infer<typeof createHolidaySchema>;
 
 /**
+ * Type côté formulaire (react-hook-form + zodResolver) : `isRecurring` y est
+ * optionnel avant soumission, puisque `.default(false)` ne le rend obligatoire
+ * qu'en sortie de validation (CreateHolidayValues), pas en saisie.
+ */
+export type CreateHolidayFormValues = z.input<typeof createHolidaySchema>;
+
+/**
  * Filtres de recherche du dashboard admin (liste des rendez-vous).
  * Tous les champs sont optionnels — un objet vide retourne tout.
  */

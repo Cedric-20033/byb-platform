@@ -14,8 +14,25 @@ import type { Holiday } from '@/domain/holiday/Holiday';
 
 const deleteHolidaySchema = z.object({ holidayId: z.uuid() });
 
-type ListResult = { success: true; holidays: Holiday[] } | { success: false; error: string };
-type CreateResult = { success: true; holiday: Holiday } | { success: false; error: string };
+/**
+ * DTO plat : `Holiday` est une classe (méthode `appliesTo()`), donc non
+ * sérialisable à travers la frontière Server Action → Client Component,
+ * même si tous ses champs sont des primitives (Next.js rejette l'instance
+ * à cause de son prototype, pas à cause de la forme des données).
+ */
+export type HolidayDTO = {
+  id: string;
+  date: string;
+  label: string;
+  isRecurring: boolean;
+};
+
+function toHolidayDTO(holiday: Holiday): HolidayDTO {
+  return { id: holiday.id, date: holiday.date, label: holiday.label, isRecurring: holiday.isRecurring };
+}
+
+type ListResult = { success: true; holidays: HolidayDTO[] } | { success: false; error: string };
+type CreateResult = { success: true; holiday: HolidayDTO } | { success: false; error: string };
 type DeleteResult = { success: true } | { success: false; error: string };
 
 /**
@@ -27,7 +44,7 @@ export async function listHolidaysAction(): Promise<ListResult> {
   const supabase = await createClient();
   const useCase = new ListHolidays(new SupabaseHolidayRepository(supabase));
   const holidays = await useCase.execute();
-  return { success: true, holidays };
+  return { success: true, holidays: holidays.map(toHolidayDTO) };
 }
 
 export async function createHolidayAction(input: unknown): Promise<CreateResult> {
@@ -52,7 +69,7 @@ export async function createHolidayAction(input: unknown): Promise<CreateResult>
     actorRole: toActorRole(admin.role),
   });
 
-  return { success: true, holiday };
+  return { success: true, holiday: toHolidayDTO(holiday) };
 }
 
 export async function deleteHolidayAction(input: unknown): Promise<DeleteResult> {

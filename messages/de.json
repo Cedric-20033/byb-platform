@@ -127,10 +127,110 @@
   },
 
   "admin": {
-    "dashboard": { "title": "Dashboard", "welcome": "Willkommen" },
+    "nav": {
+      "dashboard": "Dashboard",
+      "appointments": "Termine",
+      "slots": "Zeitfenster",
+      "holidays": "Feiertage",
+      "permissions": "Berechtigungen",
+      "services": "Leistungen",
+      "projects": "Referenzen",
+      "testimonials": "Bewertungen",
+      "users": "Benutzer",
+      "auditLogs": "Audit-Protokoll",
+      "settings": "Einstellungen",
+      "comingSoon": "Bald"
+    },
+    "navbar": {
+      "logout": "Abmelden",
+      "notifications": "Benachrichtigungen",
+      "noNotifications": "Derzeit keine Benachrichtigungen",
+      "pendingAppointments": "Termine warten auf Bestätigung"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Willkommen",
+      "statAppointmentsToday": "Termine heute",
+      "statAppointmentsWeek": "Termine diese Woche",
+      "statPending": "Warten auf Bestätigung",
+      "statBlockedSlots": "Blockierte Zeitfenster",
+      "chartTitle": "Termine der letzten 14 Tage"
+    },
+    "appointments": {
+      "title": "Termine",
+      "subtitle": "Termine ansehen, filtern und exportieren.",
+      "searchPlaceholder": "Nach E-Mail suchen...",
+      "filterStatus": "Status",
+      "filterService": "Leistung",
+      "filterDateFrom": "Von",
+      "filterDateTo": "Bis",
+      "allStatuses": "Alle",
+      "allServices": "Alle Leistungen",
+      "resetFilters": "Zurücksetzen",
+      "exportCsv": "Als CSV exportieren",
+      "exportExcel": "Als Excel exportieren",
+      "exporting": "Export läuft...",
+      "noResults": "Kein Termin entspricht diesen Filtern.",
+      "columnClient": "Kunde",
+      "columnService": "Leistung",
+      "columnDate": "Zeitfenster",
+      "columnStatus": "Status",
+      "columnCreatedAt": "Gebucht am",
+      "statusPending": "Ausstehend",
+      "statusConfirmed": "Bestätigt",
+      "statusCancelled": "Storniert"
+    },
+    "slots": {
+      "title": "Zeitfenster",
+      "subtitle": "Einzelne Zeitfenster blockieren oder den Kalender einer Leistung generieren.",
+      "selectService": "Leistung",
+      "selectDate": "Datum",
+      "noSlots": "Keine Zeitfenster für dieses Datum.",
+      "block": "Blockieren",
+      "unblock": "Freigeben",
+      "generateTitle": "Zeitfenster generieren",
+      "generateFrom": "Von",
+      "generateTo": "Bis",
+      "dailyStart": "Öffnungszeit",
+      "dailyEnd": "Schließzeit",
+      "duration": "Dauer (Minuten)",
+      "generateSubmit": "Generieren",
+      "generating": "Generiere...",
+      "noPermission": "Sie haben keine Berechtigung, Zeitfenster zu generieren. Kontaktieren Sie einen Superadmin."
+    },
+    "holidays": {
+      "title": "Feiertage & Schließtage",
+      "subtitle": "Diese Daten werden automatisch von den buchbaren Zeitfenstern ausgeschlossen.",
+      "add": "Hinzufügen",
+      "date": "Datum",
+      "label": "Bezeichnung",
+      "recurring": "Jährlich wiederkehrend",
+      "delete": "Löschen",
+      "confirmDelete": "Diesen Feiertag löschen?",
+      "empty": "Kein Feiertag erfasst."
+    },
+    "permissions": {
+      "title": "Berechtigungen",
+      "subtitle": "Passen Sie die Rechte jedes Administrators pro Bereich an.",
+      "superadminNotice": "Der Superadmin hat immer alle Rechte — diese Tabelle betrifft nur Admin-Konten.",
+      "columnAdmin": "Administrator",
+      "saved": "Berechtigungen aktualisiert.",
+      "save": "Speichern"
+    },
     "services": { "title": "Leistungsverwaltung", "add": "Leistung hinzufügen", "edit": "Bearbeiten", "delete": "Löschen", "confirmDelete": "Löschen bestätigen?" },
     "users": { "title": "Benutzerverwaltung", "role": "Rolle", "permissions": "Berechtigungen" },
     "auditLogs": { "title": "Audit-Protokoll", "actor": "Akteur", "action": "Aktion", "target": "Ziel", "date": "Datum" }
+  },
+
+  "login": {
+    "title": "Anmeldung",
+    "subtitle": "Bereich für BYB-Administratoren.",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submit": "Anmelden",
+    "submitting": "Anmeldung läuft...",
+    "error": "Falsche E-Mail oder falsches Passwort.",
+    "backHome": "Zurück zur Website"
   },
 
   "common": {

@@ -25,6 +25,9 @@ export type AppointmentExportRow = {
   clientPhone: string;
   serviceId: string;
   status: string;
+  slotDate: string;
+  slotStartTime: string;
+  slotEndTime: string;
   createdAt: string;
 };
 
@@ -39,15 +42,18 @@ export class ExportAppointments {
   ) {}
 
   async execute(input: ExportAppointmentsInput): Promise<AppointmentExportRow[]> {
-    const appointments = await this.appointmentRepository.search(input.filters);
+    const results = await this.appointmentRepository.searchWithSlot(input.filters);
 
-    const rows: AppointmentExportRow[] = appointments.map((appointment) => ({
+    const rows: AppointmentExportRow[] = results.map(({ appointment, slotDate, slotStartTime, slotEndTime }) => ({
       id: appointment.id,
       clientName: appointment.clientName,
       clientEmail: appointment.clientEmail,
       clientPhone: appointment.clientPhone,
       serviceId: appointment.serviceId,
       status: appointment.status,
+      slotDate,
+      slotStartTime,
+      slotEndTime,
       createdAt: appointment.createdAt.toISOString(),
     }));
 

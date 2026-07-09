@@ -2,7 +2,7 @@
   "metadata": {
     "siteName": "BYB Bâtiment & Rénovation",
     "defaultTitle": "BYB — Votre artisan de confiance",
-    "defaultDescription": "BYB Bâtiment & Rénovation, votre spécialiste en toiture, rénovation et construction dans la région lyonnaise. Plus de 20 ans d'expérience."
+    "defaultDescription": "BYB Construction, votre spécialiste en toiture, rénovation et construction en Belgique (Asselt et Liège). Plus de 20 ans d'expérience."
   },
 
   "nav": {
@@ -171,9 +171,95 @@
   },
 
   "admin": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "appointments": "Rendez-vous",
+      "slots": "Créneaux",
+      "holidays": "Jours fériés",
+      "permissions": "Permissions",
+      "services": "Services",
+      "projects": "Réalisations",
+      "testimonials": "Témoignages",
+      "users": "Utilisateurs",
+      "auditLogs": "Journal d'audit",
+      "settings": "Paramètres",
+      "comingSoon": "Bientôt"
+    },
+    "navbar": {
+      "logout": "Déconnexion",
+      "notifications": "Notifications",
+      "noNotifications": "Aucune notification pour le moment",
+      "pendingAppointments": "rendez-vous en attente de confirmation"
+    },
     "dashboard": {
       "title": "Tableau de bord",
-      "welcome": "Bienvenue"
+      "welcome": "Bienvenue",
+      "statAppointmentsToday": "RDV aujourd'hui",
+      "statAppointmentsWeek": "RDV cette semaine",
+      "statPending": "En attente de confirmation",
+      "statBlockedSlots": "Créneaux bloqués",
+      "chartTitle": "Rendez-vous des 14 derniers jours"
+    },
+    "appointments": {
+      "title": "Rendez-vous",
+      "subtitle": "Consultez, filtrez et exportez les rendez-vous clients.",
+      "searchPlaceholder": "Rechercher par email...",
+      "filterStatus": "Statut",
+      "filterService": "Service",
+      "filterDateFrom": "Du",
+      "filterDateTo": "Au",
+      "allStatuses": "Tous",
+      "allServices": "Tous les services",
+      "resetFilters": "Réinitialiser",
+      "exportCsv": "Exporter en CSV",
+      "exportExcel": "Exporter en Excel",
+      "exporting": "Export en cours...",
+      "noResults": "Aucun rendez-vous ne correspond à ces filtres.",
+      "columnClient": "Client",
+      "columnService": "Service",
+      "columnDate": "Créneau",
+      "columnStatus": "Statut",
+      "columnCreatedAt": "Réservé le",
+      "statusPending": "En attente",
+      "statusConfirmed": "Confirmé",
+      "statusCancelled": "Annulé"
+    },
+    "slots": {
+      "title": "Créneaux",
+      "subtitle": "Bloquez des créneaux ponctuels ou générez le calendrier d'un service.",
+      "selectService": "Service",
+      "selectDate": "Date",
+      "noSlots": "Aucun créneau pour cette date.",
+      "block": "Bloquer",
+      "unblock": "Débloquer",
+      "generateTitle": "Générer des créneaux",
+      "generateFrom": "Du",
+      "generateTo": "Au",
+      "dailyStart": "Heure d'ouverture",
+      "dailyEnd": "Heure de fermeture",
+      "duration": "Durée d'un créneau (minutes)",
+      "generateSubmit": "Générer",
+      "generating": "Génération en cours...",
+      "noPermission": "Vous n'avez pas les droits pour générer des créneaux. Contactez un superadmin."
+    },
+    "holidays": {
+      "title": "Jours fériés & congés",
+      "subtitle": "Ces dates seront automatiquement exclues des créneaux réservables.",
+      "add": "Ajouter",
+      "date": "Date",
+      "label": "Libellé",
+      "recurring": "Récurrent chaque année",
+      "delete": "Supprimer",
+      "confirmDelete": "Supprimer ce jour férié ?",
+      "empty": "Aucun jour férié enregistré."
+    },
+    "permissions": {
+      "title": "Permissions",
+      "subtitle": "Ajustez les droits de chaque administrateur par domaine.",
+      "superadminNotice": "Le superadmin a toujours tous les droits — ce tableau ne s'applique qu'aux comptes admin.",
+      "columnAdmin": "Administrateur",
+      "saved": "Permissions mises à jour.",
+      "save": "Enregistrer"
     },
     "services": {
       "title": "Gestion des services",
@@ -194,6 +280,17 @@
       "target": "Cible",
       "date": "Date"
     }
+  },
+
+  "login": {
+    "title": "Connexion",
+    "subtitle": "Espace réservé aux administrateurs BYB.",
+    "email": "Email",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "submitting": "Connexion...",
+    "error": "Email ou mot de passe incorrect.",
+    "backHome": "Retour au site"
   },
 
   "common": {

@@ -1,5 +1,6 @@
 // src/domain/appointment/AppointmentRepository.ts
 import type { Appointment } from './Appointment';
+import type { AppointmentWithSlot } from './AppointmentWithSlot';
 
 /**
  * Port de sortie : contrat que toute implémentation de persistance doit respecter.
@@ -14,6 +15,12 @@ export interface AppointmentRepository {
   findAll(): Promise<Appointment[]>;
   /** Recherche filtrée — déléguée à l'implémentation (SQL WHERE côté Supabase). */
   search(filters: AppointmentSearchFilters): Promise<Appointment[]>;
+  /**
+   * Identique à `search`, mais enrichit chaque résultat avec la date/heure
+   * du créneau lié — nécessaire pour le tableau et l'export du dashboard admin,
+   * qui doivent afficher "quand" a lieu le rendez-vous, pas seulement son statut.
+   */
+  searchWithSlot(filters: AppointmentSearchFilters): Promise<AppointmentWithSlot[]>;
   save(appointment: Omit<Appointment, 'id' | 'createdAt'>): Promise<Appointment>;
   updateStatus(id: string, status: Appointment['status']): Promise<void>;
   delete(id: string): Promise<void>;

@@ -125,10 +125,110 @@
   },
 
   "admin": {
-    "dashboard": { "title": "Dashboard", "welcome": "Welcome" },
+    "nav": {
+      "dashboard": "Dashboard",
+      "appointments": "Appointments",
+      "slots": "Time slots",
+      "holidays": "Holidays",
+      "permissions": "Permissions",
+      "services": "Services",
+      "projects": "Projects",
+      "testimonials": "Testimonials",
+      "users": "Users",
+      "auditLogs": "Audit log",
+      "settings": "Settings",
+      "comingSoon": "Soon"
+    },
+    "navbar": {
+      "logout": "Log out",
+      "notifications": "Notifications",
+      "noNotifications": "No notifications for now",
+      "pendingAppointments": "appointments awaiting confirmation"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome",
+      "statAppointmentsToday": "Appointments today",
+      "statAppointmentsWeek": "Appointments this week",
+      "statPending": "Awaiting confirmation",
+      "statBlockedSlots": "Blocked slots",
+      "chartTitle": "Appointments over the last 14 days"
+    },
+    "appointments": {
+      "title": "Appointments",
+      "subtitle": "View, filter and export client appointments.",
+      "searchPlaceholder": "Search by email...",
+      "filterStatus": "Status",
+      "filterService": "Service",
+      "filterDateFrom": "From",
+      "filterDateTo": "To",
+      "allStatuses": "All",
+      "allServices": "All services",
+      "resetFilters": "Reset",
+      "exportCsv": "Export as CSV",
+      "exportExcel": "Export as Excel",
+      "exporting": "Exporting...",
+      "noResults": "No appointment matches these filters.",
+      "columnClient": "Client",
+      "columnService": "Service",
+      "columnDate": "Slot",
+      "columnStatus": "Status",
+      "columnCreatedAt": "Booked on",
+      "statusPending": "Pending",
+      "statusConfirmed": "Confirmed",
+      "statusCancelled": "Cancelled"
+    },
+    "slots": {
+      "title": "Time slots",
+      "subtitle": "Block one-off slots or generate a service's calendar.",
+      "selectService": "Service",
+      "selectDate": "Date",
+      "noSlots": "No slots for this date.",
+      "block": "Block",
+      "unblock": "Unblock",
+      "generateTitle": "Generate slots",
+      "generateFrom": "From",
+      "generateTo": "To",
+      "dailyStart": "Opening time",
+      "dailyEnd": "Closing time",
+      "duration": "Slot duration (minutes)",
+      "generateSubmit": "Generate",
+      "generating": "Generating...",
+      "noPermission": "You don't have permission to generate slots. Contact a superadmin."
+    },
+    "holidays": {
+      "title": "Holidays & closures",
+      "subtitle": "These dates will automatically be excluded from bookable slots.",
+      "add": "Add",
+      "date": "Date",
+      "label": "Label",
+      "recurring": "Recurring every year",
+      "delete": "Delete",
+      "confirmDelete": "Delete this holiday?",
+      "empty": "No holiday recorded."
+    },
+    "permissions": {
+      "title": "Permissions",
+      "subtitle": "Adjust each administrator's rights per domain.",
+      "superadminNotice": "The superadmin always has full rights — this table only applies to admin accounts.",
+      "columnAdmin": "Administrator",
+      "saved": "Permissions updated.",
+      "save": "Save"
+    },
     "services": { "title": "Services management", "add": "Add service", "edit": "Edit", "delete": "Delete", "confirmDelete": "Confirm deletion?" },
     "users": { "title": "Users management", "role": "Role", "permissions": "Permissions" },
     "auditLogs": { "title": "Audit log", "actor": "Actor", "action": "Action", "target": "Target", "date": "Date" }
+  },
+
+  "login": {
+    "title": "Login",
+    "subtitle": "Reserved area for BYB administrators.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "submitting": "Logging in...",
+    "error": "Incorrect email or password.",
+    "backHome": "Back to site"
   },
 
   "common": {

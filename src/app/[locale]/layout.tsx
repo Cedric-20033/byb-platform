@@ -5,10 +5,8 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/lib/routing';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
-import { Navbar } from '@/components/layout/NavBar';
-import { Footer } from '@/components/layout/Footer';
-import { FloatingCTA } from '@/components/layout/Floatingcta';
-import { getActiveServices } from '@/data/services';
+import { Toaster } from 'sonner';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 import '@/app/[locale]/globals.css';
 
 interface RootLayoutProps {
@@ -36,10 +34,6 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
 
   const messages = await getMessages();
 
-  // Layout = Server Component : seul endroit autorisé à lire src/data/
-  // directement. Le bouton flottant (Client Component) reçoit la liste en prop.
-  const services = getActiveServices();
-
   return (
     /*
       suppressHydrationWarning est obligatoire ici.
@@ -51,10 +45,11 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
       <body>
         <ThemeProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
-            <Navbar />
-            <main className="pt-16 lg:pt-20">{children}</main>
-            <Footer />
-            <FloatingCTA services={services} />
+            <ProgressBar />
+            {children}
+            {/* position="top-right" : cohérent avec la cloche de notifications
+                du dashboard admin, qui vit au même endroit de l'écran. */}
+            <Toaster position="top-right" richColors closeButton />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
