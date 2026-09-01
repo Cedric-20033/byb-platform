@@ -39,6 +39,7 @@ export const services: Service[] = [
       '/Images/services/toiture-2.jpg',
       '/Images/services/toiture-3.jpg',
     ],
+    videos: [],
     isActive: true,
     order: 1,
     subServices: [
@@ -91,6 +92,7 @@ export const services: Service[] = [
       '/Images/services/charpente-3.webp',
       '/Images/services/charpente-4.jpg'
     ],
+    videos: [],
     isActive: true,
     order: 2,
     subServices: [],
@@ -120,6 +122,7 @@ export const services: Service[] = [
       '/Images/services/bardage-1.jpg',
       '/Images/services/bardage-2.jpg'
     ],
+    videos: [],
     isActive: true,
     order: 3,
     subServices: [],
@@ -150,6 +153,7 @@ export const services: Service[] = [
       '/Images/services/epdm-2.jpg',
       '/Images/services/epdm-3.jpg'
     ],
+    videos: [],
     isActive: true,
     order: 4,
     subServices: [],
@@ -180,6 +184,7 @@ export const services: Service[] = [
       '/Images/services/facade-2.jpg',
       '/Images/services/facade-3.jpg'
     ],
+    videos: [],
     isActive: true,
     order: 5,
     subServices: [],
@@ -211,6 +216,7 @@ export const services: Service[] = [
       '/Images/services/plafonnage-3.jpg',
       '/Images/services/plafonnage-4.jpg'
     ],
+    videos: [],
     isActive: true,
     order: 6,
     subServices: [],
@@ -241,6 +247,7 @@ export const services: Service[] = [
       '/Images/services/carrelage-1.jpg',
       '/Images/services/carrelage-2.jpg'
     ],
+    videos: [],
     isActive: true,
     order: 7,
     subServices: [],
@@ -274,6 +281,7 @@ export const services: Service[] = [
       '/Images/services/panneaux-solaires-5.jpg',
       '/Images/services/panneaux-solaires-6.jpg'
     ],
+    videos: [],
     isActive: true,
     order: 8,
     subServices: [],
@@ -300,6 +308,7 @@ export const services: Service[] = [
     icon: 'Flame',
     coverImage: '/Images/services/chauffage-sanitaire-cover.jpg',
     galleryImages: [],
+    videos: [],
     isActive: true,
     order: 9,
     subServices: [],
@@ -330,6 +339,7 @@ export const services: Service[] = [
       '/Images/services/maconnerie-2.jpg',
       '/Images/services/maconnerie-3.jpg'
     ],
+    videos: [],
     isActive: true,
     order: 10,
     subServices: [],

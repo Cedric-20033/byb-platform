@@ -15,7 +15,7 @@ import {
 import { t } from "@/lib/utils";
 import { getLocalizedPath } from "@/lib/routing";
 import type { Locale } from "@/lib/routing";
-import { getActiveServices } from "@/data/services";
+import type { Service } from "@/types";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import type { LucideIcon } from "lucide-react";
@@ -35,9 +35,11 @@ const ICONS: Record<string, LucideIcon> = {
 }
 
 type ServicesSectionProps = {
+  /** Services actifs, triés par ordre — fournis par la page Server Component (Supabase). */
+  services: Service[];
   /**
    * Nombre maximum de services à afficher (ex. sur la page d'accueil).
-   * Si omis, tous les services actifs sont affichés (ex. page /services).
+   * Si omis, tous les services reçus sont affichés (ex. page /services).
    */
   limit?: number;
 };
@@ -45,24 +47,22 @@ type ServicesSectionProps = {
 /**
  * Grille des services — utilisée sur la page d'accueil.
  *
- * Architecture hexagonale :
- *   Aujourd'hui → importe depuis src/data/services.ts (données statiques)
- *   Phase 3     → la page parente (Server Component) appellera le repository
- *                 Supabase et passera les services en props. Ce composant
- *                 ne changera pas car il reçoit toujours le même type Service[].
+ * Architecture hexagonale : ce composant ne connaît aucune source de
+ * données — il reçoit `services` en props depuis un Server Component
+ * (aujourd'hui SupabaseServiceRepository). Le composant ne change jamais,
+ * quelle que soit l'origine des données.
  *
  * Clés fr.json : home.services.eyebrow, home.services.title, home.services.cta
  *                common.learnMore
  */
-export function ServicesSection({ limit }: ServicesSectionProps) {
+export function ServicesSection({ services: allServices, limit }: ServicesSectionProps) {
   const tSection = useTranslations("home.services");
   const tCommon = useTranslations("common");
   const locale = useLocale() as Locale;
 
-  // On ne tronque qu'à l'affichage : getActiveServices() reste la source
-  // complète et triée, réutilisable telle quelle sur la page /services.
-  const activeServices = getActiveServices();
-  const services = limit ? activeServices.slice(0, limit) : activeServices;
+  // On ne tronque qu'à l'affichage : `allServices` reste la source complète
+  // et triée, réutilisable telle quelle sur la page /services.
+  const services = limit ? allServices.slice(0, limit) : allServices;
 
   return (
     <section className="section-padding bg-[var(--color-background)]">

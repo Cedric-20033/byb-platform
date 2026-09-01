@@ -64,6 +64,9 @@
     "pageDescription": "Découvrez l'ensemble des prestations proposées par BYB Bâtiment & Rénovation.",
     "subServices": "Prestations incluses",
     "gallery": "Galerie",
+    "galleryPhotos": "Photos",
+    "galleryVideos": "Vidéos",
+    "showMore": "Voir plus ({count})",
     "bookService": "Demander un devis pour ce service",
     "backToServices": "Retour aux services"
   },

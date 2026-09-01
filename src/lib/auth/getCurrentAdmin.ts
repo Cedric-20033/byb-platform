@@ -1,7 +1,7 @@
 // src/lib/auth/getCurrentAdmin.ts
 import { createClient } from '@/infrastructure/supabase/server';
 import { ActorRole } from '@/domain/shared/AuditLogger';
-import type { PermissionDomain, PermissionAction, UserRole } from '@/lib/constants';
+import { USER_ROLES, type PermissionDomain, type PermissionAction, type UserRole } from '@/lib/constants';
 import type { PermissionsMap } from '@/types';
 
 export type CurrentAdmin = {
@@ -44,9 +44,21 @@ export async function getCurrentAdmin(): Promise<CurrentAdmin> {
     id: profile.id,
     email: profile.email,
     fullName: profile.full_name,
-    role: profile.role,
+    role: parseUserRole(profile.role),
     permissions: (profile.permissions ?? {}) as PermissionsMap,
   };
+}
+
+/**
+ * profiles.role est une colonne `text` libre en base (voir la contrainte
+ * CHECK ajoutée dans 0004_profiles_role_check.sql) — Supabase la génère donc
+ * en `string`, pas en littéral strict. On valide ici plutôt que de faire un
+ * cast aveugle : une valeur corrompue échoue explicitement au lieu de se
+ * propager silencieusement dans les vérifications RBAC.
+ */
+function parseUserRole(role: string): UserRole {
+  if (role === USER_ROLES.SUPERADMIN || role === USER_ROLES.ADMIN) return role;
+  throw new Error(`Rôle administrateur invalide en base : "${role}"`);
 }
 
 /**

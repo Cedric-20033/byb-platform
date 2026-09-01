@@ -2,7 +2,7 @@
   "metadata": {
     "siteName": "BYB Building & Renovation",
     "defaultTitle": "BYB — Your trusted craftsman",
-    "defaultDescription": "BYB Building & Renovation, your specialist in roofing, renovation and construction in the Lyon area. Over 20 years of experience."
+    "defaultDescription": "BYB Building & Renovation, your specialist in roofing, renovation and construction in Belgium (Asselt and Liège). Over 20 years of experience."
   },
 
   "nav": {
@@ -62,6 +62,9 @@
     "pageDescription": "Discover all the services offered by BYB Building & Renovation.",
     "subServices": "Included services",
     "gallery": "Gallery",
+    "galleryPhotos": "Photos",
+    "galleryVideos": "Videos",
+    "showMore": "Show more ({count})",
     "bookService": "Request a quote for this service",
     "backToServices": "Back to services"
   },

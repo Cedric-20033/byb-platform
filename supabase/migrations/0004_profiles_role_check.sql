@@ -1,0 +1,14 @@
+-- supabase/migrations/0004_profiles_role_check.sql
+--
+-- INUTILE — NE PAS EXÉCUTER.
+--
+-- La contrainte visée ici existe déjà depuis 0001_appointments_module.sql :
+--   role text not null default 'admin' check (role in ('superadmin', 'admin'))
+-- Postgres nomme automatiquement une contrainte CHECK inline sur une colonne
+-- "<table>_<colonne>_check", ce qui correspond exactement au nom que cette
+-- migration tentait de créer explicitement — d'où l'erreur 42710 (déjà existant).
+--
+-- Le vrai problème (erreur TypeScript sur profiles.role) ne venait pas de la
+-- base mais de la génération de types Supabase, qui ne déduit pas de littéral
+-- strict à partir d'un simple CHECK. Corrigé côté code dans
+-- src/lib/auth/getCurrentAdmin.ts (fonction parseUserRole).

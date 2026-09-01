@@ -17,9 +17,9 @@ import type { Database } from '../src/types/database';
 import { GenerateAvailableSlots } from '../src/application/admin/GenerateAvailableSlots';
 import { SupabaseSlotRepository } from '../src/infrastructure/supabase/repositories/SupabaseSlotRepository';
 import { SupabaseHolidayRepository } from '../src/infrastructure/supabase/repositories/SupabaseHolidayRepository';
+import { SupabaseServiceRepository } from '../src/infrastructure/supabase/repositories/SupabaseServiceRepository';
 import { SupabaseAuditLogger } from '../src/infrastructure/audit/SupabaseAuditLogger';
 import { ActorRole } from '../src/domain/shared/AuditLogger';
-import { getActiveServices } from '../src/data/services';
 
 // tsx n'exécute pas le chargement automatique de .env.local propre à Next.js —
 // on le lit nous-mêmes s'il existe, sans introduire de dépendance supplémentaire.
@@ -71,6 +71,11 @@ async function main() {
     new SupabaseAuditLogger(),
   );
 
+  // Source de vérité : Supabase (catalogue migré par migrate-services-to-supabase.ts),
+  // et non plus src/data/services.ts — garantit que les créneaux générés couvrent
+  // exactement les services actifs tels qu'ils existent réellement en base.
+  const activeServices = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
+
   const today = new Date();
   const from = today.toISOString().slice(0, 10);
   const to = new Date(today.getTime() + CONFIG.daysAhead * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
@@ -78,9 +83,9 @@ async function main() {
   // Un même artisan ne peut pas être à deux endroits en même temps, mais le
   // schéma actuel lie chaque créneau à un service (voir le commentaire dans
   // la migration SQL) — on génère donc le même calendrier pour chaque service actif.
-  for (const service of getActiveServices()) {
+  for (const service of activeServices) {
     const created = await useCase.execute({
-      serviceId: service.slug,
+      serviceId: service.id,
       from,
       to,
       dailyStartTime: CONFIG.dailyStartTime,

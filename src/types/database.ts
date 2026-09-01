@@ -1,208 +1,474 @@
-// src/types/database.ts
-//
-// Ce fichier sera REMPLACÉ par les types générés automatiquement via :
-//   npx supabase gen types typescript --project-id <id> > src/types/database.ts
-//
-// Mis à jour manuellement pour refléter supabase/migrations/0001_appointments_module.sql.
-// NE PAS modifier à la main une fois la commande gen types exécutée.
-
 export type Json =
   | string
   | number
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[];
+  | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.5"
+  }
   public: {
     Tables: {
-      profiles: {
-        Row: {
-          id: string;
-          email: string;
-          full_name: string;
-          role: 'superadmin' | 'admin';
-          permissions: Json;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: Omit<Database['public']['Tables']['profiles']['Row'], 'created_at' | 'updated_at'>;
-        Update: Partial<Database['public']['Tables']['profiles']['Insert']>;
-        // FK réelle vers auth.users(id) — schéma `auth` non modélisé ici.
-        Relationships: [];
-      };
-
-      services: {
-        Row: {
-          id: string;
-          slug: string;
-          name: Json;
-          short_description: Json;
-          full_description: Json;
-          icon: string;
-          cover_image: string;
-          gallery_images: string[];
-          is_active: boolean;
-          order: number;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: Omit<Database['public']['Tables']['services']['Row'], 'id' | 'created_at' | 'updated_at'>;
-        Update: Partial<Database['public']['Tables']['services']['Insert']>;
-        Relationships: [];
-      };
-
-      projects: {
-        Row: {
-          id: string;
-          title: Json;
-          description: Json;
-          image: string;
-          category: string;
-          date: string;
-          is_highlighted: boolean;
-          created_at: string;
-        };
-        Insert: Omit<Database['public']['Tables']['projects']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['projects']['Insert']>;
-        // `category` est un slug texte, pas une vraie FK vers `services`
-        // (services n'est pas encore migré vers Supabase).
-        Relationships: [];
-      };
-
-      slots: {
-        Row: {
-          id: string;
-          date: string;
-          start_time: string;
-          end_time: string;
-          status: 'available' | 'booked' | 'blocked';
-          service_id: string | null;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: Omit<Database['public']['Tables']['slots']['Row'], 'id' | 'created_at' | 'updated_at'> & {
-          status?: 'available' | 'booked' | 'blocked';
-        };
-        Update: Partial<Database['public']['Tables']['slots']['Insert']>;
-        // `service_id` référence le slug de src/data/services.ts, pas une FK SQL.
-        Relationships: [];
-      };
-
       appointments: {
         Row: {
-          id: string;
-          slot_id: string;
-          service_id: string;
-          sub_service_id: string | null;
-          client_name: string;
-          client_email: string;
-          client_phone: string;
-          notes: string | null;
-          status: 'pending' | 'confirmed' | 'cancelled';
-          access_token: string;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: Omit<
-          Database['public']['Tables']['appointments']['Row'],
-          'id' | 'created_at' | 'updated_at' | 'access_token'
-        > & {
-          status?: 'pending' | 'confirmed' | 'cancelled';
-        };
-        Update: Partial<Database['public']['Tables']['appointments']['Insert']>;
-        // Décrit la FK slot_id -> slots(id), nécessaire pour que l'embed
-        // `.select('*, slots!inner(date)')` (SupabaseAppointmentRepository.search)
-        // soit correctement typé.
+          access_token: string
+          client_email: string
+          client_name: string
+          client_phone: string
+          created_at: string
+          id: string
+          notes: string | null
+          service_id: string
+          slot_id: string
+          status: string
+          sub_service_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          access_token?: string
+          client_email: string
+          client_name: string
+          client_phone: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          service_id: string
+          slot_id: string
+          status?: string
+          sub_service_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          access_token?: string
+          client_email?: string
+          client_name?: string
+          client_phone?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          service_id?: string
+          slot_id?: string
+          status?: string
+          sub_service_id?: string | null
+          updated_at?: string
+        }
         Relationships: [
           {
-            foreignKeyName: 'appointments_slot_id_fkey';
-            columns: ['slot_id'];
-            isOneToOne: false;
-            referencedRelation: 'slots';
-            referencedColumns: ['id'];
+            foreignKeyName: "appointments_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "slots"
+            referencedColumns: ["id"]
           },
-        ];
-      };
-
+        ]
+      }
       audit_logs: {
         Row: {
-          id: string;
-          actor_id: string | null;
-          actor_role: 'superadmin' | 'admin' | 'system' | 'client';
-          action: string;
-          target_type: string;
-          target_id: string | null;
-          metadata: Json;
-          ip_address: string | null;
-          created_at: string;
-        };
-        Insert: Omit<Database['public']['Tables']['audit_logs']['Row'], 'id' | 'created_at'>;
-        Update: never;
+          action: string
+          actor_id: string | null
+          actor_role: string
+          created_at: string
+          id: string
+          ip_address: string | null
+          metadata: Json
+          target_id: string | null
+          target_type: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_role: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json
+          target_id?: string | null
+          target_type: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_role?: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json
+          target_id?: string | null
+          target_type?: string
+        }
         Relationships: [
           {
-            foreignKeyName: 'audit_logs_actor_id_fkey';
-            columns: ['actor_id'];
-            isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            foreignKeyName: "audit_logs_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
-        ];
-      };
-
+        ]
+      }
       holidays: {
         Row: {
-          id: string;
-          date: string;
-          label: string;
-          is_recurring: boolean;
-          created_at: string;
-        };
-        Insert: Omit<Database['public']['Tables']['holidays']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['holidays']['Insert']>;
-        Relationships: [];
-      };
-    };
-
-    // Aucune vue SQL pour l'instant — clé requise par le générique de supabase-js.
+          created_at: string
+          date: string
+          id: string
+          is_recurring: boolean
+          label: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          is_recurring?: boolean
+          label: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          is_recurring?: boolean
+          label?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          permissions: Json
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id: string
+          permissions?: Json
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          permissions?: Json
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      service_media: {
+        Row: {
+          created_at: string
+          id: string
+          is_cover: boolean
+          order: number
+          public_id: string
+          service_id: string
+          type: Database["public"]["Enums"]["media_type"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_cover?: boolean
+          order?: number
+          public_id: string
+          service_id: string
+          type?: Database["public"]["Enums"]["media_type"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_cover?: boolean
+          order?: number
+          public_id?: string
+          service_id?: string
+          type?: Database["public"]["Enums"]["media_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_media_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      services: {
+        Row: {
+          created_at: string
+          full_description: Json
+          icon: string
+          id: string
+          is_active: boolean
+          name: Json
+          order: number
+          short_description: Json
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_description: Json
+          icon: string
+          id?: string
+          is_active?: boolean
+          name: Json
+          order?: number
+          short_description: Json
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_description?: Json
+          icon?: string
+          id?: string
+          is_active?: boolean
+          name?: Json
+          order?: number
+          short_description?: Json
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      slots: {
+        Row: {
+          created_at: string
+          date: string
+          end_time: string
+          id: string
+          service_id: string | null
+          start_time: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          end_time: string
+          id?: string
+          service_id?: string | null
+          start_time: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          end_time?: string
+          id?: string
+          service_id?: string | null
+          start_time?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sub_services: {
+        Row: {
+          created_at: string
+          description: Json
+          id: string
+          name: Json
+          order: number
+          service_id: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description: Json
+          id?: string
+          name: Json
+          order?: number
+          service_id: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: Json
+          id?: string
+          name?: Json
+          order?: number
+          service_id?: string
+          slug?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sub_services_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+    }
     Views: {
-      [_ in never]: never;
-    };
-
-    // Fonctions RPC définies dans 0001_appointments_module.sql.
+      [_ in never]: never
+    }
     Functions: {
-      current_role_name: {
-        Args: Record<string, never>;
-        Returns: string;
-      };
-      has_permission: {
-        Args: { p_domain: string; p_action: string };
-        Returns: boolean;
-      };
-      get_appointment_by_token: {
-        Args: { p_token: string };
-        Returns: {
-          id: string;
-          status: string;
-          client_name: string;
-          service_id: string;
-          slot_date: string;
-          slot_start_time: string;
-        }[];
-      };
       cancel_appointment_by_token: {
-        Args: { p_token: string };
-        Returns: undefined;
-      };
-    };
-
+        Args: { p_token: string }
+        Returns: undefined
+      }
+      current_role_name: { Args: never; Returns: string }
+      get_appointment_by_token: {
+        Args: { p_token: string }
+        Returns: {
+          client_name: string
+          id: string
+          service_id: string
+          slot_date: string
+          slot_start_time: string
+          status: string
+        }[]
+      }
+      has_permission: {
+        Args: { p_action: string; p_domain: string }
+        Returns: boolean
+      }
+    }
     Enums: {
-      [_ in never]: never;
-    };
-
+      media_type: "image" | "video"
+    }
     CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
-};
+      [_ in never]: never
+    }
+  }
+}
+
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      media_type: ["image", "video"],
+    },
+  },
+} as const

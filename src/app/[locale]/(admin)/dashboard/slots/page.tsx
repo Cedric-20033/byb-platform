@@ -2,6 +2,8 @@
 import { getTranslations } from 'next-intl/server';
 import { routing, type Locale } from '@/lib/routing';
 import { SlotsManager } from '@/components/admin/SlotsManager';
+import { createClient } from '@/infrastructure/supabase/server';
+import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositories/SupabaseServiceRepository';
 
 interface SlotsPageProps {
   // `string` ici (pas `Locale`) : c'est le type que Next.js génère pour ce segment dynamique.
@@ -13,6 +15,9 @@ export default async function SlotsPage({ params }: SlotsPageProps) {
   const locale = (routing.locales.includes(rawLocale as Locale) ? rawLocale : routing.defaultLocale) as Locale;
   const t = await getTranslations('admin.slots');
 
+  const supabase = await createClient();
+  const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
+
   return (
     <div className="space-y-6">
       <div>
@@ -20,7 +25,7 @@ export default async function SlotsPage({ params }: SlotsPageProps) {
         <p className="text-[var(--color-muted)] text-sm mt-1">{t('subtitle')}</p>
       </div>
 
-      <SlotsManager locale={locale} />
+      <SlotsManager locale={locale} services={services} />
     </div>
   );
 }

@@ -2,14 +2,17 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
-// ─── Imports données (couche data/ — source de vérité actuelle) ──────────────
+// ─── Imports données (couche data/ — encore source de vérité pour projects/home/testimonials/stats) ──────────────
 
 // Les composants sections reçoivent tout en props → ils ne savent pas d'où viennent les données.
-// Phase 3 : remplacer ces imports par des appels aux repositories Supabase ici uniquement.
 import { getHighlightedProjects } from '@/data/projects';
 import { homeAbout } from '@/data/home';
 import { testimonials } from '@/data/testimonials';
 import { stats } from '@/data/stats';
+
+// Services : migrés vers Supabase (voir scripts/migrate-services-to-supabase.ts).
+import { createClient } from '@/infrastructure/supabase/server';
+import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositories/SupabaseServiceRepository';
 
 // ─── Composants sections
 import { HeroSection } from '@/components/sections/HeroSection';
@@ -31,17 +34,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-export default function HomePage() {
+export default async function HomePage() {
   // Le Server Component récupère les données et les descend en props
   const projects = getHighlightedProjects();
+
+  const supabase = await createClient();
+  const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
 
   return (
     <>
       <HeroSection />
       <AboutSnippet about={homeAbout} />
-      {/* ServicesSection importe encore directement — acceptable pour l'instant
-          car les services sont statiques. En phase 3, passer en props comme les autres. */}
-      <ServicesSection limit={HOME_SERVICES_LIMIT} />
+      <ServicesSection services={services} limit={HOME_SERVICES_LIMIT} />
       <StatsSection stats={stats} />
       <ProjectsSection projects={projects} />
       <TestimonialsSection testimonials={testimonials} />

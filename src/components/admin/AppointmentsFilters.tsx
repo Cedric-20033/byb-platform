@@ -7,25 +7,24 @@ import { Select } from '@/components/ui/Select';
 import { DateInput } from '@/components/ui/DateInput';
 import { Button } from '@/components/ui/Button';
 import { AppointmentStatus } from '@/domain/appointment/Appointment';
-import { getActiveServices } from '@/data/services';
+import type { Service } from '@/types';
 import { t as translateField } from '@/lib/utils';
 import type { Locale } from '@/lib/routing';
 import type { AppointmentSearchFiltersValues } from '@/lib/validation/appointment';
 
 interface AppointmentsFiltersProps {
   locale: Locale;
+  services: Service[];
   filters: AppointmentSearchFiltersValues;
   onChange: (filters: AppointmentSearchFiltersValues) => void;
 }
-
-const services = getActiveServices();
 
 /**
  * Composant pour les filtres des rendez-vous.
  * @param param0 
  * @returns 
  */
-export function AppointmentsFilters({ locale, filters, onChange }: AppointmentsFiltersProps) {
+export function AppointmentsFilters({ locale, services, filters, onChange }: AppointmentsFiltersProps) {
   const t = useTranslations('admin.appointments');
 
   function set<K extends keyof AppointmentSearchFiltersValues>(key: K, value: AppointmentSearchFiltersValues[K]) {

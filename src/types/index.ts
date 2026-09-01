@@ -52,11 +52,24 @@ export type Service = {
   shortDescription: I18nField;
   fullDescription: I18nField;
   icon: string;           // nom de l'icône Lucide
-  coverImage: string;     // chemin dans /public
+  coverImage: string;     // chemin local /public OU public_id Cloudinary (cf. getImageUrl)
   galleryImages: string[];
+  /**
+   * Galerie vidéo du service — optionnelle, toujours vide tant qu'aucune
+   * vidéo n'a été fournie par le client. Contrairement aux images, les
+   * vidéos n'ont pas d'équivalent local : elles pointent toujours vers un
+   * public_id Cloudinary (cf. getVideoUrl dans lib/utils.ts).
+   */
+  videos: ServiceVideo[];
   isActive: boolean;
   order: number;
   subServices: SubService[];
+};
+
+export type ServiceVideo = {
+  id: string;
+  publicId: string;  // identifiant Cloudinary de la vidéo
+  order: number;
 };
 
 export type SubService = {
