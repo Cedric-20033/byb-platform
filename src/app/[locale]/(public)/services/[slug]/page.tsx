@@ -7,10 +7,13 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { t, getImageUrl } from "@/lib/utils";
 import { getLocalizedPath, Locale } from "@/lib/routing";
-import { getServiceBySlug, getActiveServices } from "@/data/services";
+import { createClient } from "@/infrastructure/supabase/server";
+import { createServiceRoleClient } from "@/infrastructure/supabase/serviceRoleClient";
+import { SupabaseServiceRepository } from "@/infrastructure/supabase/repositories/SupabaseServiceRepository";
 import { company } from "@/data/company";
 import { Button } from "@/components/ui/Button";
 import { ServiceBookingButton } from "@/components/booking/ServiceBookingButton";
+import { ServiceMediaGallery } from "@/components/sections/ServiceMediaGallery";
 import { CtaSection } from "@/components/sections/HomesSection";
 
 interface Props {
@@ -18,12 +21,17 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return getActiveServices().map((s) => ({ slug: s.slug }));
+  // Client service_role : generateStaticParams s'exécute au build, hors
+  // requête HTTP — next/headers (donc le client cookies-aware) n'y est pas disponible.
+  const supabase = createServiceRoleClient();
+  const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
+  return services.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const service = getServiceBySlug(slug);
+  const supabase = await createClient();
+  const service = await new SupabaseServiceRepository(supabase).findBySlug(slug);
   if (!service) return { title: "Service introuvable" };
   return {
     title: t(service.name, locale),
@@ -38,10 +46,14 @@ export default async function ServiceDetailPage({ params }: Props) {
   // Clés fr.json : services.backToServices, services.subServices, services.gallery, services.bookService
   const tPage = await getTranslations("services");
 
-  const service = getServiceBySlug(slug);
+  const supabase = await createClient();
+  const repository = new SupabaseServiceRepository(supabase);
+
+  const service = await repository.findBySlug(slug);
   if (!service) notFound();
 
-  const otherServices = getActiveServices().filter((s) => s.slug !== slug);
+  const allServices = await repository.findAll({ activeOnly: true });
+  const otherServices = allServices.filter((s) => s.slug !== slug);
 
   return (
     <>
@@ -107,30 +119,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 </div>
               )}
 
-              {service.galleryImages.length > 0 && (
-                <div>
-                  {/* Clé fr.json : services.gallery */}
-                  <h2 className="font-[var(--font-display)] font-black text-2xl mb-5">
-                    {tPage("gallery")}
-                  </h2>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {service.galleryImages.map((img, i) => (
-                      <div
-                        key={i}
-                        className="aspect-square relative rounded-[var(--radius-md)] overflow-hidden bg-[var(--color-surface-raised)]"
-                      >
-                        <Image
-                          src={getImageUrl(img)}
-                          alt={`${t(service.name, locale)} ${i + 1}`}
-                          fill
-                          className="object-cover hover:scale-105 transition-transform duration-300"
-                          sizes="33vw"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <ServiceMediaGallery service={service} />
             </div>
 
             {/* Sidebar sticky */}
@@ -145,7 +134,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 {/* Clé fr.json : services.bookService — ouvre le wizard
                     directement sur ce service, sans repasser par /contact. */}
                 <ServiceBookingButton
-                  services={getActiveServices()}
+                  services={allServices}
                   initialService={service}
                   label={tPage("bookService")}
                   className="w-full"

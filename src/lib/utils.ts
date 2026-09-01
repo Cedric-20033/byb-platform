@@ -2,6 +2,7 @@
 
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { cloudinaryImageUrl, cloudinaryVideoUrl, cloudinaryVideoThumbnailUrl } from '@/lib/cloudinary-url';
 
 /**
  * Fusionne les classes Tailwind en résolvant les conflits.
@@ -36,24 +37,39 @@ export function t(field: I18nField, locale: string): string {
   return (field as Record<string, string>)[locale] ?? field.fr;
 }
 
-// ─── Images ───────────────────────────────────────────────────────────────────
+// ─── Médias (images / vidéos) ─────────────────────────────────────────────────
 
 /**
  * Point de passage UNIQUE pour tous les chemins d'images de l'application.
  *
- * Aujourd'hui (Phase 1-2) : retourne le chemin /public tel quel.
- * Phase 3 (Cloudinary) : modifier UNIQUEMENT cette fonction.
- * Tous les composants l'utilisent → un seul changement met à jour tout le site.
+ * Double compatibilité pendant la période de transition vers Cloudinary :
+ *   - une valeur commençant par '/' est un chemin local dans /public
+ *     (données pas encore migrées — cas actuel de src/data/services.ts)
+ *   - toute autre valeur est traitée comme un public_id Cloudinary
+ *     (nouvelles données, ou services.ts une fois le script de migration passé)
  *
- * @example getImageUrl('/images/services/toiture.jpg')
- *   → aujourd'hui : '/images/services/toiture.jpg'
- *   → phase 3     : 'https://res.cloudinary.com/byb/image/upload/services/toiture.jpg'
+ * Tous les composants appellent cette seule fonction → la migration complète
+ * d'un service se résume à changer sa valeur dans data/, sans toucher au JSX.
+ *
+ * @example getImageUrl('/Images/services/toiture-cover.jpeg') → chemin local inchangé
+ * @example getImageUrl('byb/services/toiture-cover')          → URL Cloudinary optimisée
  */
-export function getImageUrl(path: string): string {
-  // TODO Phase 3 : décommenter et configurer Cloudinary
-  // const cloud = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  // if (cloud) return `https://res.cloudinary.com/${cloud}/image/upload${path}`;
-  return path;
+export function getImageUrl(path: string, options?: { width?: number; height?: number }): string {
+  if (path.startsWith('/')) return path;
+  return cloudinaryImageUrl(path, options);
+}
+
+/**
+ * URL de lecture d'une vidéo. Contrairement aux images, les vidéos n'ont pas
+ * d'équivalent local historique : elles passent systématiquement par Cloudinary.
+ */
+export function getVideoUrl(publicId: string): string {
+  return cloudinaryVideoUrl(publicId);
+}
+
+/** Image fixe extraite d'une vidéo — utilisée comme aperçu avant lecture. */
+export function getVideoThumbnailUrl(publicId: string): string {
+  return cloudinaryVideoThumbnailUrl(publicId);
 }
 
 // ─── Utilitaires ──────────────────────────────────────────────────────────────

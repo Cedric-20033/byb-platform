@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { Locale } from '@/lib/routing';
+import type { Service } from '@/types';
 import type { AppointmentSearchFiltersValues } from '@/lib/validation/appointment';
 import { listAppointmentsAction } from '@/app/actions/admin/appointments';
 import { AppointmentsFilters } from './AppointmentsFilters';
@@ -12,11 +13,9 @@ import { ExportButtons } from './ExportButtons';
 
 /**
  * Composant pour gérer les rendez-vous.
- * 
- * @param param0 
- * @returns 
+ * `services` provient de la page Server Component parente (Supabase).
  */
-export function AppointmentsManager({ locale }: { locale: Locale }) {
+export function AppointmentsManager({ locale, services }: { locale: Locale; services: Service[] }) {
   const [filters, setFilters] = useState<AppointmentSearchFiltersValues>({});
 
   /**
@@ -38,12 +37,12 @@ export function AppointmentsManager({ locale }: { locale: Locale }) {
     <div className="space-y-4">
       <div className="flex flex-col lg:flex-row lg:items-start gap-3 lg:justify-between">
         <div className="flex-1">
-          <AppointmentsFilters locale={locale} filters={filters} onChange={setFilters} />
+          <AppointmentsFilters locale={locale} services={services} filters={filters} onChange={setFilters} />
         </div>
         <ExportButtons filters={filters} />
       </div>
 
-      <AppointmentsTable locale={locale} appointments={data ?? []} isLoading={isLoading} />
+      <AppointmentsTable locale={locale} services={services} appointments={data ?? []} isLoading={isLoading} />
     </div>
   );
 }

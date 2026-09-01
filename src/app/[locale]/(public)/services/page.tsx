@@ -5,8 +5,9 @@ import Image from "next/image";
 import { getTranslations, getLocale } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { t, getImageUrl } from "@/lib/utils";
-// Architecture hexagonale : import data/ uniquement dans les Server Components (pages)
-import { getActiveServices } from "@/data/services";
+// Architecture hexagonale : lecture Supabase réservée aux Server Components (pages)
+import { createClient } from "@/infrastructure/supabase/server";
+import { SupabaseServiceRepository } from "@/infrastructure/supabase/repositories/SupabaseServiceRepository";
 import { Card } from "@/components/ui/Card";
 import { CtaSection } from "@/components/sections/HomesSection";
 import { getLocalizedPath, Locale } from '@/lib/routing';
@@ -25,7 +26,9 @@ export async function generateMetadata({
 export default async function ServicesPage() {
   const locale = await getLocale() as Locale;
   const tPage = await getTranslations("services");
-  const services = getActiveServices();
+
+  const supabase = await createClient();
+  const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
 
   return (
     <>

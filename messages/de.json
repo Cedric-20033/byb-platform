@@ -4,7 +4,7 @@
   "metadata": {
     "siteName": "BYB Bau & Renovierung",
     "defaultTitle": "BYB — Ihr vertrauenswürdiger Handwerker",
-    "defaultDescription": "BYB Bau & Renovierung, Ihr Spezialist für Dachdeckerarbeiten, Renovierung und Neubau im Raum Lyon. Über 20 Jahre Erfahrung."
+    "defaultDescription": "BYB Bau & Renovierung, Ihr Spezialist für Dachdeckerarbeiten, Renovierung und Neubau in Belgien (Asselt und Lüttich). Über 20 Jahre Erfahrung."
   },
 
   "nav": {
@@ -64,6 +64,9 @@
     "pageDescription": "Entdecken Sie alle Leistungen von BYB Bau & Renovierung.",
     "subServices": "Enthaltene Leistungen",
     "gallery": "Galerie",
+    "galleryPhotos": "Fotos",
+    "galleryVideos": "Videos",
+    "showMore": "Mehr anzeigen ({count})",
     "bookService": "Angebot für diese Leistung anfordern",
     "backToServices": "Zurück zu den Leistungen"
   },

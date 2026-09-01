@@ -7,11 +7,12 @@ import { AppointmentStatus } from '@/domain/appointment/Appointment';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { formatDate, t as translateField } from '@/lib/utils';
-import { getServiceById } from '@/data/services';
+import type { Service } from '@/types';
 import type { Locale } from '@/lib/routing';
 
 interface AppointmentsTableProps {
   locale: Locale;
+  services: Service[];
   appointments: AppointmentListItemDTO[];
   isLoading: boolean;
 }
@@ -27,7 +28,7 @@ const STATUS_TONE = {
  * @param param0 
  * @returns 
  */
-export function AppointmentsTable({ locale, appointments, isLoading }: AppointmentsTableProps) {
+export function AppointmentsTable({ locale, services, appointments, isLoading }: AppointmentsTableProps) {
   const t = useTranslations('admin.appointments');
 
   if (isLoading) {
@@ -55,7 +56,7 @@ export function AppointmentsTable({ locale, appointments, isLoading }: Appointme
         <tbody>
           {appointments.map((appointment) => {
             const { id, serviceId, clientName, clientEmail, status, createdAt, slotDate, slotStartTime, slotEndTime } = appointment;
-            const service = getServiceById(serviceId);
+            const service = services.find((s) => s.id === serviceId);
             return (
               <tr key={id} className="border-b border-[var(--color-border)] last:border-0 hover:bg-[var(--color-surface-raised)] transition-colors">
                 <td className="px-4 py-3">

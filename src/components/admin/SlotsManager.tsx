@@ -13,14 +13,12 @@ import { Badge } from '@/components/ui/Badge';
 import { Select } from '@/components/ui/Select';
 import { DateInput } from '@/components/ui/DateInput';
 import { Button } from '@/components/ui/Button';
-import { getActiveServices, getServiceById } from '@/data/services';
+import type { Service } from '@/types';
 import { t as translateField } from '@/lib/utils';
 import type { Locale } from '@/lib/routing';
 import { SlotStatus } from '@/domain/slot/Slot';
 import { listSlotsByDateAction, blockSlotAction, unblockSlotAction, generateSlotsAction } from '@/app/actions/admin/slots';
 import { generateAvailableSlotsSchema, type GenerateAvailableSlotsValues } from '@/lib/validation/appointment';
-
-const services = getActiveServices();
 
 const STATUS_TONE = {
   [SlotStatus.AVAILABLE]: 'success',
@@ -34,10 +32,10 @@ function todayIso(): string {
 
 /**
  * Composant pour gérer les créneaux horaires.
- * @param param0 
- * @returns 
+ * `services` provient de la page Server Component parente (Supabase) —
+ * ce composant client ne touche jamais data/ ni le repository directement.
  */
-export function SlotsManager({ locale }: { locale: Locale }) {
+export function SlotsManager({ locale, services }: { locale: Locale; services: Service[] }) {
   const t = useTranslations('admin.slots');
   const queryClient = useQueryClient();
   const [date, setDate] = useState(todayIso());
@@ -98,6 +96,7 @@ export function SlotsManager({ locale }: { locale: Locale }) {
       {showGenerateForm && (
         <GenerateSlotsForm
           locale={locale}
+          services={services}
           defaultServiceId={serviceId}
           onGenerated={() => {
             setShowGenerateForm(false);
@@ -156,15 +155,17 @@ export function SlotsManager({ locale }: { locale: Locale }) {
  */
 function GenerateSlotsForm({
   locale,
+  services,
   defaultServiceId,
   onGenerated,
 }: {
   locale: Locale;
+  services: Service[];
   defaultServiceId: string;
   onGenerated: () => void;
 }) {
   const t = useTranslations('admin.slots');
-  const service = getServiceById(defaultServiceId);
+  const service = services.find((s) => s.id === defaultServiceId);
 
   /**
    * Initialise le formulaire de génération de créneaux horaires avec React Hook Form et Zod pour la validation.

@@ -18,8 +18,8 @@ const phoneSchema = z
 
 export const createAppointmentSchema = z.object({
   slotId: z.uuid({ error: 'Créneau invalide.' }),
-  serviceId: z.string().min(1, { error: 'Le service est requis.' }),
-  subServiceId: z.string().optional(),
+  serviceId: z.uuid({ error: 'Service invalide.' }),
+  subServiceId: z.uuid({ error: 'Sous-prestation invalide.' }).optional(),
   clientName: z.string().min(2, { error: 'Le nom doit contenir au moins 2 caractères.' }).max(100),
   clientEmail: z.email({ error: 'Adresse email invalide.' }),
   clientPhone: phoneSchema,
@@ -42,7 +42,7 @@ export type CancelAppointmentByTokenValues = z.infer<typeof cancelAppointmentByT
  */
 export const getAvailableSlotsSchema = z
   .object({
-    serviceId: z.string().min(1),
+    serviceId: z.uuid({ error: 'Service invalide.' }),
     from: z.iso.date({ error: 'Date de début invalide (format attendu : AAAA-MM-JJ).' }),
     to: z.iso.date({ error: 'Date de fin invalide (format attendu : AAAA-MM-JJ).' }),
   })
@@ -68,7 +68,7 @@ export type BlockSlotValues = z.infer<typeof blockSlotSchema>;
  */
 export const generateAvailableSlotsSchema = z
   .object({
-    serviceId: z.string().min(1, { error: 'Le service est requis.' }),
+    serviceId: z.uuid({ error: 'Service invalide.' }),
     from: z.iso.date({ error: 'Date de début invalide (format attendu : AAAA-MM-JJ).' }),
     to: z.iso.date({ error: 'Date de fin invalide (format attendu : AAAA-MM-JJ).' }),
     dailyStartTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, { error: 'Heure de début invalide (HH:mm).' }),
@@ -113,7 +113,7 @@ export const appointmentSearchFiltersSchema = z.object({
   // z.enum() sur l'enum du domaine (pas une liste de chaînes recopiée à la main) :
   // le statut reste garanti aligné avec AppointmentStatus si celui-ci évolue.
   status: z.enum(AppointmentStatus).optional(),
-  serviceId: z.string().optional(),
+  serviceId: z.uuid().optional(),
   clientEmail: z.email().optional(),
   dateFrom: z.iso.date().optional(),
   dateTo: z.iso.date().optional(),

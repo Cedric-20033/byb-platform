@@ -16,7 +16,7 @@ export class ResendEmailProvider implements EmailProvider {
 
   constructor(
     apiKey: string = process.env.RESEND_API_KEY!,
-    private readonly fromAddress: string = process.env.RESEND_FROM_EMAIL ?? 'contact@byb-construction.be',
+    private readonly fromAddress: string = process.env.RESEND_FROM_EMAIL ?? 'contact@kenbusinessgroup.com',
   ) {
     this.resend = new Resend(apiKey);
   }
