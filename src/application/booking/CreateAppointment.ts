@@ -31,6 +31,12 @@ export class CreateAppointment {
     private readonly slotRepository: SlotRepository,
     private readonly emailProvider: EmailProvider,
     private readonly auditLogger: AuditLogger,
+    /**
+     * Adresse de l'entreprise à notifier à chaque nouvelle demande de RDV.
+     * Fournie par le composition root (Server Action) — ce use case ne sait
+     * pas d'où elle vient (data/company.ts, variable d'environnement, etc.).
+     */
+    private readonly adminNotificationEmail: string,
   ) {}
 
   async execute(input: CreateAppointmentInput): Promise<Appointment> {
@@ -46,9 +52,11 @@ export class CreateAppointment {
       '', // généré par le repository
       slot.id,
       input.serviceId,
+      input.subServiceId ?? null,
       input.clientEmail,
       input.clientName,
       input.clientPhone,
+      input.notes ?? null,
       AppointmentStatus.PENDING,
       new Date(),
     );
@@ -62,9 +70,19 @@ export class CreateAppointment {
 
     await this.emailProvider.send({
       to: appointment.clientEmail,
-      subject: 'Confirmation de votre rendez-vous',
+      subject: 'Votre demande de rendez-vous a bien été reçue',
       type: EmailType.APPOINTMENT_CONFIRMATION,
       data: { appointment },
+    });
+
+    // Notifie l'entreprise qu'une nouvelle demande attend une confirmation —
+    // sans ça, un RDV `pending` pouvait rester indéfiniment invisible tant
+    // qu'un admin ne pensait pas à ouvrir le dashboard.
+    await this.emailProvider.send({
+      to: this.adminNotificationEmail,
+      subject: 'Nouveau rendez-vous en attente de confirmation',
+      type: EmailType.ADMIN_NEW_APPOINTMENT,
+      data: { appointment, slotDate: slot.date, slotStartTime: slot.range.startTime },
     });
 
     await this.auditLogger.log({

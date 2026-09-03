@@ -120,3 +120,13 @@ export const appointmentSearchFiltersSchema = z.object({
 });
 
 export type AppointmentSearchFiltersValues = z.infer<typeof appointmentSearchFiltersSchema>;
+
+/**
+ * Annulation d'un RDV par un admin, avec message optionnel envoyé au client.
+ */
+export const cancelAppointmentSchema = z.object({
+  appointmentId: z.uuid({ error: 'Rendez-vous invalide.' }),
+  reason: z.string().max(500, { error: '500 caractères maximum.' }).optional(),
+});
+
+export type CancelAppointmentValues = z.infer<typeof cancelAppointmentSchema>;

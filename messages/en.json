@@ -155,7 +155,7 @@
       "statAppointmentsWeek": "Appointments this week",
       "statPending": "Awaiting confirmation",
       "statBlockedSlots": "Blocked slots",
-      "chartTitle": "Appointments over the last 14 days"
+      "chartTitle": "Appointments — this week and next"
     },
     "appointments": {
       "title": "Appointments",
@@ -174,9 +174,22 @@
       "noResults": "No appointment matches these filters.",
       "columnClient": "Client",
       "columnService": "Service",
+      "columnSubService": "Sub-service",
       "columnDate": "Slot",
       "columnStatus": "Status",
       "columnCreatedAt": "Booked on",
+      "columnNotes": "Notes",
+      "emptyValue": "—",
+      "confirm": "Confirm",
+      "confirming": "Confirming...",
+      "confirmSuccess": "Appointment confirmed.",
+      "cancel": "Cancel",
+      "cancelling": "Cancelling...",
+      "cancelDialogTitle": "Cancel this appointment?",
+      "cancelDialogDescription": "An optional message will be emailed to the client explaining the cancellation.",
+      "cancelReasonPlaceholder": "E.g.: Slot unavailable due to an unforeseen issue, please contact us to reschedule.",
+      "cancelDialogDismiss": "Back",
+      "cancelDialogConfirm": "Confirm cancellation",
       "statusPending": "Pending",
       "statusConfirmed": "Confirmed",
       "statusCancelled": "Cancelled"

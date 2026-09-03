@@ -10,16 +10,18 @@ import Link from 'next/link';
 import type { Locale } from '@/lib/routing';
 import { getLocalizedPath } from '@/lib/routing';
 import { ADMIN_ROUTES } from '@/lib/constants';
+import type { Service } from '@/types';
 import { getPendingNotificationsAction } from '@/app/actions/admin/dashboard';
 import { cn, formatDate, t as translateField } from '@/lib/utils';
-import { getServiceById } from '@/data/services';
 
 /**
  * Cloche de notifications : signale les RDV en attente de confirmation.
  * Rafraîchie toutes les 60s via TanStack Query — un compromis simple entre
  * "temps réel" (Supabase Realtime, hors périmètre actuel) et une valeur figée.
+ * `services` provient du layout admin (Server Component, Supabase) — ce
+ * composant client ne touche jamais data/ ni le repository directement.
  */
-export function NotificationBell() {
+export function NotificationBell({ services }: { services: Service[] }) {
   const t = useTranslations('admin.navbar');
   const locale = useLocale() as Locale;
   const [open, setOpen] = useState(false);
@@ -88,7 +90,7 @@ export function NotificationBell() {
                 <p className="px-4 py-6 text-center text-sm text-[var(--color-muted)]">{t('noNotifications')}</p>
               ) : (
                 data.items.map((item) => {
-                  const service = getServiceById(item.serviceId) ?? null;
+                  const service = services.find((s) => s.id === item.serviceId) ?? null;
                   return (
                     <Link
                       key={item.id}

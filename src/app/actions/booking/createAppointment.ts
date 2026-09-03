@@ -8,6 +8,8 @@ import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/S
 import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider';
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
+import { company } from '@/data/company';
+import { toUserMessage } from '@/lib/errors';
 
 export type CreateAppointmentActionState =
   | { success: true; appointmentId: string }
@@ -33,12 +35,15 @@ export async function createAppointmentAction(input: unknown): Promise<CreateApp
     new SupabaseSlotRepository(supabase),
     new ResendEmailProvider(),
     new SupabaseAuditLogger(),
+    // Variable d'environnement prioritaire (permet de changer le destinataire
+    // sans toucher au code) ; à défaut, l'email de contact de l'entreprise.
+    process.env.ADMIN_NOTIFICATION_EMAIL ?? company.contact.email,
   );
 
   try {
     const appointment = await useCase.execute(parsed.data);
     return { success: true, appointmentId: appointment.id };
   } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Erreur inconnue.' };
+    return { success: false, error: toUserMessage(error) };
   }
 }

@@ -14,6 +14,8 @@ export type CancelAppointmentInput = {
   /** null si annulation par le client via son lien token (voir RPC Supabase) */
   actorId: string | null;
   actorRole: ActorRole;
+  /** Message optionnel expliqué au client dans l'email d'annulation (annulation admin). */
+  reason?: string | null;
 };
 
 /**
@@ -62,7 +64,7 @@ export class CancelAppointment {
       to: appointment.clientEmail,
       subject: "Annulation de votre rendez-vous",
       type: EmailType.APPOINTMENT_CANCELLATION,
-      data: { appointment },
+      data: { appointment, reason: input.reason ?? null },
     });
 
     await this.auditLogger.log({
@@ -71,6 +73,7 @@ export class CancelAppointment {
       action: AuditAction.APPOINTMENT_CANCELLED,
       targetType: "appointment",
       targetId: appointment.id,
+      metadata: input.reason ? { reason: input.reason } : undefined,
     });
   }
 }
