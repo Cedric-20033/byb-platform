@@ -11,6 +11,7 @@ import { SupabaseHolidayRepository } from '@/infrastructure/supabase/repositorie
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createClient } from '@/infrastructure/supabase/server';
 import { getCurrentAdmin, assertPermission, toActorRole } from '@/lib/auth/getCurrentAdmin';
+import { toUserMessage, PERMISSION_DENIED_MESSAGE } from '@/lib/errors';
 import type { Slot, SlotStatus } from '@/domain/slot/Slot';
 
 type SlotActionState = { success: true } | { success: false; error: string };
@@ -55,19 +56,23 @@ type ListSlotsResult = { success: true; slots: SlotDTO[] } | { success: false; e
  * simple, aucune permission dédiée (voir listHolidaysAction pour la même convention).
  */
 export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsResult> {
-  const parsed = listSlotsByDateSchema.safeParse(input);
-  if (!parsed.success) return { success: false, error: 'Date invalide.' };
+  try {
+    const parsed = listSlotsByDateSchema.safeParse(input);
+    if (!parsed.success) return { success: false, error: 'Date invalide.' };
 
-  const supabase = await createClient();
-  const repository = new SupabaseSlotRepository(supabase);
-  const slots = await repository.findByDate(parsed.data.date);
+    const supabase = await createClient();
+    const repository = new SupabaseSlotRepository(supabase);
+    const slots = await repository.findByDate(parsed.data.date);
 
-  const filtered = parsed.data.serviceId
-    ? slots.filter((slot) => slot.serviceId === parsed.data.serviceId)
-    : slots;
+    const filtered = parsed.data.serviceId
+      ? slots.filter((slot) => slot.serviceId === parsed.data.serviceId)
+      : slots;
 
-  const sorted = filtered.sort((a, b) => a.range.startTime.localeCompare(b.range.startTime));
-  return { success: true, slots: sorted.map(toSlotDTO) };
+    const sorted = filtered.sort((a, b) => a.range.startTime.localeCompare(b.range.startTime));
+    return { success: true, slots: sorted.map(toSlotDTO) };
+  } catch (error) {
+    return { success: false, error: toUserMessage(error) };
+  }
 }
 
 /**
@@ -76,20 +81,16 @@ export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsRe
  * l'a d'office ; il peut l'accorder à un admin depuis /dashboard/permissions.
  */
 export async function blockSlotAction(input: unknown): Promise<SlotActionState> {
-  const parsed = blockSlotSchema.safeParse(input);
-  if (!parsed.success) return { success: false, error: 'Créneau invalide.' };
-
-  const admin = await getCurrentAdmin();
   try {
+    const parsed = blockSlotSchema.safeParse(input);
+    if (!parsed.success) return { success: false, error: 'Créneau invalide.' };
+
+    const admin = await getCurrentAdmin();
     assertPermission(admin, 'slots', 'edit');
-  } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Non autorisé.' };
-  }
 
-  const supabase = await createClient();
-  const useCase = new BlockSlot(new SupabaseSlotRepository(supabase), new SupabaseAuditLogger());
+    const supabase = await createClient();
+    const useCase = new BlockSlot(new SupabaseSlotRepository(supabase), new SupabaseAuditLogger());
 
-  try {
     await useCase.execute({
       slotId: parsed.data.slotId,
       actorId: admin.id,
@@ -97,7 +98,7 @@ export async function blockSlotAction(input: unknown): Promise<SlotActionState> 
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Erreur inconnue.' };
+    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
   }
 }
 
@@ -108,26 +109,22 @@ export async function blockSlotAction(input: unknown): Promise<SlotActionState> 
  * n'a pas explicitement étendu ce droit depuis /dashboard/permissions.
  */
 export async function generateSlotsAction(input: unknown): Promise<GenerateSlotsActionState> {
-  const parsed = generateAvailableSlotsSchema.safeParse(input);
-  if (!parsed.success) {
-    return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
-  }
-
-  const admin = await getCurrentAdmin();
   try {
+    const parsed = generateAvailableSlotsSchema.safeParse(input);
+    if (!parsed.success) {
+      return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
+    }
+
+    const admin = await getCurrentAdmin();
     assertPermission(admin, 'slots', 'create');
-  } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Non autorisé.' };
-  }
 
-  const supabase = await createClient();
-  const useCase = new GenerateAvailableSlots(
-    new SupabaseSlotRepository(supabase),
-    new SupabaseHolidayRepository(supabase),
-    new SupabaseAuditLogger(),
-  );
+    const supabase = await createClient();
+    const useCase = new GenerateAvailableSlots(
+      new SupabaseSlotRepository(supabase),
+      new SupabaseHolidayRepository(supabase),
+      new SupabaseAuditLogger(),
+    );
 
-  try {
     const created = await useCase.execute({
       ...parsed.data,
       actorId: admin.id,
@@ -135,25 +132,21 @@ export async function generateSlotsAction(input: unknown): Promise<GenerateSlots
     });
     return { success: true, created };
   } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Erreur inconnue.' };
+    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
   }
 }
 
 export async function unblockSlotAction(input: unknown): Promise<SlotActionState> {
-  const parsed = blockSlotSchema.safeParse(input);
-  if (!parsed.success) return { success: false, error: 'Créneau invalide.' };
-
-  const admin = await getCurrentAdmin();
   try {
+    const parsed = blockSlotSchema.safeParse(input);
+    if (!parsed.success) return { success: false, error: 'Créneau invalide.' };
+
+    const admin = await getCurrentAdmin();
     assertPermission(admin, 'slots', 'edit');
-  } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Non autorisé.' };
-  }
 
-  const supabase = await createClient();
-  const useCase = new UnblockSlot(new SupabaseSlotRepository(supabase), new SupabaseAuditLogger());
+    const supabase = await createClient();
+    const useCase = new UnblockSlot(new SupabaseSlotRepository(supabase), new SupabaseAuditLogger());
 
-  try {
     await useCase.execute({
       slotId: parsed.data.slotId,
       actorId: admin.id,
@@ -161,6 +154,6 @@ export async function unblockSlotAction(input: unknown): Promise<SlotActionState
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Erreur inconnue.' };
+    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
   }
 }

@@ -157,7 +157,7 @@
       "statAppointmentsWeek": "Termine diese Woche",
       "statPending": "Warten auf Bestätigung",
       "statBlockedSlots": "Blockierte Zeitfenster",
-      "chartTitle": "Termine der letzten 14 Tage"
+      "chartTitle": "Termine — diese und nächste Woche"
     },
     "appointments": {
       "title": "Termine",
@@ -176,9 +176,22 @@
       "noResults": "Kein Termin entspricht diesen Filtern.",
       "columnClient": "Kunde",
       "columnService": "Leistung",
+      "columnSubService": "Teilleistung",
       "columnDate": "Zeitfenster",
       "columnStatus": "Status",
       "columnCreatedAt": "Gebucht am",
+      "columnNotes": "Notizen",
+      "emptyValue": "—",
+      "confirm": "Bestätigen",
+      "confirming": "Bestätigung läuft...",
+      "confirmSuccess": "Termin bestätigt.",
+      "cancel": "Stornieren",
+      "cancelling": "Stornierung läuft...",
+      "cancelDialogTitle": "Diesen Termin stornieren?",
+      "cancelDialogDescription": "Eine optionale Nachricht wird dem Kunden per E-Mail zugesendet, um die Stornierung zu erklären.",
+      "cancelReasonPlaceholder": "Z. B.: Zeitfenster aufgrund eines unvorhergesehenen Ereignisses nicht verfügbar, bitte kontaktieren Sie uns zur Neuplanung.",
+      "cancelDialogDismiss": "Zurück",
+      "cancelDialogConfirm": "Stornierung bestätigen",
       "statusPending": "Ausstehend",
       "statusConfirmed": "Bestätigt",
       "statusCancelled": "Storniert"

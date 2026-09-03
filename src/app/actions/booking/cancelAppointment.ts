@@ -9,6 +9,7 @@ import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider'
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
 import { ActorRole } from '@/domain/shared/AuditLogger';
+import { toUserMessage } from '@/lib/errors';
 
 export type CancelAppointmentActionState = { success: true } | { success: false; error: string };
 
@@ -24,29 +25,35 @@ export type CancelAppointmentActionState = { success: true } | { success: false;
 export async function cancelAppointmentByTokenAction(
   input: unknown,
 ): Promise<CancelAppointmentActionState> {
-  const parsed = cancelAppointmentByTokenSchema.safeParse(input);
-  if (!parsed.success) {
-    return { success: false, error: parsed.error.issues[0]?.message ?? 'Lien invalide.' };
-  }
-
-  const supabase = createServiceRoleClient();
-
-  const { data: resolved, error: rpcError } = await supabase
-    .rpc('get_appointment_by_token', { p_token: parsed.data.token })
-    .maybeSingle();
-
-  if (rpcError || !resolved) {
-    return { success: false, error: 'Rendez-vous introuvable ou lien expiré.' };
-  }
-
-  const useCase = new CancelAppointment(
-    new SupabaseAppointmentRepository(supabase),
-    new SupabaseSlotRepository(supabase),
-    new ResendEmailProvider(),
-    new SupabaseAuditLogger(),
-  );
-
   try {
+    const parsed = cancelAppointmentByTokenSchema.safeParse(input);
+    if (!parsed.success) {
+      return { success: false, error: parsed.error.issues[0]?.message ?? 'Lien invalide.' };
+    }
+
+    const supabase = createServiceRoleClient();
+
+    const { data: resolved, error: rpcError } = await supabase
+      .rpc('get_appointment_by_token', { p_token: parsed.data.token })
+      .maybeSingle();
+
+    if (rpcError || !resolved) {
+      // "Introuvable" et "erreur technique de résolution du token" sont traités
+      // pareil côté utilisateur (même message) — seule l'erreur technique, si
+      // présente, est journalisée pour le débogage (jamais le simple "introuvable").
+      if (rpcError && process.env.NODE_ENV !== 'production') {
+        console.error('[cancelAppointmentByTokenAction] Échec RPC get_appointment_by_token :', rpcError);
+      }
+      return { success: false, error: 'Rendez-vous introuvable ou lien expiré.' };
+    }
+
+    const useCase = new CancelAppointment(
+      new SupabaseAppointmentRepository(supabase),
+      new SupabaseSlotRepository(supabase),
+      new ResendEmailProvider(),
+      new SupabaseAuditLogger(),
+    );
+
     await useCase.execute({
       appointmentId: resolved.id,
       actorId: null,
@@ -54,6 +61,6 @@ export async function cancelAppointmentByTokenAction(
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Erreur inconnue.' };
+    return { success: false, error: toUserMessage(error) };
   }
 }

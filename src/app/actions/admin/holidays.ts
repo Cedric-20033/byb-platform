@@ -10,6 +10,7 @@ import { SupabaseHolidayRepository } from '@/infrastructure/supabase/repositorie
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createClient } from '@/infrastructure/supabase/server';
 import { getCurrentAdmin, assertPermission, toActorRole } from '@/lib/auth/getCurrentAdmin';
+import { toUserMessage, PERMISSION_DENIED_MESSAGE } from '@/lib/errors';
 import type { Holiday } from '@/domain/holiday/Holiday';
 
 const deleteHolidaySchema = z.object({ holidayId: z.uuid() });
@@ -41,56 +42,60 @@ type DeleteResult = { success: true } | { success: false; error: string };
  * nécessaire pour un simple affichage.
  */
 export async function listHolidaysAction(): Promise<ListResult> {
-  const supabase = await createClient();
-  const useCase = new ListHolidays(new SupabaseHolidayRepository(supabase));
-  const holidays = await useCase.execute();
-  return { success: true, holidays: holidays.map(toHolidayDTO) };
+  try {
+    const supabase = await createClient();
+    const useCase = new ListHolidays(new SupabaseHolidayRepository(supabase));
+    const holidays = await useCase.execute();
+    return { success: true, holidays: holidays.map(toHolidayDTO) };
+  } catch (error) {
+    return { success: false, error: toUserMessage(error) };
+  }
 }
 
 export async function createHolidayAction(input: unknown): Promise<CreateResult> {
-  const parsed = createHolidaySchema.safeParse(input);
-  if (!parsed.success) {
-    return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
-  }
-
-  const admin = await getCurrentAdmin();
   try {
+    const parsed = createHolidaySchema.safeParse(input);
+    if (!parsed.success) {
+      return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
+    }
+
+    const admin = await getCurrentAdmin();
     assertPermission(admin, 'holidays', 'create');
+
+    const supabase = await createClient();
+    const useCase = new CreateHoliday(new SupabaseHolidayRepository(supabase), new SupabaseAuditLogger());
+
+    const holiday = await useCase.execute({
+      ...parsed.data,
+      actorId: admin.id,
+      actorRole: toActorRole(admin.role),
+    });
+
+    return { success: true, holiday: toHolidayDTO(holiday) };
   } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Non autorisé.' };
+    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
   }
-
-  const supabase = await createClient();
-  const useCase = new CreateHoliday(new SupabaseHolidayRepository(supabase), new SupabaseAuditLogger());
-
-  const holiday = await useCase.execute({
-    ...parsed.data,
-    actorId: admin.id,
-    actorRole: toActorRole(admin.role),
-  });
-
-  return { success: true, holiday: toHolidayDTO(holiday) };
 }
 
 export async function deleteHolidayAction(input: unknown): Promise<DeleteResult> {
-  const parsed = deleteHolidaySchema.safeParse(input);
-  if (!parsed.success) return { success: false, error: 'Identifiant invalide.' };
-
-  const admin = await getCurrentAdmin();
   try {
+    const parsed = deleteHolidaySchema.safeParse(input);
+    if (!parsed.success) return { success: false, error: 'Identifiant invalide.' };
+
+    const admin = await getCurrentAdmin();
     assertPermission(admin, 'holidays', 'delete');
+
+    const supabase = await createClient();
+    const useCase = new DeleteHoliday(new SupabaseHolidayRepository(supabase), new SupabaseAuditLogger());
+
+    await useCase.execute({
+      holidayId: parsed.data.holidayId,
+      actorId: admin.id,
+      actorRole: toActorRole(admin.role),
+    });
+
+    return { success: true };
   } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : 'Non autorisé.' };
+    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
   }
-
-  const supabase = await createClient();
-  const useCase = new DeleteHoliday(new SupabaseHolidayRepository(supabase), new SupabaseAuditLogger());
-
-  await useCase.execute({
-    holidayId: parsed.data.holidayId,
-    actorId: admin.id,
-    actorRole: toActorRole(admin.role),
-  });
-
-  return { success: true };
 }

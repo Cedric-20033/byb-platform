@@ -24,6 +24,8 @@ export type AppointmentExportRow = {
   clientEmail: string;
   clientPhone: string;
   serviceId: string;
+  subServiceId: string | null;
+  notes: string | null;
   status: string;
   slotDate: string;
   slotStartTime: string;
@@ -50,6 +52,8 @@ export class ExportAppointments {
       clientEmail: appointment.clientEmail,
       clientPhone: appointment.clientPhone,
       serviceId: appointment.serviceId,
+      subServiceId: appointment.subServiceId,
+      notes: appointment.notes,
       status: appointment.status,
       slotDate,
       slotStartTime,

@@ -2,13 +2,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Locale } from '@/lib/routing';
 import type { Service } from '@/types';
 import type { AppointmentSearchFiltersValues } from '@/lib/validation/appointment';
-import { listAppointmentsAction } from '@/app/actions/admin/appointments';
+import { listAppointmentsAction, confirmAppointmentAction, cancelAppointmentAction } from '@/app/actions/admin/appointments';
 import { AppointmentsFilters } from './AppointmentsFilters';
 import { AppointmentsTable } from './AppointmentsTable';
+import { CancelAppointmentDialog } from './CancelAppointmentDialog';
 import { ExportButtons } from './ExportButtons';
 
 /**
@@ -17,12 +18,12 @@ import { ExportButtons } from './ExportButtons';
  */
 export function AppointmentsManager({ locale, services }: { locale: Locale; services: Service[] }) {
   const [filters, setFilters] = useState<AppointmentSearchFiltersValues>({});
+  const [cancelTargetId, setCancelTargetId] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   /**
    * Récupère la liste des rendez-vous en fonction des filtres.
    * Utilise React Query pour gérer l'état de chargement et les erreurs.
-   * 
-   * @returns 
    */
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'appointments', filters],
@@ -30,6 +31,36 @@ export function AppointmentsManager({ locale, services }: { locale: Locale; serv
       const result = await listAppointmentsAction(filters);
       if (!result.success) throw new Error(result.error);
       return result.appointments;
+    },
+  });
+
+  /**
+   * Confirmation d'un RDV en attente. En cas de succès, on invalide la liste
+   * pour refléter le nouveau statut — pas de mise à jour optimiste ici, le
+   * volume de RDV ne le justifie pas et ça évite un état incohérent si le
+   * serveur refuse (ex: RDV déjà annulé entre-temps par un autre admin).
+   */
+  const confirmMutation = useMutation({
+    mutationFn: (appointmentId: string) => confirmAppointmentAction(appointmentId),
+    onSuccess: (result) => {
+      if (result.success) {
+        queryClient.invalidateQueries({ queryKey: ['admin', 'appointments'] });
+      }
+    },
+  });
+
+  /**
+   * Annulation d'un RDV avec message optionnel — la modale reste ouverte tant
+   * que l'action n'a pas répondu, pour afficher l'erreur au bon endroit si
+   * le serveur refuse (ex: RDV déjà annulé entre-temps).
+   */
+  const cancelMutation = useMutation({
+    mutationFn: (input: { appointmentId: string; reason: string }) => cancelAppointmentAction(input),
+    onSuccess: (result) => {
+      if (result.success) {
+        queryClient.invalidateQueries({ queryKey: ['admin', 'appointments'] });
+        setCancelTargetId(null);
+      }
     },
   });
 
@@ -42,7 +73,27 @@ export function AppointmentsManager({ locale, services }: { locale: Locale; serv
         <ExportButtons filters={filters} />
       </div>
 
-      <AppointmentsTable locale={locale} services={services} appointments={data ?? []} isLoading={isLoading} />
+      <AppointmentsTable
+        locale={locale}
+        services={services}
+        appointments={data ?? []}
+        isLoading={isLoading}
+        onConfirm={(id) => confirmMutation.mutate(id)}
+        confirmingId={confirmMutation.isPending ? (confirmMutation.variables ?? null) : null}
+        confirmError={confirmMutation.data && !confirmMutation.data.success ? confirmMutation.data.error : null}
+        onCancel={(id) => setCancelTargetId(id)}
+      />
+
+      <CancelAppointmentDialog
+        open={cancelTargetId !== null}
+        onOpenChange={(open) => {
+          if (!open) setCancelTargetId(null);
+        }}
+        isSubmitting={cancelMutation.isPending}
+        onConfirm={(reason) => {
+          if (cancelTargetId) cancelMutation.mutate({ appointmentId: cancelTargetId, reason });
+        }}
+      />
     </div>
   );
 }

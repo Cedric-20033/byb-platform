@@ -201,7 +201,7 @@
       "statAppointmentsWeek": "RDV cette semaine",
       "statPending": "En attente de confirmation",
       "statBlockedSlots": "Créneaux bloqués",
-      "chartTitle": "Rendez-vous des 14 derniers jours"
+      "chartTitle": "Rendez-vous — semaine en cours et suivante"
     },
     "appointments": {
       "title": "Rendez-vous",
@@ -220,9 +220,22 @@
       "noResults": "Aucun rendez-vous ne correspond à ces filtres.",
       "columnClient": "Client",
       "columnService": "Service",
+      "columnSubService": "Sous-prestation",
       "columnDate": "Créneau",
       "columnStatus": "Statut",
       "columnCreatedAt": "Réservé le",
+      "columnNotes": "Notes",
+      "emptyValue": "—",
+      "confirm": "Confirmer",
+      "confirming": "Confirmation...",
+      "confirmSuccess": "Rendez-vous confirmé.",
+      "cancel": "Annuler",
+      "cancelling": "Annulation...",
+      "cancelDialogTitle": "Annuler ce rendez-vous ?",
+      "cancelDialogDescription": "Un message optionnel sera envoyé au client par email pour expliquer l'annulation.",
+      "cancelReasonPlaceholder": "Ex. : Créneau indisponible suite à un imprevu, merci de nous recontacter pour reprogrammer.",
+      "cancelDialogDismiss": "Retour",
+      "cancelDialogConfirm": "Confirmer l'annulation",
       "statusPending": "En attente",
       "statusConfirmed": "Confirmé",
       "statusCancelled": "Annulé"

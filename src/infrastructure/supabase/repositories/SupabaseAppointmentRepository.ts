@@ -70,11 +70,11 @@ export class SupabaseAppointmentRepository implements AppointmentRepository {
       .insert({
         slot_id: appointment.slotId,
         service_id: appointment.serviceId,
-        sub_service_id: null,
+        sub_service_id: appointment.subServiceId,
         client_name: appointment.clientName,
         client_email: appointment.clientEmail,
         client_phone: appointment.clientPhone,
-        notes: null,
+        notes: appointment.notes,
         status: appointment.status,
       })
       .select()
@@ -110,9 +110,11 @@ export class SupabaseAppointmentRepository implements AppointmentRepository {
       row.id,
       row.slot_id,
       row.service_id,
+      row.sub_service_id,
       row.client_email,
       row.client_name,
       row.client_phone,
+      row.notes,
       row.status as AppointmentStatus,
       new Date(row.created_at),
     );

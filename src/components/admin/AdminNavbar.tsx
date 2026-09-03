@@ -7,6 +7,7 @@ import { Menu, LogOut } from 'lucide-react';
 import { useTransition } from 'react';
 import type { Locale } from '@/lib/routing';
 import type { UserRole } from '@/lib/constants';
+import type { Service } from '@/types';
 import { signOutAction } from '@/app/actions/auth';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { NotificationBell } from './NotificationBell';
@@ -14,6 +15,7 @@ import { NotificationBell } from './NotificationBell';
 interface AdminNavbarProps {
   fullName: string;
   role: UserRole;
+  services: Service[];
   onMenuClick: () => void;
 }
 
@@ -22,7 +24,7 @@ const ROLE_LABELS: Record<UserRole, string> = {
   admin: 'Admin',
 };
 
-export function AdminNavbar({ fullName, role, onMenuClick }: AdminNavbarProps) {
+export function AdminNavbar({ fullName, role, services, onMenuClick }: AdminNavbarProps) {
   const t = useTranslations('admin.navbar');
   const locale = useLocale() as Locale;
   const [isSigningOut, startTransition] = useTransition();
@@ -41,7 +43,7 @@ export function AdminNavbar({ fullName, role, onMenuClick }: AdminNavbarProps) {
       <div className="hidden lg:block flex-1" />
 
       <div className="flex items-center gap-2 lg:gap-3">
-        <NotificationBell />
+        <NotificationBell services={services} />
         <ThemeToggle />
 
         <div className="hidden sm:flex flex-col items-end leading-tight pl-2">

@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation';
 import { getCurrentAdmin } from '@/lib/auth/getCurrentAdmin';
 import { getLocalizedPath, routing, type Locale } from '@/lib/routing';
 import { AdminShell } from '@/components/admin/AdminShell';
+import { createClient } from '@/infrastructure/supabase/server';
+import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositories/SupabaseServiceRepository';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -32,8 +34,14 @@ export default async function AdminLayout({ children, params }: AdminLayoutProps
     redirect(getLocalizedPath('/', locale));
   }
 
+  // Récupéré ici une seule fois (racine du dashboard) et descendu en props :
+  // sert à la fois à la cloche de notifications et à toutes les pages filles
+  // qui en ont besoin, sans que chacune ne refasse sa propre requête Supabase.
+  const supabase = await createClient();
+  const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
+
   return (
-    <AdminShell fullName={admin.fullName} role={admin.role}>
+    <AdminShell fullName={admin.fullName} role={admin.role} services={services}>
       {children}
     </AdminShell>
   );
