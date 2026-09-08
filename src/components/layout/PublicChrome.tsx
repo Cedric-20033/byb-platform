@@ -18,7 +18,7 @@ export async function PublicChrome({ children }: { children: React.ReactNode }) 
 
   return (
     <>
-      <Navbar />
+      <Navbar services={services} />
       <main className="pt-16 lg:pt-20">{children}</main>
       <Footer />
       <FloatingCTA services={services} />

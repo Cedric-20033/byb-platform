@@ -74,8 +74,11 @@
   "realisations": {
     "pageTitle": "Nos réalisations",
     "pageDescription": "Découvrez quelques-uns de nos chantiers récents.",
-    "filterAll": "Tous",
-    "noResults": "Aucune réalisation pour cette catégorie."
+    "photosLabel": "Photos",
+    "videosLabel": "Vidéos",
+    "showMorePhotos": "Voir plus de photos ({count})",
+    "showMoreVideos": "Voir plus de vidéos ({count})",
+    "noMedia": "Aucune réalisation disponible pour le moment."
   },
 
   "about": {

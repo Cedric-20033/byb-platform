@@ -12,9 +12,15 @@ import { mainNavLinks } from '@/data/navigation';
 import { company } from '@/data/company';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { Button } from '@/components/ui/Button';
+import { BookingDialog } from '@/components/booking/BookingDialog';
+import type { Service } from '@/types';
 import { ShowImage } from '../ui/ShowImage';
 
-export function Navbar() {
+type NavbarProps = {
+  services: Service[];
+};
+
+export function Navbar({ services }: NavbarProps) {
   // Clés issues de fr.json : "nav.openMenu", "nav.closeMenu", "nav.bookAppointment"
   const tNav = useTranslations('nav');
   const locale = useLocale() as Locale;
@@ -23,6 +29,9 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen]   = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled]   = useState(false);
+  // Wizard de réservation — partagé par le bouton desktop ET le bouton mobile,
+  // sur le même modèle que FloatingCTA (même BookingDialog, deux déclencheurs).
+  const [bookingOpen, setBookingOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 80);
@@ -111,7 +120,9 @@ export function Navbar() {
             </a>
             <ThemeToggle />
             {/* Clé fr.json : nav.bookAppointment */}
-            <Button size="sm" variant="secondary">{tNav('bookAppointment')}</Button>
+            <Button size="sm" variant="secondary" onClick={() => setBookingOpen(true)}>
+              {tNav('bookAppointment')}
+            </Button>
           </div>
 
           {/* Mobile toggle */}
@@ -162,11 +173,22 @@ export function Navbar() {
               </div>
             ))}
             <div className="pt-4 border-t border-[var(--color-border)]">
-              <Button variant="secondary" className="w-full">{tNav('bookAppointment')}</Button>
+              <Button
+                variant="secondary"
+                className="w-full"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  setBookingOpen(true);
+                }}
+              >
+                {tNav('bookAppointment')}
+              </Button>
             </div>
           </div>
         </div>
       )}
+
+      <BookingDialog services={services} open={bookingOpen} onOpenChange={setBookingOpen} />
     </header>
   );
 }

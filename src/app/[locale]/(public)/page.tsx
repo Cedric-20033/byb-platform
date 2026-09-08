@@ -5,7 +5,7 @@ import { getTranslations } from 'next-intl/server';
 // ─── Imports données (couche data/ — encore source de vérité pour projects/home/testimonials/stats) ──────────────
 
 // Les composants sections reçoivent tout en props → ils ne savent pas d'où viennent les données.
-import { getHighlightedProjects } from '@/data/projects';
+import { getHomeRealisationMedia } from '@/application/catalog/GetHomeRealisationMedia';
 import { homeAbout } from '@/data/home';
 import { testimonials } from '@/data/testimonials';
 import { stats } from '@/data/stats';
@@ -18,7 +18,7 @@ import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositorie
 import { HeroSection } from '@/components/sections/HeroSection';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { StatsSection } from '@/components/sections/StatsSection';
-import { ProjectsSection } from '@/components/sections/ProjectsSection';
+import { RealisationsSection } from '@/components/sections/RealisationsSection';
 import { TestimonialsSection, AboutSnippet, CtaSection } from '@/components/sections/HomesSection';
 
 // Nombre de services mis en avant sur la page d'accueil.
@@ -36,10 +36,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function HomePage() {
   // Le Server Component récupère les données et les descend en props
-  const projects = getHighlightedProjects();
-
   const supabase = await createClient();
   const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
+
+  // Quelques photos par service, tirage déterministe (cf. GetHomeRealisationMedia) —
+  // stable au refresh, sans jamais se limiter aux mêmes premières photos.
+  const realisationItems = getHomeRealisationMedia(services);
 
   return (
     <>
@@ -47,7 +49,7 @@ export default async function HomePage() {
       <AboutSnippet about={homeAbout} />
       <ServicesSection services={services} limit={HOME_SERVICES_LIMIT} />
       <StatsSection stats={stats} />
-      <ProjectsSection projects={projects} />
+      <RealisationsSection items={realisationItems} />
       <TestimonialsSection testimonials={testimonials} />
       <CtaSection />
     </>

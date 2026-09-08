@@ -128,3 +128,13 @@ h1, h2, h3, h4, h5, h6 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Vidéos des galeries (lightbox) : le plein écran natif du <video> est
+   désactivé volontairement (cf. RealisationLightbox.tsx / ServiceMediaGallery.tsx)
+   — sur mobile il utilise un moteur de rendu différent de la lecture inline et
+   peut afficher la vidéo pivotée à 90° selon l'interprétation des métadonnées
+   de rotation. L'attribut controlsList="nofullscreen" suffit sur Chrome/Android ;
+   Safari/iOS l'ignore et n'a que ce sélecteur WebKit pour masquer le bouton. */
+.yarl__container video::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
