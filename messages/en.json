@@ -72,8 +72,11 @@
   "realisations": {
     "pageTitle": "Our projects",
     "pageDescription": "Discover some of our recent work.",
-    "filterAll": "All",
-    "noResults": "No projects for this category."
+    "photosLabel": "Photos",
+    "videosLabel": "Videos",
+    "showMorePhotos": "Show more photos ({count})",
+    "showMoreVideos": "Show more videos ({count})",
+    "noMedia": "No projects available at the moment."
   },
 
   "about": {

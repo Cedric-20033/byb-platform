@@ -80,19 +80,6 @@ export type SubService = {
 };
 
 /**
- * Une réalisation / photo de chantier.
- */
-export type Project = {
-  id: string;
-  title: I18nField;
-  description: I18nField;
-  image: string;
-  category: string;       // slug du service associé
-  date: string;           // ISO date string
-  isHighlighted: boolean; // mis en avant sur la page d'accueil
-};
-
-/**
  * Un témoignage client.
  */
 export type Testimonial = {

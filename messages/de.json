@@ -74,8 +74,11 @@
   "realisations": {
     "pageTitle": "Unsere Referenzen",
     "pageDescription": "Entdecken Sie einige unserer aktuellen Projekte.",
-    "filterAll": "Alle",
-    "noResults": "Keine Projekte für diese Kategorie."
+    "photosLabel": "Fotos",
+    "videosLabel": "Videos",
+    "showMorePhotos": "Mehr Fotos anzeigen ({count})",
+    "showMoreVideos": "Mehr Videos anzeigen ({count})",
+    "noMedia": "Derzeit keine Referenzen verfügbar."
   },
 
   "about": {

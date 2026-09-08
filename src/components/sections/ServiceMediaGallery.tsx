@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Lightbox from 'yet-another-react-lightbox';
 import VideoPlugin from 'yet-another-react-lightbox/plugins/video';
+import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen';
 import 'yet-another-react-lightbox/styles.css';
 import { PlayCircle } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
@@ -139,7 +140,20 @@ export function ServiceMediaGallery({ service }: ServiceMediaGalleryProps) {
         close={() => setLightboxIndex(null)}
         index={lightboxIndex ?? 0}
         slides={slides}
-        plugins={[VideoPlugin]}
+        plugins={[VideoPlugin, Fullscreen]}
+        video={
+          tab === 'video'
+            ? {
+                playsInline: true,
+                disablePictureInPicture: true,
+                // Plein écran natif du <video> désactivé : sur mobile, il utilise un
+                // moteur de rendu différent de la lecture inline et peut afficher la
+                // vidéo pivotée à 90° selon la façon dont ses métadonnées de rotation
+                // sont interprétées (bug connu iOS/Android, pas maîtrisable côté code).
+                controlsList: 'nofullscreen',
+              }
+            : undefined
+        }
       />
     </div>
   );
