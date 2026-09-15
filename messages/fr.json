@@ -16,6 +16,13 @@
     "closeMenu": "Fermer le menu"
   },
 
+  "whatsapp": {
+    "ariaLabel": "Nous contacter sur WhatsApp",
+    "bubbleMessage": "Vous pouvez nous joindre directement sur WhatsApp",
+    "prefillMessage": "Bonjour, je souhaite avoir plus d'informations sur vos services BYB Construction.",
+    "close": "Fermer"
+  },
+
   "home": {
     "hero": {
       "tagline": "Artisan de confiance depuis 2005",

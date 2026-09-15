@@ -16,6 +16,13 @@
     "closeMenu": "Close menu"
   },
 
+  "whatsapp": {
+    "ariaLabel": "Contact us on WhatsApp",
+    "bubbleMessage": "You can reach us directly on WhatsApp",
+    "prefillMessage": "Hello, I would like more information about your BYB Construction services.",
+    "close": "Close"
+  },
+
   "home": {
     "hero": {
       "tagline": "Trusted craftsman since 2005",

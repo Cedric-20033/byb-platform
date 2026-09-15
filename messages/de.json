@@ -18,6 +18,13 @@
     "closeMenu": "Menü schließen"
   },
 
+  "whatsapp": {
+    "ariaLabel": "Kontaktieren Sie uns über WhatsApp",
+    "bubbleMessage": "Sie erreichen uns direkt über WhatsApp",
+    "prefillMessage": "Hallo, ich hätte gerne weitere Informationen zu Ihren BYB Construction Leistungen.",
+    "close": "Schließen"
+  },
+
   "home": {
     "hero": {
       "tagline": "Ihr Handwerker seit 2005",
