@@ -2,6 +2,7 @@
 import { Navbar } from './NavBar';
 import { Footer } from './Footer';
 import { FloatingCTA } from './Floatingcta';
+import { FloatingWhatsApp } from './FloatingWhatsApp';
 import { createClient } from '@/infrastructure/supabase/server';
 import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositories/SupabaseServiceRepository';
 
@@ -21,6 +22,7 @@ export async function PublicChrome({ children }: { children: React.ReactNode }) 
       <Navbar services={services} />
       <main className="pt-16 lg:pt-20">{children}</main>
       <Footer />
+      <FloatingWhatsApp />
       <FloatingCTA services={services} />
     </>
   );

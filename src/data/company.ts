@@ -44,6 +44,10 @@ export const company = {
     },
     phone: "+32 471 54 81 63",
     mobile: "+32 465 71 19 09",
+    // Numero dedie au bouton WhatsApp flottant — distinct de `mobile` pour
+    // permettre au client de brancher une ligne WhatsApp Business dediee
+    // plus tard sans toucher au numero de contact affiche ailleurs sur le site.
+    whatsapp: "+32 465 71 19 09",
     email: "bybconstruction2@gmail.com",
     website: "", // non fourni
   },
