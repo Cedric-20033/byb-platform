@@ -99,7 +99,7 @@
       "eyebrow": "Unsere Werte",
       "title": "Was uns täglich leitet",
       "value1Title": "Qualität",
-      "value1Desc": "Jedes Projekt wird mit zertifizierten Materialien gemäß DTU-Normen durchgeführt.",
+      "value1Desc": "Jedes Projekt wird mit zertifizierten Materialien gemäß den in Belgien geltenden Normen durchgeführt.",
       "value2Title": "Pünktlichkeit",
       "value2Desc": "Wir halten vereinbarte Fristen ein. Ihre Zeit ist wertvoll.",
       "value3Title": "Transparenz",
@@ -136,6 +136,9 @@
       "phone": "Telefon",
       "email": "E-Mail",
       "hours": "Öffnungszeiten"
+    },
+    "map": {
+      "title": "Standort {name}"
     }
   },
 
@@ -158,7 +161,8 @@
       "logout": "Abmelden",
       "notifications": "Benachrichtigungen",
       "noNotifications": "Derzeit keine Benachrichtigungen",
-      "pendingAppointments": "Termine warten auf Bestätigung"
+      "pendingAppointments": "Termine warten auf Bestätigung",
+      "notificationMeta": "{service} · {date} um {time}"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -204,7 +208,24 @@
       "cancelDialogConfirm": "Stornierung bestätigen",
       "statusPending": "Ausstehend",
       "statusConfirmed": "Bestätigt",
-      "statusCancelled": "Storniert"
+      "statusCancelled": "Storniert",
+      "cancelSuccess": "Termin storniert.",
+      "cancelDialogClose": "Schließen",
+      "exportColumns": {
+        "sheetName": "Termine",
+        "fileName": "termine",
+        "client": "Kunde",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "service": "Leistung",
+        "subService": "Teilleistung",
+        "date": "Datum",
+        "startTime": "Beginn",
+        "endTime": "Ende",
+        "status": "Status",
+        "notes": "Notizen",
+        "bookedOn": "Gebucht am"
+      }
     },
     "slots": {
       "title": "Zeitfenster",
@@ -222,7 +243,13 @@
       "duration": "Dauer (Minuten)",
       "generateSubmit": "Generieren",
       "generating": "Generiere...",
-      "noPermission": "Sie haben keine Berechtigung, Zeitfenster zu generieren. Kontaktieren Sie einen Superadmin."
+      "noPermission": "Sie haben keine Berechtigung, Zeitfenster zu generieren. Kontaktieren Sie einen Superadmin.",
+      "generated": "{count, plural, =0 {Keine neuen Zeitfenster} one {# Zeitfenster generiert} other {# Zeitfenster generiert}}",
+      "status": {
+        "available": "Verfügbar",
+        "booked": "Gebucht",
+        "blocked": "Blockiert"
+      }
     },
     "holidays": {
       "title": "Feiertage & Schließtage",
@@ -233,7 +260,8 @@
       "recurring": "Jährlich wiederkehrend",
       "delete": "Löschen",
       "confirmDelete": "Diesen Feiertag löschen?",
-      "empty": "Kein Feiertag erfasst."
+      "empty": "Kein Feiertag erfasst.",
+      "added": "Feiertag hinzugefügt."
     },
     "permissions": {
       "title": "Berechtigungen",
@@ -256,7 +284,9 @@
     "submit": "Anmelden",
     "submitting": "Anmeldung läuft...",
     "error": "Falsche E-Mail oder falsches Passwort.",
-    "backHome": "Zurück zur Website"
+    "backHome": "Zurück zur Website",
+    "emailInvalid": "Ungültige E-Mail-Adresse.",
+    "passwordRequired": "Das Passwort ist erforderlich."
   },
 
   "common": {
@@ -298,6 +328,43 @@
     "notFoundDescription": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
     "backHome": "Zur Startseite",
     "unauthorized": "Nicht autorisiert",
-    "unauthorizedDescription": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen."
+    "unauthorizedDescription": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen.",
+    "validation": {
+      "invalid": "Ungültiger Wert.",
+      "phoneInvalid": "Ungültige Telefonnummer.",
+      "slotInvalid": "Ungültiges Zeitfenster.",
+      "serviceInvalid": "Ungültige Leistung.",
+      "subServiceInvalid": "Ungültige Teilleistung.",
+      "appointmentInvalid": "Ungültiger Termin.",
+      "linkInvalid": "Ungültiger Link.",
+      "nameTooShort": "Der Name muss mindestens 2 Zeichen lang sein.",
+      "nameTooLong": "Der Name darf 100 Zeichen nicht überschreiten.",
+      "emailInvalid": "Ungültige E-Mail-Adresse.",
+      "notesTooLong": "Maximal 500 Zeichen.",
+      "startDateInvalid": "Ungültiges Startdatum.",
+      "endDateInvalid": "Ungültiges Enddatum.",
+      "startDateAfterEnd": "Das Startdatum muss vor dem Enddatum liegen.",
+      "startTimeInvalid": "Ungültige Startzeit.",
+      "endTimeInvalid": "Ungültige Endzeit.",
+      "startTimeAfterEnd": "Die Startzeit muss vor der Endzeit liegen.",
+      "durationInvalid": "Die Dauer muss zwischen 15 und 480 Minuten liegen.",
+      "dateInvalid": "Ungültiges Datum.",
+      "labelTooShort": "Die Bezeichnung muss mindestens 2 Zeichen lang sein.",
+      "labelTooLong": "Die Bezeichnung darf 100 Zeichen nicht überschreiten."
+    },
+    "codes": {
+      "SLOT_NOT_FOUND": "Dieses Zeitfenster existiert nicht mehr.",
+      "SLOT_UNAVAILABLE": "Dieses Zeitfenster wurde soeben gebucht. Bitte wählen Sie ein anderes.",
+      "SLOT_ALREADY_BLOCKED": "Dieses Zeitfenster ist bereits blockiert.",
+      "SLOT_NOT_BLOCKED": "Dieses Zeitfenster ist nicht blockiert.",
+      "APPOINTMENT_NOT_FOUND": "Termin nicht gefunden oder Link abgelaufen.",
+      "INVALID_STATUS_TRANSITION": "Diese Aktion ist im aktuellen Status des Termins nicht möglich.",
+      "HOLIDAY_NOT_FOUND": "Dieser Feiertag existiert nicht mehr.",
+      "VALIDATION_FAILED": "Die eingegebenen Angaben sind ungültig. Bitte prüfen Sie sie und versuchen Sie es erneut.",
+      "FORBIDDEN": "Sie haben keine Berechtigung, diese Aktion auszuführen.",
+      "UNAUTHENTICATED": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "INVALID_CREDENTIALS": "Falsche E-Mail oder falsches Passwort.",
+      "UNKNOWN": "Bei uns ist ein Fehler aufgetreten. Bitte versuchen Sie es gleich noch einmal oder kontaktieren Sie uns, falls das Problem weiterhin besteht."
+    }
   }
 }

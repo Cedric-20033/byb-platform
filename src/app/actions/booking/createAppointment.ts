@@ -9,11 +9,11 @@ import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider'
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
 import { company } from '@/data/company';
-import { toUserMessage } from '@/lib/errors';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 
 export type CreateAppointmentActionState =
   | { success: true; appointmentId: string }
-  | { success: false; error: string };
+  | ActionFailure;
 
 /**
  * Composition root : c'est ICI, et seulement ici, qu'on instancie les
@@ -25,7 +25,7 @@ export type CreateAppointmentActionState =
 export async function createAppointmentAction(input: unknown): Promise<CreateAppointmentActionState> {
   const parsed = createAppointmentSchema.safeParse(input);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
+    return failure('VALIDATION_FAILED');
   }
 
   const supabase = createServiceRoleClient();
@@ -44,6 +44,6 @@ export async function createAppointmentAction(input: unknown): Promise<CreateApp
     const appointment = await useCase.execute(parsed.data);
     return { success: true, appointmentId: appointment.id };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }

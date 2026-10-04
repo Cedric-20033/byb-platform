@@ -9,6 +9,10 @@ import type { Locale } from '@/lib/routing';
 import { t } from '@/lib/utils';
 import { createAppointmentSchema, type CreateAppointmentFormValues } from '@/lib/validation/appointment';
 import { createAppointmentAction } from '@/app/actions/booking/createAppointment';
+import type { ActionErrorCode } from '@/lib/errors';
+import { formatIsoDate } from '@/lib/date';
+import { useErrorMessage } from '@/lib/useErrorMessage';
+import { useValidationMessage } from '@/lib/useValidationMessage';
 import { Button } from '@/components/ui/Button';
 import { useBookingStore } from '../useBookingStore';
 
@@ -24,13 +28,15 @@ type ConfirmationStepProps = {
 export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
   const tBooking = useTranslations('booking.confirmation');
   const tSummary = useTranslations('booking.summary');
+  const errorMessage = useErrorMessage();
+  const validationMessage = useValidationMessage();
   const locale = useLocale() as Locale;
 
   const selectedService = useBookingStore((state) => state.selectedService);
   const selectedSubService = useBookingStore((state) => state.selectedSubService);
   const selectedSlot = useBookingStore((state) => state.selectedSlot);
 
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<ActionErrorCode | null>(null);
 
   const {
     register,
@@ -77,7 +83,7 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
         )}
 
         <dt className="text-[var(--color-muted)]">{tSummary('date')}</dt>
-        <dd className="font-medium">{new Date(selectedSlot.date).toLocaleDateString(locale)}</dd>
+        <dd className="font-medium">{formatIsoDate(selectedSlot.date, locale)}</dd>
 
         <dt className="text-[var(--color-muted)]">{tSummary('time')}</dt>
         <dd className="font-medium">{selectedSlot.startTime.slice(0, 5)}</dd>
@@ -95,7 +101,7 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
             className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]"
           />
           {errors.clientName && (
-            <p className="text-xs text-[var(--color-secondary)] mt-1">{errors.clientName.message}</p>
+            <p className="text-xs text-[var(--color-secondary)] mt-1">{validationMessage(errors.clientName.message)}</p>
           )}
         </div>
 
@@ -107,7 +113,7 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
             className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]"
           />
           {errors.clientEmail && (
-            <p className="text-xs text-[var(--color-secondary)] mt-1">{errors.clientEmail.message}</p>
+            <p className="text-xs text-[var(--color-secondary)] mt-1">{validationMessage(errors.clientEmail.message)}</p>
           )}
         </div>
 
@@ -119,7 +125,7 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
             className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]"
           />
           {errors.clientPhone && (
-            <p className="text-xs text-[var(--color-secondary)] mt-1">{errors.clientPhone.message}</p>
+            <p className="text-xs text-[var(--color-secondary)] mt-1">{validationMessage(errors.clientPhone.message)}</p>
           )}
         </div>
 
@@ -132,7 +138,7 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
           />
         </div>
 
-        {submitError && <p className="text-sm text-[var(--color-secondary)]">{submitError}</p>}
+        {submitError && <p className="text-sm text-[var(--color-secondary)]">{errorMessage(submitError)}</p>}
 
         <Button type="submit" variant="primary" size="md" isLoading={isSubmitting}>
           {isSubmitting ? tBooking('submitting') : tBooking('submit')}

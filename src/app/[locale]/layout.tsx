@@ -15,7 +15,7 @@ interface RootLayoutProps {
 }
 
 export async function generateMetadata({ params }: RootLayoutProps): Promise<Metadata> {
-  const { locale } = await params;
+  await params;
   return {
     title: { template: '%s | BYB Bâtiment & Rénovation', default: 'BYB Bâtiment & Rénovation' },
     description: 'Votre spécialiste en toiture, rénovation et construction depuis 2005.',

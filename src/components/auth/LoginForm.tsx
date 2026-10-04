@@ -1,6 +1,7 @@
 // src/components/auth/LoginForm.tsx
 'use client';
 
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -11,21 +12,28 @@ import type { Locale } from '@/lib/routing';
 import { getLocalizedPath } from '@/lib/routing';
 import { ADMIN_ROUTES } from '@/lib/constants';
 import { signInAction } from '@/app/actions/auth';
+import { useErrorMessage } from '@/lib/useErrorMessage';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 
-const loginSchema = z.object({
-  email: z.email({ error: 'Adresse email invalide.' }),
-  password: z.string().min(1, { error: 'Le mot de passe est requis.' }),
-});
-
-type LoginValues = z.infer<typeof loginSchema>;
+type LoginValues = { email: string; password: string };
 
 export function LoginForm() {
   const tLogin = useTranslations('login');
+  const errorMessage = useErrorMessage();
   const locale = useLocale() as Locale;
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  // Schéma construit dans le composant : les messages de validation suivent la langue active.
+  const loginSchema = useMemo(
+    () =>
+      z.object({
+        email: z.email({ error: tLogin('emailInvalid') }),
+        password: z.string().min(1, { error: tLogin('passwordRequired') }),
+      }),
+    [tLogin],
+  );
 
   const {
     register,
@@ -38,8 +46,9 @@ export function LoginForm() {
     const result = await signInAction(values);
 
     if (!result.success) {
-      setError('root', { message: result.error });
-      toast.error(result.error);
+      const message = errorMessage(result.error);
+      setError('root', { message });
+      toast.error(message);
       return;
     }
 

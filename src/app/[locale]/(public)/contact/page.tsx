@@ -6,6 +6,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from "lucide-react";
 import { t } from "@/lib/utils";
 import { company } from "@/data/company";
+import { buildMapEmbedUrl } from "@/lib/maps";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 
@@ -160,10 +161,15 @@ export default function ContactPage() {
             <div className="lg:col-span-2 space-y-6">
               <ul className="space-y-4">
                 <InfoItem icon={MapPin} label={tPage("info.address")}>
-                  {company.contact.address.street}
-                  <br />
-                  {company.contact.address.postalCode}{" "}
-                  {company.contact.address.city}
+                  {company.sites.map((site) => (
+                    <p key={site.id} className="mb-2 last:mb-0">
+                      <span className="font-semibold">{site.name}</span>
+                      <br />
+                      {site.address.street}
+                      <br />
+                      {site.address.postalCode} {site.address.city}
+                    </p>
+                  ))}
                 </InfoItem>
                 <InfoItem icon={Phone} label={tPage("info.phone")}>
                   <a
@@ -187,43 +193,25 @@ export default function ContactPage() {
               </ul>
 
               <div className="space-y-6">
-                {/* Asselt */}
-                <div className="space-y-2">
-                  <h4 className="text-sm font-semibold text-[var(--color-foreground)]">
-                    BYB Asselt
-                  </h4>
+                {company.sites.map((site) => (
+                  <div key={site.id} className="space-y-2">
+                    <h4 className="text-sm font-semibold text-[var(--color-foreground)]">
+                      {site.name}
+                    </h4>
 
-                  <div className="rounded-[var(--radius-xl)] overflow-hidden border border-[var(--color-border)] h-64 md:h-72">
-                    <iframe
-                      src={company.contact.mapEmbedUrl.asselt}
-                      className="w-full h-full"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="Localisation BYB Asselt"
-                    />
+                    <div className="rounded-[var(--radius-xl)] overflow-hidden border border-[var(--color-border)] h-64 md:h-72">
+                      <iframe
+                        src={buildMapEmbedUrl(site, locale)}
+                        className="w-full h-full"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title={tPage("map.title", { name: site.name })}
+                      />
+                    </div>
                   </div>
-                </div>
-
-                {/* Liège */}
-                <div className="space-y-2">
-                  <h4 className="text-sm font-semibold text-[var(--color-foreground)]">
-                    BYB Liège
-                  </h4>
-
-                  <div className="rounded-[var(--radius-xl)] overflow-hidden border border-[var(--color-border)] h-64 md:h-72">
-                    <iframe
-                      src={company.contact.mapEmbedUrl.liege}
-                      className="w-full h-full"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="Localisation BYB Liège"
-                    />
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>

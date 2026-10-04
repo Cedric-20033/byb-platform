@@ -10,7 +10,7 @@ import { SupabaseHolidayRepository } from '@/infrastructure/supabase/repositorie
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createClient } from '@/infrastructure/supabase/server';
 import { getCurrentAdmin, assertPermission, toActorRole } from '@/lib/auth/getCurrentAdmin';
-import { toUserMessage, PERMISSION_DENIED_MESSAGE } from '@/lib/errors';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 import type { Holiday } from '@/domain/holiday/Holiday';
 
 const deleteHolidaySchema = z.object({ holidayId: z.uuid() });
@@ -32,9 +32,9 @@ function toHolidayDTO(holiday: Holiday): HolidayDTO {
   return { id: holiday.id, date: holiday.date, label: holiday.label, isRecurring: holiday.isRecurring };
 }
 
-type ListResult = { success: true; holidays: HolidayDTO[] } | { success: false; error: string };
-type CreateResult = { success: true; holiday: HolidayDTO } | { success: false; error: string };
-type DeleteResult = { success: true } | { success: false; error: string };
+type ListResult = { success: true; holidays: HolidayDTO[] } | ActionFailure;
+type CreateResult = { success: true; holiday: HolidayDTO } | ActionFailure;
+type DeleteResult = { success: true } | ActionFailure;
 
 /**
  * Lecture publique du dashboard — le RLS autorise déjà la lecture des jours
@@ -48,7 +48,7 @@ export async function listHolidaysAction(): Promise<ListResult> {
     const holidays = await useCase.execute();
     return { success: true, holidays: holidays.map(toHolidayDTO) };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }
 
@@ -56,7 +56,7 @@ export async function createHolidayAction(input: unknown): Promise<CreateResult>
   try {
     const parsed = createHolidaySchema.safeParse(input);
     if (!parsed.success) {
-      return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const admin = await getCurrentAdmin();
@@ -73,14 +73,14 @@ export async function createHolidayAction(input: unknown): Promise<CreateResult>
 
     return { success: true, holiday: toHolidayDTO(holiday) };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }
 
 export async function deleteHolidayAction(input: unknown): Promise<DeleteResult> {
   try {
     const parsed = deleteHolidaySchema.safeParse(input);
-    if (!parsed.success) return { success: false, error: 'Identifiant invalide.' };
+    if (!parsed.success) return failure('VALIDATION_FAILED');
 
     const admin = await getCurrentAdmin();
     assertPermission(admin, 'holidays', 'delete');
@@ -96,6 +96,6 @@ export async function deleteHolidayAction(input: unknown): Promise<DeleteResult>
 
     return { success: true };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }

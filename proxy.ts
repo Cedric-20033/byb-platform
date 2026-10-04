@@ -1,4 +1,5 @@
-// middleware.ts
+// proxy.ts
+// Convention Next.js 16 : `middleware.ts` est déprécié et renommé `proxy.ts`.
 import createMiddleware from 'next-intl/middleware';
 import { createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -18,7 +19,7 @@ function isProtectedPath(pathname: string): boolean {
   );
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (!isProtectedPath(pathname)) {

@@ -9,9 +9,9 @@ import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider'
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
 import { ActorRole } from '@/domain/shared/AuditLogger';
-import { toUserMessage } from '@/lib/errors';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 
-export type CancelAppointmentActionState = { success: true } | { success: false; error: string };
+export type CancelAppointmentActionState = { success: true } | ActionFailure;
 
 /**
  * Annulation par un visiteur via le lien reçu par email (token dans l'URL).
@@ -28,7 +28,7 @@ export async function cancelAppointmentByTokenAction(
   try {
     const parsed = cancelAppointmentByTokenSchema.safeParse(input);
     if (!parsed.success) {
-      return { success: false, error: parsed.error.issues[0]?.message ?? 'Lien invalide.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const supabase = createServiceRoleClient();
@@ -39,12 +39,12 @@ export async function cancelAppointmentByTokenAction(
 
     if (rpcError || !resolved) {
       // "Introuvable" et "erreur technique de résolution du token" sont traités
-      // pareil côté utilisateur (même message) — seule l'erreur technique, si
+      // pareil côté utilisateur (même code) — seule l'erreur technique, si
       // présente, est journalisée pour le débogage (jamais le simple "introuvable").
       if (rpcError && process.env.NODE_ENV !== 'production') {
         console.error('[cancelAppointmentByTokenAction] Échec RPC get_appointment_by_token :', rpcError);
       }
-      return { success: false, error: 'Rendez-vous introuvable ou lien expiré.' };
+      return failure('APPOINTMENT_NOT_FOUND');
     }
 
     const useCase = new CancelAppointment(
@@ -61,6 +61,6 @@ export async function cancelAppointmentByTokenAction(
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }

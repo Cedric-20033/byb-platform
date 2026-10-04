@@ -32,7 +32,7 @@
       "ctaSecondary": "Voir nos réalisations"
     },
     "about": {
-      "imageSrc": "/images/equipe.jpg",
+      "imageSrc": "/Images/equipe.jpg",
       "imageAlt": "équipe BYB",
       "eyebrow": "Qui sommes-nous ?",
       "title": "Une entreprise familiale à votre service",
@@ -99,7 +99,7 @@
       "eyebrow": "Nos valeurs",
       "title": "Ce qui nous guide au quotidien",
       "value1Title": "Qualité",
-      "value1Desc": "Chaque chantier est réalisé avec des matériaux certifiés et dans le respect des normes DTU.",
+      "value1Desc": "Chaque chantier est réalisé avec des matériaux certifiés et dans le respect des normes en vigueur en Belgique.",
       "value2Title": "Ponctualité",
       "value2Desc": "Nous respectons les délais convenus. Votre temps est précieux.",
       "value3Title": "Transparence",
@@ -136,6 +136,9 @@
       "phone": "Téléphone",
       "email": "Email",
       "hours": "Horaires"
+    },
+    "map": {
+      "title": "Localisation {name}"
     }
   },
 
@@ -202,7 +205,8 @@
       "logout": "Déconnexion",
       "notifications": "Notifications",
       "noNotifications": "Aucune notification pour le moment",
-      "pendingAppointments": "rendez-vous en attente de confirmation"
+      "pendingAppointments": "rendez-vous en attente de confirmation",
+      "notificationMeta": "{service} · {date} à {time}"
     },
     "dashboard": {
       "title": "Tableau de bord",
@@ -243,12 +247,29 @@
       "cancelling": "Annulation...",
       "cancelDialogTitle": "Annuler ce rendez-vous ?",
       "cancelDialogDescription": "Un message optionnel sera envoyé au client par email pour expliquer l'annulation.",
-      "cancelReasonPlaceholder": "Ex. : Créneau indisponible suite à un imprevu, merci de nous recontacter pour reprogrammer.",
+      "cancelReasonPlaceholder": "Ex. : Créneau indisponible suite à un imprévu, merci de nous recontacter pour reprogrammer.",
       "cancelDialogDismiss": "Retour",
       "cancelDialogConfirm": "Confirmer l'annulation",
       "statusPending": "En attente",
       "statusConfirmed": "Confirmé",
-      "statusCancelled": "Annulé"
+      "statusCancelled": "Annulé",
+      "cancelSuccess": "Rendez-vous annulé.",
+      "cancelDialogClose": "Fermer",
+      "exportColumns": {
+        "sheetName": "Rendez-vous",
+        "fileName": "rendez-vous",
+        "client": "Client",
+        "email": "Email",
+        "phone": "Téléphone",
+        "service": "Service",
+        "subService": "Sous-prestation",
+        "date": "Date",
+        "startTime": "Heure début",
+        "endTime": "Heure fin",
+        "status": "Statut",
+        "notes": "Notes",
+        "bookedOn": "Réservé le"
+      }
     },
     "slots": {
       "title": "Créneaux",
@@ -266,7 +287,13 @@
       "duration": "Durée d'un créneau (minutes)",
       "generateSubmit": "Générer",
       "generating": "Génération en cours...",
-      "noPermission": "Vous n'avez pas les droits pour générer des créneaux. Contactez un superadmin."
+      "noPermission": "Vous n'avez pas les droits pour générer des créneaux. Contactez un superadmin.",
+      "generated": "{count, plural, =0 {Aucun nouveau créneau} one {# créneau généré} other {# créneaux générés}}",
+      "status": {
+        "available": "Disponible",
+        "booked": "Réservé",
+        "blocked": "Bloqué"
+      }
     },
     "holidays": {
       "title": "Jours fériés & congés",
@@ -277,7 +304,8 @@
       "recurring": "Récurrent chaque année",
       "delete": "Supprimer",
       "confirmDelete": "Supprimer ce jour férié ?",
-      "empty": "Aucun jour férié enregistré."
+      "empty": "Aucun jour férié enregistré.",
+      "added": "Jour férié ajouté."
     },
     "permissions": {
       "title": "Permissions",
@@ -316,7 +344,9 @@
     "submit": "Se connecter",
     "submitting": "Connexion...",
     "error": "Email ou mot de passe incorrect.",
-    "backHome": "Retour au site"
+    "backHome": "Retour au site",
+    "emailInvalid": "Adresse email invalide.",
+    "passwordRequired": "Le mot de passe est requis."
   },
 
   "common": {
@@ -358,6 +388,43 @@
     "notFoundDescription": "La page que vous cherchez n'existe pas ou a été déplacée.",
     "backHome": "Retour à l'accueil",
     "unauthorized": "Accès non autorisé",
-    "unauthorizedDescription": "Vous n'avez pas les droits pour accéder à cette page."
+    "unauthorizedDescription": "Vous n'avez pas les droits pour accéder à cette page.",
+    "validation": {
+      "invalid": "Valeur invalide.",
+      "phoneInvalid": "Numéro de téléphone invalide.",
+      "slotInvalid": "Créneau invalide.",
+      "serviceInvalid": "Service invalide.",
+      "subServiceInvalid": "Sous-prestation invalide.",
+      "appointmentInvalid": "Rendez-vous invalide.",
+      "linkInvalid": "Lien invalide.",
+      "nameTooShort": "Le nom doit contenir au moins 2 caractères.",
+      "nameTooLong": "Le nom ne peut pas dépasser 100 caractères.",
+      "emailInvalid": "Adresse email invalide.",
+      "notesTooLong": "500 caractères maximum.",
+      "startDateInvalid": "Date de début invalide.",
+      "endDateInvalid": "Date de fin invalide.",
+      "startDateAfterEnd": "La date de début doit précéder la date de fin.",
+      "startTimeInvalid": "Heure de début invalide.",
+      "endTimeInvalid": "Heure de fin invalide.",
+      "startTimeAfterEnd": "L'heure de début doit précéder l'heure de fin.",
+      "durationInvalid": "La durée doit être comprise entre 15 et 480 minutes.",
+      "dateInvalid": "Date invalide.",
+      "labelTooShort": "Le libellé doit contenir au moins 2 caractères.",
+      "labelTooLong": "Le libellé ne peut pas dépasser 100 caractères."
+    },
+    "codes": {
+      "SLOT_NOT_FOUND": "Ce créneau n'existe plus.",
+      "SLOT_UNAVAILABLE": "Ce créneau vient d'être réservé. Veuillez en choisir un autre.",
+      "SLOT_ALREADY_BLOCKED": "Ce créneau est déjà bloqué.",
+      "SLOT_NOT_BLOCKED": "Ce créneau n'est pas bloqué.",
+      "APPOINTMENT_NOT_FOUND": "Rendez-vous introuvable ou lien expiré.",
+      "INVALID_STATUS_TRANSITION": "Cette action n'est pas possible dans l'état actuel du rendez-vous.",
+      "HOLIDAY_NOT_FOUND": "Ce jour férié n'existe plus.",
+      "VALIDATION_FAILED": "Les informations saisies sont invalides. Vérifiez-les et réessayez.",
+      "FORBIDDEN": "Vous n'avez pas la permission d'effectuer cette action.",
+      "UNAUTHENTICATED": "Votre session a expiré. Veuillez vous reconnecter.",
+      "INVALID_CREDENTIALS": "Email ou mot de passe incorrect.",
+      "UNKNOWN": "Une erreur est survenue de notre côté. Veuillez réessayer dans un instant, ou nous contacter si le problème persiste."
+    }
   }
 }

@@ -8,7 +8,6 @@ import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { t, getImageUrl } from "@/lib/utils";
 import { getLocalizedPath, Locale } from "@/lib/routing";
 import { createClient } from "@/infrastructure/supabase/server";
-import { createServiceRoleClient } from "@/infrastructure/supabase/serviceRoleClient";
 import { SupabaseServiceRepository } from "@/infrastructure/supabase/repositories/SupabaseServiceRepository";
 import { company } from "@/data/company";
 import { Button } from "@/components/ui/Button";
@@ -20,12 +19,10 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-export async function generateStaticParams() {
-  // Client service_role : generateStaticParams s'exécute au build, hors
-  // requête HTTP — next/headers (donc le client cookies-aware) n'y est pas disponible.
-  const supabase = createServiceRoleClient();
-  const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
-  return services.map((s) => ({ slug: s.slug }));
+export function generateStaticParams() {
+  // Services come from Supabase, so the build must not depend on database availability.
+  // Next.js renders these routes on demand with current data.
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -43,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
   const locale = await getLocale() as Locale;
-  // Clés fr.json : services.backToServices, services.subServices, services.gallery, services.bookService
+  // ClÃƒÂ©s fr.json : services.backToServices, services.subServices, services.gallery, services.bookService
   const tPage = await getTranslations("services");
 
   const supabase = await createClient();
@@ -91,7 +88,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
               {service.subServices.length > 0 && (
                 <div>
-                  {/* Clé fr.json : services.subServices */}
+                  {/* ClÃƒÂ© fr.json : services.subServices */}
                   <h2 className="font-[var(--font-display)] font-black text-2xl mb-5">
                     {tPage("subServices")}
                   </h2>
@@ -126,12 +123,12 @@ export default async function ServiceDetailPage({ params }: Props) {
             <aside className="space-y-4">
               <div className="sticky top-24 p-6 rounded-[var(--radius-xl)] bg-[var(--color-primary)] text-white space-y-4">
                 <h3 className="font-[var(--font-display)] font-black text-xl">
-                  Prêt à démarrer ?
+                  PrÃƒÂªt ÃƒÂ  dÃƒÂ©marrer ?
                 </h3>
                 <p className="text-white/75 text-sm">
                   Devis gratuit et sans engagement.
                 </p>
-                {/* Clé fr.json : services.bookService — ouvre le wizard
+                {/* ClÃƒÂ© fr.json : services.bookService Ã¢â‚¬â€ ouvre le wizard
                     directement sur ce service, sans repasser par /contact. */}
                 <ServiceBookingButton
                   services={allServices}
@@ -160,7 +157,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                         href={getLocalizedPath(`/services/${s.slug}`, locale)}
                         className="text-sm hover:text-[var(--color-primary)] transition-colors"
                       >
-                        → {t(s.name, locale)}
+                        Ã¢â€ â€™ {t(s.name, locale)}
                       </Link>
                     </li>
                   ))}

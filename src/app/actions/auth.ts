@@ -5,14 +5,14 @@ import { z } from 'zod';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/infrastructure/supabase/server';
 import { getLocalizedPath, type Locale } from '@/lib/routing';
-import { toUserMessage } from '@/lib/errors';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 
 const signInSchema = z.object({
-  email: z.email({ error: 'Adresse email invalide.' }),
-  password: z.string().min(1, { error: 'Le mot de passe est requis.' }),
+  email: z.email(),
+  password: z.string().min(1),
 });
 
-type SignInResult = { success: true } | { success: false; error: string };
+type SignInResult = { success: true } | ActionFailure;
 
 /**
  * Connexion admin. La vérification du rôle (admin/superadmin) se fait
@@ -23,21 +23,21 @@ export async function signInAction(input: unknown): Promise<SignInResult> {
   try {
     const parsed = signInSchema.safeParse(input);
     if (!parsed.success) {
-      return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const supabase = await createClient();
     const { error } = await supabase.auth.signInWithPassword(parsed.data);
 
     if (error) {
-      return { success: false, error: 'Email ou mot de passe incorrect.' };
+      return failure('INVALID_CREDENTIALS');
     }
 
     return { success: true };
   } catch (error) {
     // Ici une erreur inattendue (réseau, Supabase indisponible...), distincte
     // d'un simple mauvais mot de passe (déjà géré ci-dessus sans exception).
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }
 

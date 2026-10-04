@@ -100,8 +100,11 @@ export function NotificationBell({ services }: { services: Service[] }) {
                     >
                       <p className="text-sm font-medium">{item.clientName}</p>
                       <p className="text-xs text-[var(--color-muted)] mt-0.5">
-                        {service ? translateField(service.name, locale) : item.serviceId} · {formatDate(item.slotDate, locale)} à{' '}
-                        {item.slotStartTime}
+                        {t('notificationMeta', {
+                          service: service ? translateField(service.name, locale) : item.serviceId,
+                          date: formatDate(item.slotDate, locale),
+                          time: item.slotStartTime,
+                        })}
                       </p>
                     </Link>
                   );

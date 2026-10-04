@@ -12,7 +12,7 @@ import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider'
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createClient } from '@/infrastructure/supabase/server';
 import { getCurrentAdmin, assertPermission, toActorRole } from '@/lib/auth/getCurrentAdmin';
-import { toUserMessage, PERMISSION_DENIED_MESSAGE } from '@/lib/errors';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 import { z } from 'zod';
 import type { AppointmentWithSlot } from '@/domain/appointment/AppointmentWithSlot';
 import type { AppointmentStatus } from '@/domain/appointment/Appointment';
@@ -58,24 +58,24 @@ function toAppointmentListItemDTO({ appointment, slotDate, slotStartTime, slotEn
   };
 }
 
-type ListResult = { success: true; appointments: AppointmentListItemDTO[] } | { success: false; error: string };
-export type ConfirmResult = { success: true } | { success: false; error: string };
-export type CancelResult = { success: true } | { success: false; error: string };
-type ExportResult = { success: true; rows: AppointmentExportRow[] } | { success: false; error: string };
+type ListResult = { success: true; appointments: AppointmentListItemDTO[] } | ActionFailure;
+export type ConfirmResult = { success: true } | ActionFailure;
+export type CancelResult = { success: true } | ActionFailure;
+type ExportResult = { success: true; rows: AppointmentExportRow[] } | ActionFailure;
 
 /**
  * Consultation des RDV — le client `server.ts` (session admin, pas service_role)
  * fait que le RLS applique directement `has_permission('appointments', 'view')`.
  *
  * Toute la fonction est dans un seul bloc try/catch : qu'une erreur vienne de
- * la validation, de l'authentification ou de la base, l'utilisateur ne voit
- * jamais qu'un message humain (cf. toUserMessage dans src/lib/errors.ts).
+ * la validation, de l'authentification ou de la base, l'appelant ne reçoit
+ * jamais qu'un code stable (cf. toErrorCode dans src/lib/errors.ts).
  */
 export async function listAppointmentsAction(filters: unknown): Promise<ListResult> {
   try {
     const parsed = appointmentSearchFiltersSchema.safeParse(filters ?? {});
     if (!parsed.success) {
-      return { success: false, error: 'Filtres invalides.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const supabase = await createClient();
@@ -83,21 +83,21 @@ export async function listAppointmentsAction(filters: unknown): Promise<ListResu
     const appointments = await useCase.execute(parsed.data);
     return { success: true, appointments: appointments.map(toAppointmentListItemDTO) };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }
 
 /**
  * Confirmation d'un RDV en attente par un admin/superadmin. La permission
  * 'appointments.edit' est vérifiée explicitement (comme pour l'export) plutôt
- * que de s'appuyer uniquement sur le RLS, pour retourner un message clair
+ * que de s'appuyer uniquement sur le RLS, pour retourner un code clair
  * côté UI plutôt qu'une erreur Postgres brute.
  */
 export async function confirmAppointmentAction(appointmentId: unknown): Promise<ConfirmResult> {
   try {
     const parsedId = z.uuid().safeParse(appointmentId);
     if (!parsedId.success) {
-      return { success: false, error: 'Rendez-vous invalide.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const admin = await getCurrentAdmin();
@@ -117,7 +117,7 @@ export async function confirmAppointmentAction(appointmentId: unknown): Promise<
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }
 
@@ -131,7 +131,7 @@ export async function cancelAppointmentAction(input: unknown): Promise<CancelRes
   try {
     const parsed = cancelAppointmentSchema.safeParse(input);
     if (!parsed.success) {
-      return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const admin = await getCurrentAdmin();
@@ -153,7 +153,7 @@ export async function cancelAppointmentAction(input: unknown): Promise<CancelRes
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }
 
@@ -166,7 +166,7 @@ export async function exportAppointmentsAction(filters: unknown): Promise<Export
   try {
     const parsed = appointmentSearchFiltersSchema.safeParse(filters ?? {});
     if (!parsed.success) {
-      return { success: false, error: 'Filtres invalides.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const admin = await getCurrentAdmin();
@@ -183,6 +183,6 @@ export async function exportAppointmentsAction(filters: unknown): Promise<Export
 
     return { success: true, rows };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }

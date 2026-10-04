@@ -1,5 +1,11 @@
 -- supabase/migrations/0004_profiles_role_check.sql
 --
+-- SANS EFFET — NE PAS SUPPRIMER.
+-- Ce fichier ne contient que des commentaires : l'exécuter ne change rien. Il doit
+-- rester dans le dossier car, s'il a été enregistré dans l'historique des migrations
+-- de la base, la CLI Supabase refuse de pousser quand une migration distante est
+-- absente en local. Il conserve aussi la numérotation (0005 et 0006 viennent après).
+--
 -- INUTILE — NE PAS EXÉCUTER.
 --
 -- La contrainte visée ici existe déjà depuis 0001_appointments_module.sql :

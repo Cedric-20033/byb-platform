@@ -11,15 +11,15 @@ import { SupabaseHolidayRepository } from '@/infrastructure/supabase/repositorie
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createClient } from '@/infrastructure/supabase/server';
 import { getCurrentAdmin, assertPermission, toActorRole } from '@/lib/auth/getCurrentAdmin';
-import { toUserMessage, PERMISSION_DENIED_MESSAGE } from '@/lib/errors';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 import type { Slot, SlotStatus } from '@/domain/slot/Slot';
 
-type SlotActionState = { success: true } | { success: false; error: string };
+type SlotActionState = { success: true } | ActionFailure;
 
-type GenerateSlotsActionState = { success: true; created: number } | { success: false; error: string };
+type GenerateSlotsActionState = { success: true; created: number } | ActionFailure;
 
 const listSlotsByDateSchema = z.object({
-  date: z.iso.date({ error: 'Date invalide (format attendu : AAAA-MM-JJ).' }),
+  date: z.iso.date(),
   serviceId: z.string().optional(),
 });
 
@@ -49,7 +49,7 @@ function toSlotDTO(slot: Slot): SlotDTO {
   };
 }
 
-type ListSlotsResult = { success: true; slots: SlotDTO[] } | { success: false; error: string };
+type ListSlotsResult = { success: true; slots: SlotDTO[] } | ActionFailure;
 
 /**
  * Liste les créneaux d'une journée pour l'écran admin "Créneaux" — lecture
@@ -58,7 +58,7 @@ type ListSlotsResult = { success: true; slots: SlotDTO[] } | { success: false; e
 export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsResult> {
   try {
     const parsed = listSlotsByDateSchema.safeParse(input);
-    if (!parsed.success) return { success: false, error: 'Date invalide.' };
+    if (!parsed.success) return failure('VALIDATION_FAILED');
 
     const supabase = await createClient();
     const repository = new SupabaseSlotRepository(supabase);
@@ -71,7 +71,7 @@ export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsRe
     const sorted = filtered.sort((a, b) => a.range.startTime.localeCompare(b.range.startTime));
     return { success: true, slots: sorted.map(toSlotDTO) };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }
 
@@ -83,7 +83,7 @@ export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsRe
 export async function blockSlotAction(input: unknown): Promise<SlotActionState> {
   try {
     const parsed = blockSlotSchema.safeParse(input);
-    if (!parsed.success) return { success: false, error: 'Créneau invalide.' };
+    if (!parsed.success) return failure('VALIDATION_FAILED');
 
     const admin = await getCurrentAdmin();
     assertPermission(admin, 'slots', 'edit');
@@ -98,7 +98,7 @@ export async function blockSlotAction(input: unknown): Promise<SlotActionState> 
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }
 
@@ -112,7 +112,7 @@ export async function generateSlotsAction(input: unknown): Promise<GenerateSlots
   try {
     const parsed = generateAvailableSlotsSchema.safeParse(input);
     if (!parsed.success) {
-      return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const admin = await getCurrentAdmin();
@@ -132,14 +132,14 @@ export async function generateSlotsAction(input: unknown): Promise<GenerateSlots
     });
     return { success: true, created };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }
 
 export async function unblockSlotAction(input: unknown): Promise<SlotActionState> {
   try {
     const parsed = blockSlotSchema.safeParse(input);
-    if (!parsed.success) return { success: false, error: 'Créneau invalide.' };
+    if (!parsed.success) return failure('VALIDATION_FAILED');
 
     const admin = await getCurrentAdmin();
     assertPermission(admin, 'slots', 'edit');
@@ -154,6 +154,6 @@ export async function unblockSlotAction(input: unknown): Promise<SlotActionState
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }

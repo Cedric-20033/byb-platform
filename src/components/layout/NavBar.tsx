@@ -39,8 +39,12 @@ export function Navbar({ services }: NavbarProps) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Ferme le menu mobile à chaque changement de route
-  useEffect(() => { setIsMenuOpen(false); setOpenDropdown(null); }, [pathname]);
+  const [previousPathname, setPreviousPathname] = useState(pathname);
+  if (previousPathname !== pathname) {
+    setPreviousPathname(pathname);
+    setIsMenuOpen(false);
+    setOpenDropdown(null);
+  }
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' || pathname === `/${locale}` : pathname.includes(href);

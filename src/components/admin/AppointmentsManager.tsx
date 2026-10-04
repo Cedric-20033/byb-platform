@@ -3,6 +3,8 @@
 
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 import type { Locale } from '@/lib/routing';
 import type { Service } from '@/types';
 import type { AppointmentSearchFiltersValues } from '@/lib/validation/appointment';
@@ -11,6 +13,8 @@ import { AppointmentsFilters } from './AppointmentsFilters';
 import { AppointmentsTable } from './AppointmentsTable';
 import { CancelAppointmentDialog } from './CancelAppointmentDialog';
 import { ExportButtons } from './ExportButtons';
+import { ActionError } from '@/lib/errors';
+import { useErrorMessage } from '@/lib/useErrorMessage';
 
 /**
  * Composant pour gérer les rendez-vous.
@@ -20,6 +24,8 @@ export function AppointmentsManager({ locale, services }: { locale: Locale; serv
   const [filters, setFilters] = useState<AppointmentSearchFiltersValues>({});
   const [cancelTargetId, setCancelTargetId] = useState<string | null>(null);
   const queryClient = useQueryClient();
+  const t = useTranslations('admin.appointments');
+  const errorMessage = useErrorMessage();
 
   /**
    * Récupère la liste des rendez-vous en fonction des filtres.
@@ -29,7 +35,7 @@ export function AppointmentsManager({ locale, services }: { locale: Locale; serv
     queryKey: ['admin', 'appointments', filters],
     queryFn: async () => {
       const result = await listAppointmentsAction(filters);
-      if (!result.success) throw new Error(result.error);
+      if (!result.success) throw new ActionError(result.error);
       return result.appointments;
     },
   });
@@ -60,6 +66,9 @@ export function AppointmentsManager({ locale, services }: { locale: Locale; serv
       if (result.success) {
         queryClient.invalidateQueries({ queryKey: ['admin', 'appointments'] });
         setCancelTargetId(null);
+        toast.success(t('cancelSuccess'));
+      } else {
+        toast.error(errorMessage(result.error));
       }
     },
   });
@@ -70,7 +79,7 @@ export function AppointmentsManager({ locale, services }: { locale: Locale; serv
         <div className="flex-1">
           <AppointmentsFilters locale={locale} services={services} filters={filters} onChange={setFilters} />
         </div>
-        <ExportButtons filters={filters} />
+        <ExportButtons filters={filters} services={services} locale={locale} />
       </div>
 
       <AppointmentsTable
@@ -80,7 +89,7 @@ export function AppointmentsManager({ locale, services }: { locale: Locale; serv
         isLoading={isLoading}
         onConfirm={(id) => confirmMutation.mutate(id)}
         confirmingId={confirmMutation.isPending ? (confirmMutation.variables ?? null) : null}
-        confirmError={confirmMutation.data && !confirmMutation.data.success ? confirmMutation.data.error : null}
+        confirmError={confirmMutation.data && !confirmMutation.data.success ? errorMessage(confirmMutation.data.error) : null}
         onCancel={(id) => setCancelTargetId(id)}
       />
 

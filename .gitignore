@@ -41,3 +41,11 @@ yarn-error.log*
 next-env.d.ts
 
 guide_architecture.md
+
+# Feuille de route locale de Claude (non suivie par git)
+CLAUDE.md
+
+# Sorties de tests
+/test-results/
+/playwright-report/
+/blob-report/

@@ -11,6 +11,9 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { formatDate } from '@/lib/utils';
+import { ActionError } from '@/lib/errors';
+import { useErrorMessage } from '@/lib/useErrorMessage';
+import { useValidationMessage } from '@/lib/useValidationMessage';
 import {
   listHolidaysAction,
   createHolidayAction,
@@ -30,6 +33,8 @@ export function HolidaysManager() {
   const t = useTranslations('admin.holidays');
   const locale = useLocale();
   const queryClient = useQueryClient();
+  const errorMessage = useErrorMessage();
+  const validationMessage = useValidationMessage();
 
   /**
    * Récupère la liste des jours fériés.
@@ -41,7 +46,7 @@ export function HolidaysManager() {
     queryKey: ['admin', 'holidays'],
     queryFn: async () => {
       const result = await listHolidaysAction();
-      if (!result.success) throw new Error(result.error);
+      if (!result.success) throw new ActionError(result.error);
       return result.holidays;
     },
   });
@@ -55,10 +60,10 @@ export function HolidaysManager() {
   const deleteMutation = useMutation({
     mutationFn: async (holidayId: string) => {
       const result = await deleteHolidayAction({ holidayId });
-      if (!result.success) throw new Error(result.error);
+      if (!result.success) throw new ActionError(result.error);
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin', 'holidays'] }),
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(errorMessage(error)),
   });
 
   const {
@@ -79,10 +84,10 @@ export function HolidaysManager() {
   async function onSubmit(values: CreateHolidayFormValues) {
     const result = await createHolidayAction(values as CreateHolidayValues);
     if (!result.success) {
-      toast.error(result.error);
+      toast.error(errorMessage(result.error));
       return;
     }
-    toast.success('Jour férié ajouté.');
+    toast.success(t('added'));
     reset({ date: '', label: '', isRecurring: false });
     queryClient.invalidateQueries({ queryKey: ['admin', 'holidays'] });
   }
@@ -122,7 +127,7 @@ export function HolidaysManager() {
 
           {Object.values(errors).length > 0 && (
             <p className="w-full text-xs text-[var(--color-secondary)]">
-              {Object.values(errors)[0]?.message as string}
+              {validationMessage(Object.values(errors)[0]?.message)}
             </p>
           )}
         </form>

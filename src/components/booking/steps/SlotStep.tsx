@@ -6,17 +6,11 @@ import { useTranslations, useLocale } from 'next-intl';
 import { getAvailableSlotsAction, type SlotDTO } from '@/app/actions/booking/getAvailableSlots';
 import { useBookingStore } from '../useBookingStore';
 import { cn } from '@/lib/utils';
+import { formatIsoDate, upcomingDates } from '@/lib/date';
+import type { ActionErrorCode } from '@/lib/errors';
+import { useErrorMessage } from '@/lib/useErrorMessage';
 
 const DAYS_AHEAD = 14;
-
-/** Génère les 14 prochains jours au format ISO "YYYY-MM-DD" pour le sélecteur rapide. */
-function buildUpcomingDates(count: number): string[] {
-  return Array.from({ length: count }, (_, i) => {
-    const date = new Date();
-    date.setDate(date.getDate() + i);
-    return date.toISOString().slice(0, 10);
-  });
-}
 
 /**
  * Étape 3 : sélection d'une date puis d'un créneau horaire.
@@ -27,23 +21,29 @@ function buildUpcomingDates(count: number): string[] {
  */
 export function SlotStep() {
   const tBooking = useTranslations('booking.slot');
+  const errorMessage = useErrorMessage();
   const locale = useLocale();
   const selectedService = useBookingStore((state) => state.selectedService);
   const selectSlot = useBookingStore((state) => state.selectSlot);
   const setStep = useBookingStore((state) => state.setStep);
 
-  const upcomingDates = useMemo(() => buildUpcomingDates(DAYS_AHEAD), []);
-  const [selectedDate, setSelectedDate] = useState(upcomingDates[0]);
+  // Jours calculés en heure belge : le premier jour proposé est toujours "aujourd'hui"
+  // pour l'entreprise, quel que soit le fuseau du navigateur du visiteur.
+  const upcomingDatesList = useMemo(() => upcomingDates(DAYS_AHEAD), []);
+  const [selectedDate, setSelectedDate] = useState(upcomingDatesList[0]);
   const [slots, setSlots] = useState<SlotDTO[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ActionErrorCode | null>(null);
 
   useEffect(() => {
     if (!selectedService) return;
 
     let cancelled = false;
-    setIsLoading(true);
-    setError(null);
+    Promise.resolve().then(() => {
+      if (cancelled) return;
+      setIsLoading(true);
+      setError(null);
+    });
 
     getAvailableSlotsAction({
       serviceId: selectedService.id,
@@ -80,8 +80,8 @@ export function SlotStep() {
 
       {/* Sélecteur rapide de date — défilement horizontal sur mobile */}
       <div className="flex gap-2 overflow-x-auto pb-2 mb-4 -mx-1 px-1">
-        {upcomingDates.map((date) => {
-          const label = new Date(date).toLocaleDateString(locale, { weekday: 'short', day: 'numeric' });
+        {upcomingDatesList.map((date) => {
+          const label = formatIsoDate(date, locale, { weekday: 'short', day: 'numeric' });
           return (
             <button
               key={date}
@@ -102,7 +102,7 @@ export function SlotStep() {
 
       {/* Grille des créneaux horaires disponibles pour la date choisie */}
       {isLoading && <p className="text-sm text-[var(--color-muted)]">{tBooking('loading')}</p>}
-      {error && <p className="text-sm text-[var(--color-secondary)]">{error}</p>}
+      {error && <p className="text-sm text-[var(--color-secondary)]">{errorMessage(error)}</p>}
       {!isLoading && !error && slots.length === 0 && (
         <p className="text-sm text-[var(--color-muted)]">{tBooking('noSlots')}</p>
       )}

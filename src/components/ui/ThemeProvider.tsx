@@ -36,20 +36,13 @@ interface ThemeProviderProps {
  * le layout via <ThemeScript /> à placer dans le <head>.
  */
 export function ThemeProvider({ children, defaultTheme = 'system' }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(defaultTheme);
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    // Lire le thème sauvegardé au premier rendu
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return defaultTheme;
     const saved = localStorage.getItem('byb-theme') as Theme | null;
-    if (saved) setThemeState(saved);
-    setMounted(true);
-  }, []);
-
+    return saved ?? defaultTheme;
+  });
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
   useEffect(() => {
-    if (!mounted) return;
-
     const root = document.documentElement;
 
     const applyTheme = (t: Theme) => {
@@ -70,7 +63,7 @@ export function ThemeProvider({ children, defaultTheme = 'system' }: ThemeProvid
     };
     mediaQuery.addEventListener('change', handleSystemChange);
     return () => mediaQuery.removeEventListener('change', handleSystemChange);
-  }, [theme, mounted]);
+  }, [theme]);
 
   const setTheme = (newTheme: Theme) => {
     localStorage.setItem('byb-theme', newTheme);

@@ -2,6 +2,7 @@
 import { createClient } from '@/infrastructure/supabase/server';
 import { ActorRole } from '@/domain/shared/AuditLogger';
 import { USER_ROLES, type PermissionDomain, type PermissionAction, type UserRole } from '@/lib/constants';
+import { ForbiddenError, UnauthenticatedError } from '@/lib/errors';
 import type { PermissionsMap } from '@/types';
 
 export type CurrentAdmin = {
@@ -27,7 +28,7 @@ export async function getCurrentAdmin(): Promise<CurrentAdmin> {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error('Non authentifié.');
+    throw new UnauthenticatedError();
   }
 
   const { data: profile, error } = await supabase
@@ -37,7 +38,7 @@ export async function getCurrentAdmin(): Promise<CurrentAdmin> {
     .single();
 
   if (error || !profile) {
-    throw new Error('Profil administrateur introuvable.');
+    throw new UnauthenticatedError('Profil administrateur introuvable.');
   }
 
   return {
@@ -72,7 +73,7 @@ export function assertPermission(
 ): void {
   if (admin.role === 'superadmin') return;
   if (admin.permissions[domain]?.[action]) return;
-  throw new Error(`Action non autorisée : ${domain}.${action}`);
+  throw new ForbiddenError(`Action non autorisée : ${domain}.${action}`);
 }
 
 /**

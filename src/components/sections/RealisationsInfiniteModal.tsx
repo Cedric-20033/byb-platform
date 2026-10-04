@@ -44,14 +44,15 @@ export function RealisationsInfiniteModal({
   onItemClick,
 }: RealisationsInfiniteModalProps) {
   const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open && !wasOpen) {
+    setWasOpen(true);
+    setVisibleCount(BATCH_SIZE);
+  } else if (!open && wasOpen) {
+    setWasOpen(false);
+  }
   const scrollRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
-
-  // Réinitialise le lot visible à chaque (ré)ouverture, pour ne jamais repartir
-  // avec le compteur atteint lors d'une session de scroll précédente.
-  useEffect(() => {
-    if (open) setVisibleCount(BATCH_SIZE);
-  }, [open]);
 
   useEffect(() => {
     if (!open) return;

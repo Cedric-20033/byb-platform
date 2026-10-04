@@ -3,6 +3,8 @@ import type { AppointmentRepository } from '@/domain/appointment/AppointmentRepo
 import type { SlotRepository } from '@/domain/slot/SlotRepository';
 import { SlotStatus } from '@/domain/slot/Slot';
 import { AppointmentStatus } from '@/domain/appointment/Appointment';
+import { systemClock, type Clock } from '@/domain/shared/Clock';
+import { addDays, startOfIsoWeek, toIsoDate } from '@/domain/shared/IsoDate';
 
 export type DailyAppointmentCount = { date: string; count: number };
 
@@ -15,21 +17,6 @@ export type DashboardStats = {
   last14Days: DailyAppointmentCount[];
 };
 
-function toIsoDate(date: Date): string {
-  return date.toISOString().slice(0, 10);
-}
-
-/**
- * Début (lundi) de la semaine ISO contenant `date`.
- */
-function startOfIsoWeek(date: Date): Date {
-  const result = new Date(date);
-  const day = result.getDay(); // 0 = dimanche
-  const diff = day === 0 ? -6 : 1 - day;
-  result.setDate(result.getDate() + diff);
-  return result;
-}
-
 /**
  * Use case : agrège les indicateurs affichés sur la page d'accueil du dashboard.
  * Une seule requête large sert de base à la fois au compteur "aujourd'hui",
@@ -40,31 +27,23 @@ function startOfIsoWeek(date: Date): Date {
  * soit 14 jours à partir du lundi de la semaine en cours. Les RDV pris via
  * l'assistant de réservation sont toujours dans le futur (impossible de
  * choisir un créneau passé) : une fenêtre qui s'arrêterait à "aujourd'hui"
- * exclurait donc systématiquement les vrais rendez-vous — c'était le bug
- * initial (RDV confirmé pour un jour à venir, jamais compté).
+ * exclurait donc systématiquement les vrais rendez-vous.
+ *
+ * "Aujourd'hui" est le jour calendaire belge de l'horloge injectée : il ne
+ * dépend ni du fuseau du serveur ni de celui du navigateur.
  */
 export class GetDashboardStats {
   constructor(
     private readonly appointmentRepository: AppointmentRepository,
     private readonly slotRepository: SlotRepository,
+    private readonly clock: Clock = systemClock,
   ) {}
 
   async execute(): Promise<DashboardStats> {
-    const today = new Date();
-    const todayIso = toIsoDate(today);
-
-    const weekStart = startOfIsoWeek(today);
-    const weekStartIso = toIsoDate(weekStart);
-    const weekEnd = new Date(weekStart);
-    weekEnd.setDate(weekEnd.getDate() + 6);
-    const weekEndIso = toIsoDate(weekEnd);
-
-    // Fenêtre de 14 jours à partir du lundi de la semaine en cours (semaine
-    // actuelle + semaine suivante) — englobe toujours "aujourd'hui" et "cette semaine".
-    const rangeStart = weekStart;
-    const rangeEnd = new Date(weekStart);
-    rangeEnd.setDate(rangeEnd.getDate() + 13);
-    const rangeEndIso = toIsoDate(rangeEnd);
+    const todayIso = toIsoDate(this.clock.now());
+    const weekStartIso = startOfIsoWeek(todayIso);
+    const weekEndIso = addDays(weekStartIso, 6);
+    const rangeEndIso = addDays(weekStartIso, 13);
 
     const [rangeAppointments, pendingAppointments, todaySlots] = await Promise.all([
       this.appointmentRepository.searchWithSlot({ dateFrom: weekStartIso, dateTo: rangeEndIso }),
@@ -79,10 +58,8 @@ export class GetDashboardStats {
       countByDate.set(slotDate, (countByDate.get(slotDate) ?? 0) + 1);
     }
     const last14Days: DailyAppointmentCount[] = Array.from({ length: 14 }, (_, index) => {
-      const date = new Date(rangeStart);
-      date.setDate(date.getDate() + index);
-      const iso = toIsoDate(date);
-      return { date: iso, count: countByDate.get(iso) ?? 0 };
+      const date = addDays(weekStartIso, index);
+      return { date, count: countByDate.get(date) ?? 0 };
     });
 
     return {

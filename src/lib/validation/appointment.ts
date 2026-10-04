@@ -9,21 +9,25 @@ import { AppointmentStatus } from '@/domain/appointment/Appointment';
  *
  * Syntaxe Zod v4 : formats de chaîne en fonctions top-level (z.email(), z.uuid())
  * plutôt que les méthodes chaînées dépréciées (z.string().email()).
+ *
+ * Les messages d'erreur sont des CLÉS (voir ./messages.ts), jamais des phrases :
+ * le serveur les ignore (il renvoie `VALIDATION_FAILED`), les formulaires les
+ * traduisent via `useValidationMessage()`.
  */
 
-// Téléphone volontairement permissif (formats FR/BE avec ou sans indicatif).
-const phoneSchema = z
-  .string()
-  .regex(/^[+]?[0-9\s.-]{8,20}$/, { error: 'Numéro de téléphone invalide.' });
+// Téléphone volontairement permissif (formats BE/FR avec ou sans indicatif).
+const phoneSchema = z.string().regex(/^[+]?[0-9\s.-]{8,20}$/, { error: 'phoneInvalid' });
+
+const timeSchema = (error: string) => z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, { error });
 
 export const createAppointmentSchema = z.object({
-  slotId: z.uuid({ error: 'Créneau invalide.' }),
-  serviceId: z.uuid({ error: 'Service invalide.' }),
-  subServiceId: z.uuid({ error: 'Sous-prestation invalide.' }).optional(),
-  clientName: z.string().min(2, { error: 'Le nom doit contenir au moins 2 caractères.' }).max(100),
-  clientEmail: z.email({ error: 'Adresse email invalide.' }),
+  slotId: z.uuid({ error: 'slotInvalid' }),
+  serviceId: z.uuid({ error: 'serviceInvalid' }),
+  subServiceId: z.uuid({ error: 'subServiceInvalid' }).optional(),
+  clientName: z.string().min(2, { error: 'nameTooShort' }).max(100, { error: 'nameTooLong' }),
+  clientEmail: z.email({ error: 'emailInvalid' }),
   clientPhone: phoneSchema,
-  notes: z.string().max(500, { error: '500 caractères maximum.' }).optional(),
+  notes: z.string().max(500, { error: 'notesTooLong' }).optional(),
 });
 
 export type CreateAppointmentFormValues = z.infer<typeof createAppointmentSchema>;
@@ -32,7 +36,7 @@ export type CreateAppointmentFormValues = z.infer<typeof createAppointmentSchema
  * Annulation par le client via le lien reçu par email (token dans l'URL).
  */
 export const cancelAppointmentByTokenSchema = z.object({
-  token: z.uuid({ error: 'Lien invalide.' }),
+  token: z.uuid({ error: 'linkInvalid' }),
 });
 
 export type CancelAppointmentByTokenValues = z.infer<typeof cancelAppointmentByTokenSchema>;
@@ -42,12 +46,12 @@ export type CancelAppointmentByTokenValues = z.infer<typeof cancelAppointmentByT
  */
 export const getAvailableSlotsSchema = z
   .object({
-    serviceId: z.uuid({ error: 'Service invalide.' }),
-    from: z.iso.date({ error: 'Date de début invalide (format attendu : AAAA-MM-JJ).' }),
-    to: z.iso.date({ error: 'Date de fin invalide (format attendu : AAAA-MM-JJ).' }),
+    serviceId: z.uuid({ error: 'serviceInvalid' }),
+    from: z.iso.date({ error: 'startDateInvalid' }),
+    to: z.iso.date({ error: 'endDateInvalid' }),
   })
   .refine((data) => data.from <= data.to, {
-    error: 'La date de début doit précéder la date de fin.',
+    error: 'startDateAfterEnd',
     path: ['to'],
   });
 
@@ -57,7 +61,7 @@ export type GetAvailableSlotsValues = z.infer<typeof getAvailableSlotsSchema>;
  * Blocage manuel d'un créneau par un admin.
  */
 export const blockSlotSchema = z.object({
-  slotId: z.uuid(),
+  slotId: z.uuid({ error: 'slotInvalid' }),
 });
 
 export type BlockSlotValues = z.infer<typeof blockSlotSchema>;
@@ -68,20 +72,24 @@ export type BlockSlotValues = z.infer<typeof blockSlotSchema>;
  */
 export const generateAvailableSlotsSchema = z
   .object({
-    serviceId: z.uuid({ error: 'Service invalide.' }),
-    from: z.iso.date({ error: 'Date de début invalide (format attendu : AAAA-MM-JJ).' }),
-    to: z.iso.date({ error: 'Date de fin invalide (format attendu : AAAA-MM-JJ).' }),
-    dailyStartTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, { error: 'Heure de début invalide (HH:mm).' }),
-    dailyEndTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, { error: 'Heure de fin invalide (HH:mm).' }),
-    slotDurationMinutes: z.number().int().min(15).max(480),
+    serviceId: z.uuid({ error: 'serviceInvalid' }),
+    from: z.iso.date({ error: 'startDateInvalid' }),
+    to: z.iso.date({ error: 'endDateInvalid' }),
+    dailyStartTime: timeSchema('startTimeInvalid'),
+    dailyEndTime: timeSchema('endTimeInvalid'),
+    slotDurationMinutes: z
+      .number({ error: 'durationInvalid' })
+      .int({ error: 'durationInvalid' })
+      .min(15, { error: 'durationInvalid' })
+      .max(480, { error: 'durationInvalid' }),
     workingDays: z.array(z.number().int().min(0).max(6)).optional(),
   })
   .refine((data) => data.from <= data.to, {
-    error: 'La date de début doit précéder la date de fin.',
+    error: 'startDateAfterEnd',
     path: ['to'],
   })
   .refine((data) => data.dailyStartTime < data.dailyEndTime, {
-    error: "L'heure de début doit précéder l'heure de fin.",
+    error: 'startTimeAfterEnd',
     path: ['dailyEndTime'],
   });
 
@@ -91,8 +99,8 @@ export type GenerateAvailableSlotsValues = z.infer<typeof generateAvailableSlots
  * Création d'un jour férié/congé par un admin.
  */
 export const createHolidaySchema = z.object({
-  date: z.iso.date({ error: 'Date invalide (format attendu : AAAA-MM-JJ).' }),
-  label: z.string().min(2, { error: 'Le libellé doit contenir au moins 2 caractères.' }).max(100),
+  date: z.iso.date({ error: 'dateInvalid' }),
+  label: z.string().min(2, { error: 'labelTooShort' }).max(100, { error: 'labelTooLong' }),
   isRecurring: z.boolean().default(false),
 });
 
@@ -125,8 +133,8 @@ export type AppointmentSearchFiltersValues = z.infer<typeof appointmentSearchFil
  * Annulation d'un RDV par un admin, avec message optionnel envoyé au client.
  */
 export const cancelAppointmentSchema = z.object({
-  appointmentId: z.uuid({ error: 'Rendez-vous invalide.' }),
-  reason: z.string().max(500, { error: '500 caractères maximum.' }).optional(),
+  appointmentId: z.uuid({ error: 'appointmentInvalid' }),
+  reason: z.string().max(500, { error: 'notesTooLong' }).optional(),
 });
 
 export type CancelAppointmentValues = z.infer<typeof cancelAppointmentSchema>;

@@ -24,7 +24,7 @@ export function Footer() {
           <div className="lg:col-span-2 space-y-4">
             <div className="font-[var(--font-display)] font-bold text-3xl">
               <span className="text-[var(--color-secondary)]">BYB</span>{" "}
-              <span className="text-[var(--color-background)]">Bâtiment</span>
+              <span className="text-[var(--color-background)]">Construction</span>
             </div>
             <p className="text-[color:color-mix(in_srgb,var(--color-background)_75%,transparent)] text-sm leading-relaxed max-w-xs">
               {t(company.description, locale)}
@@ -61,18 +61,24 @@ export function Footer() {
               {tFooter("contact")}
             </h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-[color:color-mix(in_srgb,var(--color-background)_80%,transparent)]">
-                <MapPin
-                  size={15}
-                  className="mt-0.5 shrink-0 text-[var(--color-secondary)]"
-                />
-                <span>
-                  {company.contact.address.street}
-                  <br />
-                  {company.contact.address.postalCode}{" "}
-                  {company.contact.address.city}
-                </span>
-              </li>
+              {company.sites.map((site) => (
+                <li
+                  key={site.id}
+                  className="flex items-start gap-3 text-sm text-[color:color-mix(in_srgb,var(--color-background)_80%,transparent)]"
+                >
+                  <MapPin
+                    size={15}
+                    className="mt-0.5 shrink-0 text-[var(--color-secondary)]"
+                  />
+                  <span>
+                    <span className="font-semibold">{site.name}</span>
+                    <br />
+                    {site.address.street}
+                    <br />
+                    {site.address.postalCode} {site.address.city}
+                  </span>
+                </li>
+              ))}
               <li>
                 <a
                   href={`tel:${company.contact.phone}`}
@@ -130,27 +136,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-function SocialLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="w-8 h-8 flex items-center justify-center rounded-full bg-[color:color-mix(in_srgb,var(--color-background)_10%,transparent)] hover:bg-[var(--color-secondary)] transition-colors"
-    >
-      {children}
-    </a>
   );
 }

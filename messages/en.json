@@ -97,7 +97,7 @@
       "eyebrow": "Our values",
       "title": "What guides us every day",
       "value1Title": "Quality",
-      "value1Desc": "Every project is completed with certified materials in compliance with DTU standards.",
+      "value1Desc": "Every project is completed with certified materials in compliance with the standards in force in Belgium.",
       "value2Title": "Punctuality",
       "value2Desc": "We respect agreed deadlines. Your time is valuable.",
       "value3Title": "Transparency",
@@ -134,6 +134,9 @@
       "phone": "Phone",
       "email": "Email",
       "hours": "Opening hours"
+    },
+    "map": {
+      "title": "Location of {name}"
     }
   },
 
@@ -156,7 +159,8 @@
       "logout": "Log out",
       "notifications": "Notifications",
       "noNotifications": "No notifications for now",
-      "pendingAppointments": "appointments awaiting confirmation"
+      "pendingAppointments": "appointments awaiting confirmation",
+      "notificationMeta": "{service} · {date} at {time}"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -202,7 +206,24 @@
       "cancelDialogConfirm": "Confirm cancellation",
       "statusPending": "Pending",
       "statusConfirmed": "Confirmed",
-      "statusCancelled": "Cancelled"
+      "statusCancelled": "Cancelled",
+      "cancelSuccess": "Appointment cancelled.",
+      "cancelDialogClose": "Close",
+      "exportColumns": {
+        "sheetName": "Appointments",
+        "fileName": "appointments",
+        "client": "Client",
+        "email": "Email",
+        "phone": "Phone",
+        "service": "Service",
+        "subService": "Sub-service",
+        "date": "Date",
+        "startTime": "Start time",
+        "endTime": "End time",
+        "status": "Status",
+        "notes": "Notes",
+        "bookedOn": "Booked on"
+      }
     },
     "slots": {
       "title": "Time slots",
@@ -220,7 +241,13 @@
       "duration": "Slot duration (minutes)",
       "generateSubmit": "Generate",
       "generating": "Generating...",
-      "noPermission": "You don't have permission to generate slots. Contact a superadmin."
+      "noPermission": "You don't have permission to generate slots. Contact a superadmin.",
+      "generated": "{count, plural, =0 {No new slots} one {# slot generated} other {# slots generated}}",
+      "status": {
+        "available": "Available",
+        "booked": "Booked",
+        "blocked": "Blocked"
+      }
     },
     "holidays": {
       "title": "Holidays & closures",
@@ -231,7 +258,8 @@
       "recurring": "Recurring every year",
       "delete": "Delete",
       "confirmDelete": "Delete this holiday?",
-      "empty": "No holiday recorded."
+      "empty": "No holiday recorded.",
+      "added": "Holiday added."
     },
     "permissions": {
       "title": "Permissions",
@@ -254,7 +282,9 @@
     "submit": "Log in",
     "submitting": "Logging in...",
     "error": "Incorrect email or password.",
-    "backHome": "Back to site"
+    "backHome": "Back to site",
+    "emailInvalid": "Invalid email address.",
+    "passwordRequired": "Password is required."
   },
 
   "common": {
@@ -296,6 +326,43 @@
     "notFoundDescription": "The page you are looking for does not exist or has been moved.",
     "backHome": "Back to home",
     "unauthorized": "Unauthorized",
-    "unauthorizedDescription": "You do not have permission to access this page."
+    "unauthorizedDescription": "You do not have permission to access this page.",
+    "validation": {
+      "invalid": "Invalid value.",
+      "phoneInvalid": "Invalid phone number.",
+      "slotInvalid": "Invalid slot.",
+      "serviceInvalid": "Invalid service.",
+      "subServiceInvalid": "Invalid sub-service.",
+      "appointmentInvalid": "Invalid appointment.",
+      "linkInvalid": "Invalid link.",
+      "nameTooShort": "The name must be at least 2 characters long.",
+      "nameTooLong": "The name cannot exceed 100 characters.",
+      "emailInvalid": "Invalid email address.",
+      "notesTooLong": "500 characters maximum.",
+      "startDateInvalid": "Invalid start date.",
+      "endDateInvalid": "Invalid end date.",
+      "startDateAfterEnd": "The start date must be before the end date.",
+      "startTimeInvalid": "Invalid start time.",
+      "endTimeInvalid": "Invalid end time.",
+      "startTimeAfterEnd": "The start time must be before the end time.",
+      "durationInvalid": "The duration must be between 15 and 480 minutes.",
+      "dateInvalid": "Invalid date.",
+      "labelTooShort": "The label must be at least 2 characters long.",
+      "labelTooLong": "The label cannot exceed 100 characters."
+    },
+    "codes": {
+      "SLOT_NOT_FOUND": "This slot no longer exists.",
+      "SLOT_UNAVAILABLE": "This slot has just been booked. Please choose another one.",
+      "SLOT_ALREADY_BLOCKED": "This slot is already blocked.",
+      "SLOT_NOT_BLOCKED": "This slot is not blocked.",
+      "APPOINTMENT_NOT_FOUND": "Appointment not found or link expired.",
+      "INVALID_STATUS_TRANSITION": "This action is not possible in the appointment's current state.",
+      "HOLIDAY_NOT_FOUND": "This holiday no longer exists.",
+      "VALIDATION_FAILED": "The information entered is invalid. Please check it and try again.",
+      "FORBIDDEN": "You do not have permission to perform this action.",
+      "UNAUTHENTICATED": "Your session has expired. Please log in again.",
+      "INVALID_CREDENTIALS": "Incorrect email or password.",
+      "UNKNOWN": "Something went wrong on our side. Please try again in a moment, or contact us if the problem persists."
+    }
   }
 }

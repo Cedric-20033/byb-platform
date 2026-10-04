@@ -1,4 +1,5 @@
 // src/domain/appointment/Appointment.ts
+import { DomainError } from '../shared/DomainError';
 
 /**
  * Entité métier centrale : le Rendez-vous.
@@ -50,7 +51,10 @@ export class Appointment {
     };
 
     if (!allowedTransitions[this.status].includes(newStatus)) {
-      throw new Error(`Transition de statut interdite : ${this.status} → ${newStatus}`);
+      throw new DomainError(
+        `Transition de statut interdite : ${this.status} → ${newStatus}`,
+        'INVALID_STATUS_TRANSITION',
+      );
     }
   }
 }

@@ -7,9 +7,9 @@ import { SupabaseAppointmentRepository } from '@/infrastructure/supabase/reposit
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
 import { createClient } from '@/infrastructure/supabase/server';
 import { AppointmentStatus } from '@/domain/appointment/Appointment';
-import { toUserMessage } from '@/lib/errors';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 
-type StatsResult = { success: true; stats: DashboardStats } | { success: false; error: string };
+type StatsResult = { success: true; stats: DashboardStats } | ActionFailure;
 
 export type NotificationItem = {
   id: string;
@@ -21,7 +21,7 @@ export type NotificationItem = {
 
 type NotificationsResult =
   | { success: true; pendingCount: number; items: NotificationItem[] }
-  | { success: false; error: string };
+  | ActionFailure;
 
 /**
  * Indicateurs de la page d'accueil du dashboard (cartes + graphique 14 jours).
@@ -38,7 +38,7 @@ export async function getDashboardStatsAction(): Promise<StatsResult> {
     const stats = await useCase.execute();
     return { success: true, stats };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }
 
@@ -65,6 +65,6 @@ export async function getPendingNotificationsAction(): Promise<NotificationsResu
 
     return { success: true, pendingCount: pending.length, items };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }
