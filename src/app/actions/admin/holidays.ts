@@ -37,12 +37,14 @@ type CreateResult = { success: true; holiday: HolidayDTO } | ActionFailure;
 type DeleteResult = { success: true } | ActionFailure;
 
 /**
- * Lecture publique du dashboard — le RLS autorise déjà la lecture des jours
- * fériés à tout authentifié ; pas de vérification de permission supplémentaire
- * nécessaire pour un simple affichage.
+ * Lecture pour le dashboard. Le RLS laisse les jours fériés lisibles de tous (le
+ * calendrier public en a besoin), mais l'écran d'administration reste soumis à
+ * `holidays.view`, comme la page qui l'affiche.
  */
 export async function listHolidaysAction(): Promise<ListResult> {
   try {
+    assertPermission(await getCurrentAdmin(), 'holidays', 'view');
+
     const supabase = await createClient();
     const useCase = new ListHolidays(new SupabaseHolidayRepository(supabase));
     const holidays = await useCase.execute();

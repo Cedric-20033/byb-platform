@@ -1,16 +1,18 @@
 // src/components/admin/AdminNavbar.tsx
 'use client';
 
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import { Menu, LogOut } from 'lucide-react';
 import { useTransition } from 'react';
-import type { Locale } from '@/lib/routing';
-import type { UserRole } from '@/lib/constants';
+import { getLocalizedPath, type Locale } from '@/lib/routing';
+import { ADMIN_ROUTES, type UserRole } from '@/lib/constants';
 import type { Service } from '@/types';
 import { signOutAction } from '@/app/actions/auth';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { NotificationBell } from './NotificationBell';
+import { Can } from './Can';
 
 interface AdminNavbarProps {
   fullName: string;
@@ -26,6 +28,7 @@ const ROLE_LABELS: Record<UserRole, string> = {
 
 export function AdminNavbar({ fullName, role, services, onMenuClick }: AdminNavbarProps) {
   const t = useTranslations('admin.navbar');
+  const tAccount = useTranslations('auth.account');
   const locale = useLocale() as Locale;
   const [isSigningOut, startTransition] = useTransition();
 
@@ -43,13 +46,20 @@ export function AdminNavbar({ fullName, role, services, onMenuClick }: AdminNavb
       <div className="hidden lg:block flex-1" />
 
       <div className="flex items-center gap-2 lg:gap-3">
-        <NotificationBell services={services} />
+        {/* Les notifications exposent des noms de clients : visibles seulement avec appointments.view. */}
+        <Can domain="appointments" action="view">
+          <NotificationBell services={services} />
+        </Can>
         <ThemeToggle />
 
-        <div className="hidden sm:flex flex-col items-end leading-tight pl-2">
+        <Link
+          href={getLocalizedPath(ADMIN_ROUTES.ACCOUNT, locale)}
+          title={tAccount('menuLabel')}
+          className="hidden sm:flex flex-col items-end leading-tight pl-2 rounded-[var(--radius-md)] hover:bg-[var(--color-surface-raised)] px-2 py-1 transition-colors"
+        >
           <span className="text-sm font-semibold text-[var(--color-foreground)]">{fullName}</span>
           <span className="text-xs text-[var(--color-muted)]">{ROLE_LABELS[role]}</span>
-        </div>
+        </Link>
 
         <button
           disabled={isSigningOut}

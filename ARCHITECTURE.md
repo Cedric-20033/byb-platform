@@ -235,15 +235,45 @@ Toutes les colonnes traduisibles utilisent le type `jsonb` avec la structure :
 | `admin` | Accès défini par les permissions accordées par le superadmin |
 
 ### Permissions dynamiques (stockées en JSONB)
-```json
-{
-  "appointments": { "view": true, "create": true, "edit": true, "delete": false },
-  "services":     { "view": true, "create": false, "edit": false, "delete": false },
-  "slots":        { "view": true, "create": true, "edit": true, "delete": false },
-  "users":        { "view": false, "create": false, "edit": false, "delete": false },
-  "audit_logs":   { "view": false }
-}
-```
+
+La grille de `profiles.permissions` est **complète** : chaque domaine × chaque action
+(`view`, `create`, `edit`, `delete`, `export`), toute entrée absente ou non `true` valant refus.
+Domaines : `appointments`, `slots`, `holidays`, `services`, `projects`, `testimonials`,
+`settings`, `audit_logs` (délégables) et `users` (**non délégable** : réservé au superadmin).
+Le catalogue, les cases qui ont un sens par domaine (`APPLICABLE_ACTIONS`) et les modèles
+(« Lecture seule », « Standard », « Gestionnaire ») vivent dans `src/domain/user/PermissionCatalog.ts`.
+Les droits par défaut d'un nouvel admin sont dupliqués dans `default_admin_permissions()` (SQL) :
+`src/lib/constants.test.ts` vérifie que les deux copies restent identiques.
+
+Le superadmin les règle depuis `/dashboard/permissions` ; chaque modification est tracée dans
+`audit_logs` avec le diff case par case. Le superadmin lui-même n'a pas de grille propre.
+
+### Matrice action → permission (Server Actions)
+
+Chaque Server Action vérifie `getCurrentAdmin()` puis `assertPermission()` ; le RLS Postgres
+(migration 0006) applique la même règle en seconde barrière (INSERT → `create`, UPDATE → `edit`,
+DELETE → `delete`, SELECT → `view`). La source de vérité exécutable est
+`src/lib/auth/actionPermissions.ts` ; `actionPermissions.test.ts` échoue si une action est
+absente de la matrice ou n'applique pas sa garde.
+
+| Action | Droit exigé |
+|---|---|
+| `signInAction`, `signOutAction`, `requestPasswordResetAction` | public |
+| `createAppointmentAction`, `cancelAppointmentByTokenAction`, `getAvailableSlotsAction` | public (réservation visiteur, service_role) |
+| `setPasswordAction`, `changePasswordAction` | session admin active |
+| `listAppointmentsAction`, `getDashboardStatsAction`, `getPendingNotificationsAction` | `appointments.view` |
+| `confirmAppointmentAction`, `cancelAppointmentAction` | `appointments.edit` |
+| `exportAppointmentsAction` | `appointments.view` + `appointments.export` |
+| `listSlotsByDateAction` | `slots.view` |
+| `blockSlotAction`, `unblockSlotAction` | `slots.edit` |
+| `generateSlotsAction` | `slots.create` |
+| `listHolidaysAction` | `holidays.view` |
+| `createHolidayAction` | `holidays.create` |
+| `deleteHolidayAction` | `holidays.delete` |
+| `listAdminsAction`, `inviteAdminAction`, `resendInvitationAction`, `changeAdminRoleAction`, `deactivateAdminAction`, `reactivateAdminAction`, `listAdminPermissionsAction`, `updateAdminPermissionsAction` | superadmin uniquement |
+
+Exceptions de cohérence RLS : un résultat d'annulation/de création de RDV réserve ou libère un
+créneau, d'où la policy `slots_update_admin` qui accepte aussi `appointments.edit`/`create`.
 
 ---
 

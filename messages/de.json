@@ -171,7 +171,8 @@
       "statAppointmentsWeek": "Termine diese Woche",
       "statPending": "Warten auf Bestätigung",
       "statBlockedSlots": "Blockierte Zeitfenster",
-      "chartTitle": "Termine — diese und nächste Woche"
+      "chartTitle": "Termine — diese und nächste Woche",
+      "noStatsAccess": "Sie haben keinen Zugriff auf die Termin-Kennzahlen. Nutzen Sie das Menü, um zu den für Sie freigegebenen Bereichen zu gelangen."
     },
     "appointments": {
       "title": "Termine",
@@ -263,16 +264,119 @@
       "empty": "Kein Feiertag erfasst.",
       "added": "Feiertag hinzugefügt."
     },
+    "forbidden": {
+      "title": "Zugriff verweigert",
+      "description": "TODO_TRANSLATE Vous n'avez pas les droits pour consulter cette page. Contactez un superadmin si vous pensez qu'il s'agit d'une erreur.",
+      "back": "TODO_TRANSLATE Retour au tableau de bord"
+    },
     "permissions": {
       "title": "Berechtigungen",
       "subtitle": "Passen Sie die Rechte jedes Administrators pro Bereich an.",
       "superadminNotice": "Der Superadmin hat immer alle Rechte — diese Tabelle betrifft nur Admin-Konten.",
       "columnAdmin": "Administrator",
       "saved": "Berechtigungen aktualisiert.",
-      "save": "Speichern"
+      "save": "Speichern",
+      "loading": "Laden...",
+      "noAdmins": "Kein Admin-Konto zu konfigurieren. Laden Sie eines auf der Seite Benutzer ein.",
+      "inactive": "Deaktiviert",
+      "columnDomain": "Bereich",
+      "matrixCaption": "Rechte des ausgewählten Administrators, nach Bereich und Aktion",
+      "notApplicable": "Nicht zutreffend",
+      "reset": "Auf Standard zurücksetzen",
+      "unsaved": "{count, plural, one {# nicht gespeicherte Änderung} other {# nicht gespeicherte Änderungen}}",
+      "upToDate": "Keine ausstehenden Änderungen.",
+      "presets": {
+        "title": "Vorlagen:",
+        "readOnly": "Nur Lesen",
+        "standard": "Standard",
+        "manager": "Manager"
+      },
+      "discard": {
+        "title": "Änderungen verwerfen?",
+        "description": "Nicht gespeicherte Änderungen für diesen Administrator gehen verloren.",
+        "confirm": "Verwerfen",
+        "cancel": "Weiter bearbeiten"
+      },
+      "domains": {
+        "appointments": "Termine",
+        "slots": "Zeitfenster",
+        "holidays": "Feiertage & Schließtage",
+        "services": "Leistungen",
+        "projects": "Referenzen",
+        "testimonials": "Bewertungen",
+        "settings": "Einstellungen",
+        "audit_logs": "Audit-Protokoll"
+      },
+      "actions": {
+        "view": "Ansehen",
+        "create": "Erstellen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "export": "Exportieren"
+      }
     },
     "services": { "title": "Leistungsverwaltung", "add": "Leistung hinzufügen", "edit": "Bearbeiten", "delete": "Löschen", "confirmDelete": "Löschen bestätigen?" },
-    "users": { "title": "Benutzerverwaltung", "role": "Rolle", "permissions": "Berechtigungen" },
+    "users": {
+      "title": "Benutzer",
+      "subtitle": "Laden Sie Teammitglieder ein und verwalten Sie deren Rolle und Zugriff auf das Dashboard.",
+      "search": "Nach Name oder E-Mail suchen...",
+      "invite": "Einladen",
+      "loading": "Laden...",
+      "empty": "Kein passender Benutzer.",
+      "you": "Sie",
+      "cancel": "Abbrechen",
+      "createdOn": "Erstellt am {date}",
+      "roles": { "admin": "Admin", "superadmin": "Superadmin" },
+      "status": { "active": "Aktiv", "inactive": "Deaktiviert" },
+      "filters": {
+        "role": "Nach Rolle filtern",
+        "status": "Nach Status filtern",
+        "allRoles": "Alle Rollen",
+        "allStatuses": "Alle Status"
+      },
+      "actions": {
+        "resend": "Einladung erneut senden",
+        "makeAdmin": "Zum Admin machen",
+        "makeSuperadmin": "Zum Superadmin machen",
+        "deactivate": "Deaktivieren",
+        "reactivate": "Reaktivieren"
+      },
+      "inviteDialog": {
+        "title": "Benutzer einladen",
+        "description": "Per E-Mail wählt die Person ihr Passwort und startet mit den Standardrechten ihrer Rolle.",
+        "fullName": "Vollständiger Name",
+        "email": "E-Mail",
+        "role": "Rolle",
+        "submit": "Einladung senden",
+        "close": "Schließen"
+      },
+      "confirm": {
+        "confirm": "Bestätigen",
+        "deactivate": {
+          "title": "Dieses Konto deaktivieren?",
+          "description": "{name} kann sich nicht mehr anmelden oder im Dashboard handeln. Der Verlauf bleibt erhalten."
+        },
+        "reactivate": {
+          "title": "Dieses Konto reaktivieren?",
+          "description": "{name} erhält mit den aktuellen Rechten wieder Zugriff auf das Dashboard."
+        },
+        "resend": {
+          "title": "Einladung erneut senden?",
+          "description": "{name} erhält einen neuen Link, um ein Passwort zu wählen."
+        },
+        "role": {
+          "title": "Rolle ändern?",
+          "description": "Die Rolle von {name} wird geändert und die Berechtigungen werden auf die Standardwerte zurückgesetzt."
+        }
+      },
+      "toast": {
+        "invited": "Einladung gesendet.",
+        "resend": "Einladung erneut gesendet.",
+        "role": "Rolle aktualisiert.",
+        "deactivate": "Konto deaktiviert.",
+        "reactivate": "Konto reaktiviert."
+      }
+    },
     "auditLogs": { "title": "Audit-Protokoll", "actor": "Akteur", "action": "Aktion", "target": "Ziel", "date": "Datum" }
   },
 
@@ -287,6 +391,46 @@
     "backHome": "Zurück zur Website",
     "emailInvalid": "Ungültige E-Mail-Adresse.",
     "passwordRequired": "Das Passwort ist erforderlich."
+  },
+
+  "auth": {
+    "forgotPassword": "Passwort vergessen?",
+    "linkInvalid": "Dieser Link ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen an.",
+    "forgot": {
+      "title": "Passwort vergessen",
+      "subtitle": "Geben Sie Ihre E-Mail-Adresse ein: Falls ein Konto existiert, erhalten Sie einen Link, um ein neues Passwort zu wählen.",
+      "email": "E-Mail",
+      "submit": "Link senden",
+      "submitting": "Wird gesendet...",
+      "sentTitle": "Prüfen Sie Ihr Postfach",
+      "sentMessage": "Falls ein Konto zu dieser Adresse gehört, wurde soeben ein Link zum Zurücksetzen gesendet. Er ist nur begrenzt gültig.",
+      "backToLogin": "Zurück zur Anmeldung"
+    },
+    "reset": {
+      "title": "Neues Passwort",
+      "subtitle": "Wählen Sie ein neues Passwort für Ihr Konto.",
+      "success": "Passwort aktualisiert."
+    },
+    "invite": {
+      "title": "Willkommen bei BYB",
+      "subtitle": "Wählen Sie das Passwort für Ihr Administratorkonto.",
+      "success": "Konto aktiviert."
+    },
+    "setPassword": {
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "hint": "Mindestens 10 Zeichen, mit mindestens einem Buchstaben und einer Ziffer.",
+      "submit": "Passwort speichern",
+      "submitting": "Wird gespeichert..."
+    },
+    "account": {
+      "title": "Mein Konto",
+      "subtitle": "Verwalten Sie die Sicherheit Ihres Kontos.",
+      "menuLabel": "Mein Konto",
+      "currentPassword": "Aktuelles Passwort",
+      "submit": "Passwort ändern",
+      "success": "Passwort geändert."
+    }
   },
 
   "common": {
@@ -350,7 +494,11 @@
       "durationInvalid": "Die Dauer muss zwischen 15 und 480 Minuten liegen.",
       "dateInvalid": "Ungültiges Datum.",
       "labelTooShort": "Die Bezeichnung muss mindestens 2 Zeichen lang sein.",
-      "labelTooLong": "Die Bezeichnung darf 100 Zeichen nicht überschreiten."
+      "labelTooLong": "Die Bezeichnung darf 100 Zeichen nicht überschreiten.",
+      "passwordTooShort": "Das Passwort muss mindestens 10 Zeichen lang sein.",
+      "passwordTooLong": "Das Passwort darf 72 Zeichen nicht überschreiten.",
+      "passwordWeak": "Das Passwort muss mindestens einen Buchstaben und eine Ziffer enthalten.",
+      "passwordMismatch": "Die Passwörter stimmen nicht überein."
     },
     "codes": {
       "SLOT_NOT_FOUND": "Dieses Zeitfenster existiert nicht mehr.",
@@ -360,6 +508,14 @@
       "APPOINTMENT_NOT_FOUND": "Termin nicht gefunden oder Link abgelaufen.",
       "INVALID_STATUS_TRANSITION": "Diese Aktion ist im aktuellen Status des Termins nicht möglich.",
       "HOLIDAY_NOT_FOUND": "Dieser Feiertag existiert nicht mehr.",
+      "ADMIN_NOT_FOUND": "Dieses Administratorkonto existiert nicht mehr.",
+      "ADMIN_ALREADY_EXISTS": "Mit dieser E-Mail-Adresse existiert bereits ein Konto.",
+      "CANNOT_MODIFY_SELF": "Sie können Ihr eigenes Konto nicht ändern.",
+      "LAST_SUPERADMIN": "Es muss immer mindestens ein aktiver Superadmin vorhanden sein.",
+      "SUPERADMIN_NOT_EDITABLE": "Die Rechte eines Superadmins sind nicht änderbar: Er hat immer alle Rechte.",
+      "INVALID_CURRENT_PASSWORD": "Das aktuelle Passwort ist falsch.",
+      "ACCOUNT_DISABLED": "Dieses Konto wurde deaktiviert. Bitte wenden Sie sich an einen Superadmin.",
+      "TOO_MANY_ATTEMPTS": "Zu viele Versuche. Bitte warten Sie einige Minuten, bevor Sie es erneut versuchen.",
       "VALIDATION_FAILED": "Die eingegebenen Angaben sind ungültig. Bitte prüfen Sie sie und versuchen Sie es erneut.",
       "FORBIDDEN": "Sie haben keine Berechtigung, diese Aktion auszuführen.",
       "UNAUTHENTICATED": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",

@@ -64,8 +64,9 @@ export type CancelResult = { success: true } | ActionFailure;
 type ExportResult = { success: true; rows: AppointmentExportRow[] } | ActionFailure;
 
 /**
- * Consultation des RDV — le client `server.ts` (session admin, pas service_role)
- * fait que le RLS applique directement `has_permission('appointments', 'view')`.
+ * Consultation des RDV. La permission `appointments.view` est vérifiée ici (code
+ * `FORBIDDEN` clair côté UI) ; le client `server.ts` (session admin, pas
+ * service_role) laisse le RLS l'appliquer aussi, en seconde barrière.
  *
  * Toute la fonction est dans un seul bloc try/catch : qu'une erreur vienne de
  * la validation, de l'authentification ou de la base, l'appelant ne reçoit
@@ -77,6 +78,8 @@ export async function listAppointmentsAction(filters: unknown): Promise<ListResu
     if (!parsed.success) {
       return failure('VALIDATION_FAILED');
     }
+
+    assertPermission(await getCurrentAdmin(), 'appointments', 'view');
 
     const supabase = await createClient();
     const useCase = new ListAppointments(new SupabaseAppointmentRepository(supabase));
@@ -160,7 +163,8 @@ export async function cancelAppointmentAction(input: unknown): Promise<CancelRes
 /**
  * Export Excel/CSV — le RLS ne distingue pas "consulter" d'"exporter" (même
  * requête SELECT du point de vue de Postgres). La permission 'export' est
- * donc vérifiée explicitement ici, avant même d'exécuter le use case.
+ * donc vérifiée explicitement ici, avant même d'exécuter le use case. 'view' est
+ * exigée aussi : sans elle le RLS renverrait un export vide au lieu d'un refus clair.
  */
 export async function exportAppointmentsAction(filters: unknown): Promise<ExportResult> {
   try {
@@ -170,6 +174,7 @@ export async function exportAppointmentsAction(filters: unknown): Promise<Export
     }
 
     const admin = await getCurrentAdmin();
+    assertPermission(admin, 'appointments', 'view');
     assertPermission(admin, 'appointments', 'export');
 
     const supabase = await createClient();

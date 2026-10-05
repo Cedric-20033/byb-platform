@@ -1,8 +1,10 @@
 // src/app/[locale]/(admin)/dashboard/holidays/page.tsx
 import { getTranslations } from 'next-intl/server';
 import { HolidaysManager } from '@/components/admin/HolidaysManager';
+import { requirePermission } from '@/lib/auth/requirePermission';
 
 export default async function HolidaysPage() {
+  await requirePermission('holidays', 'view');
   const t = await getTranslations('admin.holidays');
 
   return (

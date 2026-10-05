@@ -41,7 +41,12 @@ export default async function AdminLayout({ children, params }: AdminLayoutProps
   const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
 
   return (
-    <AdminShell fullName={admin.fullName} role={admin.role} services={services}>
+    <AdminShell
+      fullName={admin.fullName}
+      role={admin.role}
+      permissions={admin.permissions.toJSON()}
+      services={services}
+    >
       {children}
     </AdminShell>
   );

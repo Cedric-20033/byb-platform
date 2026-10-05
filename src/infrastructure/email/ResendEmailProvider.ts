@@ -2,6 +2,7 @@
 import { Resend } from 'resend';
 import type { EmailProvider, EmailPayload } from '@/domain/shared/EmailProvider';
 import { EmailType } from '@/domain/shared/EmailProvider';
+import { INVITATION_COPY } from './invitationEmailCopy';
 
 /**
  * Implémentation Resend du contrat EmailProvider.
@@ -82,6 +83,16 @@ export class ResendEmailProvider implements EmailProvider {
             ${appointment.notes ? `<li><strong>Notes :</strong> ${escapeHtml(appointment.notes)}</li>` : ''}
           </ul>
           <p>Rendez-vous sur le dashboard pour le confirmer.</p>
+        `;
+      }
+      case EmailType.ADMIN_INVITATION: {
+        const copy = INVITATION_COPY[payload.locale ?? 'fr'];
+        const url = payload.data.url as string;
+        return `
+          <p>${copy.greeting(escapeHtml(String(payload.data.fullName ?? '')))}</p>
+          <p>${copy.body}</p>
+          <p><a href="${escapeHtml(url)}" style="display:inline-block;padding:10px 20px;background:#111;color:#fff;text-decoration:none;border-radius:6px">${copy.cta}</a></p>
+          <p style="color:#666;font-size:12px">${copy.expiry}</p>
         `;
       }
       default:

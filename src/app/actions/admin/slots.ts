@@ -52,13 +52,16 @@ function toSlotDTO(slot: Slot): SlotDTO {
 type ListSlotsResult = { success: true; slots: SlotDTO[] } | ActionFailure;
 
 /**
- * Liste les créneaux d'une journée pour l'écran admin "Créneaux" — lecture
- * simple, aucune permission dédiée (voir listHolidaysAction pour la même convention).
+ * Liste les créneaux d'une journée pour l'écran admin "Créneaux". Les créneaux sont
+ * publics en base (calendrier de réservation), mais cet écran exige `slots.view`,
+ * comme la page qui l'affiche.
  */
 export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsResult> {
   try {
     const parsed = listSlotsByDateSchema.safeParse(input);
     if (!parsed.success) return failure('VALIDATION_FAILED');
+
+    assertPermission(await getCurrentAdmin(), 'slots', 'view');
 
     const supabase = await createClient();
     const repository = new SupabaseSlotRepository(supabase);

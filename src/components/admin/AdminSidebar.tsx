@@ -10,7 +10,8 @@ import type { Locale } from '@/lib/routing';
 import { getLocalizedPath } from '@/lib/routing';
 import { cn } from '@/lib/utils';
 import { company } from '@/data/company';
-import { ADMIN_NAV_ITEMS } from './adminNavConfig';
+import { ADMIN_NAV_ITEMS, filterNavItems } from './adminNavConfig';
+import { usePermissions } from './PermissionsProvider';
 
 interface AdminSidebarProps {
   mobileOpen: boolean;
@@ -21,6 +22,8 @@ export function AdminSidebar({ mobileOpen, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
   const locale = useLocale() as Locale;
   const t = useTranslations('admin.nav');
+  const { role, can } = usePermissions();
+  const navItems = filterNavItems(ADMIN_NAV_ITEMS, { role, can });
 
   const content = (
     <div className="flex h-full flex-col bg-[var(--color-surface)] border-r border-[var(--color-border)]">
@@ -32,7 +35,7 @@ export function AdminSidebar({ mobileOpen, onClose }: AdminSidebarProps) {
       </div>
 
       <nav className="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
-        {ADMIN_NAV_ITEMS.map((item) => {
+        {navItems.map((item) => {
           const href = getLocalizedPath(item.href, locale);
           const isActive = item.available && (pathname === href || pathname.startsWith(`${href}/`));
           const Icon = item.icon;

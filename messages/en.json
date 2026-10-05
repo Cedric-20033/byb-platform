@@ -169,7 +169,8 @@
       "statAppointmentsWeek": "Appointments this week",
       "statPending": "Awaiting confirmation",
       "statBlockedSlots": "Blocked slots",
-      "chartTitle": "Appointments — this week and next"
+      "chartTitle": "Appointments — this week and next",
+      "noStatsAccess": "You don't have access to appointment statistics. Use the menu to reach the sections open to you."
     },
     "appointments": {
       "title": "Appointments",
@@ -261,16 +262,119 @@
       "empty": "No holiday recorded.",
       "added": "Holiday added."
     },
+    "forbidden": {
+      "title": "Access denied",
+      "description": "TODO_TRANSLATE Vous n'avez pas les droits pour consulter cette page. Contactez un superadmin si vous pensez qu'il s'agit d'une erreur.",
+      "back": "TODO_TRANSLATE Retour au tableau de bord"
+    },
     "permissions": {
       "title": "Permissions",
       "subtitle": "Adjust each administrator's rights per domain.",
       "superadminNotice": "The superadmin always has full rights — this table only applies to admin accounts.",
       "columnAdmin": "Administrator",
       "saved": "Permissions updated.",
-      "save": "Save"
+      "save": "Save",
+      "loading": "Loading...",
+      "noAdmins": "No admin account to configure. Invite one from the Users page.",
+      "inactive": "Deactivated",
+      "columnDomain": "Domain",
+      "matrixCaption": "Selected administrator's rights, by domain and action",
+      "notApplicable": "Not applicable",
+      "reset": "Reset to defaults",
+      "unsaved": "{count, plural, one {# unsaved change} other {# unsaved changes}}",
+      "upToDate": "No pending changes.",
+      "presets": {
+        "title": "Presets:",
+        "readOnly": "Read only",
+        "standard": "Standard",
+        "manager": "Manager"
+      },
+      "discard": {
+        "title": "Discard changes?",
+        "description": "Unsaved changes for this administrator will be lost.",
+        "confirm": "Discard",
+        "cancel": "Keep editing"
+      },
+      "domains": {
+        "appointments": "Appointments",
+        "slots": "Time slots",
+        "holidays": "Holidays & closures",
+        "services": "Services",
+        "projects": "Projects",
+        "testimonials": "Testimonials",
+        "settings": "Settings",
+        "audit_logs": "Audit log"
+      },
+      "actions": {
+        "view": "View",
+        "create": "Create",
+        "edit": "Edit",
+        "delete": "Delete",
+        "export": "Export"
+      }
     },
     "services": { "title": "Services management", "add": "Add service", "edit": "Edit", "delete": "Delete", "confirmDelete": "Confirm deletion?" },
-    "users": { "title": "Users management", "role": "Role", "permissions": "Permissions" },
+    "users": {
+      "title": "Users",
+      "subtitle": "Invite team members and manage their role and dashboard access.",
+      "search": "Search by name or email...",
+      "invite": "Invite",
+      "loading": "Loading...",
+      "empty": "No matching user.",
+      "you": "you",
+      "cancel": "Cancel",
+      "createdOn": "Created on {date}",
+      "roles": { "admin": "Admin", "superadmin": "Superadmin" },
+      "status": { "active": "Active", "inactive": "Deactivated" },
+      "filters": {
+        "role": "Filter by role",
+        "status": "Filter by status",
+        "allRoles": "All roles",
+        "allStatuses": "All statuses"
+      },
+      "actions": {
+        "resend": "Resend invitation",
+        "makeAdmin": "Make admin",
+        "makeSuperadmin": "Make superadmin",
+        "deactivate": "Deactivate",
+        "reactivate": "Reactivate"
+      },
+      "inviteDialog": {
+        "title": "Invite a user",
+        "description": "They will receive an email to choose their password and start with the default rights of their role.",
+        "fullName": "Full name",
+        "email": "Email",
+        "role": "Role",
+        "submit": "Send invitation",
+        "close": "Close"
+      },
+      "confirm": {
+        "confirm": "Confirm",
+        "deactivate": {
+          "title": "Deactivate this account?",
+          "description": "{name} will no longer be able to sign in or act on the dashboard. Their history is kept."
+        },
+        "reactivate": {
+          "title": "Reactivate this account?",
+          "description": "{name} will regain access to the dashboard with their current rights."
+        },
+        "resend": {
+          "title": "Resend the invitation?",
+          "description": "A new link will be sent to {name} to choose a password."
+        },
+        "role": {
+          "title": "Change the role?",
+          "description": "{name}'s role will change and their permissions will go back to the defaults."
+        }
+      },
+      "toast": {
+        "invited": "Invitation sent.",
+        "resend": "Invitation resent.",
+        "role": "Role updated.",
+        "deactivate": "Account deactivated.",
+        "reactivate": "Account reactivated."
+      }
+    },
     "auditLogs": { "title": "Audit log", "actor": "Actor", "action": "Action", "target": "Target", "date": "Date" }
   },
 
@@ -285,6 +389,46 @@
     "backHome": "Back to site",
     "emailInvalid": "Invalid email address.",
     "passwordRequired": "Password is required."
+  },
+
+  "auth": {
+    "forgotPassword": "Forgot your password?",
+    "linkInvalid": "This link is invalid or has expired. Please request a new one.",
+    "forgot": {
+      "title": "Forgot your password",
+      "subtitle": "Enter your email: if an account exists, you will receive a link to choose a new password.",
+      "email": "Email",
+      "submit": "Send the link",
+      "submitting": "Sending...",
+      "sentTitle": "Check your inbox",
+      "sentMessage": "If an account matches this address, a reset link has just been sent. It is only valid for a limited time.",
+      "backToLogin": "Back to sign in"
+    },
+    "reset": {
+      "title": "New password",
+      "subtitle": "Choose a new password for your account.",
+      "success": "Password updated."
+    },
+    "invite": {
+      "title": "Welcome to BYB",
+      "subtitle": "Choose the password for your administrator account.",
+      "success": "Account activated."
+    },
+    "setPassword": {
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "hint": "At least 10 characters, with at least one letter and one digit.",
+      "submit": "Save password",
+      "submitting": "Saving..."
+    },
+    "account": {
+      "title": "My account",
+      "subtitle": "Manage the security of your account.",
+      "menuLabel": "My account",
+      "currentPassword": "Current password",
+      "submit": "Change password",
+      "success": "Password changed."
+    }
   },
 
   "common": {
@@ -348,7 +492,11 @@
       "durationInvalid": "The duration must be between 15 and 480 minutes.",
       "dateInvalid": "Invalid date.",
       "labelTooShort": "The label must be at least 2 characters long.",
-      "labelTooLong": "The label cannot exceed 100 characters."
+      "labelTooLong": "The label cannot exceed 100 characters.",
+      "passwordTooShort": "The password must be at least 10 characters long.",
+      "passwordTooLong": "The password cannot exceed 72 characters.",
+      "passwordWeak": "The password must contain at least one letter and one digit.",
+      "passwordMismatch": "The passwords do not match."
     },
     "codes": {
       "SLOT_NOT_FOUND": "This slot no longer exists.",
@@ -358,6 +506,14 @@
       "APPOINTMENT_NOT_FOUND": "Appointment not found or link expired.",
       "INVALID_STATUS_TRANSITION": "This action is not possible in the appointment's current state.",
       "HOLIDAY_NOT_FOUND": "This holiday no longer exists.",
+      "ADMIN_NOT_FOUND": "This administrator account no longer exists.",
+      "ADMIN_ALREADY_EXISTS": "An account already exists with this email address.",
+      "CANNOT_MODIFY_SELF": "You cannot modify your own account.",
+      "LAST_SUPERADMIN": "There must always be at least one active superadmin.",
+      "SUPERADMIN_NOT_EDITABLE": "A superadmin's rights cannot be edited: they always have every right.",
+      "INVALID_CURRENT_PASSWORD": "The current password is incorrect.",
+      "ACCOUNT_DISABLED": "This account has been deactivated. Please contact a superadmin.",
+      "TOO_MANY_ATTEMPTS": "Too many attempts. Please wait a few minutes before trying again.",
       "VALIDATION_FAILED": "The information entered is invalid. Please check it and try again.",
       "FORBIDDEN": "You do not have permission to perform this action.",
       "UNAUTHENTICATED": "Your session has expired. Please log in again.",

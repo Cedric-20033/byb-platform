@@ -25,4 +25,5 @@ export enum EmailType {
   APPOINTMENT_CANCELLATION = 'appointment_cancellation',
   APPOINTMENT_REMINDER = 'appointment_reminder',
   ADMIN_NEW_APPOINTMENT = 'admin_new_appointment',
+  ADMIN_INVITATION = 'admin_invitation',
 }

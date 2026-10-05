@@ -2,6 +2,7 @@
 import { getTranslations } from 'next-intl/server';
 import { routing, type Locale } from '@/lib/routing';
 import { SlotsManager } from '@/components/admin/SlotsManager';
+import { requirePermission } from '@/lib/auth/requirePermission';
 import { createClient } from '@/infrastructure/supabase/server';
 import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositories/SupabaseServiceRepository';
 
@@ -11,6 +12,7 @@ interface SlotsPageProps {
 }
 
 export default async function SlotsPage({ params }: SlotsPageProps) {
+  await requirePermission('slots', 'view');
   const { locale: rawLocale } = await params;
   const locale = (routing.locales.includes(rawLocale as Locale) ? rawLocale : routing.defaultLocale) as Locale;
   const t = await getTranslations('admin.slots');

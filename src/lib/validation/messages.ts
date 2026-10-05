@@ -30,6 +30,10 @@ export const VALIDATION_MESSAGE_KEYS = [
   'dateInvalid',
   'labelTooShort',
   'labelTooLong',
+  'passwordTooShort',
+  'passwordTooLong',
+  'passwordWeak',
+  'passwordMismatch',
 ] as const;
 
 export type ValidationMessageKey = (typeof VALIDATION_MESSAGE_KEYS)[number];

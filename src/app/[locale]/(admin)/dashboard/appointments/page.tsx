@@ -2,6 +2,7 @@
 import { getTranslations } from 'next-intl/server';
 import { routing, type Locale } from '@/lib/routing';
 import { AppointmentsManager } from '@/components/admin/AppointmentsManager';
+import { requirePermission } from '@/lib/auth/requirePermission';
 import { createClient } from '@/infrastructure/supabase/server';
 import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositories/SupabaseServiceRepository';
 
@@ -11,6 +12,7 @@ interface AppointmentsPageProps {
 }
 
 export default async function AppointmentsPage({ params }: AppointmentsPageProps) {
+  await requirePermission('appointments', 'view');
   const { locale: rawLocale } = await params;
   const locale = (routing.locales.includes(rawLocale as Locale) ? rawLocale : routing.defaultLocale) as Locale;
   const t = await getTranslations('admin.appointments');

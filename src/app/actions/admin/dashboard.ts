@@ -7,6 +7,7 @@ import { SupabaseAppointmentRepository } from '@/infrastructure/supabase/reposit
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
 import { createClient } from '@/infrastructure/supabase/server';
 import { AppointmentStatus } from '@/domain/appointment/Appointment';
+import { getCurrentAdmin, assertPermission } from '@/lib/auth/getCurrentAdmin';
 import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 
 type StatsResult = { success: true; stats: DashboardStats } | ActionFailure;
@@ -25,11 +26,13 @@ type NotificationsResult =
 
 /**
  * Indicateurs de la page d'accueil du dashboard (cartes + graphique 14 jours).
- * Lecture seule, accessible à tout admin authentifié (le RLS filtre déjà
- * ce qu'un profil peut voir ; aucune permission dédiée n'est nécessaire ici).
+ * Les chiffres sont dérivés des rendez-vous (données personnelles) : `appointments.view`
+ * est exigée. Les créneaux bloqués qu'ils incluent sont déjà publics (RLS).
  */
 export async function getDashboardStatsAction(): Promise<StatsResult> {
   try {
+    assertPermission(await getCurrentAdmin(), 'appointments', 'view');
+
     const supabase = await createClient();
     const useCase = new GetDashboardStats(
       new SupabaseAppointmentRepository(supabase),
@@ -45,9 +48,12 @@ export async function getDashboardStatsAction(): Promise<StatsResult> {
 /**
  * Alimente la cloche de notifications de la navbar : nombre de RDV en attente
  * de confirmation, et les plus récents pour l'aperçu du menu déroulant.
+ * Expose des noms de clients : `appointments.view` est exigée.
  */
 export async function getPendingNotificationsAction(): Promise<NotificationsResult> {
   try {
+    assertPermission(await getCurrentAdmin(), 'appointments', 'view');
+
     const supabase = await createClient();
     const useCase = new ListAppointments(new SupabaseAppointmentRepository(supabase));
     const pending = await useCase.execute({ status: AppointmentStatus.PENDING });

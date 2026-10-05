@@ -215,7 +215,8 @@
       "statAppointmentsWeek": "RDV cette semaine",
       "statPending": "En attente de confirmation",
       "statBlockedSlots": "Créneaux bloqués",
-      "chartTitle": "Rendez-vous — semaine en cours et suivante"
+      "chartTitle": "Rendez-vous — semaine en cours et suivante",
+      "noStatsAccess": "Vous n'avez pas accès aux indicateurs des rendez-vous. Utilisez le menu pour accéder aux sections qui vous sont ouvertes."
     },
     "appointments": {
       "title": "Rendez-vous",
@@ -307,13 +308,56 @@
       "empty": "Aucun jour férié enregistré.",
       "added": "Jour férié ajouté."
     },
+    "forbidden": {
+      "title": "Accès refusé",
+      "description": "Vous n'avez pas les droits pour consulter cette page. Contactez un superadmin si vous pensez qu'il s'agit d'une erreur.",
+      "back": "Retour au tableau de bord"
+    },
     "permissions": {
       "title": "Permissions",
       "subtitle": "Ajustez les droits de chaque administrateur par domaine.",
       "superadminNotice": "Le superadmin a toujours tous les droits — ce tableau ne s'applique qu'aux comptes admin.",
       "columnAdmin": "Administrateur",
       "saved": "Permissions mises à jour.",
-      "save": "Enregistrer"
+      "save": "Enregistrer",
+      "loading": "Chargement...",
+      "noAdmins": "Aucun compte admin à configurer. Invitez-en un depuis la page Utilisateurs.",
+      "inactive": "Désactivé",
+      "columnDomain": "Domaine",
+      "matrixCaption": "Droits de l'administrateur sélectionné, par domaine et par action",
+      "notApplicable": "Sans objet",
+      "reset": "Réinitialiser aux défauts",
+      "unsaved": "{count, plural, one {# modification non enregistrée} other {# modifications non enregistrées}}",
+      "upToDate": "Aucune modification en attente.",
+      "presets": {
+        "title": "Modèles :",
+        "readOnly": "Lecture seule",
+        "standard": "Standard",
+        "manager": "Gestionnaire"
+      },
+      "discard": {
+        "title": "Abandonner les modifications ?",
+        "description": "Les modifications non enregistrées de cet administrateur seront perdues.",
+        "confirm": "Abandonner",
+        "cancel": "Continuer l'édition"
+      },
+      "domains": {
+        "appointments": "Rendez-vous",
+        "slots": "Créneaux",
+        "holidays": "Jours fériés et congés",
+        "services": "Services",
+        "projects": "Réalisations",
+        "testimonials": "Témoignages",
+        "settings": "Paramètres",
+        "audit_logs": "Journal d'audit"
+      },
+      "actions": {
+        "view": "Consulter",
+        "create": "Créer",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "export": "Exporter"
+      }
     },
     "services": {
       "title": "Gestion des services",
@@ -323,9 +367,65 @@
       "confirmDelete": "Confirmer la suppression ?"
     },
     "users": {
-      "title": "Gestion des utilisateurs",
-      "role": "Rôle",
-      "permissions": "Permissions"
+      "title": "Utilisateurs",
+      "subtitle": "Invitez des collaborateurs et gérez leur rôle et leur accès au tableau de bord.",
+      "search": "Rechercher par nom ou email...",
+      "invite": "Inviter",
+      "loading": "Chargement...",
+      "empty": "Aucun utilisateur ne correspond.",
+      "you": "vous",
+      "cancel": "Annuler",
+      "createdOn": "Créé le {date}",
+      "roles": { "admin": "Admin", "superadmin": "Superadmin" },
+      "status": { "active": "Actif", "inactive": "Désactivé" },
+      "filters": {
+        "role": "Filtrer par rôle",
+        "status": "Filtrer par statut",
+        "allRoles": "Tous les rôles",
+        "allStatuses": "Tous les statuts"
+      },
+      "actions": {
+        "resend": "Renvoyer l'invitation",
+        "makeAdmin": "Passer admin",
+        "makeSuperadmin": "Passer superadmin",
+        "deactivate": "Désactiver",
+        "reactivate": "Réactiver"
+      },
+      "inviteDialog": {
+        "title": "Inviter un utilisateur",
+        "description": "Un email lui permettra de choisir son mot de passe. Il démarre avec les droits par défaut de son rôle.",
+        "fullName": "Nom complet",
+        "email": "Email",
+        "role": "Rôle",
+        "submit": "Envoyer l'invitation",
+        "close": "Fermer"
+      },
+      "confirm": {
+        "confirm": "Confirmer",
+        "deactivate": {
+          "title": "Désactiver ce compte ?",
+          "description": "{name} ne pourra plus se connecter ni agir sur le tableau de bord. Son historique est conservé."
+        },
+        "reactivate": {
+          "title": "Réactiver ce compte ?",
+          "description": "{name} retrouvera l'accès au tableau de bord avec ses droits actuels."
+        },
+        "resend": {
+          "title": "Renvoyer l'invitation ?",
+          "description": "Un nouveau lien sera envoyé à {name} pour choisir son mot de passe."
+        },
+        "role": {
+          "title": "Changer le rôle ?",
+          "description": "Le rôle de {name} sera modifié et ses permissions repartiront des valeurs par défaut."
+        }
+      },
+      "toast": {
+        "invited": "Invitation envoyée.",
+        "resend": "Invitation renvoyée.",
+        "role": "Rôle mis à jour.",
+        "deactivate": "Compte désactivé.",
+        "reactivate": "Compte réactivé."
+      }
     },
     "auditLogs": {
       "title": "Journal des actions",
@@ -347,6 +447,46 @@
     "backHome": "Retour au site",
     "emailInvalid": "Adresse email invalide.",
     "passwordRequired": "Le mot de passe est requis."
+  },
+
+  "auth": {
+    "forgotPassword": "Mot de passe oublié ?",
+    "linkInvalid": "Ce lien est invalide ou a expiré. Demandez-en un nouveau.",
+    "forgot": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Saisissez votre email : si un compte existe, vous recevrez un lien pour choisir un nouveau mot de passe.",
+      "email": "Email",
+      "submit": "Envoyer le lien",
+      "submitting": "Envoi...",
+      "sentTitle": "Vérifiez votre boîte mail",
+      "sentMessage": "Si un compte correspond à cette adresse, un lien de réinitialisation vient d'être envoyé. Il n'est valable que pour une durée limitée.",
+      "backToLogin": "Retour à la connexion"
+    },
+    "reset": {
+      "title": "Nouveau mot de passe",
+      "subtitle": "Choisissez un nouveau mot de passe pour votre compte.",
+      "success": "Mot de passe mis à jour."
+    },
+    "invite": {
+      "title": "Bienvenue chez BYB",
+      "subtitle": "Choisissez le mot de passe de votre compte administrateur.",
+      "success": "Compte activé."
+    },
+    "setPassword": {
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "hint": "10 caractères minimum, avec au moins une lettre et un chiffre.",
+      "submit": "Enregistrer le mot de passe",
+      "submitting": "Enregistrement..."
+    },
+    "account": {
+      "title": "Mon compte",
+      "subtitle": "Gérez la sécurité de votre compte.",
+      "menuLabel": "Mon compte",
+      "currentPassword": "Mot de passe actuel",
+      "submit": "Changer le mot de passe",
+      "success": "Mot de passe modifié."
+    }
   },
 
   "common": {
@@ -410,7 +550,11 @@
       "durationInvalid": "La durée doit être comprise entre 15 et 480 minutes.",
       "dateInvalid": "Date invalide.",
       "labelTooShort": "Le libellé doit contenir au moins 2 caractères.",
-      "labelTooLong": "Le libellé ne peut pas dépasser 100 caractères."
+      "labelTooLong": "Le libellé ne peut pas dépasser 100 caractères.",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 10 caractères.",
+      "passwordTooLong": "Le mot de passe ne peut pas dépasser 72 caractères.",
+      "passwordWeak": "Le mot de passe doit contenir au moins une lettre et un chiffre.",
+      "passwordMismatch": "Les mots de passe ne correspondent pas."
     },
     "codes": {
       "SLOT_NOT_FOUND": "Ce créneau n'existe plus.",
@@ -420,6 +564,14 @@
       "APPOINTMENT_NOT_FOUND": "Rendez-vous introuvable ou lien expiré.",
       "INVALID_STATUS_TRANSITION": "Cette action n'est pas possible dans l'état actuel du rendez-vous.",
       "HOLIDAY_NOT_FOUND": "Ce jour férié n'existe plus.",
+      "ADMIN_NOT_FOUND": "Ce compte administrateur n'existe plus.",
+      "ADMIN_ALREADY_EXISTS": "Un compte existe déjà avec cette adresse email.",
+      "CANNOT_MODIFY_SELF": "Vous ne pouvez pas modifier votre propre compte.",
+      "LAST_SUPERADMIN": "Il doit toujours rester au moins un superadmin actif.",
+      "SUPERADMIN_NOT_EDITABLE": "Les droits d'un superadmin ne sont pas modifiables : il a toujours tous les droits.",
+      "INVALID_CURRENT_PASSWORD": "Le mot de passe actuel est incorrect.",
+      "ACCOUNT_DISABLED": "Ce compte a été désactivé. Contactez un superadmin.",
+      "TOO_MANY_ATTEMPTS": "Trop de tentatives. Veuillez patienter quelques minutes avant de réessayer.",
       "VALIDATION_FAILED": "Les informations saisies sont invalides. Vérifiez-les et réessayez.",
       "FORBIDDEN": "Vous n'avez pas la permission d'effectuer cette action.",
       "UNAUTHENTICATED": "Votre session a expiré. Veuillez vous reconnecter.",
