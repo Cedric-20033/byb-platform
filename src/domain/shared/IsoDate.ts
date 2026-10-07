@@ -80,6 +80,45 @@ export function startOfIsoWeek(isoDate: string): string {
   return addDays(isoDate, offsetToMonday);
 }
 
+/**
+ * Décalage (en ms) entre l'heure murale d'un fuseau et UTC à un instant donné
+ * (+7 200 000 pour Bruxelles en été). Dérivé d'`Intl` : c'est la seule source
+ * fiable des règles d'heure d'été, sans table maintenue à la main.
+ */
+function zoneOffsetMs(instant: Date, timeZone: string): number {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    hourCycle: 'h23',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).formatToParts(instant);
+
+  const pick = (type: Intl.DateTimeFormatPartTypes) => Number(parts.find((part) => part.type === type)!.value);
+  const wallClockAsUtc = Date.UTC(pick('year'), pick('month') - 1, pick('day'), pick('hour'), pick('minute'), pick('second'));
+
+  // `instant` est tronqué à la seconde pour que les millisecondes ne faussent pas la différence.
+  return wallClockAsUtc - Math.floor(instant.getTime() / 1000) * 1000;
+}
+
+/**
+ * Instant UTC de minuit (début de journée) d'un jour calendaire dans un fuseau donné.
+ *
+ * Sert à convertir un filtre « du 5 au 7 octobre » en bornes d'instants : minuit
+ * à Bruxelles tombe à 22 h ou 23 h UTC la veille selon la saison, et jamais à 00 h UTC.
+ * Deux passes suffisent : la première estime le décalage au minuit UTC, la seconde
+ * le corrige si un changement d'heure survient entre l'estimation et le vrai minuit local.
+ */
+export function startOfDayInstant(isoDate: string, timeZone: string = APP_TIME_ZONE): Date {
+  const utcMidnight = parse(isoDate).getTime();
+
+  const firstGuess = utcMidnight - zoneOffsetMs(new Date(utcMidnight), timeZone);
+  return new Date(utcMidnight - zoneOffsetMs(new Date(firstGuess), timeZone));
+}
+
 /** Toutes les dates de `from` à `to` incluses ; tableau vide si `from` > `to`. */
 export function eachDate(from: string, to: string): string[] {
   const dates: string[] = [];

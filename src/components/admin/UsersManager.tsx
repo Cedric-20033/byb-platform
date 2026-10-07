@@ -13,7 +13,7 @@ import { ConfirmDialog } from '@/components/admin/ConfirmDialog';
 import { InviteAdminDialog } from '@/components/admin/InviteAdminDialog';
 import { DEFAULT_USER_FILTERS, filterUsers, type UserFilters } from '@/components/admin/userFilters';
 import { USER_ROLES } from '@/lib/constants';
-import { ActionError, type ActionFailure } from '@/lib/errors';
+import { unwrapAction as unwrap } from '@/lib/unwrapAction';
 import { formatDate } from '@/lib/utils';
 import { useErrorMessage } from '@/lib/useErrorMessage';
 import {
@@ -33,12 +33,6 @@ const USERS_QUERY_KEY = ['admin', 'users'];
 type PendingAction =
   | { kind: 'deactivate' | 'reactivate' | 'resend'; user: AdminUserDTO }
   | { kind: 'role'; user: AdminUserDTO; role: AdminUserDTO['role'] };
-
-/** Déballe le résultat d'une action : un échec devient une `ActionError` traduite par `useErrorMessage`. */
-function unwrap<T extends { success: true }>(result: T | ActionFailure): T {
-  if (!result.success) throw new ActionError(result.error);
-  return result;
-}
 
 export function UsersManager() {
   const t = useTranslations('admin.users');

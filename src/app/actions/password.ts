@@ -5,7 +5,8 @@ import { createClient } from '@/infrastructure/supabase/server';
 import { authRateLimiter } from '@/infrastructure/ratelimit/InMemoryRateLimiter';
 import { getClientIp } from '@/infrastructure/http/getClientIp';
 import type { RateLimitPolicy } from '@/domain/shared/RateLimiter';
-import { getCurrentAdmin } from '@/lib/auth/getCurrentAdmin';
+import { getCurrentAdmin, toActorRole } from '@/lib/auth/getCurrentAdmin';
+import { recordAuthEvent } from '@/lib/auth/recordAuthEvent';
 import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 import {
   changePasswordSchema,
@@ -64,7 +65,7 @@ export async function setPasswordAction(input: unknown): Promise<PasswordResult>
     const parsed = setPasswordSchema.safeParse(input);
     if (!parsed.success) return failure('VALIDATION_FAILED');
 
-    await getCurrentAdmin();
+    const admin = await getCurrentAdmin();
 
     const supabase = await createClient();
     const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
@@ -73,6 +74,12 @@ export async function setPasswordAction(input: unknown): Promise<PasswordResult>
     }
 
     await supabase.auth.signOut({ scope: 'others' });
+    await recordAuthEvent({
+      event: 'password_changed',
+      actorId: admin.id,
+      actorRole: toActorRole(admin.role),
+      metadata: { via: 'link' },
+    });
     return { success: true };
   } catch (error) {
     return failure(toErrorCode(error));
@@ -112,6 +119,12 @@ export async function changePasswordAction(input: unknown): Promise<PasswordResu
 
     await supabase.auth.signOut({ scope: 'others' });
     await authRateLimiter.reset(throttleKey);
+    await recordAuthEvent({
+      event: 'password_changed',
+      actorId: admin.id,
+      actorRole: toActorRole(admin.role),
+      metadata: { via: 'account' },
+    });
     return { success: true };
   } catch (error) {
     return failure(toErrorCode(error));

@@ -98,7 +98,7 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
     labelKey: 'auditLogs',
     href: ADMIN_ROUTES.AUDIT_LOGS,
     icon: ScrollText,
-    available: false,
+    available: true,
     requiredPermission: { domain: 'audit_logs', action: 'view' },
   },
   {

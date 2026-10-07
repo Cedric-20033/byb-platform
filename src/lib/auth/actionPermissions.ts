@@ -65,6 +65,10 @@ export const ACTION_REQUIREMENTS: Record<string, ActionRequirement> = {
   'admin/dashboard.ts#getDashboardStatsAction': need('appointments', 'view'),
   'admin/dashboard.ts#getPendingNotificationsAction': need('appointments', 'view'),
 
+  // Journal d'audit (l'export est lui-même tracé)
+  'admin/auditLogs.ts#listAuditLogsAction': need('audit_logs', 'view'),
+  'admin/auditLogs.ts#exportAuditLogsAction': need('audit_logs', 'view', 'export'),
+
   // Utilisateurs et permissions : superadmin uniquement
   'admin/users.ts#listAdminsAction': SUPERADMIN,
   'admin/users.ts#inviteAdminAction': SUPERADMIN,

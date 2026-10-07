@@ -375,7 +375,127 @@
         "reactivate": "Account reactivated."
       }
     },
-    "auditLogs": { "title": "Audit log", "actor": "Actor", "action": "Action", "target": "Target", "date": "Date" }
+    "auditLogs": {
+      "title": "Audit log",
+      "subtitle": "History of the actions carried out on the platform. Entries can be neither edited nor deleted.",
+      "loading": "Loading...",
+      "retry": "Retry",
+      "empty": "No entry matches these filters.",
+      "emptyValue": "—",
+      "loadMore": "Load older entries",
+      "endOfLog": "End of the log.",
+      "viewDetails": "View details",
+      "filterByActor": "Filter on this actor",
+      "filterByTarget": "Filter on this target",
+      "unknownActor": "Unknown or hidden account",
+      "anonymousActor": "Anonymous visitor",
+      "systemActor": "System",
+      "filters": {
+        "title": "Log filters",
+        "role": "Role",
+        "action": "Action",
+        "targetType": "Target type",
+        "targetId": "Target identifier",
+        "targetIdPlaceholder": "Identifier, email...",
+        "dateFrom": "From",
+        "dateTo": "To",
+        "allRoles": "All roles",
+        "allActions": "All actions",
+        "allTargetTypes": "All targets",
+        "apply": "Apply",
+        "reset": "Reset",
+        "invalidPeriod": "The start date must be before the end date.",
+        "actorChip": "Actor: {name}",
+        "removeActor": "Remove the actor filter"
+      },
+      "columns": {
+        "date": "Date",
+        "actor": "Actor",
+        "action": "Action",
+        "target": "Target",
+        "ip": "IP address",
+        "details": "Details"
+      },
+      "actorRoles": {
+        "superadmin": "Superadmin",
+        "admin": "Admin",
+        "client": "Visitor",
+        "system": "System"
+      },
+      "targetTypes": {
+        "appointment": "Appointment",
+        "slot": "Time slot",
+        "holiday": "Holiday",
+        "service": "Service",
+        "user": "User",
+        "auth": "Authentication",
+        "audit_log": "Audit log"
+      },
+      "actions": {
+        "APPOINTMENT_CREATED": "Appointment requested",
+        "APPOINTMENT_CONFIRMED": "Appointment confirmed",
+        "APPOINTMENT_CANCELLED": "Appointment cancelled",
+        "APPOINTMENT_DELETED": "Appointment deleted",
+        "SLOT_CREATED": "Slots generated",
+        "SLOT_BLOCKED": "Slot blocked",
+        "SLOT_UNBLOCKED": "Slot unblocked",
+        "HOLIDAY_CREATED": "Holiday added",
+        "HOLIDAY_DELETED": "Holiday deleted",
+        "SERVICE_CREATED": "Service created",
+        "SERVICE_UPDATED": "Service updated",
+        "SERVICE_DELETED": "Service deleted",
+        "USER_INVITED": "User invited",
+        "USER_INVITATION_RESENT": "Invitation resent",
+        "USER_DEACTIVATED": "Account deactivated",
+        "USER_REACTIVATED": "Account reactivated",
+        "USER_ROLE_UPDATED": "Role changed",
+        "USER_PERMISSIONS_UPDATED": "Permissions changed",
+        "AUTH_LOGIN": "Sign-in",
+        "AUTH_LOGOUT": "Sign-out",
+        "AUTH_LOGIN_FAILED": "Failed sign-in",
+        "AUTH_PASSWORD_CHANGED": "Password changed",
+        "EMAIL_SENT": "Email sent",
+        "EXPORT_GENERATED": "Export generated"
+      },
+      "details": {
+        "title": "Entry details",
+        "description": "{action} — {date}",
+        "close": "Close",
+        "actor": "Actor",
+        "role": "Role",
+        "action": "Action",
+        "target": "Target",
+        "ip": "IP address",
+        "metadataTitle": "Recorded information",
+        "noMetadata": "No additional information was recorded for this action.",
+        "rawJson": "Raw data (JSON)",
+        "granted": "Granted",
+        "revoked": "Revoked",
+        "yes": "Yes",
+        "no": "No",
+        "emptyList": "(empty)"
+      },
+      "export": {
+        "csv": "Export as CSV",
+        "exporting": "Exporting...",
+        "empty": "No entry to export.",
+        "success": "Export complete: {count, plural, one {# entry} other {# entries}}.",
+        "truncated": "Export limited to the {max} most recent entries.",
+        "fileName": "audit-log",
+        "columns": {
+          "date": "Date",
+          "actor": "Actor",
+          "email": "Actor email",
+          "role": "Role",
+          "action": "Action",
+          "actionCode": "Action code",
+          "targetType": "Target type",
+          "targetId": "Target identifier",
+          "ip": "IP address",
+          "details": "Details"
+        }
+      }
+    }
   },
 
   "login": {

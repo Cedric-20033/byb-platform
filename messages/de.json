@@ -377,7 +377,127 @@
         "reactivate": "Konto reaktiviert."
       }
     },
-    "auditLogs": { "title": "Audit-Protokoll", "actor": "Akteur", "action": "Aktion", "target": "Ziel", "date": "Datum" }
+    "auditLogs": {
+      "title": "Audit-Protokoll",
+      "subtitle": "Verlauf der auf der Plattform durchgeführten Aktionen. Einträge können weder geändert noch gelöscht werden.",
+      "loading": "Laden...",
+      "retry": "Erneut versuchen",
+      "empty": "Kein Eintrag entspricht diesen Filtern.",
+      "emptyValue": "—",
+      "loadMore": "Ältere Einträge laden",
+      "endOfLog": "Ende des Protokolls.",
+      "viewDetails": "Details anzeigen",
+      "filterByActor": "Nach diesem Akteur filtern",
+      "filterByTarget": "Nach diesem Ziel filtern",
+      "unknownActor": "Unbekanntes oder nicht sichtbares Konto",
+      "anonymousActor": "Anonymer Besucher",
+      "systemActor": "System",
+      "filters": {
+        "title": "Protokollfilter",
+        "role": "Rolle",
+        "action": "Aktion",
+        "targetType": "Zieltyp",
+        "targetId": "Kennung des Ziels",
+        "targetIdPlaceholder": "Kennung, E-Mail...",
+        "dateFrom": "Von",
+        "dateTo": "Bis",
+        "allRoles": "Alle Rollen",
+        "allActions": "Alle Aktionen",
+        "allTargetTypes": "Alle Ziele",
+        "apply": "Anwenden",
+        "reset": "Zurücksetzen",
+        "invalidPeriod": "Das Startdatum muss vor dem Enddatum liegen.",
+        "actorChip": "Akteur: {name}",
+        "removeActor": "Akteurfilter entfernen"
+      },
+      "columns": {
+        "date": "Datum",
+        "actor": "Akteur",
+        "action": "Aktion",
+        "target": "Ziel",
+        "ip": "IP-Adresse",
+        "details": "Details"
+      },
+      "actorRoles": {
+        "superadmin": "Superadmin",
+        "admin": "Admin",
+        "client": "Besucher",
+        "system": "System"
+      },
+      "targetTypes": {
+        "appointment": "Termin",
+        "slot": "Zeitfenster",
+        "holiday": "Feiertag",
+        "service": "Leistung",
+        "user": "Benutzer",
+        "auth": "Authentifizierung",
+        "audit_log": "Audit-Protokoll"
+      },
+      "actions": {
+        "APPOINTMENT_CREATED": "Termin angefragt",
+        "APPOINTMENT_CONFIRMED": "Termin bestätigt",
+        "APPOINTMENT_CANCELLED": "Termin storniert",
+        "APPOINTMENT_DELETED": "Termin gelöscht",
+        "SLOT_CREATED": "Zeitfenster generiert",
+        "SLOT_BLOCKED": "Zeitfenster blockiert",
+        "SLOT_UNBLOCKED": "Zeitfenster freigegeben",
+        "HOLIDAY_CREATED": "Feiertag hinzugefügt",
+        "HOLIDAY_DELETED": "Feiertag gelöscht",
+        "SERVICE_CREATED": "Leistung erstellt",
+        "SERVICE_UPDATED": "Leistung geändert",
+        "SERVICE_DELETED": "Leistung gelöscht",
+        "USER_INVITED": "Benutzer eingeladen",
+        "USER_INVITATION_RESENT": "Einladung erneut gesendet",
+        "USER_DEACTIVATED": "Konto deaktiviert",
+        "USER_REACTIVATED": "Konto reaktiviert",
+        "USER_ROLE_UPDATED": "Rolle geändert",
+        "USER_PERMISSIONS_UPDATED": "Berechtigungen geändert",
+        "AUTH_LOGIN": "Anmeldung",
+        "AUTH_LOGOUT": "Abmeldung",
+        "AUTH_LOGIN_FAILED": "Fehlgeschlagene Anmeldung",
+        "AUTH_PASSWORD_CHANGED": "Passwort geändert",
+        "EMAIL_SENT": "E-Mail gesendet",
+        "EXPORT_GENERATED": "Export erstellt"
+      },
+      "details": {
+        "title": "Details des Eintrags",
+        "description": "{action} — {date}",
+        "close": "Schließen",
+        "actor": "Akteur",
+        "role": "Rolle",
+        "action": "Aktion",
+        "target": "Ziel",
+        "ip": "IP-Adresse",
+        "metadataTitle": "Erfasste Informationen",
+        "noMetadata": "Für diese Aktion wurden keine weiteren Informationen erfasst.",
+        "rawJson": "Rohdaten (JSON)",
+        "granted": "Gewährt",
+        "revoked": "Entzogen",
+        "yes": "Ja",
+        "no": "Nein",
+        "emptyList": "(leer)"
+      },
+      "export": {
+        "csv": "Als CSV exportieren",
+        "exporting": "Export läuft...",
+        "empty": "Kein Eintrag zum Exportieren.",
+        "success": "Export abgeschlossen: {count, plural, one {# Eintrag} other {# Einträge}}.",
+        "truncated": "Export auf die {max} neuesten Einträge begrenzt.",
+        "fileName": "audit-protokoll",
+        "columns": {
+          "date": "Datum",
+          "actor": "Akteur",
+          "email": "E-Mail des Akteurs",
+          "role": "Rolle",
+          "action": "Aktion",
+          "actionCode": "Aktionscode",
+          "targetType": "Zieltyp",
+          "targetId": "Kennung des Ziels",
+          "ip": "IP-Adresse",
+          "details": "Details"
+        }
+      }
+    }
   },
 
   "login": {

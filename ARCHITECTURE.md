@@ -270,7 +270,15 @@ absente de la matrice ou n'applique pas sa garde.
 | `listHolidaysAction` | `holidays.view` |
 | `createHolidayAction` | `holidays.create` |
 | `deleteHolidayAction` | `holidays.delete` |
+| `listAuditLogsAction` | `audit_logs.view` |
+| `exportAuditLogsAction` | `audit_logs.view` + `audit_logs.export` |
 | `listAdminsAction`, `inviteAdminAction`, `resendInvitationAction`, `changeAdminRoleAction`, `deactivateAdminAction`, `reactivateAdminAction`, `listAdminPermissionsAction`, `updateAdminPermissionsAction` | superadmin uniquement |
+
+Le journal d'audit est en lecture seule pour tous (migration 0009 : triggers d'immutabilité, seule exception
+la mise à NULL de `actor_id` lors de la suppression d'un compte). La lecture passe par le port
+`AuditLogReader`, distinct de `AuditLogger` (ISP), avec pagination par curseur sur `(created_at, id)`.
+La jointure sur le profil de l'auteur suit le RLS de `profiles` : un admin non superadmin ne voit pas
+le nom ni l'email des autres auteurs.
 
 Exceptions de cohérence RLS : un résultat d'annulation/de création de RDV réserve ou libère un
 créneau, d'où la policy `slots_update_admin` qui accepte aussi `appointments.edit`/`create`.

@@ -7,7 +7,10 @@ import { createClient } from '@/infrastructure/supabase/server';
 import { SupabaseAdminRepository } from '@/infrastructure/supabase/repositories/SupabaseAdminRepository';
 import { authRateLimiter } from '@/infrastructure/ratelimit/InMemoryRateLimiter';
 import { getClientIp } from '@/infrastructure/http/getClientIp';
+import { ActorRole } from '@/domain/shared/AuditLogger';
 import type { RateLimitPolicy } from '@/domain/shared/RateLimiter';
+import { toActorRole } from '@/lib/auth/getCurrentAdmin';
+import { recordAuthEvent } from '@/lib/auth/recordAuthEvent';
 import { getLocalizedPath, type Locale } from '@/lib/routing';
 import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 
@@ -52,6 +55,7 @@ export async function signInAction(input: unknown): Promise<SignInResult> {
       // elle ne consomme pas de tentative et ne doit pas être présentée comme telle.
       if (error?.status && error.status >= 500) return failure('UNKNOWN');
       await authRateLimiter.record(throttleKey, SIGN_IN_POLICY);
+      await recordLoginFailure(email, 'invalid_credentials');
       return failure('INVALID_CREDENTIALS');
     }
 
@@ -59,10 +63,12 @@ export async function signInAction(input: unknown): Promise<SignInResult> {
 
     if (!profile || !profile.isActive) {
       await supabase.auth.signOut();
+      await recordLoginFailure(email, profile ? 'account_disabled' : 'no_profile');
       return failure(profile ? 'ACCOUNT_DISABLED' : 'FORBIDDEN');
     }
 
     await authRateLimiter.reset(throttleKey);
+    await recordAuthEvent({ event: 'login', actorId: profile.id, actorRole: toActorRole(profile.role) });
     return { success: true };
   } catch (error) {
     // Ici une erreur inattendue (réseau, Supabase indisponible...), distincte
@@ -71,8 +77,38 @@ export async function signInAction(input: unknown): Promise<SignInResult> {
   }
 }
 
+/**
+ * Un échec de connexion n'a pas d'auteur authentifié : il est tracé comme une action de visiteur,
+ * avec l'email tenté pour repérer une attaque ciblant un compte. Les tentatives bloquées par le
+ * limiteur ne sont volontairement pas tracées : elles gonfleraient le journal en cas de force brute.
+ */
+function recordLoginFailure(email: string, reason: 'invalid_credentials' | 'account_disabled' | 'no_profile') {
+  return recordAuthEvent({
+    event: 'login_failed',
+    actorId: null,
+    actorRole: ActorRole.CLIENT,
+    metadata: { email, reason },
+  });
+}
+
+/** Doit être appelée AVANT `signOut()` : il faut encore une session pour savoir qui se déconnecte. */
+async function recordLogout(supabase: Awaited<ReturnType<typeof createClient>>): Promise<void> {
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const profile = await new SupabaseAdminRepository(supabase).findById(user.id);
+    if (profile) await recordAuthEvent({ event: 'logout', actorId: profile.id, actorRole: toActorRole(profile.role) });
+  } catch {
+    // La déconnexion ne doit jamais échouer à cause du journal.
+  }
+}
+
 export async function signOutAction(locale: Locale): Promise<void> {
   const supabase = await createClient();
+  await recordLogout(supabase);
   await supabase.auth.signOut();
   redirect(getLocalizedPath('/login', locale));
 }

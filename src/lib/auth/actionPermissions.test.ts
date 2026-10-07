@@ -121,6 +121,34 @@ describe('table de vérité', () => {
     );
   });
 
+  describe('journal d\'audit', () => {
+    const LIST = 'admin/auditLogs.ts#listAuditLogsAction';
+    const EXPORT = 'admin/auditLogs.ts#exportAuditLogsAction';
+    const gridWith = (view: boolean, exportRight: boolean) =>
+      profile(USER_ROLES.ADMIN, { audit_logs: { view, export: exportRight } });
+    const allowed = (admin: AdminProfile, key: string) => isActionAllowed(admin, ACTION_REQUIREMENTS[key]);
+
+    it('est fermé à un admin aux droits par défaut', () => {
+      expect(allowed(defaultAdmin, LIST)).toBe(false);
+      expect(allowed(defaultAdmin, EXPORT)).toBe(false);
+    });
+
+    it('« view » seul permet de consulter mais pas d\'exporter', () => {
+      expect(allowed(gridWith(true, false), LIST)).toBe(true);
+      expect(allowed(gridWith(true, false), EXPORT)).toBe(false);
+    });
+
+    it('l\'export exige AUSSI la consultation (export seul ne suffit pas)', () => {
+      expect(allowed(gridWith(false, true), LIST)).toBe(false);
+      expect(allowed(gridWith(false, true), EXPORT)).toBe(false);
+    });
+
+    it('« view » + « export » ouvre les deux actions', () => {
+      expect(allowed(gridWith(true, true), LIST)).toBe(true);
+      expect(allowed(gridWith(true, true), EXPORT)).toBe(true);
+    });
+  });
+
   it('un admin, même avec tous les droits délégables, n\'accède jamais aux actions superadmin', () => {
     const powerAdmin = profile(USER_ROLES.ADMIN, {
       users: { view: true, create: true, edit: true, delete: true, export: true },
