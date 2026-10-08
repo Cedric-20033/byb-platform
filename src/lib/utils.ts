@@ -76,17 +76,10 @@ export function getVideoThumbnailUrl(publicId: string): string {
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
 
 /**
- * Transforme une chaîne en slug URL-safe.
- * "Toiture Pentue" → "toiture-pentue"
+ * Transforme une chaîne en slug URL-safe ("Toiture Pentue" → "toiture-pentue").
+ * La règle vit dans le domaine, qui l'applique aussi à la création des services.
  */
-export function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
+export { slugify } from '@/domain/shared/Slug';
 
 /**
  * Formate une date selon la locale active.

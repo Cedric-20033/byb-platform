@@ -116,9 +116,42 @@ describe('table de vérité', () => {
         'admin/holidays.ts#createHolidayAction',
         'admin/holidays.ts#deleteHolidayAction',
         'admin/holidays.ts#listHolidaysAction',
+        'admin/services.ts#listServicesAction',
         'admin/slots.ts#listSlotsByDateAction',
       ].sort(),
     );
+  });
+
+  describe('catalogue des services', () => {
+    const gridWith = (...actions: ('view' | 'create' | 'edit' | 'delete')[]) =>
+      profile(USER_ROLES.ADMIN, {
+        services: Object.fromEntries(actions.map((action) => [action, true])),
+      });
+    const allowed = (admin: AdminProfile, key: string) => isActionAllowed(admin, ACTION_REQUIREMENTS[key]);
+
+    it('« edit » seul modifie, archive et réordonne, mais ne crée ni ne supprime', () => {
+      const editor = gridWith('edit');
+      expect(allowed(editor, 'admin/services.ts#updateServiceAction')).toBe(true);
+      expect(allowed(editor, 'admin/services.ts#archiveServiceAction')).toBe(true);
+      expect(allowed(editor, 'admin/serviceMedia.ts#setServiceCoverAction')).toBe(true);
+      expect(allowed(editor, 'admin/services.ts#createServiceAction')).toBe(false);
+      expect(allowed(editor, 'admin/services.ts#deleteServiceAction')).toBe(false);
+    });
+
+    it('« create » ouvre la création et l\'ajout de médias, pas la suppression', () => {
+      const creator = gridWith('create');
+      expect(allowed(creator, 'admin/services.ts#createServiceAction')).toBe(true);
+      expect(allowed(creator, 'admin/serviceMedia.ts#attachServiceMediaAction')).toBe(true);
+      expect(allowed(creator, 'admin/serviceMedia.ts#removeServiceMediaAction')).toBe(false);
+    });
+
+    it('« delete » ouvre la suppression de service, de sous-prestation et de média', () => {
+      const remover = gridWith('delete');
+      expect(allowed(remover, 'admin/services.ts#deleteServiceAction')).toBe(true);
+      expect(allowed(remover, 'admin/services.ts#deleteSubServiceAction')).toBe(true);
+      expect(allowed(remover, 'admin/serviceMedia.ts#removeServiceMediaAction')).toBe(true);
+      expect(allowed(remover, 'admin/services.ts#updateServiceAction')).toBe(false);
+    });
   });
 
   describe('journal d\'audit', () => {

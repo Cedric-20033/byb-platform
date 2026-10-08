@@ -63,7 +63,7 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
     labelKey: 'services',
     href: ADMIN_ROUTES.SERVICES,
     icon: Wrench,
-    available: false,
+    available: true,
     requiredPermission: { domain: 'services', action: 'view' },
   },
   {

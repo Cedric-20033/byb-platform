@@ -365,6 +365,22 @@ export type Database = {
         Args: { p_action: string; p_domain: string }
         Returns: boolean
       }
+      reorder_service_media: {
+        Args: { p_ordered_ids: string[]; p_service_id: string }
+        Returns: undefined
+      }
+      reorder_services: {
+        Args: { p_ordered_ids: string[] }
+        Returns: undefined
+      }
+      reorder_sub_services: {
+        Args: { p_ordered_ids: string[]; p_service_id: string }
+        Returns: undefined
+      }
+      set_service_cover: {
+        Args: { p_media_id: string; p_service_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       media_type: "image" | "video"

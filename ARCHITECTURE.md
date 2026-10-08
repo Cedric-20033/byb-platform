@@ -270,6 +270,10 @@ absente de la matrice ou n'applique pas sa garde.
 | `listHolidaysAction` | `holidays.view` |
 | `createHolidayAction` | `holidays.create` |
 | `deleteHolidayAction` | `holidays.delete` |
+| `listServicesAction` | `services.view` |
+| `createServiceAction`, `createSubServiceAction`, `authorizeMediaUploadAction`, `attachServiceMediaAction` | `services.create` |
+| `updateServiceAction`, `archiveServiceAction`, `restoreServiceAction`, `reorderServicesAction`, `updateSubServiceAction`, `reorderSubServicesAction`, `setServiceCoverAction`, `reorderServiceMediaAction` | `services.edit` |
+| `deleteServiceAction`, `deleteSubServiceAction`, `removeServiceMediaAction` | `services.delete` |
 | `listAuditLogsAction` | `audit_logs.view` |
 | `exportAuditLogsAction` | `audit_logs.view` + `audit_logs.export` |
 | `listAdminsAction`, `inviteAdminAction`, `resendInvitationAction`, `changeAdminRoleAction`, `deactivateAdminAction`, `reactivateAdminAction`, `listAdminPermissionsAction`, `updateAdminPermissionsAction` | superadmin uniquement |
@@ -279,6 +283,27 @@ la mise à NULL de `actor_id` lors de la suppression d'un compte). La lecture pa
 `AuditLogReader`, distinct de `AuditLogger` (ISP), avec pagination par curseur sur `(created_at, id)`.
 La jointure sur le profil de l'auteur suit le RLS de `profiles` : un admin non superadmin ne voit pas
 le nom ni l'email des autres auteurs.
+
+### Catalogue des services (P3)
+
+Le catalogue est géré depuis `/dashboard/services` ; `src/data/services.ts` n'est plus qu'un **jeu de seed**
+(`npm run migrate:services`, à ne lancer que sur une base vide : il écrase les modifications du dashboard).
+
+- **Modèle d'écriture** (`domain/service/CatalogService`) distinct du modèle de lecture publique (`Service` de
+  `@/types`) : l'édition a besoin des identifiants de chaque média et des traductions brutes.
+- **Ports** petits (ISP) : `ServiceRepository`, `SubServiceRepository`, `ServiceMediaRepository`,
+  `ServiceUsageReader` (« ce service a-t-il des rendez-vous ? »), `MediaUploader` (signature et suppression
+  d'assets, serveur uniquement, distinct de `MediaProvider` qui ne construit que des URLs).
+- **Règles** : un service est créé *archivé* ; l'activer exige une image (sinon `SERVICE_COVER_REQUIRED`) ; le
+  dernier média image d'un service actif ne peut pas être retiré ; un service réservé au moins une fois ne se
+  supprime pas (FK `restrict`), on l'archive ; le slug est figé après création ; FR obligatoire, EN/DE avec repli.
+- **Atomicité** : réordonnancement et changement de couverture passent par des fonctions SQL `security invoker`
+  (migration 0010) — le RLS s'applique donc à l'appelant.
+- **Médias** : envoi direct navigateur → Cloudinary avec une signature émise par le serveur (`folder`,
+  `allowed_formats`, `timestamp`) ; le fichier ne traverse jamais une Server Action. Variables serveur :
+  `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` ; côté navigateur seul
+  `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` (`noSecretsInClient.test.ts` garde cette frontière).
+- **Cache public** : chaque mutation appelle `revalidateCatalog()` (`src/lib/cache/revalidateCatalog.ts`).
 
 Exceptions de cohérence RLS : un résultat d'annulation/de création de RDV réserve ou libère un
 créneau, d'où la policy `slots_update_admin` qui accepte aussi `appointments.edit`/`create`.
@@ -295,6 +320,12 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 # Resend (emails)
 RESEND_API_KEY=
+
+# Cloudinary (médias du catalogue)
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=            # serveur uniquement, jamais NEXT_PUBLIC_
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
 
 # App
 NEXT_PUBLIC_APP_URL=http://localhost:3000

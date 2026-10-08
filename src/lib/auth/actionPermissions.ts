@@ -61,6 +61,24 @@ export const ACTION_REQUIREMENTS: Record<string, ActionRequirement> = {
   'admin/holidays.ts#createHolidayAction': need('holidays', 'create'),
   'admin/holidays.ts#deleteHolidayAction': need('holidays', 'delete'),
 
+  // Catalogue des services (ajouter = create, retirer = delete : alignement sur la RLS de 0006)
+  'admin/services.ts#listServicesAction': need('services', 'view'),
+  'admin/services.ts#createServiceAction': need('services', 'create'),
+  'admin/services.ts#updateServiceAction': need('services', 'edit'),
+  'admin/services.ts#archiveServiceAction': need('services', 'edit'),
+  'admin/services.ts#restoreServiceAction': need('services', 'edit'),
+  'admin/services.ts#deleteServiceAction': need('services', 'delete'),
+  'admin/services.ts#reorderServicesAction': need('services', 'edit'),
+  'admin/services.ts#createSubServiceAction': need('services', 'create'),
+  'admin/services.ts#updateSubServiceAction': need('services', 'edit'),
+  'admin/services.ts#deleteSubServiceAction': need('services', 'delete'),
+  'admin/services.ts#reorderSubServicesAction': need('services', 'edit'),
+  'admin/serviceMedia.ts#authorizeMediaUploadAction': need('services', 'create'),
+  'admin/serviceMedia.ts#attachServiceMediaAction': need('services', 'create'),
+  'admin/serviceMedia.ts#removeServiceMediaAction': need('services', 'delete'),
+  'admin/serviceMedia.ts#setServiceCoverAction': need('services', 'edit'),
+  'admin/serviceMedia.ts#reorderServiceMediaAction': need('services', 'edit'),
+
   // Tableau de bord (chiffres dérivés des rendez-vous)
   'admin/dashboard.ts#getDashboardStatsAction': need('appointments', 'view'),
   'admin/dashboard.ts#getPendingNotificationsAction': need('appointments', 'view'),

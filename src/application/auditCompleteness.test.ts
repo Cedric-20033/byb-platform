@@ -22,10 +22,17 @@ const READ_ONLY = new Set([
   'ListAuditLogs',
   'GetHomeRealisationMedia',
   'GetRealisationsByService',
+  'ListServices',
+  // Délivre une signature d'upload : aucun état modifié (l'attache est auditée).
+  'AuthorizeMediaUpload',
 ]);
 
 /** Fichiers sans use case (types partagés, helpers de règle métier). */
-const NON_USE_CASES = new Set(['AdminActor', 'ensureNotLastSuperadmin']);
+const NON_USE_CASES = new Set([
+  'AdminActor',
+  'ensureNotLastSuperadmin',
+  'requireService',
+]);
 
 type UseCaseSource = { name: string; path: string; source: string };
 
