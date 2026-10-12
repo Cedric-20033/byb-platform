@@ -42,6 +42,7 @@ export const ADMIN_ROUTES = {
   PERMISSIONS: '/dashboard/permissions',
   AUDIT_LOGS: '/dashboard/audit-logs',
   APPOINTMENTS: '/dashboard/appointments',
+  CALENDAR: '/dashboard/calendar',
   SLOTS: '/dashboard/slots',
   HOLIDAYS: '/dashboard/holidays',
   ACCOUNT: '/dashboard/account',

@@ -62,6 +62,13 @@ export class ResendEmailProvider implements EmailProvider {
           reason ? `<p><strong>Message :</strong> ${escapeHtml(reason)}</p>` : ''
         }`;
       }
+      case EmailType.APPOINTMENT_RESCHEDULED: {
+        const previous = payload.data.previousSlot as SlotSummary | null;
+        const next = payload.data.newSlot as SlotSummary;
+        return `<p>Votre rendez-vous a été déplacé.</p>${
+          previous ? `<p><strong>Ancien créneau :</strong> ${escapeHtml(describeSlot(previous))}</p>` : ''
+        }<p><strong>Nouveau créneau :</strong> ${escapeHtml(describeSlot(next))}</p>`;
+      }
       case EmailType.APPOINTMENT_REMINDER:
         return `<p>Rappel : vous avez un rendez-vous prochainement.</p>`;
       case EmailType.ADMIN_NEW_APPOINTMENT: {
@@ -99,6 +106,13 @@ export class ResendEmailProvider implements EmailProvider {
         return `<p></p>`;
     }
   }
+}
+
+type SlotSummary = { date: string; startTime: string; endTime: string };
+
+/** Les heures arrivent de la base au format HH:mm:ss : on n'affiche que HH:mm. */
+function describeSlot(slot: SlotSummary): string {
+  return `${slot.date} de ${slot.startTime.slice(0, 5)} à ${slot.endTime.slice(0, 5)}`;
 }
 
 /** Échappement minimal pour insérer en sécurité du texte libre (nom, message...) dans un email HTML. */

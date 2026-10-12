@@ -23,6 +23,7 @@ export enum EmailType {
   APPOINTMENT_CONFIRMATION = 'appointment_confirmation',
   APPOINTMENT_CONFIRMED_BY_ADMIN = 'appointment_confirmed_by_admin',
   APPOINTMENT_CANCELLATION = 'appointment_cancellation',
+  APPOINTMENT_RESCHEDULED = 'appointment_rescheduled',
   APPOINTMENT_REMINDER = 'appointment_reminder',
   ADMIN_NEW_APPOINTMENT = 'admin_new_appointment',
   ADMIN_INVITATION = 'admin_invitation',

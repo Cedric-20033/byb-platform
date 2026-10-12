@@ -1,8 +1,12 @@
 // src/test/fakes/InMemoryAppointmentRepository.ts
 import { Appointment, type AppointmentStatus } from '@/domain/appointment/Appointment';
 import type {
+  AppointmentContactDetails,
+  AppointmentPage,
+  AppointmentPageRequest,
   AppointmentRepository,
   AppointmentSearchFilters,
+  AppointmentSortField,
 } from '@/domain/appointment/AppointmentRepository';
 import type { AppointmentWithSlot } from '@/domain/appointment/AppointmentWithSlot';
 import type { SlotRepository } from '@/domain/slot/SlotRepository';
@@ -54,6 +58,16 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
     return results;
   }
 
+  /** Même contrat que l'implémentation Supabase : tri, pagination, total sur l'ensemble filtré. */
+  async searchPage(filters: AppointmentSearchFilters, request: AppointmentPageRequest): Promise<AppointmentPage> {
+    const factor = request.direction === 'asc' ? 1 : -1;
+    const sorted = [...(await this.searchWithSlot(filters))].sort(
+      (a, b) => factor * compare(request.sortField, a, b) || a.appointment.id.localeCompare(b.appointment.id),
+    );
+    const start = (request.page - 1) * request.pageSize;
+    return { items: sorted.slice(start, start + request.pageSize), total: sorted.length };
+  }
+
   async save(appointment: Omit<Appointment, 'id' | 'createdAt'>): Promise<Appointment> {
     const saved = new Appointment(
       `appointment-${++this.sequence}`,
@@ -91,8 +105,17 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
     );
   }
 
+  async updateDetails(id: string, details: AppointmentContactDetails): Promise<void> {
+    this.replace(id, (current) => this.rebuild(current, { ...details }));
+  }
+
   async delete(id: string): Promise<void> {
     this.appointments.delete(id);
+  }
+
+  /** Aide aux tests : simule le changement de créneau fait atomiquement par la fonction SQL de replanification. */
+  moveToSlot(id: string, slotId: string): void {
+    this.replace(id, (current) => this.rebuild(current, { slotId }));
   }
 
   /** Aide aux assertions : état complet du dépôt. */
@@ -104,6 +127,11 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
     if (filters.status && appointment.status !== filters.status) return false;
     if (filters.serviceId && appointment.serviceId !== filters.serviceId) return false;
     if (filters.clientEmail && appointment.clientEmail !== filters.clientEmail) return false;
+    if (filters.query?.trim()) {
+      const needle = filters.query.trim().toLowerCase();
+      const haystack = [appointment.clientName, appointment.clientEmail, appointment.clientPhone];
+      if (!haystack.some((value) => value.toLowerCase().includes(needle))) return false;
+    }
 
     if (filters.dateFrom || filters.dateTo) {
       const slot = await this.slotRepository.findById(appointment.slotId);
@@ -112,5 +140,43 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
       if (filters.dateTo && slot.date > filters.dateTo) return false;
     }
     return true;
+  }
+
+  private replace(id: string, build: (current: Appointment) => Appointment): void {
+    const current = this.appointments.get(id);
+    if (!current) throw new Error(`Rendez-vous introuvable : ${id}`);
+    this.appointments.set(id, build(current));
+  }
+
+  /** Appointment est immuable : on reconstruit l'instance avec les champs modifiés. */
+  private rebuild(
+    current: Appointment,
+    overrides: Partial<Pick<Appointment, 'slotId' | 'clientName' | 'clientEmail' | 'clientPhone' | 'notes'>>,
+  ): Appointment {
+    return new Appointment(
+      current.id,
+      overrides.slotId ?? current.slotId,
+      current.serviceId,
+      current.subServiceId,
+      overrides.clientEmail ?? current.clientEmail,
+      overrides.clientName ?? current.clientName,
+      overrides.clientPhone ?? current.clientPhone,
+      overrides.notes === undefined ? current.notes : overrides.notes,
+      current.status,
+      current.createdAt,
+    );
+  }
+}
+
+function compare(field: AppointmentSortField, a: AppointmentWithSlot, b: AppointmentWithSlot): number {
+  switch (field) {
+    case 'slotDate':
+      return `${a.slotDate} ${a.slotStartTime}`.localeCompare(`${b.slotDate} ${b.slotStartTime}`);
+    case 'clientName':
+      return a.appointment.clientName.localeCompare(b.appointment.clientName);
+    case 'status':
+      return a.appointment.status.localeCompare(b.appointment.status);
+    case 'createdAt':
+      return a.appointment.createdAt.getTime() - b.appointment.createdAt.getTime();
   }
 }

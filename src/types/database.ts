@@ -129,6 +129,7 @@ export type Database = {
         Row: {
           created_at: string
           date: string
+          end_date: string
           id: string
           is_recurring: boolean
           label: string
@@ -136,6 +137,7 @@ export type Database = {
         Insert: {
           created_at?: string
           date: string
+          end_date: string
           id?: string
           is_recurring?: boolean
           label: string
@@ -143,6 +145,7 @@ export type Database = {
         Update: {
           created_at?: string
           date?: string
+          end_date?: string
           id?: string
           is_recurring?: boolean
           label?: string
@@ -259,6 +262,53 @@ export type Database = {
         }
         Relationships: []
       }
+      slot_generation_rules: {
+        Row: {
+          created_at: string
+          daily_end_time: string
+          daily_start_time: string
+          horizon_days: number
+          id: string
+          is_enabled: boolean
+          service_id: string
+          slot_minutes: number
+          updated_at: string
+          working_days: number[]
+        }
+        Insert: {
+          created_at?: string
+          daily_end_time?: string
+          daily_start_time?: string
+          horizon_days?: number
+          id?: string
+          is_enabled?: boolean
+          service_id: string
+          slot_minutes?: number
+          updated_at?: string
+          working_days?: number[]
+        }
+        Update: {
+          created_at?: string
+          daily_end_time?: string
+          daily_start_time?: string
+          horizon_days?: number
+          id?: string
+          is_enabled?: boolean
+          service_id?: string
+          slot_minutes?: number
+          updated_at?: string
+          working_days?: number[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slot_generation_rules_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: true
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       slots: {
         Row: {
           created_at: string
@@ -343,6 +393,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_create_appointment: {
+        Args: {
+          p_client_email: string
+          p_client_name: string
+          p_client_phone: string
+          p_date?: string
+          p_end_time?: string
+          p_notes?: string
+          p_service_id: string
+          p_slot_id?: string
+          p_start_time?: string
+          p_sub_service_id?: string
+        }
+        Returns: string
+      }
       can_do: { Args: { p_action: string; p_domain: string }; Returns: boolean }
       cancel_appointment_by_token: {
         Args: { p_token: string }
@@ -350,6 +415,11 @@ export type Database = {
       }
       current_role_name: { Args: never; Returns: string }
       default_admin_permissions: { Args: never; Returns: Json }
+      delete_appointment: {
+        Args: { p_appointment_id: string }
+        Returns: undefined
+      }
+      generate_rolling_slots: { Args: { p_today?: string }; Returns: number }
       get_appointment_by_token: {
         Args: { p_token: string }
         Returns: {
@@ -375,6 +445,10 @@ export type Database = {
       }
       reorder_sub_services: {
         Args: { p_ordered_ids: string[]; p_service_id: string }
+        Returns: undefined
+      }
+      reschedule_appointment: {
+        Args: { p_appointment_id: string; p_new_slot_id: string }
         Returns: undefined
       }
       set_service_cover: {

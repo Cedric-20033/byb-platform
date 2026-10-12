@@ -111,15 +111,89 @@ describe('table de vérité', () => {
       [
         'admin/appointments.ts#exportAppointmentsAction',
         'admin/appointments.ts#listAppointmentsAction',
+        'admin/calendar.ts#getCalendarDataAction',
         'admin/dashboard.ts#getDashboardStatsAction',
         'admin/dashboard.ts#getPendingNotificationsAction',
         'admin/holidays.ts#createHolidayAction',
         'admin/holidays.ts#deleteHolidayAction',
+        'admin/holidays.ts#importBelgianHolidaysAction',
         'admin/holidays.ts#listHolidaysAction',
+        'admin/holidays.ts#previewHolidayConflictsAction',
         'admin/services.ts#listServicesAction',
         'admin/slots.ts#listSlotsByDateAction',
+        'admin/slots.ts#listSlotsByRangeAction',
       ].sort(),
     );
+  });
+
+  describe('historique d\u2019un rendez-vous', () => {
+    const HISTORY = 'admin/appointments.ts#listAppointmentHistoryAction';
+    const gridWith = (appointmentsView: boolean, auditView: boolean) =>
+      profile(USER_ROLES.ADMIN, { appointments: { view: appointmentsView }, audit_logs: { view: auditView } });
+    const allowed = (admin: AdminProfile) => isActionAllowed(admin, ACTION_REQUIREMENTS[HISTORY]);
+
+    it('est fermé à un admin aux droits par défaut (le journal d\u2019audit ne lui est pas ouvert)', () => {
+      expect(allowed(defaultAdmin)).toBe(false);
+    });
+
+    it('exige AUSSI la consultation du journal : consulter les RDV ne suffit pas', () => {
+      expect(allowed(gridWith(true, false))).toBe(false);
+    });
+
+    it('exige la consultation des RDV : lire le journal ne suffit pas', () => {
+      expect(allowed(gridWith(false, true))).toBe(false);
+    });
+
+    it('s\u2019ouvre avec les deux droits', () => {
+      expect(allowed(gridWith(true, true))).toBe(true);
+    });
+  });
+
+  describe('création manuelle d\u2019un rendez-vous', () => {
+    const CREATE = 'admin/appointments.ts#createAppointmentByAdminAction';
+    const gridWith = (view: boolean, create: boolean) => profile(USER_ROLES.ADMIN, { appointments: { view, create } });
+    const allowed = (admin: AdminProfile) => isActionAllowed(admin, ACTION_REQUIREMENTS[CREATE]);
+
+    it('est fermée à un admin aux droits par défaut (la création est réservée au superadmin)', () => {
+      expect(allowed(defaultAdmin)).toBe(false);
+    });
+
+    it('exige AUSSI la consultation : créer sans pouvoir lire ferait échouer la fonction SQL', () => {
+      expect(allowed(gridWith(false, true))).toBe(false);
+    });
+
+    it('exige la création : consulter ne suffit pas', () => {
+      expect(allowed(gridWith(true, false))).toBe(false);
+    });
+
+    it('s\u2019ouvre avec consultation et création', () => {
+      expect(allowed(gridWith(true, true))).toBe(true);
+    });
+  });
+
+  describe('modification, replanification et suppression d\u2019un rendez-vous', () => {
+    const requirement = (name: string) => ACTION_REQUIREMENTS[`admin/appointments.ts#${name}`];
+    const grid = (view: boolean, edit: boolean, del: boolean) =>
+      profile(USER_ROLES.ADMIN, { appointments: { view, edit, delete: del } });
+
+    it.each(['rescheduleAppointmentAction', 'updateAppointmentDetailsAction'])(
+      '%s exige consultation ET modification',
+      (name) => {
+        expect(isActionAllowed(defaultAdmin, requirement(name))).toBe(false);
+        expect(isActionAllowed(grid(true, false, true), requirement(name))).toBe(false);
+        expect(isActionAllowed(grid(false, true, false), requirement(name))).toBe(false);
+        expect(isActionAllowed(grid(true, true, false), requirement(name))).toBe(true);
+      },
+    );
+
+    it('deleteAppointmentAction exige consultation ET suppression, indépendamment de la modification', () => {
+      const name = 'deleteAppointmentAction';
+
+      expect(isActionAllowed(defaultAdmin, requirement(name))).toBe(false);
+      expect(isActionAllowed(grid(true, true, false), requirement(name))).toBe(false);
+      expect(isActionAllowed(grid(false, false, true), requirement(name))).toBe(false);
+      expect(isActionAllowed(grid(true, false, true), requirement(name))).toBe(true);
+    });
   });
 
   describe('catalogue des services', () => {

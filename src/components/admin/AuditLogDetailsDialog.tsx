@@ -5,7 +5,7 @@ import { Dialog } from '@base-ui/react/dialog';
 import { X } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Badge } from '@/components/ui/Badge';
-import { describeMetadata, type MetadataScalar } from '@/components/admin/auditMetadata';
+import { describeMetadata } from '@/components/admin/auditMetadata';
 import { useAuditLabels } from '@/components/admin/useAuditLabels';
 import type { AuditLogEntry } from '@/domain/audit/AuditLogEntry';
 import { formatInstant } from '@/lib/date';
@@ -25,13 +25,6 @@ export function AuditLogDetailsDialog({ entry, open, onOpenChange }: AuditLogDet
 
   const date = entry ? formatInstant(entry.createdAt, locale, { dateStyle: 'long', timeStyle: 'medium' }) : '';
   const rows = entry ? describeMetadata(entry.metadata) : [];
-
-  /** Les booléens et les valeurs vides sont traduits ; tout le reste est affiché tel qu'enregistré. */
-  function formatScalar(value: MetadataScalar): string {
-    if (value === null || value === '') return t('details.emptyList');
-    if (typeof value === 'boolean') return t(value ? 'details.yes' : 'details.no');
-    return String(value);
-  }
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -90,15 +83,15 @@ export function AuditLogDetailsDialog({ entry, open, onOpenChange }: AuditLogDet
                           <dt className="font-mono text-xs text-[var(--color-muted)] self-center break-all">{row.label}</dt>
                           <dd className="min-w-0 break-words">
                             {row.kind === 'value' ? (
-                              formatScalar(row.value)
+                              labels.scalar(row.value)
                             ) : typeof row.to === 'boolean' ? (
                               // Diff de permission : seul l'état final compte (accordé / retiré).
                               <Badge tone={row.to ? 'success' : 'danger'}>{t(row.to ? 'details.granted' : 'details.revoked')}</Badge>
                             ) : (
                               <>
-                                <span className="text-[var(--color-muted)] line-through">{formatScalar(row.from)}</span>
+                                <span className="text-[var(--color-muted)] line-through">{labels.scalar(row.from)}</span>
                                 <span aria-hidden="true"> → </span>
-                                <span className="font-medium">{formatScalar(row.to)}</span>
+                                <span className="font-medium">{labels.scalar(row.to)}</span>
                               </>
                             )}
                           </dd>

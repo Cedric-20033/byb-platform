@@ -26,7 +26,7 @@ export class InMemoryHolidayRepository implements HolidayRepository {
   }
 
   async save(holiday: Omit<Holiday, 'id'>): Promise<Holiday> {
-    const saved = new Holiday(`holiday-${++this.sequence}`, holiday.date, holiday.label, holiday.isRecurring);
+    const saved = new Holiday(`holiday-${++this.sequence}`, holiday.date, holiday.label, holiday.isRecurring, holiday.endDate);
     this.holidays.set(saved.id, saved);
     return saved;
   }

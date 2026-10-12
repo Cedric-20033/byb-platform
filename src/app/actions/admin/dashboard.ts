@@ -56,11 +56,16 @@ export async function getPendingNotificationsAction(): Promise<NotificationsResu
 
     const supabase = await createClient();
     const useCase = new ListAppointments(new SupabaseAppointmentRepository(supabase));
-    const pending = await useCase.execute({ status: AppointmentStatus.PENDING });
+    // Tri et limite côté base : « les 5 plus récentes » se calcule sur TOUTES les demandes en attente. Trier ici la
+    // seule page renvoyée (triée par date de créneau) pouvait omettre une demande toute fraîche.
+    const pending = await useCase.execute({
+      filters: { status: AppointmentStatus.PENDING },
+      sortField: 'createdAt',
+      direction: 'desc',
+      pageSize: 5,
+    });
 
-    const items: NotificationItem[] = pending
-      .sort((a, b) => b.appointment.createdAt.getTime() - a.appointment.createdAt.getTime())
-      .slice(0, 5)
+    const items: NotificationItem[] = pending.items
       .map(({ appointment, slotDate, slotStartTime }) => ({
         id: appointment.id,
         clientName: appointment.clientName,
@@ -69,7 +74,7 @@ export async function getPendingNotificationsAction(): Promise<NotificationsResu
         slotStartTime,
       }));
 
-    return { success: true, pendingCount: pending.length, items };
+    return { success: true, pendingCount: pending.total, items };
   } catch (error) {
     return failure(toErrorCode(error));
   }

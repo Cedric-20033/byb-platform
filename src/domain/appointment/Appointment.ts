@@ -38,6 +38,14 @@ export class Appointment {
   }
 
   /**
+   * Un rendez-vous actif occupe un créneau (en attente ou confirmé). Seuls les rendez-vous actifs
+   * peuvent être déplacés ou voir leurs coordonnées modifiées : un rendez-vous annulé est un historique.
+   */
+  isActive(): boolean {
+    return this.status !== AppointmentStatus.CANCELLED;
+  }
+
+  /**
    * Valide qu'une transition de statut est autorisée par les règles métier.
    * Centralise la matrice des transitions interdites (ex: réanuler un RDV déjà annulé,
    * confirmer un RDV déjà confirmé). Les use cases appellent cette méthode avant

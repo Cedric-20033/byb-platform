@@ -2,8 +2,16 @@
 
 // src/app/actions/admin/slots.ts
 import { z } from 'zod';
-import { blockSlotSchema, generateAvailableSlotsSchema } from '@/lib/validation/appointment';
+import {
+  blockSlotSchema,
+  blockSlotsInRangeSchema,
+  deleteAvailableSlotsSchema,
+  generateAvailableSlotsSchema,
+  listSlotsByRangeSchema,
+} from '@/lib/validation/appointment';
 import { BlockSlot } from '@/application/admin/BlockSlot';
+import { BlockSlotsInRange } from '@/application/admin/BlockSlotsInRange';
+import { DeleteAvailableSlots } from '@/application/admin/DeleteAvailableSlots';
 import { UnblockSlot } from '@/application/admin/UnblockSlot';
 import { GenerateAvailableSlots } from '@/application/admin/GenerateAvailableSlots';
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
@@ -50,6 +58,65 @@ function toSlotDTO(slot: Slot): SlotDTO {
 }
 
 type ListSlotsResult = { success: true; slots: SlotDTO[] } | ActionFailure;
+type BlockInRangeResult = { success: true; blocked: number; skippedBooked: number } | ActionFailure;
+type DeleteSlotsResult = { success: true; deleted: number } | ActionFailure;
+
+/**
+ * Créneaux d'une période courte pour la vue semaine de l'écran admin. Même droit que la lecture d'une journée :
+ * `slots.view`. La période est plafonnée (voir `listSlotsByRangeSchema`) pour ne pas rapatrier tout le calendrier.
+ */
+export async function listSlotsByRangeAction(input: unknown): Promise<ListSlotsResult> {
+  try {
+    const parsed = listSlotsByRangeSchema.safeParse(input);
+    if (!parsed.success) return failure('VALIDATION_FAILED');
+
+    assertPermission(await getCurrentAdmin(), 'slots', 'view');
+
+    const supabase = await createClient();
+    const slots = await new SupabaseSlotRepository(supabase).findInRange(parsed.data);
+    return { success: true, slots: slots.map(toSlotDTO) };
+  } catch (error) {
+    return failure(toErrorCode(error));
+  }
+}
+
+/** Bloque d'un coup les créneaux libres d'une période : comme bloquer un créneau seul, `slots.edit` est exigé. */
+export async function blockSlotsInRangeAction(input: unknown): Promise<BlockInRangeResult> {
+  try {
+    const parsed = blockSlotsInRangeSchema.safeParse(input);
+    if (!parsed.success) return failure('VALIDATION_FAILED');
+
+    const admin = await getCurrentAdmin();
+    assertPermission(admin, 'slots', 'edit');
+
+    const supabase = await createClient();
+    const useCase = new BlockSlotsInRange(new SupabaseSlotRepository(supabase), new SupabaseAuditLogger());
+
+    const result = await useCase.execute({ ...parsed.data, actorId: admin.id, actorRole: toActorRole(admin.role) });
+    return { success: true, ...result };
+  } catch (error) {
+    return failure(toErrorCode(error));
+  }
+}
+
+/** Supprime les créneaux libres à venir d'une période : droit propre `slots.delete`, distinct de `edit`. */
+export async function deleteAvailableSlotsAction(input: unknown): Promise<DeleteSlotsResult> {
+  try {
+    const parsed = deleteAvailableSlotsSchema.safeParse(input);
+    if (!parsed.success) return failure('VALIDATION_FAILED');
+
+    const admin = await getCurrentAdmin();
+    assertPermission(admin, 'slots', 'delete');
+
+    const supabase = await createClient();
+    const useCase = new DeleteAvailableSlots(new SupabaseSlotRepository(supabase), new SupabaseAuditLogger());
+
+    const deleted = await useCase.execute({ ...parsed.data, actorId: admin.id, actorRole: toActorRole(admin.role) });
+    return { success: true, deleted };
+  } catch (error) {
+    return failure(toErrorCode(error));
+  }
+}
 
 /**
  * Liste les créneaux d'une journée pour l'écran admin "Créneaux". Les créneaux sont

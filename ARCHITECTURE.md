@@ -264,6 +264,16 @@ absente de la matrice ou n'applique pas sa garde.
 | `listAppointmentsAction`, `getDashboardStatsAction`, `getPendingNotificationsAction` | `appointments.view` |
 | `confirmAppointmentAction`, `cancelAppointmentAction` | `appointments.edit` |
 | `exportAppointmentsAction` | `appointments.view` + `appointments.export` |
+| `createAppointmentByAdminAction` | `appointments.view` + `appointments.create` (+ `slots.create` si le créneau est ponctuel) |
+| `rescheduleAppointmentAction`, `updateAppointmentDetailsAction` | `appointments.view` + `appointments.edit` |
+| `deleteAppointmentAction` | `appointments.view` + `appointments.delete` |
+| `previewHolidayConflictsAction`, `importBelgianHolidaysAction` | `holidays.create` |
+| `createHolidayAction` (résolution « annuler ») | `holidays.create`, plus `appointments.view` et `appointments.edit` si l'admin annule les rendez-vous touchés |
+| `listSlotsByRangeAction` | `slots.view` |
+| `blockSlotsInRangeAction` | `slots.edit` |
+| `deleteAvailableSlotsAction` | `slots.delete` |
+| `getCalendarDataAction` | `appointments.view` (couches créneaux bloqués et jours fériés : `slots.view` et `holidays.view`, lues dans l'action) |
+| `listAppointmentHistoryAction` | `appointments.view` + `audit_logs.view` (lecture du journal filtrée sur un RDV) |
 | `listSlotsByDateAction` | `slots.view` |
 | `blockSlotAction`, `unblockSlotAction` | `slots.edit` |
 | `generateSlotsAction` | `slots.create` |

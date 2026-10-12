@@ -1,11 +1,14 @@
 // src/components/admin/AppointmentsTable.tsx
 'use client';
 
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import type { AppointmentListItemDTO } from '@/app/actions/admin/appointments';
 import { AppointmentStatus } from '@/domain/appointment/Appointment';
+import type { AppointmentSortField, SortDirection } from '@/domain/appointment/AppointmentRepository';
+import { AppointmentStatusBadge } from '@/components/admin/AppointmentStatusBadge';
+import { findService, findSubService } from '@/components/admin/serviceLookup';
 import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { formatDate, t as translateField } from '@/lib/utils';
 import type { Service } from '@/types';
@@ -16,7 +19,12 @@ interface AppointmentsTableProps {
   services: Service[];
   appointments: AppointmentListItemDTO[];
   isLoading: boolean;
-  /** Déclenche la confirmation d'un RDV — absent = colonne actions masquée. */
+  /** Tri courant : absent = en-têtes non triables. */
+  sort?: { field: AppointmentSortField; direction: SortDirection };
+  onSortChange?: (field: AppointmentSortField) => void;
+  /** Ouvre la fiche du rendez-vous — absent = le nom du client n'est pas cliquable. */
+  onSelect?: (appointmentId: string) => void;
+  /** Déclenche la confirmation d'un RDV — absent = bouton "Confirmer" masqué. */
   onConfirm?: (appointmentId: string) => void;
   /** id du RDV en cours de confirmation, pour désactiver son bouton précisément. */
   confirmingId?: string | null;
@@ -26,28 +34,46 @@ interface AppointmentsTableProps {
   onCancel?: (appointmentId: string) => void;
 }
 
-const STATUS_TONE = {
-  [AppointmentStatus.PENDING]: 'warning',
-  [AppointmentStatus.CONFIRMED]: 'success',
-  [AppointmentStatus.CANCELLED]: 'danger',
-} as const;
-
-/**
- * Composant pour afficher la liste des rendez-vous.
- * @param param0 
- * @returns 
- */
+/** Liste des rendez-vous. Les actions n'apparaissent que si le parent fournit leur callback (cf. permissions). */
 export function AppointmentsTable({
   locale,
   services,
   appointments,
   isLoading,
+  sort,
+  onSortChange,
+  onSelect,
   onConfirm,
   confirmingId,
   confirmError,
   onCancel,
 }: AppointmentsTableProps) {
   const t = useTranslations('admin.appointments');
+
+  /** En-tête de colonne triable : bouton accessible et sens annoncé via aria-sort. */
+  const sortableHeader = (field: AppointmentSortField, label: string) => {
+    const current = sort?.field === field ? sort : null;
+    const ariaSort = !current ? 'none' : current.direction === 'asc' ? 'ascending' : 'descending';
+    const Icon = !current ? ArrowUpDown : current.direction === 'asc' ? ArrowUp : ArrowDown;
+
+    return (
+      <th className="px-4 py-3 font-semibold" aria-sort={ariaSort}>
+        {onSortChange ? (
+          <button
+            type="button"
+            onClick={() => onSortChange(field)}
+            aria-label={t('sortBy', { column: label })}
+            className="inline-flex items-center gap-1 uppercase tracking-wide hover:text-[var(--color-foreground)]"
+          >
+            {label}
+            <Icon size={12} aria-hidden="true" className={current ? undefined : 'opacity-40'} />
+          </button>
+        ) : (
+          label
+        )}
+      </th>
+    );
+  };
 
   if (isLoading) {
     return (
@@ -67,12 +93,12 @@ export function AppointmentsTable({
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-[var(--color-border)] text-left text-xs uppercase tracking-wide text-[var(--color-muted)]">
-            <th className="px-4 py-3 font-semibold">{t('columnClient')}</th>
+            {sortableHeader('clientName', t('columnClient'))}
             <th className="px-4 py-3 font-semibold">{t('columnService')}</th>
             <th className="px-4 py-3 font-semibold">{t('columnSubService')}</th>
-            <th className="px-4 py-3 font-semibold">{t('columnDate')}</th>
-            <th className="px-4 py-3 font-semibold">{t('columnStatus')}</th>
-            <th className="px-4 py-3 font-semibold">{t('columnCreatedAt')}</th>
+            {sortableHeader('slotDate', t('columnDate'))}
+            {sortableHeader('status', t('columnStatus'))}
+            {sortableHeader('createdAt', t('columnCreatedAt'))}
             <th className="px-4 py-3 font-semibold">{t('columnNotes')}</th>
             {(onConfirm || onCancel) && <th className="px-4 py-3 font-semibold" />}
           </tr>
@@ -80,12 +106,23 @@ export function AppointmentsTable({
         <tbody>
           {appointments.map((appointment) => {
             const { id, serviceId, subServiceId, clientName, clientEmail, status, createdAt, slotDate, slotStartTime, slotEndTime, notes } = appointment;
-            const service = services.find((s) => s.id === serviceId);
+            const service = findService(services, serviceId);
             const subService = subServiceId ? findSubService(services, subServiceId) : null;
             return (
               <tr key={id} className="border-b border-[var(--color-border)] last:border-0 hover:bg-[var(--color-surface-raised)] transition-colors">
                 <td className="px-4 py-3">
-                  <p className="font-medium">{clientName}</p>
+                  {onSelect ? (
+                    <button
+                      type="button"
+                      onClick={() => onSelect(id)}
+                      aria-label={t('details.open', { name: clientName })}
+                      className="font-medium text-left hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-sm"
+                    >
+                      {clientName}
+                    </button>
+                  ) : (
+                    <p className="font-medium">{clientName}</p>
+                  )}
                   <p className="text-xs text-[var(--color-muted)]">{clientEmail}</p>
                 </td>
                 <td className="px-4 py-3">{service ? translateField(service.name, locale) : serviceId}</td>
@@ -97,9 +134,7 @@ export function AppointmentsTable({
                   <span className="text-[var(--color-muted)]"> · {slotStartTime.slice(0, 5)}–{slotEndTime.slice(0, 5)}</span>
                 </td>
                 <td className="px-4 py-3">
-                  <Badge tone={STATUS_TONE[status]}>
-                    {t(`status${capitalize(status)}`)}
-                  </Badge>
+                  <AppointmentStatusBadge status={status} />
                 </td>
                 <td className="px-4 py-3 text-[var(--color-muted)] whitespace-nowrap">
                   {formatDate(createdAt, locale)}
@@ -139,17 +174,4 @@ export function AppointmentsTable({
       </table>
     </Card>
   );
-}
-
-function capitalize(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
-/** Un service embarque ses sous-services (voir Service.subServices) — on les cherche tous. */
-function findSubService(services: Service[], subServiceId: string) {
-  for (const service of services) {
-    const match = service.subServices.find((sub) => sub.id === subServiceId);
-    if (match) return match;
-  }
-  return null;
 }

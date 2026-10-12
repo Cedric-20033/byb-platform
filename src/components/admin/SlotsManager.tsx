@@ -23,6 +23,9 @@ import { todayInBrussels } from '@/lib/date';
 import { ActionError } from '@/lib/errors';
 import { useErrorMessage } from '@/lib/useErrorMessage';
 import { useValidationMessage } from '@/lib/useValidationMessage';
+import { usePermissions } from './PermissionsProvider';
+import { SlotsBulkPanel } from './SlotsBulkPanel';
+import { SlotsWeekView } from './SlotsWeekView';
 
 const STATUS_TONE = {
   [SlotStatus.AVAILABLE]: 'success',
@@ -42,6 +45,11 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
   const [date, setDate] = useState(() => todayInBrussels());
   const [serviceId, setServiceId] = useState(services[0]?.id ?? '');
   const [showGenerateForm, setShowGenerateForm] = useState(false);
+  const [view, setView] = useState<'day' | 'week'>('day');
+  // Sans le droit correspondant, le bouton reste absent : le serveur refuserait l'action de toute façon.
+  const { can } = usePermissions();
+  const canEdit = can('slots', 'edit');
+  const canCreate = can('slots', 'create');
 
   /**
    * Récupère la liste des créneaux horaires en fonction de la date et du service sélectionnés.
@@ -88,13 +96,30 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
         </Select>
         <DateInput label={t('selectDate')} value={date} onChange={(e) => setDate(e.target.value)} />
 
-        <Button variant="outline" size="sm" onClick={() => setShowGenerateForm((v) => !v)} className="normal-case font-medium tracking-normal ml-auto">
-          <Wand2 size={16} />
-          {t('generateTitle')}
-        </Button>
+        <div role="group" aria-label={t('viewLabel')} className="flex gap-1">
+          {(['day', 'week'] as const).map((option) => (
+            <Button
+              key={option}
+              size="sm"
+              variant={view === option ? 'primary' : 'outline'}
+              aria-pressed={view === option}
+              onClick={() => setView(option)}
+              className="normal-case font-medium tracking-normal"
+            >
+              {option === 'day' ? t('viewDay') : t('viewWeek')}
+            </Button>
+          ))}
+        </div>
+
+        {canCreate && (
+          <Button variant="outline" size="sm" onClick={() => setShowGenerateForm((v) => !v)} className="normal-case font-medium tracking-normal ml-auto">
+            <Wand2 size={16} />
+            {t('generateTitle')}
+          </Button>
+        )}
       </div>
 
-      {showGenerateForm && (
+      {canCreate && showGenerateForm && (
         <GenerateSlotsForm
           locale={locale}
           services={services}
@@ -106,6 +131,20 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
         />
       )}
 
+      <SlotsBulkPanel locale={locale} services={services} />
+
+      {view === 'week' ? (
+        <SlotsWeekView
+          locale={locale}
+          serviceId={serviceId}
+          date={date}
+          onDateChange={setDate}
+          onOpenDay={(day) => {
+            setDate(day);
+            setView('day');
+          }}
+        />
+      ) : (
       <Card className="p-4">
         {slotsQuery.isLoading ? (
           <p className="text-sm text-[var(--color-muted)] text-center py-6">{t('title')}…</p>
@@ -126,7 +165,7 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
                     {t(`status.${slot.status}`)}
                   </Badge>
                 </div>
-                {slot.status !== SlotStatus.BOOKED && (
+                {canEdit && slot.status !== SlotStatus.BOOKED && (
                   <button
                     onClick={() =>
                       toggleMutation.mutate({
@@ -145,6 +184,7 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
           </ul>
         )}
       </Card>
+      )}
     </div>
   );
 }

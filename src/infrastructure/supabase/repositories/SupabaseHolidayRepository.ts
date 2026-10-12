@@ -25,10 +25,12 @@ export class SupabaseHolidayRepository implements HolidayRepository {
     // Les jours récurrents (ex: Noël) sont toujours inclus, quelle que soit la
     // période demandée : seule Holiday.appliesTo() (domaine) sait comparer
     // leur mois/jour à une date cible, indépendamment de l'année.
+    // Un congé ponctuel (jour ou plage) est retenu s'il RECOUVRE la période : il commence avant
+    // sa fin et se termine après son début.
     const { data, error } = await this.supabase
       .from('holidays')
       .select('*')
-      .or(`is_recurring.eq.true,and(is_recurring.eq.false,date.gte.${from},date.lte.${to})`);
+      .or(`is_recurring.eq.true,and(is_recurring.eq.false,date.lte.${to},end_date.gte.${from})`);
 
     if (error) throw new Error(error.message);
     return data.map(this.toDomain);
@@ -39,6 +41,7 @@ export class SupabaseHolidayRepository implements HolidayRepository {
       .from('holidays')
       .insert({
         date: holiday.date,
+        end_date: holiday.endDate,
         label: holiday.label,
         is_recurring: holiday.isRecurring,
       })
@@ -55,6 +58,6 @@ export class SupabaseHolidayRepository implements HolidayRepository {
   }
 
   private toDomain(row: HolidayRow): Holiday {
-    return new Holiday(row.id, row.date, row.label, row.is_recurring);
+    return new Holiday(row.id, row.date, row.label, row.is_recurring, row.end_date);
   }
 }

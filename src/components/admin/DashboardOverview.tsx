@@ -27,10 +27,10 @@ export function DashboardOverview() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <StatCard icon={CalendarCheck} label={t('statAppointmentsToday')} value={isLoading ? '—' : data!.appointmentsToday} tone="primary" />
-        <StatCard icon={CalendarClock} label={t('statAppointmentsWeek')} value={isLoading ? '—' : data!.appointmentsThisWeek} tone="primary" />
-        <StatCard icon={Hourglass} label={t('statPending')} value={isLoading ? '—' : data!.pendingCount} tone="secondary" />
-        <StatCard icon={Ban} label={t('statBlockedSlots')} value={isLoading ? '—' : data!.blockedSlotsToday} tone="neutral" />
+        <StatCard icon={CalendarCheck} label={t('statAppointmentsToday')} value={isLoading ? '-' : data!.appointmentsToday} tone="primary" />
+        <StatCard icon={CalendarClock} label={t('statAppointmentsWeek')} value={isLoading ? '-' : data!.appointmentsThisWeek} tone="primary" />
+        <StatCard icon={Hourglass} label={t('statPending')} value={isLoading ? '-' : data!.pendingCount} tone="secondary" />
+        <StatCard icon={Ban} label={t('statBlockedSlots')} value={isLoading ? '-' : data!.blockedSlotsToday} tone="neutral" />
       </div>
 
       {data && <AppointmentsChart title={t('chartTitle')} data={data.last14Days} />}

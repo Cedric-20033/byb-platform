@@ -16,6 +16,9 @@ const APPLICATION_DIR = resolve(process.cwd(), 'src/application');
 const READ_ONLY = new Set([
   'GetDashboardStats',
   'ListAppointments',
+  'GetAppointmentHistory',
+  'GetCalendarRange',
+  'FindHolidayConflicts',
   'ListHolidays',
   'GetAvailableSlots',
   'ListAdmins',
@@ -26,6 +29,13 @@ const READ_ONLY = new Set([
   // Délivre une signature d'upload : aucun état modifié (l'attache est auditée).
   'AuthorizeMediaUpload',
 ]);
+
+/**
+ * Use cases qui modifient l'état EN DÉLÉGUANT à un autre use case, lequel écrit l'audit : chacune des actions
+ * unitaires est tracée une fois, par le délégué. Ils ne doivent donc PAS journaliser eux-mêmes (double trace).
+ * Clé = use case déléguant, valeur = use case délégué.
+ */
+const DELEGATING = new Map([['ImportBelgianHolidays', 'CreateHoliday']]);
 
 /** Fichiers sans use case (types partagés, helpers de règle métier). */
 const NON_USE_CASES = new Set([
@@ -48,13 +58,15 @@ function collectUseCases(dir: string): UseCaseSource[] {
 }
 
 const useCases = collectUseCases(APPLICATION_DIR);
-const writers = useCases.filter((u) => !READ_ONLY.has(u.name));
+const writers = useCases.filter((u) => !READ_ONLY.has(u.name) && !DELEGATING.has(u.name));
 const readers = useCases.filter((u) => READ_ONLY.has(u.name));
+const delegating = useCases.filter((u) => DELEGATING.has(u.name));
 
 describe('complétude du journal d’audit', () => {
   it('découvre des use cases (le scan ne doit pas être vide)', () => {
     expect(writers.length).toBeGreaterThan(10);
     expect(readers.length).toBe(READ_ONLY.size);
+    expect(delegating.length).toBe(DELEGATING.size);
   });
 
   it.each(writers.map((u) => [u.name, u] as const))(
@@ -72,6 +84,18 @@ describe('complétude du journal d’audit', () => {
       for (const key of used) {
         expect(Object.keys(AuditAction)).toContain(key);
       }
+    },
+  );
+
+  it.each(delegating.map((u) => [u.name, u] as const))(
+    '%s délègue son audit à un use case qui trace, sans journaliser lui-même',
+    (name, useCase) => {
+      const delegate = DELEGATING.get(name)!;
+
+      // Le délégué est bien un use case écrivant l'audit, et ce use case s'en sert réellement.
+      expect(writers.map((u) => u.name), `${delegate} doit être un use case qui trace`).toContain(delegate);
+      expect(useCase.source).toContain(delegate);
+      expect(useCase.source, name).not.toContain('auditLogger.log(');
     },
   );
 

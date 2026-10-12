@@ -11,6 +11,7 @@ import {
   createHolidaySchema,
   generateAvailableSlotsSchema,
   getAvailableSlotsSchema,
+  createAppointmentByAdminSchema,
 } from './appointment';
 import { VALIDATION_MESSAGE_KEYS, isValidationMessageKey } from './messages';
 
@@ -90,6 +91,57 @@ describe('schémas de validation — messages sous forme de clés', () => {
       }).success,
     ).toBe(true);
     expect(appointmentSearchFiltersSchema.safeParse({}).success).toBe(true);
+  });
+});
+
+describe('createAppointmentByAdminSchema', () => {
+  const client = { clientName: 'Marc Lefebvre', clientEmail: 'marc@example.be', clientPhone: '+32 470 12 34 56' };
+  const base = { ...client, serviceId: VALID_UUID };
+
+  it('accepte un créneau existant', () => {
+    const result = createAppointmentByAdminSchema.safeParse({ ...base, slot: { kind: 'existing', slotId: VALID_UUID } });
+
+    expect(result.success).toBe(true);
+  });
+
+  it('accepte un créneau ponctuel et une sous-prestation facultative', () => {
+    const result = createAppointmentByAdminSchema.safeParse({
+      ...base,
+      subServiceId: VALID_UUID,
+      slot: { kind: 'adHoc', date: '2026-10-20', startTime: '08:30', endTime: '09:15' },
+    });
+
+    expect(result.success).toBe(true);
+  });
+
+  it('refuse un créneau ponctuel dont la fin ne suit pas le début', () => {
+    const result = createAppointmentByAdminSchema.safeParse({
+      ...base,
+      slot: { kind: 'adHoc', date: '2026-10-20', startTime: '10:00', endTime: '09:00' },
+    });
+
+    expect(messagesOf(result)).toContain('startTimeAfterEnd');
+  });
+
+  it('refuse un type de créneau inconnu', () => {
+    expect(createAppointmentByAdminSchema.safeParse({ ...base, slot: { kind: 'autre' } }).success).toBe(false);
+  });
+
+  it('applique les règles des coordonnées du formulaire public, avec des messages traduisibles', () => {
+    const messages = messagesOf(
+      createAppointmentByAdminSchema.safeParse({
+        serviceId: 'x',
+        slot: { kind: 'adHoc', date: 'x', startTime: 'x', endTime: 'x' },
+        clientName: 'a',
+        clientEmail: 'pas-un-email',
+        clientPhone: 'abc',
+      }),
+    );
+
+    expect(messages.length).toBeGreaterThan(0);
+    for (const message of messages) {
+      expect(isValidationMessageKey(message), `message non traduisible : "${message}"`).toBe(true);
+    }
   });
 });
 

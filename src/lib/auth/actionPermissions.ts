@@ -49,6 +49,30 @@ export const ACTION_REQUIREMENTS: Record<string, ActionRequirement> = {
   'admin/appointments.ts#confirmAppointmentAction': need('appointments', 'edit'),
   'admin/appointments.ts#cancelAppointmentAction': need('appointments', 'edit'),
   'admin/appointments.ts#exportAppointmentsAction': need('appointments', 'view', 'export'),
+  // `view` : la fonction SQL relit la ligne insérée (RLS de lecture). Un créneau ponctuel exige en plus
+  // `slots.create` : condition propre à ce cas, vérifiée dans l'action et non exprimable dans cette matrice.
+  'admin/appointments.ts#createAppointmentByAdminAction': need('appointments', 'view', 'create'),
+  // `view` en plus de `edit`/`delete` : les fonctions SQL verrouillent ou relisent la ligne (RLS de lecture).
+  // Congés : l'aperçu des conflits et l'import suivent le droit de création. Annuler les rendez-vous touchés
+  // (résolution "cancel" de createHolidayAction) exige en plus appointments.view et edit : vérifié dans l'action.
+  'admin/holidays.ts#previewHolidayConflictsAction': need('holidays', 'create'),
+  'admin/holidays.ts#importBelgianHolidaysAction': need('holidays', 'create'),
+  'admin/slots.ts#listSlotsByRangeAction': need('slots', 'view'),
+  'admin/slots.ts#blockSlotsInRangeAction': need('slots', 'edit'),
+  'admin/slots.ts#deleteAvailableSlotsAction': need('slots', 'delete'),
+  'admin/appointments.ts#rescheduleAppointmentAction': need('appointments', 'view', 'edit'),
+  'admin/appointments.ts#updateAppointmentDetailsAction': need('appointments', 'view', 'edit'),
+  'admin/appointments.ts#deleteAppointmentAction': need('appointments', 'view', 'delete'),
+  // Les couches "créneaux bloqués" et "jours fériés" ne sont lues qu'avec slots.view / holidays.view (dans l'action).
+  'admin/calendar.ts#getCalendarDataAction': need('appointments', 'view'),
+  // L'historique est une lecture du journal d'audit filtrée sur un RDV : les deux droits sont exigés.
+  'admin/appointments.ts#listAppointmentHistoryAction': {
+    kind: 'permission',
+    required: [
+      { domain: 'appointments', action: 'view' },
+      { domain: 'audit_logs', action: 'view' },
+    ],
+  },
 
   // Créneaux
   'admin/slots.ts#listSlotsByDateAction': need('slots', 'view'),
