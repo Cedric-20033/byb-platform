@@ -21,6 +21,9 @@ const READ_ONLY = new Set([
   'FindHolidayConflicts',
   'ListHolidays',
   'GetAvailableSlots',
+  'GetClientAppointment',
+  // N'écrit rien en base : relaie un message par email (voir le commentaire du use case).
+  'SubmitContactMessage',
   'ListAdmins',
   'ListAuditLogs',
   'GetHomeRealisationMedia',
@@ -35,13 +38,23 @@ const READ_ONLY = new Set([
  * unitaires est tracée une fois, par le délégué. Ils ne doivent donc PAS journaliser eux-mêmes (double trace).
  * Clé = use case déléguant, valeur = use case délégué.
  */
-const DELEGATING = new Map([['ImportBelgianHolidays', 'CreateHoliday']]);
+const DELEGATING = new Map([
+  ['ImportBelgianHolidays', 'CreateHoliday'],
+  ['CancelAppointmentByClient', 'CancelAppointment'],
+  ['RescheduleAppointmentByClient', 'RescheduleAppointment'],
+]);
 
 /** Fichiers sans use case (types partagés, helpers de règle métier). */
 const NON_USE_CASES = new Set([
   'AdminActor',
   'ensureNotLastSuperadmin',
   'requireService',
+  // Garde de lecture partagée des use cases « par le client » : ne modifie rien.
+  'requireActiveClientAppointment',
+  // Quotas anti-abus : un compteur technique, pas une action métier à tracer dans le journal d'audit.
+  'PublicBookingGuard',
+  'PublicContactGuard',
+  'submissionGuard',
 ]);
 
 type UseCaseSource = { name: string; path: string; source: string };

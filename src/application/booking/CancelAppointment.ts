@@ -62,7 +62,6 @@ export class CancelAppointment {
 
     await this.emailProvider.send({
       to: appointment.clientEmail,
-      subject: "Annulation de votre rendez-vous",
       type: EmailType.APPOINTMENT_CANCELLATION,
       data: { appointment, reason: input.reason ?? null },
     });

@@ -74,4 +74,8 @@ export enum AuditAction {
   // Système
   EMAIL_SENT = 'EMAIL_SENT',
   EXPORT_GENERATED = 'EXPORT_GENERATED',
+
+  // Conformité RGPD (écrites par les fonctions SQL de la migration 0018, jamais avec des coordonnées de client)
+  CLIENT_DATA_ERASED = 'CLIENT_DATA_ERASED',
+  APPOINTMENTS_ANONYMIZED = 'APPOINTMENTS_ANONYMIZED',
 }

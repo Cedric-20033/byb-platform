@@ -1,5 +1,6 @@
 // src/domain/appointment/Appointment.ts
 import { DomainError } from '../shared/DomainError';
+import { DEFAULT_APPOINTMENT_LOCALE, type AppointmentLocale } from './AppointmentLocale';
 
 /**
  * Entité métier centrale : le Rendez-vous.
@@ -20,6 +21,8 @@ export class Appointment {
     public readonly notes: string | null,
     public readonly status: AppointmentStatus,
     public readonly createdAt: Date,
+    /** Langue de réservation du client, utilisée pour ses emails. */
+    public readonly locale: AppointmentLocale = DEFAULT_APPOINTMENT_LOCALE,
   ) {}
 
   /**

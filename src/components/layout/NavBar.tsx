@@ -13,6 +13,7 @@ import { company } from '@/data/company';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { Button } from '@/components/ui/Button';
 import { BookingDialog } from '@/components/booking/BookingDialog';
+import { isBookingPagePath } from '@/lib/booking/bookingRoutes';
 import type { Service } from '@/types';
 import { ShowImage } from '../ui/ShowImage';
 
@@ -25,6 +26,8 @@ export function Navbar({ services }: NavbarProps) {
   const tNav = useTranslations('nav');
   const locale = useLocale() as Locale;
   const pathname = usePathname();
+  // La page /rdv héberge déjà le wizard : ses boutons d'ouverture en modale sont masqués.
+  const onBookingPage = isBookingPagePath(pathname);
 
   const [isMenuOpen, setIsMenuOpen]   = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -124,9 +127,11 @@ export function Navbar({ services }: NavbarProps) {
             </a>
             <ThemeToggle />
             {/* Clé fr.json : nav.bookAppointment */}
-            <Button size="sm" variant="secondary" onClick={() => setBookingOpen(true)}>
-              {tNav('bookAppointment')}
-            </Button>
+            {!onBookingPage && (
+              <Button size="sm" variant="secondary" onClick={() => setBookingOpen(true)}>
+                {tNav('bookAppointment')}
+              </Button>
+            )}
           </div>
 
           {/* Mobile toggle */}
@@ -176,18 +181,20 @@ export function Navbar({ services }: NavbarProps) {
                 )}
               </div>
             ))}
-            <div className="pt-4 border-t border-[var(--color-border)]">
-              <Button
-                variant="secondary"
-                className="w-full"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  setBookingOpen(true);
-                }}
-              >
-                {tNav('bookAppointment')}
-              </Button>
-            </div>
+            {!onBookingPage && (
+              <div className="pt-4 border-t border-[var(--color-border)]">
+                <Button
+                  variant="secondary"
+                  className="w-full"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setBookingOpen(true);
+                  }}
+                >
+                  {tNav('bookAppointment')}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}

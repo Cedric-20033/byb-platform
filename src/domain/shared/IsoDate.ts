@@ -119,6 +119,21 @@ export function startOfDayInstant(isoDate: string, timeZone: string = APP_TIME_Z
   return new Date(utcMidnight - zoneOffsetMs(new Date(firstGuess), timeZone));
 }
 
+/**
+ * Instant UTC correspondant à une heure murale (« 2026-10-20 à 09:00 ») dans un fuseau donné.
+ * Même démarche en deux passes que `startOfDayInstant`, pour rester juste le jour d'un changement d'heure.
+ * `time` accepte « HH:mm » ou « HH:mm:ss » (format renvoyé par la base).
+ */
+export function wallClockToInstant(isoDate: string, time: string, timeZone: string = APP_TIME_ZONE): Date {
+  const match = /^(\d{2}):(\d{2})(?::\d{2})?$/.exec(time);
+  if (!match) throw new Error(`Heure invalide : "${time}" (format attendu : HH:mm).`);
+
+  const wallClockAsUtc = parse(isoDate).getTime() + (Number(match[1]) * 60 + Number(match[2])) * 60_000;
+
+  const firstGuess = wallClockAsUtc - zoneOffsetMs(new Date(wallClockAsUtc), timeZone);
+  return new Date(wallClockAsUtc - zoneOffsetMs(new Date(firstGuess), timeZone));
+}
+
 /** Toutes les dates de `from` à `to` incluses ; tableau vide si `from` > `to`. */
 export function eachDate(from: string, to: string): string[] {
   const dates: string[] = [];

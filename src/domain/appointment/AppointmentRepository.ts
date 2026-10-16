@@ -24,6 +24,11 @@ export interface AppointmentRepository {
   searchWithSlot(filters: AppointmentSearchFilters): Promise<AppointmentWithSlot[]>;
   /** Une page de résultats triés, avec le total des lignes correspondant aux filtres (tableau paginé). */
   searchPage(filters: AppointmentSearchFilters, request: AppointmentPageRequest): Promise<AppointmentPage>;
+  /**
+   * Rendez-vous actifs (non annulés) d'une adresse email dont le créneau est à `fromDate` ou après
+   * (format ISO « AAAA-MM-JJ »). `email` est déjà normalisé en minuscules par l'appelant.
+   */
+  countUpcomingByEmail(email: string, fromDate: string): Promise<number>;
   save(appointment: Omit<Appointment, 'id' | 'createdAt'>): Promise<Appointment>;
   updateStatus(id: string, status: Appointment['status']): Promise<void>;
   /** Modifie les coordonnées et les notes ; le service, le créneau et le statut ont leurs propres opérations. */

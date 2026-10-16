@@ -100,6 +100,7 @@ export function FloatingWhatsApp() {
 
       <a
         href={whatsappUrl}
+        data-testid="floating-whatsapp"
         target="_blank"
         rel="noopener noreferrer"
         aria-label={t('ariaLabel')}

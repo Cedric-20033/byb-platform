@@ -59,7 +59,6 @@ export class CreateAppointmentByAdmin {
     // Le rendez-vous est déjà confirmé : le client reçoit directement le courrier de confirmation.
     await this.emailProvider.send({
       to: appointment.clientEmail,
-      subject: 'Votre rendez-vous est confirmé',
       type: EmailType.APPOINTMENT_CONFIRMED_BY_ADMIN,
       data: { appointment },
     });

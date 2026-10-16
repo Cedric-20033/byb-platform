@@ -21,8 +21,9 @@ $$;
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Fixtures
 -- ─────────────────────────────────────────────────────────────────────────────
--- 2099-03-02 est un lundi. Horizon de 7 jours : du lundi 2 au mardi 10 mars (8 jours),
--- soit 5 jours ouvrés (lun. 2 → ven. 6) + lun. 9 + mar. 10 = 7 jours.
+-- 2099-03-02 est un lundi. Horizon de 7 jours : la fonction couvre `aujourd'hui` → `aujourd'hui + 7` INCLUS,
+-- soit du lundi 2 au lundi 9 mars (8 jours). Jours ouvrés : lun. 2, mar. 3, mer. 4, jeu. 5, ven. 6 et lun. 9 = 6 jours,
+-- dont le mercredi 4 est un congé : il reste 5 jours ouverts × 2 créneaux = 10 créneaux.
 
 insert into public.services (id, slug, name, short_description, full_description, icon, is_active, "order") values
   ('97000000-0000-0000-0000-00000000000a', 'actif',    '{"fr":"Actif"}',    '{"fr":"a"}', '{"fr":"a"}', 'Hammer', true,  0),
@@ -42,12 +43,12 @@ insert into public.holidays (date, end_date, label, is_recurring) values ('2099-
 -- ─────────────────────────────────────────────────────────────────────────────
 
 select is(
-  public.generate_rolling_slots('2099-03-02'), 12,
-  '6 jours ouvrés ouverts (7 moins le congé) x 2 créneaux = 12 créneaux créés'
+  public.generate_rolling_slots('2099-03-02'), 10,
+  '5 jours ouvrés ouverts (6 moins le congé) x 2 créneaux = 10 créneaux créés'
 );
 
 select is(
-  (select count(*)::int from public.slots where service_id = '97000000-0000-0000-0000-00000000000a'), 12,
+  (select count(*)::int from public.slots where service_id = '97000000-0000-0000-0000-00000000000a'), 10,
   'les créneaux sont rattachés au service actif'
 );
 

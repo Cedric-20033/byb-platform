@@ -119,6 +119,8 @@
     "title": "Une question ? Un projet ?",
     "subtitle": "Répondons-nous dans les 24 heures.",
     "form": {
+      "privacyNotice": "Les informations saisies servent uniquement à répondre à votre demande. <link>Politique de confidentialité</link>",
+      "captchaLoadError": "La vérification anti-robot n'a pas pu se charger. Rechargez la page.",
       "firstName": "Prénom",
       "lastName": "Nom",
       "email": "Email",
@@ -137,13 +139,22 @@
       "email": "Email",
       "hours": "Horaires"
     },
+    "metaDescription": "Contactez BYB Construction à Asselt ou à Liège : écrivez-nous via le formulaire, appelez-nous ou retrouvez nos adresses et horaires.",
     "map": {
+      "load": "Afficher la carte de {name}",
+      "consent": "Cette carte est fournie par Google. L'afficher transmet votre adresse IP à Google, qui peut utiliser des cookies.",
       "title": "Localisation {name}"
     }
   },
 
   "booking": {
     "dialogTitle": "Prendre rendez-vous",
+    "page": {
+      "title": "Prendre rendez-vous",
+      "description": "Réservez en ligne un rendez-vous avec BYB Bâtiment & Rénovation : choisissez votre prestation et un créneau disponible, vous recevez une confirmation par email.",
+      "heading": "Prenez rendez-vous en ligne",
+      "subtitle": "Choisissez votre prestation, puis un créneau disponible. Vous recevez un email de confirmation."
+    },
     "steps": {
       "service": "Service",
       "subService": "Prestation",
@@ -157,7 +168,7 @@
     "subService": {
       "title": "Précisez votre besoin",
       "subtitle": "Sélectionnez la prestation qui correspond le mieux à votre projet.",
-      "skip": "Aucune prestation spécifique — passer à l'étape suivante"
+      "skip": "Aucune prestation spécifique, passer à l'étape suivante"
     },
     "slot": {
       "title": "Choisissez un créneau",
@@ -174,6 +185,9 @@
       "notes": "Message (facultatif)",
       "submit": "Confirmer le rendez-vous",
       "submitting": "Confirmation en cours...",
+      "privacyNotice": "Vos coordonnées servent uniquement à gérer votre rendez-vous. <link>Politique de confidentialité</link>",
+      "chooseAnotherSlot": "Choisir un autre créneau",
+      "captchaLoadError": "La vérification anti-robot n'a pas pu se charger. Rechargez la page.",
       "successTitle": "Rendez-vous confirmé !",
       "successMessage": "Un email de confirmation vient de vous être envoyé.",
       "errorMessage": "Une erreur est survenue. Veuillez réessayer."
@@ -183,6 +197,235 @@
       "subService": "Prestation",
       "date": "Date",
       "time": "Heure"
+    }
+  },
+
+  "clientAppointment": {
+    "summary": {
+      "service": "Service",
+      "subService": "Prestation",
+      "date": "Date",
+      "time": "Heure",
+      "status": "Statut"
+    },
+    "status": {
+      "pending": "En attente de confirmation",
+      "confirmed": "Confirmé",
+      "cancelled": "Annulé"
+    },
+    "timeRange": "{start} à {end}",
+    "invalid": {
+      "title": "Lien invalide",
+      "message": "Ce lien n'est pas valide ou a expiré. Utilisez le lien reçu par email, ou contactez-nous.",
+      "contact": "Nous contacter"
+    },
+    "cancelled": {
+      "title": "Rendez-vous déjà annulé",
+      "message": "Ce rendez-vous est annulé : le créneau a été libéré. Vous pouvez reprendre rendez-vous quand vous le souhaitez."
+    },
+    "past": {
+      "title": "Rendez-vous passé",
+      "message": "Ce rendez-vous a déjà eu lieu : il ne peut plus être annulé ni déplacé."
+    },
+    "bookAgain": "Prendre un nouveau rendez-vous",
+    "backHome": "Retour à l'accueil",
+    "cancel": {
+      "pageTitle": "Annuler mon rendez-vous",
+      "pageDescription": "Annulez votre rendez-vous en un clic.",
+      "heading": "Annuler mon rendez-vous",
+      "intro": "Vérifiez les informations ci-dessous avant d'annuler.",
+      "action": "Annuler le rendez-vous",
+      "confirmTitle": "Confirmer l'annulation ?",
+      "confirmMessage": "Le créneau sera libéré. Cette action est définitive.",
+      "confirmAction": "Oui, annuler",
+      "keep": "Non, le conserver",
+      "submitting": "Annulation...",
+      "successTitle": "Rendez-vous annulé",
+      "successMessage": "Votre rendez-vous est annulé. Un email de confirmation vous a été envoyé.",
+      "rescheduleHint": "Vous préférez changer de date ?",
+      "rescheduleAction": "Modifier la date"
+    },
+    "reschedule": {
+      "pageTitle": "Modifier mon rendez-vous",
+      "pageDescription": "Choisissez un nouveau créneau pour votre rendez-vous.",
+      "heading": "Modifier mon rendez-vous",
+      "intro": "Choisissez un nouveau créneau pour la même prestation.",
+      "current": "Créneau actuel",
+      "pickTitle": "Choisissez un nouveau créneau",
+      "confirmTitle": "Confirmer ce nouveau créneau ?",
+      "confirmMessage": "Nouveau créneau : {date} à {time}. Votre rendez-vous actuel sera libéré.",
+      "confirmAction": "Confirmer le déplacement",
+      "back": "Choisir un autre créneau",
+      "submitting": "Déplacement...",
+      "successTitle": "Rendez-vous déplacé",
+      "successMessage": "Votre rendez-vous a lieu : {date} à {time}. Un email de confirmation vous a été envoyé.",
+      "cancelHint": "Vous ne pouvez plus venir ?",
+      "cancelAction": "Annuler le rendez-vous"
+    }
+  },
+
+  "emails": {
+    "common": {
+      "greeting": "Bonjour {name},",
+      "manageIntro": "Un imprévu ? Vous pouvez modifier ou annuler votre rendez-vous en ligne.",
+      "rescheduleAction": "Modifier la date",
+      "cancelAction": "Annuler le rendez-vous",
+      "rebookAction": "Prendre un nouveau rendez-vous",
+      "dashboardAction": "Ouvrir le tableau de bord",
+      "calendarNote": "Un fichier calendrier (.ics) est joint à cet email pour ajouter le rendez-vous à votre agenda.",
+      "calendarSummary": "{company} : {service}",
+      "timeRange": "{start} à {end}",
+      "footer": "{company} · {phone}",
+      "fields": {
+        "service": "Service",
+        "subService": "Prestation",
+        "date": "Date",
+        "time": "Heure",
+        "client": "Client",
+        "email": "Email",
+        "phone": "Téléphone",
+        "notes": "Notes",
+        "previousSlot": "Ancien créneau",
+        "newSlot": "Nouveau créneau",
+        "reason": "Message de notre équipe",
+        "sender": "Expéditeur",
+        "subject": "Objet",
+        "message": "Message"
+      }
+    },
+    "adminContactMessage": {
+      "subject": "Nouveau message de contact : {subject}",
+      "preview": "Un visiteur vous a écrit via le formulaire de contact.",
+      "heading": "Nouveau message de contact",
+      "intro": "Un visiteur a écrit via le formulaire de contact du site. Répondez directement à cet email pour lui écrire."
+    },
+    "contactAcknowledgement": {
+      "subject": "Nous avons bien reçu votre message",
+      "preview": "Votre message nous est bien parvenu.",
+      "heading": "Message reçu",
+      "intro": "Merci de nous avoir écrit. Votre message nous est bien parvenu et nous vous répondons dans les meilleurs délais. Voici une copie de ce que vous nous avez envoyé."
+    },
+    "appointmentConfirmation": {
+      "subject": "Votre demande de rendez-vous a bien été reçue",
+      "preview": "Nous avons bien reçu votre demande.",
+      "heading": "Demande reçue",
+      "intro": "Nous avons bien reçu votre demande de rendez-vous. Notre équipe la valide dans les meilleurs délais, vous recevrez un email de confirmation."
+    },
+    "appointmentConfirmedByAdmin": {
+      "subject": "Votre rendez-vous est confirmé",
+      "preview": "Votre rendez-vous est confirmé.",
+      "heading": "Rendez-vous confirmé",
+      "intro": "Votre rendez-vous est confirmé. Nous avons hâte de vous accueillir."
+    },
+    "appointmentCancellation": {
+      "subject": "Annulation de votre rendez-vous",
+      "preview": "Votre rendez-vous a été annulé.",
+      "heading": "Rendez-vous annulé",
+      "intro": "Votre rendez-vous a été annulé. Vous pouvez en reprendre un à tout moment."
+    },
+    "appointmentRescheduled": {
+      "subject": "Votre rendez-vous a été déplacé",
+      "preview": "Votre rendez-vous a changé de créneau.",
+      "heading": "Rendez-vous déplacé",
+      "intro": "Votre rendez-vous a été déplacé vers un nouveau créneau."
+    },
+    "appointmentReminder": {
+      "subject": "Rappel : votre rendez-vous a lieu demain",
+      "preview": "Votre rendez-vous a lieu demain.",
+      "heading": "Rendez-vous demain",
+      "intro": "Nous vous rappelons votre rendez-vous prévu demain."
+    },
+    "adminNewAppointment": {
+      "subject": "Nouveau rendez-vous à confirmer",
+      "preview": "Une nouvelle demande de rendez-vous attend votre confirmation.",
+      "heading": "Nouvelle demande de rendez-vous",
+      "intro": "Un nouveau rendez-vous vient d'être pris sur le site. Il attend votre confirmation."
+    },
+    "adminAppointmentCancelledByClient": {
+      "subject": "Un client a annulé son rendez-vous",
+      "preview": "Un client a annulé son rendez-vous.",
+      "heading": "Rendez-vous annulé par le client",
+      "intro": "Le client a annulé son rendez-vous : le créneau est de nouveau disponible."
+    },
+    "adminAppointmentRescheduledByClient": {
+      "subject": "Un client a déplacé son rendez-vous",
+      "preview": "Un client a choisi un nouveau créneau.",
+      "heading": "Rendez-vous déplacé par le client",
+      "intro": "Le client a choisi un nouveau créneau pour son rendez-vous."
+    }
+  },
+
+  "privacy": {
+    "pageDescription": "Comment BYB Construction collecte, utilise et protège vos données personnelles via ce site, et comment exercer vos droits.",
+    "intro": "Cette politique explique quelles données personnelles BYB Construction collecte via ce site, pourquoi, combien de temps elles sont conservées et comment exercer vos droits.",
+    "updated": "Dernière mise à jour : {date}",
+    "controller": {
+      "title": "Responsable du traitement",
+      "text": "{company}, {address}. Numéro d'entreprise (BCE) : {vat}. Pour toute question relative à vos données, contactez-nous à {email}."
+    },
+    "collected": {
+      "title": "Données collectées et finalités",
+      "labels": {
+        "data": "Données",
+        "purpose": "Finalité",
+        "basis": "Base légale"
+      },
+      "appointments": {
+        "title": "Prise de rendez-vous",
+        "data": "Nom, adresse email, numéro de téléphone, message facultatif, prestation et créneau choisis, langue du site.",
+        "purpose": "Enregistrer et gérer votre demande, vous envoyer les confirmations, modifications et annulations par email, et vous permettre de modifier ou d'annuler vous-même votre rendez-vous.",
+        "basis": "Mesures précontractuelles prises à votre demande (article 6.1.b du RGPD)."
+      },
+      "contact": {
+        "title": "Formulaire de contact",
+        "data": "Prénom, nom, adresse email, numéro de téléphone (facultatif), objet et message.",
+        "purpose": "Répondre à votre demande.",
+        "basis": "Intérêt légitime à répondre aux demandes reçues (article 6.1.f du RGPD)."
+      },
+      "security": {
+        "title": "Sécurité du site",
+        "data": "Adresse IP et adresse email (compteurs temporaires), vérification anti-robot.",
+        "purpose": "Protéger les formulaires contre les envois automatisés et les abus.",
+        "basis": "Intérêt légitime à sécuriser le site (article 6.1.f du RGPD)."
+      }
+    },
+    "retention": {
+      "title": "Durées de conservation",
+      "appointmentsUnset": "Les données d'un rendez-vous sont conservées le temps nécessaire à sa gestion et au suivi de la relation, puis effacées ou anonymisées. Vous pouvez demander leur effacement à tout moment.",
+      "appointments": "Les données d'un rendez-vous sont anonymisées {months, plural, one {# mois} other {# mois}} après sa date. Vous pouvez demander leur effacement plus tôt.",
+      "contact": "Les messages envoyés par le formulaire de contact ne sont pas enregistrés sur le site : ils sont transmis par email à notre équipe, qui les conserve le temps nécessaire au traitement de votre demande.",
+      "security": "Les compteurs de sécurité (adresse IP, adresse email) sont supprimés automatiquement au bout de 24 heures."
+    },
+    "processors": {
+      "title": "Destinataires et sous-traitants",
+      "intro": "Vos données ne sont jamais vendues. Nous faisons appel à des prestataires qui les traitent pour notre compte :",
+      "supabase": "stockage des rendez-vous et gestion des comptes de l'équipe",
+      "resend": "envoi des emails (confirmations, accusés de réception)",
+      "cloudinary": "hébergement des photos et vidéos du site",
+      "cloudflare": "vérification anti-robot des formulaires (Turnstile)",
+      "google": "affichage des cartes, uniquement si vous cliquez sur « Afficher la carte »",
+      "transfers": "Certains de ces prestataires peuvent traiter des données en dehors de l'Espace économique européen. Dans ce cas, le transfert est encadré par les garanties prévues par le RGPD (décision d'adéquation ou clauses contractuelles types)."
+    },
+    "cookies": {
+      "title": "Cookies et stockage local",
+      "text1": "Ce site n'utilise aucun cookie publicitaire ni mesure d'audience : aucun bandeau de consentement n'est donc nécessaire.",
+      "text2": "Il enregistre uniquement, sur votre appareil, ce qui est nécessaire à son fonctionnement : votre préférence de thème clair ou sombre, votre langue, et la fermeture de la bulle d'aide WhatsApp pour la durée de votre visite.",
+      "text3": "Les cartes Google Maps et le bouton WhatsApp ne transmettent aucune donnée tant que vous ne cliquez pas dessus."
+    },
+    "rights": {
+      "title": "Vos droits",
+      "intro": "Vous pouvez à tout moment :",
+      "access": "obtenir une copie des données que nous détenons sur vous ;",
+      "rectification": "faire corriger des données inexactes ;",
+      "erasure": "demander leur effacement ;",
+      "restriction": "demander la limitation de leur traitement ;",
+      "objection": "vous opposer à un traitement fondé sur notre intérêt légitime ;",
+      "portability": "recevoir vos données dans un format structuré.",
+      "how": "Pour exercer ces droits, écrivez-nous à {email}. Nous vous répondons dans un délai d'un mois. Nous pouvons vous demander de justifier de votre identité. Vous pouvez aussi annuler ou déplacer un rendez-vous vous-même grâce au lien reçu par email."
+    },
+    "complaint": {
+      "title": "Réclamation",
+      "text": "Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de l'{authority}, {address}, {website}, {email}."
     }
   },
 
@@ -826,6 +1069,8 @@
         "AUTH_LOGIN_FAILED": "Échec de connexion",
         "AUTH_PASSWORD_CHANGED": "Mot de passe modifié",
         "EMAIL_SENT": "Email envoyé",
+        "CLIENT_DATA_ERASED": "Données d'un client effacées",
+        "APPOINTMENTS_ANONYMIZED": "Rendez-vous anonymisés (conservation)",
         "EXPORT_GENERATED": "Export généré"
       },
       "details": {
@@ -953,6 +1198,41 @@
 
   "legal": {
     "pageTitle": "Mentions légales",
+    "pageDescription": "Mentions légales de BYB Construction : éditeur du site, coordonnées et informations légales.",
+    "publisher": {
+      "title": "Éditeur du site",
+      "name": "Dénomination",
+      "legalForm": "Forme juridique",
+      "vat": "N° d'entreprise (BCE) et TVA",
+      "address": "Siège",
+      "otherSites": "Autres sites",
+      "email": "Email",
+      "phone": "Téléphone"
+    },
+    "host": {
+      "title": "Hébergement",
+      "intro": "Ce site est hébergé par :"
+    },
+    "intellectualProperty": {
+      "title": "Propriété intellectuelle",
+      "text": "L'ensemble du contenu de ce site (textes, images, vidéos, logos) est la propriété de {company} ou utilisé avec l'autorisation de ses titulaires, et est protégé par la législation applicable en matière de propriété intellectuelle. Toute reproduction sans autorisation écrite préalable est interdite."
+    },
+    "liability": {
+      "title": "Responsabilité",
+      "text": "Les informations publiées sur ce site sont données à titre indicatif et peuvent être modifiées à tout moment. Elles ne constituent pas une offre contractuelle."
+    },
+    "personalData": {
+      "title": "Données personnelles",
+      "text": "Le traitement de vos données personnelles est décrit dans notre <link>politique de confidentialité</link>."
+    },
+    "mediation": {
+      "title": "Règlement extrajudiciaire des litiges",
+      "intro": "En cas de litige, vous pouvez vous adresser à :"
+    },
+    "law": {
+      "title": "Droit applicable",
+      "text": "Le présent site est soumis au droit belge."
+    },
     "privacyTitle": "Politique de confidentialité"
   },
 
@@ -973,6 +1253,11 @@
       "nameTooShort": "Le nom doit contenir au moins 2 caractères.",
       "nameTooLong": "Le nom ne peut pas dépasser 100 caractères.",
       "emailInvalid": "Adresse email invalide.",
+      "subjectTooShort": "L'objet doit contenir au moins 3 caractères.",
+      "subjectTooLong": "L'objet ne peut pas dépasser 150 caractères.",
+      "subjectInvalid": "L'objet doit tenir sur une seule ligne.",
+      "messageTooShort": "Votre message doit contenir au moins 10 caractères.",
+      "messageTooLong": "Votre message ne peut pas dépasser 2000 caractères.",
       "notesTooLong": "500 caractères maximum.",
       "startDateInvalid": "Date de début invalide.",
       "endDateInvalid": "Date de fin invalide.",
@@ -995,6 +1280,12 @@
       "passwordMismatch": "Les mots de passe ne correspondent pas."
     },
     "codes": {
+      "APPOINTMENT_IN_PAST": "Ce rendez-vous est déjà passé : il ne peut plus être modifié.",
+      "SLOT_TOO_SOON": "Ce créneau est trop proche pour être réservé en ligne. Choisissez un horaire plus tardif ou appelez-nous.",
+      "SLOT_TOO_FAR": "Ce créneau n'est pas encore ouvert à la réservation. Choisissez une date plus proche.",
+      "BOOKING_LIMIT_REACHED": "Cette adresse email a déjà plusieurs rendez-vous à venir. Annulez ou déplacez-en un avant d'en réserver un nouveau.",
+      "EMAIL_DELIVERY_FAILED": "Votre message n'a pas pu être envoyé. Réessayez dans un instant ou appelez-nous.",
+      "CAPTCHA_FAILED": "La vérification anti-robot a échoué. Rechargez la page et réessayez.",
       "SLOT_NOT_FOUND": "Ce créneau n'existe plus.",
       "SLOT_UNAVAILABLE": "Ce créneau vient d'être réservé. Veuillez en choisir un autre.",
       "SLOT_ALREADY_BLOCKED": "Ce créneau est déjà bloqué.",

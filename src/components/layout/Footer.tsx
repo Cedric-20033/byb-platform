@@ -117,7 +117,11 @@ export function Footer() {
 
       {/* Bas de page — clé fr.json : footer.rights + legal.* */}
       <div className="border-t border-[color:color-mix(in_srgb,var(--color-background)_12%,transparent)]">
-        <div className="container-custom py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        {/*
+          Le bas de page réserve la place des boutons flottants (WhatsApp, puis « Prendre un RDV ») : sans cette
+          marge, ils recouvriraient les liens légaux quand on arrive tout en bas.
+        */}
+        <div className="container-custom pt-5 pb-40 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-[color:color-mix(in_srgb,var(--color-background)_55%,transparent)]">
             © {year} {company.fullName}. {tFooter("rights")}.
           </p>

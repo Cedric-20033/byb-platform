@@ -42,7 +42,11 @@ export const ACTION_REQUIREMENTS: Record<string, ActionRequirement> = {
   // Réservation publique (service_role côté serveur, aucune donnée admin)
   'booking/createAppointment.ts#createAppointmentAction': PUBLIC,
   'booking/cancelAppointment.ts#cancelAppointmentByTokenAction': PUBLIC,
+  'booking/rescheduleAppointment.ts#rescheduleAppointmentByTokenAction': PUBLIC,
   'booking/getAvailableSlots.ts#getAvailableSlotsAction': PUBLIC,
+
+  // Formulaire de contact public (quotas par IP et par email, anti-robot ; rien n'est lu en base)
+  'contact/submitContactMessage.ts#submitContactMessageAction': PUBLIC,
 
   // Rendez-vous
   'admin/appointments.ts#listAppointmentsAction': need('appointments', 'view'),

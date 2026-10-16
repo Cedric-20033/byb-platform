@@ -17,11 +17,13 @@ export type Database = {
       appointments: {
         Row: {
           access_token: string
+          anonymized_at: string | null
           client_email: string
           client_name: string
           client_phone: string
           created_at: string
           id: string
+          locale: string
           notes: string | null
           service_id: string
           slot_id: string
@@ -31,11 +33,13 @@ export type Database = {
         }
         Insert: {
           access_token?: string
+          anonymized_at?: string | null
           client_email: string
           client_name: string
           client_phone: string
           created_at?: string
           id?: string
+          locale?: string
           notes?: string | null
           service_id: string
           slot_id: string
@@ -45,11 +49,13 @@ export type Database = {
         }
         Update: {
           access_token?: string
+          anonymized_at?: string | null
           client_email?: string
           client_name?: string
           client_phone?: string
           created_at?: string
           id?: string
+          locale?: string
           notes?: string | null
           service_id?: string
           slot_id?: string
@@ -125,6 +131,24 @@ export type Database = {
           },
         ]
       }
+      data_retention_policy: {
+        Row: {
+          appointment_retention_months: number | null
+          id: boolean
+          updated_at: string
+        }
+        Insert: {
+          appointment_retention_months?: number | null
+          id?: boolean
+          updated_at?: string
+        }
+        Update: {
+          appointment_retention_months?: number | null
+          id?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       holidays: {
         Row: {
           created_at: string
@@ -182,6 +206,24 @@ export type Database = {
           permissions?: Json
           role?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      rate_limit_events: {
+        Row: {
+          id: number
+          key: string
+          occurred_at: string
+        }
+        Insert: {
+          id?: never
+          key: string
+          occurred_at?: string
+        }
+        Update: {
+          id?: never
+          key?: string
+          occurred_at?: string
         }
         Relationships: []
       }
@@ -408,6 +450,15 @@ export type Database = {
         }
         Returns: string
       }
+      anonymize_appointments: { Args: { p_ids: string[] }; Returns: number }
+      anonymize_expired_appointments: {
+        Args: { p_today?: string }
+        Returns: number
+      }
+      assert_client_data_permission: {
+        Args: { p_action: string }
+        Returns: undefined
+      }
       can_do: { Args: { p_action: string; p_domain: string }; Returns: boolean }
       cancel_appointment_by_token: {
         Args: { p_token: string }
@@ -419,6 +470,8 @@ export type Database = {
         Args: { p_appointment_id: string }
         Returns: undefined
       }
+      erase_client_data: { Args: { p_email: string }; Returns: Json }
+      export_client_data: { Args: { p_email: string }; Returns: Json }
       generate_rolling_slots: { Args: { p_today?: string }; Returns: number }
       get_appointment_by_token: {
         Args: { p_token: string }
@@ -435,6 +488,7 @@ export type Database = {
         Args: { p_action: string; p_domain: string }
         Returns: boolean
       }
+      purge_rate_limit_events: { Args: never; Returns: number }
       reorder_service_media: {
         Args: { p_ordered_ids: string[]; p_service_id: string }
         Returns: undefined

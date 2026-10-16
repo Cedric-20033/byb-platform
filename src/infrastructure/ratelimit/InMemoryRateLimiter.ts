@@ -10,8 +10,9 @@ const SWEEP_THRESHOLD = 5_000;
  * ⚠ Limite connue : le compteur est propre à chaque instance serveur. Sur un
  * hébergement à plusieurs instances ou sans état (serverless), un attaquant
  * répartit ses essais entre instances. Il constitue une première barrière ;
- * Supabase Auth applique en plus ses propres limites côté service. L'adaptateur
- * partagé (table Postgres ou Upstash) est prévu en P5.5 derrière le même port.
+ * Supabase Auth applique en plus ses propres limites côté service. Les actions publiques de
+ * réservation utilisent l'adaptateur partagé `SupabaseRateLimiter` (table `rate_limit_events`),
+ * derrière le même port ; la connexion admin pourra y passer de la même façon.
  */
 export class InMemoryRateLimiter implements RateLimiter {
   private readonly attempts = new Map<string, number[]>();

@@ -119,6 +119,8 @@
     "title": "Eine Frage? Ein Projekt?",
     "subtitle": "Wir antworten innerhalb von 24 Stunden.",
     "form": {
+      "privacyNotice": "Ihre Angaben werden ausschließlich zur Beantwortung Ihrer Anfrage verwendet. <link>Datenschutzerklärung</link>",
+      "captchaLoadError": "Die Anti-Roboter-Prüfung konnte nicht geladen werden. Laden Sie die Seite neu.",
       "firstName": "Vorname",
       "lastName": "Nachname",
       "email": "E-Mail",
@@ -137,8 +139,293 @@
       "email": "E-Mail",
       "hours": "Öffnungszeiten"
     },
+    "metaDescription": "Kontaktieren Sie BYB Construction in Asselt oder Liège: Schreiben Sie uns über das Formular, rufen Sie uns an oder finden Sie unsere Adressen und Öffnungszeiten.",
     "map": {
+      "load": "Karte von {name} anzeigen",
+      "consent": "Diese Karte wird von Google bereitgestellt. Beim Anzeigen wird Ihre IP-Adresse an Google übermittelt, das Cookies verwenden kann.",
       "title": "Standort {name}"
+    }
+  },
+
+  "booking": {
+    "dialogTitle": "Termin buchen",
+    "page": {
+      "title": "Termin buchen",
+      "description": "Buchen Sie online einen Termin bei BYB Bau & Renovierung: Wählen Sie Ihre Leistung und ein freies Zeitfenster, Sie erhalten eine Bestätigung per E-Mail.",
+      "heading": "Buchen Sie Ihren Termin online",
+      "subtitle": "Wählen Sie Ihre Leistung und anschließend ein freies Zeitfenster. Sie erhalten eine Bestätigungs-E-Mail."
+    },
+    "steps": {
+      "service": "Leistung",
+      "subService": "Ausführung",
+      "slot": "Zeitfenster",
+      "confirmation": "Bestätigung"
+    },
+    "service": {
+      "title": "Welche Leistung interessiert Sie?",
+      "subtitle": "Wählen Sie die gewünschte Art der Arbeiten."
+    },
+    "subService": {
+      "title": "Präzisieren Sie Ihren Bedarf",
+      "subtitle": "Wählen Sie die Option, die am besten zu Ihrem Projekt passt.",
+      "skip": "Keine bestimmte Ausführung, weiter zum nächsten Schritt"
+    },
+    "slot": {
+      "title": "Wählen Sie ein Zeitfenster",
+      "subtitle": "Wählen Sie ein Datum und anschließend eine freie Uhrzeit.",
+      "noSlots": "An diesem Datum ist kein Zeitfenster frei. Versuchen Sie einen anderen Tag.",
+      "loading": "Freie Zeitfenster werden gesucht..."
+    },
+    "confirmation": {
+      "title": "Ihre Kontaktdaten",
+      "subtitle": "Letzter Schritt vor der Bestätigung Ihres Termins.",
+      "name": "Vollständiger Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "notes": "Nachricht (optional)",
+      "submit": "Termin bestätigen",
+      "submitting": "Bestätigung läuft...",
+      "privacyNotice": "Ihre Angaben werden ausschließlich zur Verwaltung Ihres Termins verwendet. <link>Datenschutzerklärung</link>",
+      "chooseAnotherSlot": "Anderes Zeitfenster wählen",
+      "captchaLoadError": "Die Anti-Roboter-Prüfung konnte nicht geladen werden. Laden Sie die Seite neu.",
+      "successTitle": "Termin bestätigt!",
+      "successMessage": "Eine Bestätigungs-E-Mail wurde soeben an Sie gesendet.",
+      "errorMessage": "Ein Fehler ist aufgetreten. Bitte erneut versuchen."
+    },
+    "summary": {
+      "service": "Leistung",
+      "subService": "Ausführung",
+      "date": "Datum",
+      "time": "Uhrzeit"
+    }
+  },
+
+  "clientAppointment": {
+    "summary": {
+      "service": "Leistung",
+      "subService": "Ausführung",
+      "date": "Datum",
+      "time": "Uhrzeit",
+      "status": "Status"
+    },
+    "status": {
+      "pending": "Wartet auf Bestätigung",
+      "confirmed": "Bestätigt",
+      "cancelled": "Storniert"
+    },
+    "timeRange": "{start} bis {end}",
+    "invalid": {
+      "title": "Ungültiger Link",
+      "message": "Dieser Link ist ungültig oder abgelaufen. Verwenden Sie den Link aus Ihrer E-Mail oder kontaktieren Sie uns.",
+      "contact": "Kontakt aufnehmen"
+    },
+    "cancelled": {
+      "title": "Termin bereits storniert",
+      "message": "Dieser Termin ist storniert, das Zeitfenster wurde freigegeben. Sie können jederzeit einen neuen Termin buchen."
+    },
+    "past": {
+      "title": "Vergangener Termin",
+      "message": "Dieser Termin hat bereits stattgefunden und kann nicht mehr storniert oder verschoben werden."
+    },
+    "bookAgain": "Neuen Termin buchen",
+    "backHome": "Zurück zur Startseite",
+    "cancel": {
+      "pageTitle": "Meinen Termin stornieren",
+      "pageDescription": "Stornieren Sie Ihren Termin mit einem Klick.",
+      "heading": "Meinen Termin stornieren",
+      "intro": "Prüfen Sie die folgenden Angaben, bevor Sie stornieren.",
+      "action": "Termin stornieren",
+      "confirmTitle": "Stornierung bestätigen?",
+      "confirmMessage": "Das Zeitfenster wird freigegeben. Dies kann nicht rückgängig gemacht werden.",
+      "confirmAction": "Ja, stornieren",
+      "keep": "Nein, behalten",
+      "submitting": "Stornierung läuft...",
+      "successTitle": "Termin storniert",
+      "successMessage": "Ihr Termin ist storniert. Eine Bestätigungs-E-Mail wurde an Sie gesendet.",
+      "rescheduleHint": "Lieber ein anderes Datum?",
+      "rescheduleAction": "Datum ändern"
+    },
+    "reschedule": {
+      "pageTitle": "Meinen Termin ändern",
+      "pageDescription": "Wählen Sie ein neues Zeitfenster für Ihren Termin.",
+      "heading": "Meinen Termin ändern",
+      "intro": "Wählen Sie ein neues Zeitfenster für dieselbe Leistung.",
+      "current": "Aktuelles Zeitfenster",
+      "pickTitle": "Neues Zeitfenster wählen",
+      "confirmTitle": "Dieses neue Zeitfenster bestätigen?",
+      "confirmMessage": "Neues Zeitfenster: {date}, {time}. Ihr aktueller Termin wird freigegeben.",
+      "confirmAction": "Verschiebung bestätigen",
+      "back": "Anderes Zeitfenster wählen",
+      "submitting": "Verschiebung läuft...",
+      "successTitle": "Termin verschoben",
+      "successMessage": "Ihr Termin findet statt am {date}, {time}. Eine Bestätigungs-E-Mail wurde an Sie gesendet.",
+      "cancelHint": "Sie können nicht mehr kommen?",
+      "cancelAction": "Termin stornieren"
+    }
+  },
+
+  "emails": {
+    "common": {
+      "greeting": "Guten Tag {name},",
+      "manageIntro": "Etwas dazwischengekommen? Sie können Ihren Termin online ändern oder stornieren.",
+      "rescheduleAction": "Datum ändern",
+      "cancelAction": "Termin stornieren",
+      "rebookAction": "Neuen Termin buchen",
+      "dashboardAction": "Dashboard öffnen",
+      "calendarNote": "Dieser E-Mail ist eine Kalenderdatei (.ics) beigefügt, um den Termin Ihrem Kalender hinzuzufügen.",
+      "calendarSummary": "{company}: {service}",
+      "timeRange": "{start} bis {end}",
+      "footer": "{company} · {phone}",
+      "fields": {
+        "service": "Leistung",
+        "subService": "Ausführung",
+        "date": "Datum",
+        "time": "Uhrzeit",
+        "client": "Kunde",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "notes": "Notizen",
+        "previousSlot": "Bisheriges Zeitfenster",
+        "newSlot": "Neues Zeitfenster",
+        "reason": "Nachricht unseres Teams",
+        "sender": "Absender",
+        "subject": "Betreff",
+        "message": "Nachricht"
+      }
+    },
+    "adminContactMessage": {
+      "subject": "Neue Kontaktnachricht: {subject}",
+      "preview": "Ein Besucher hat Ihnen über das Kontaktformular geschrieben.",
+      "heading": "Neue Kontaktnachricht",
+      "intro": "Ein Besucher hat über das Kontaktformular der Website geschrieben. Antworten Sie direkt auf diese E-Mail, um ihm zu schreiben."
+    },
+    "contactAcknowledgement": {
+      "subject": "Wir haben Ihre Nachricht erhalten",
+      "preview": "Ihre Nachricht ist bei uns angekommen.",
+      "heading": "Nachricht erhalten",
+      "intro": "Vielen Dank für Ihre Nachricht. Sie ist bei uns angekommen und wir antworten Ihnen so schnell wie möglich. Hier ist eine Kopie Ihrer Nachricht."
+    },
+    "appointmentConfirmation": {
+      "subject": "Ihre Terminanfrage ist bei uns eingegangen",
+      "preview": "Wir haben Ihre Anfrage erhalten.",
+      "heading": "Anfrage erhalten",
+      "intro": "Wir haben Ihre Terminanfrage erhalten. Unser Team prüft sie so schnell wie möglich, Sie erhalten eine Bestätigungs-E-Mail."
+    },
+    "appointmentConfirmedByAdmin": {
+      "subject": "Ihr Termin ist bestätigt",
+      "preview": "Ihr Termin ist bestätigt.",
+      "heading": "Termin bestätigt",
+      "intro": "Ihr Termin ist bestätigt. Wir freuen uns darauf, Sie zu empfangen."
+    },
+    "appointmentCancellation": {
+      "subject": "Ihr Termin wurde storniert",
+      "preview": "Ihr Termin wurde storniert.",
+      "heading": "Termin storniert",
+      "intro": "Ihr Termin wurde storniert. Sie können jederzeit einen neuen buchen."
+    },
+    "appointmentRescheduled": {
+      "subject": "Ihr Termin wurde verschoben",
+      "preview": "Ihr Termin hat ein neues Zeitfenster.",
+      "heading": "Termin verschoben",
+      "intro": "Ihr Termin wurde auf ein neues Zeitfenster verschoben."
+    },
+    "appointmentReminder": {
+      "subject": "Erinnerung: Ihr Termin ist morgen",
+      "preview": "Ihr Termin ist morgen.",
+      "heading": "Termin morgen",
+      "intro": "Wir erinnern Sie an Ihren Termin morgen."
+    },
+    "adminNewAppointment": {
+      "subject": "Neuer Termin zur Bestätigung",
+      "preview": "Eine neue Terminanfrage wartet auf Ihre Bestätigung.",
+      "heading": "Neue Terminanfrage",
+      "intro": "Auf der Website wurde soeben ein neuer Termin gebucht. Er wartet auf Ihre Bestätigung."
+    },
+    "adminAppointmentCancelledByClient": {
+      "subject": "Ein Kunde hat seinen Termin storniert",
+      "preview": "Ein Kunde hat seinen Termin storniert.",
+      "heading": "Termin vom Kunden storniert",
+      "intro": "Der Kunde hat seinen Termin storniert: Das Zeitfenster ist wieder frei."
+    },
+    "adminAppointmentRescheduledByClient": {
+      "subject": "Ein Kunde hat seinen Termin verschoben",
+      "preview": "Ein Kunde hat ein neues Zeitfenster gewählt.",
+      "heading": "Termin vom Kunden verschoben",
+      "intro": "Der Kunde hat ein neues Zeitfenster für seinen Termin gewählt."
+    }
+  },
+
+  "privacy": {
+    "pageDescription": "Wie BYB Construction über diese Website personenbezogene Daten erhebt, verwendet und schützt, und wie Sie Ihre Rechte ausüben.",
+    "intro": "Diese Erklärung beschreibt, welche personenbezogenen Daten BYB Construction über diese Website erhebt, zu welchem Zweck, wie lange sie gespeichert werden und wie Sie Ihre Rechte ausüben können.",
+    "updated": "Letzte Aktualisierung: {date}",
+    "controller": {
+      "title": "Verantwortlicher",
+      "text": "{company}, {address}. Unternehmensnummer (BCE/KBO): {vat}. Bei Fragen zu Ihren Daten erreichen Sie uns unter {email}."
+    },
+    "collected": {
+      "title": "Erhobene Daten und Zwecke",
+      "labels": {
+        "data": "Daten",
+        "purpose": "Zweck",
+        "basis": "Rechtsgrundlage"
+      },
+      "appointments": {
+        "title": "Terminbuchung",
+        "data": "Name, E-Mail-Adresse, Telefonnummer, optionale Nachricht, gewählte Leistung und gewähltes Zeitfenster, Sprache der Website.",
+        "purpose": "Ihre Anfrage erfassen und bearbeiten, Ihnen Bestätigungen, Änderungen und Stornierungen per E-Mail senden und es Ihnen ermöglichen, Ihren Termin selbst zu ändern oder zu stornieren.",
+        "basis": "Vorvertragliche Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 Buchst. b DSGVO)."
+      },
+      "contact": {
+        "title": "Kontaktformular",
+        "data": "Vorname, Nachname, E-Mail-Adresse, Telefonnummer (optional), Betreff und Nachricht.",
+        "purpose": "Ihre Anfrage beantworten.",
+        "basis": "Berechtigtes Interesse an der Beantwortung eingehender Anfragen (Art. 6 Abs. 1 Buchst. f DSGVO)."
+      },
+      "security": {
+        "title": "Sicherheit der Website",
+        "data": "IP-Adresse und E-Mail-Adresse (vorübergehende Zähler), Anti-Roboter-Prüfung.",
+        "purpose": "Die Formulare vor automatisierten Absendungen und Missbrauch schützen.",
+        "basis": "Berechtigtes Interesse an der Sicherheit der Website (Art. 6 Abs. 1 Buchst. f DSGVO)."
+      }
+    },
+    "retention": {
+      "title": "Aufbewahrungsfristen",
+      "appointmentsUnset": "Die Daten eines Termins werden so lange aufbewahrt, wie es für seine Abwicklung und die Pflege unserer Beziehung erforderlich ist, und anschließend gelöscht oder anonymisiert. Sie können jederzeit ihre Löschung verlangen.",
+      "appointments": "Die Daten eines Termins werden {months, plural, one {# Monat} other {# Monate}} nach dem Termin anonymisiert. Sie können ihre Löschung auch früher verlangen.",
+      "contact": "Über das Kontaktformular gesendete Nachrichten werden nicht auf der Website gespeichert: Sie werden per E-Mail an unser Team weitergeleitet, das sie so lange aufbewahrt, wie es für die Bearbeitung Ihrer Anfrage nötig ist.",
+      "security": "Sicherheitszähler (IP-Adresse, E-Mail-Adresse) werden nach 24 Stunden automatisch gelöscht."
+    },
+    "processors": {
+      "title": "Empfänger und Auftragsverarbeiter",
+      "intro": "Ihre Daten werden niemals verkauft. Wir setzen Dienstleister ein, die sie in unserem Auftrag verarbeiten:",
+      "supabase": "Speicherung der Termine und Verwaltung der Konten des Teams",
+      "resend": "Versand von E-Mails (Bestätigungen, Eingangsbestätigungen)",
+      "cloudinary": "Hosting der Fotos und Videos der Website",
+      "cloudflare": "Anti-Roboter-Prüfung der Formulare (Turnstile)",
+      "google": "Anzeige von Karten, nur wenn Sie auf „Karte anzeigen“ klicken",
+      "transfers": "Einige dieser Dienstleister können Daten außerhalb des Europäischen Wirtschaftsraums verarbeiten. In diesem Fall wird die Übermittlung durch die in der DSGVO vorgesehenen Garantien abgesichert (Angemessenheitsbeschluss oder Standardvertragsklauseln)."
+    },
+    "cookies": {
+      "title": "Cookies und lokaler Speicher",
+      "text1": "Diese Website verwendet keine Werbe-Cookies und keine Reichweitenmessung, daher ist kein Einwilligungsbanner erforderlich.",
+      "text2": "Sie speichert auf Ihrem Gerät nur, was für den Betrieb nötig ist: Ihre Einstellung für das helle oder dunkle Design, Ihre Sprache und das Schließen der WhatsApp-Hilfeblase für die Dauer Ihres Besuchs.",
+      "text3": "Die Google-Maps-Karten und die WhatsApp-Schaltfläche übermitteln keine Daten, solange Sie nicht darauf klicken."
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "intro": "Sie können jederzeit:",
+      "access": "eine Kopie der über Sie gespeicherten Daten erhalten;",
+      "rectification": "unrichtige Daten berichtigen lassen;",
+      "erasure": "deren Löschung verlangen;",
+      "restriction": "die Einschränkung ihrer Verarbeitung verlangen;",
+      "objection": "der auf unserem berechtigten Interesse beruhenden Verarbeitung widersprechen;",
+      "portability": "Ihre Daten in einem strukturierten Format erhalten.",
+      "how": "Um diese Rechte auszuüben, schreiben Sie uns an {email}. Wir antworten innerhalb eines Monats. Wir können Sie bitten, Ihre Identität nachzuweisen. Sie können einen Termin auch selbst über den per E-Mail erhaltenen Link stornieren oder verschieben."
+    },
+    "complaint": {
+      "title": "Beschwerde",
+      "text": "Wenn Sie der Ansicht sind, dass Ihre Rechte nicht eingehalten werden, können Sie eine Beschwerde bei der {authority}, {address}, {website}, {email} einreichen."
     }
   },
 
@@ -776,6 +1063,8 @@
         "AUTH_LOGIN_FAILED": "Fehlgeschlagene Anmeldung",
         "AUTH_PASSWORD_CHANGED": "Passwort geändert",
         "EMAIL_SENT": "E-Mail gesendet",
+        "CLIENT_DATA_ERASED": "Kundendaten gelöscht",
+        "APPOINTMENTS_ANONYMIZED": "Termine anonymisiert (Aufbewahrung)",
         "EXPORT_GENERATED": "Export erstellt"
       },
       "details": {
@@ -903,6 +1192,41 @@
 
   "legal": {
     "pageTitle": "Impressum",
+    "pageDescription": "Impressum von BYB Construction: Herausgeber der Website, Kontaktdaten und rechtliche Angaben.",
+    "publisher": {
+      "title": "Herausgeber der Website",
+      "name": "Firmenname",
+      "legalForm": "Rechtsform",
+      "vat": "Unternehmensnummer (BCE/KBO) und MwSt.-Nummer",
+      "address": "Firmensitz",
+      "otherSites": "Weitere Standorte",
+      "email": "E-Mail",
+      "phone": "Telefon"
+    },
+    "host": {
+      "title": "Hosting",
+      "intro": "Diese Website wird gehostet von:"
+    },
+    "intellectualProperty": {
+      "title": "Geistiges Eigentum",
+      "text": "Alle Inhalte dieser Website (Texte, Bilder, Videos, Logos) sind Eigentum von {company} oder werden mit Genehmigung der Rechteinhaber verwendet und durch das geltende Recht zum Schutz des geistigen Eigentums geschützt. Jede Vervielfältigung ohne vorherige schriftliche Genehmigung ist untersagt."
+    },
+    "liability": {
+      "title": "Haftung",
+      "text": "Die auf dieser Website veröffentlichten Informationen sind unverbindlich und können jederzeit geändert werden. Sie stellen kein vertragliches Angebot dar."
+    },
+    "personalData": {
+      "title": "Personenbezogene Daten",
+      "text": "Die Verarbeitung Ihrer personenbezogenen Daten ist in unserer <link>Datenschutzerklärung</link> beschrieben."
+    },
+    "mediation": {
+      "title": "Außergerichtliche Streitbeilegung",
+      "intro": "Im Streitfall können Sie sich wenden an:"
+    },
+    "law": {
+      "title": "Anwendbares Recht",
+      "text": "Diese Website unterliegt belgischem Recht."
+    },
     "privacyTitle": "Datenschutzerklärung"
   },
 
@@ -923,6 +1247,11 @@
       "nameTooShort": "Der Name muss mindestens 2 Zeichen lang sein.",
       "nameTooLong": "Der Name darf 100 Zeichen nicht überschreiten.",
       "emailInvalid": "Ungültige E-Mail-Adresse.",
+      "subjectTooShort": "Der Betreff muss mindestens 3 Zeichen lang sein.",
+      "subjectTooLong": "Der Betreff darf höchstens 150 Zeichen lang sein.",
+      "subjectInvalid": "Der Betreff muss in eine einzige Zeile passen.",
+      "messageTooShort": "Ihre Nachricht muss mindestens 10 Zeichen lang sein.",
+      "messageTooLong": "Ihre Nachricht darf höchstens 2000 Zeichen lang sein.",
       "notesTooLong": "Maximal 500 Zeichen.",
       "startDateInvalid": "Ungültiges Startdatum.",
       "endDateInvalid": "Ungültiges Enddatum.",
@@ -945,6 +1274,12 @@
       "passwordMismatch": "Die Passwörter stimmen nicht überein."
     },
     "codes": {
+      "APPOINTMENT_IN_PAST": "Dieser Termin hat bereits stattgefunden und kann nicht mehr geändert werden.",
+      "SLOT_TOO_SOON": "Dieses Zeitfenster ist zu kurzfristig für eine Online-Buchung. Wählen Sie eine spätere Zeit oder rufen Sie uns an.",
+      "SLOT_TOO_FAR": "Dieses Zeitfenster ist noch nicht buchbar. Wählen Sie ein näheres Datum.",
+      "BOOKING_LIMIT_REACHED": "Für diese E-Mail-Adresse bestehen bereits mehrere kommende Termine. Stornieren oder verschieben Sie einen, bevor Sie einen neuen buchen.",
+      "EMAIL_DELIVERY_FAILED": "Ihre Nachricht konnte nicht gesendet werden. Versuchen Sie es gleich noch einmal oder rufen Sie uns an.",
+      "CAPTCHA_FAILED": "Die Anti-Roboter-Prüfung ist fehlgeschlagen. Laden Sie die Seite neu und versuchen Sie es erneut.",
       "SLOT_NOT_FOUND": "Dieses Zeitfenster existiert nicht mehr.",
       "SLOT_UNAVAILABLE": "Dieses Zeitfenster wurde soeben gebucht. Bitte wählen Sie ein anderes.",
       "SLOT_ALREADY_BLOCKED": "Dieses Zeitfenster ist bereits blockiert.",

@@ -117,6 +117,8 @@
     "title": "A question? A project?",
     "subtitle": "We reply within 24 hours.",
     "form": {
+      "privacyNotice": "The information you enter is used only to reply to your request. <link>Privacy policy</link>",
+      "captchaLoadError": "The anti-bot check could not load. Reload the page.",
       "firstName": "First name",
       "lastName": "Last name",
       "email": "Email",
@@ -135,8 +137,293 @@
       "email": "Email",
       "hours": "Opening hours"
     },
+    "metaDescription": "Contact BYB Construction in Asselt or Liège: write to us through the form, call us, or find our addresses and opening hours.",
     "map": {
+      "load": "Show the map of {name}",
+      "consent": "This map is provided by Google. Showing it sends your IP address to Google, which may use cookies.",
       "title": "Location of {name}"
+    }
+  },
+
+  "booking": {
+    "dialogTitle": "Book an appointment",
+    "page": {
+      "title": "Book an appointment",
+      "description": "Book an appointment online with BYB Building & Renovation: choose your service and an available time slot, and receive a confirmation by email.",
+      "heading": "Book your appointment online",
+      "subtitle": "Choose your service, then an available time slot. You will receive a confirmation email."
+    },
+    "steps": {
+      "service": "Service",
+      "subService": "Work type",
+      "slot": "Time slot",
+      "confirmation": "Confirmation"
+    },
+    "service": {
+      "title": "Which service are you interested in?",
+      "subtitle": "Choose the type of work you need."
+    },
+    "subService": {
+      "title": "Tell us more about your need",
+      "subtitle": "Select the option that best matches your project.",
+      "skip": "No specific option, continue to the next step"
+    },
+    "slot": {
+      "title": "Choose a time slot",
+      "subtitle": "Select a date, then an available time.",
+      "noSlots": "No slot available on this date. Try another day.",
+      "loading": "Looking for available slots..."
+    },
+    "confirmation": {
+      "title": "Your details",
+      "subtitle": "Last step before your appointment is confirmed.",
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "notes": "Message (optional)",
+      "submit": "Confirm appointment",
+      "submitting": "Confirming...",
+      "privacyNotice": "Your details are used only to manage your appointment. <link>Privacy policy</link>",
+      "chooseAnotherSlot": "Choose another slot",
+      "captchaLoadError": "The anti-bot check could not load. Reload the page.",
+      "successTitle": "Appointment confirmed!",
+      "successMessage": "A confirmation email has just been sent to you.",
+      "errorMessage": "An error occurred. Please try again."
+    },
+    "summary": {
+      "service": "Service",
+      "subService": "Work type",
+      "date": "Date",
+      "time": "Time"
+    }
+  },
+
+  "clientAppointment": {
+    "summary": {
+      "service": "Service",
+      "subService": "Work type",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status"
+    },
+    "status": {
+      "pending": "Awaiting confirmation",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    },
+    "timeRange": "{start} to {end}",
+    "invalid": {
+      "title": "Invalid link",
+      "message": "This link is not valid or has expired. Use the link from your email, or contact us.",
+      "contact": "Contact us"
+    },
+    "cancelled": {
+      "title": "Appointment already cancelled",
+      "message": "This appointment is cancelled and the slot has been released. You can book again whenever you like."
+    },
+    "past": {
+      "title": "Past appointment",
+      "message": "This appointment has already taken place: it can no longer be cancelled or rescheduled."
+    },
+    "bookAgain": "Book a new appointment",
+    "backHome": "Back to home",
+    "cancel": {
+      "pageTitle": "Cancel my appointment",
+      "pageDescription": "Cancel your appointment in one click.",
+      "heading": "Cancel my appointment",
+      "intro": "Check the details below before cancelling.",
+      "action": "Cancel appointment",
+      "confirmTitle": "Confirm cancellation?",
+      "confirmMessage": "The slot will be released. This cannot be undone.",
+      "confirmAction": "Yes, cancel",
+      "keep": "No, keep it",
+      "submitting": "Cancelling...",
+      "successTitle": "Appointment cancelled",
+      "successMessage": "Your appointment is cancelled. A confirmation email has been sent to you.",
+      "rescheduleHint": "Prefer another date?",
+      "rescheduleAction": "Change the date"
+    },
+    "reschedule": {
+      "pageTitle": "Change my appointment",
+      "pageDescription": "Choose a new slot for your appointment.",
+      "heading": "Change my appointment",
+      "intro": "Choose a new slot for the same service.",
+      "current": "Current slot",
+      "pickTitle": "Choose a new slot",
+      "confirmTitle": "Confirm this new slot?",
+      "confirmMessage": "New slot: {date} at {time}. Your current appointment will be released.",
+      "confirmAction": "Confirm the change",
+      "back": "Choose another slot",
+      "submitting": "Moving...",
+      "successTitle": "Appointment rescheduled",
+      "successMessage": "Your appointment is on {date} at {time}. A confirmation email has been sent to you.",
+      "cancelHint": "Can't make it anymore?",
+      "cancelAction": "Cancel appointment"
+    }
+  },
+
+  "emails": {
+    "common": {
+      "greeting": "Hello {name},",
+      "manageIntro": "Something came up? You can change or cancel your appointment online.",
+      "rescheduleAction": "Change the date",
+      "cancelAction": "Cancel appointment",
+      "rebookAction": "Book a new appointment",
+      "dashboardAction": "Open the dashboard",
+      "calendarNote": "A calendar file (.ics) is attached to this email so you can add the appointment to your calendar.",
+      "calendarSummary": "{company}: {service}",
+      "timeRange": "{start} to {end}",
+      "footer": "{company} · {phone}",
+      "fields": {
+        "service": "Service",
+        "subService": "Work type",
+        "date": "Date",
+        "time": "Time",
+        "client": "Client",
+        "email": "Email",
+        "phone": "Phone",
+        "notes": "Notes",
+        "previousSlot": "Previous slot",
+        "newSlot": "New slot",
+        "reason": "Message from our team",
+        "sender": "Sender",
+        "subject": "Subject",
+        "message": "Message"
+      }
+    },
+    "adminContactMessage": {
+      "subject": "New contact message: {subject}",
+      "preview": "A visitor wrote to you through the contact form.",
+      "heading": "New contact message",
+      "intro": "A visitor wrote through the website contact form. Reply directly to this email to write back."
+    },
+    "contactAcknowledgement": {
+      "subject": "We have received your message",
+      "preview": "Your message has reached us.",
+      "heading": "Message received",
+      "intro": "Thank you for writing to us. Your message has reached us and we will reply as soon as possible. Here is a copy of what you sent us."
+    },
+    "appointmentConfirmation": {
+      "subject": "We have received your appointment request",
+      "preview": "We have received your request.",
+      "heading": "Request received",
+      "intro": "We have received your appointment request. Our team will validate it as soon as possible and you will receive a confirmation email."
+    },
+    "appointmentConfirmedByAdmin": {
+      "subject": "Your appointment is confirmed",
+      "preview": "Your appointment is confirmed.",
+      "heading": "Appointment confirmed",
+      "intro": "Your appointment is confirmed. We look forward to welcoming you."
+    },
+    "appointmentCancellation": {
+      "subject": "Your appointment has been cancelled",
+      "preview": "Your appointment has been cancelled.",
+      "heading": "Appointment cancelled",
+      "intro": "Your appointment has been cancelled. You can book a new one at any time."
+    },
+    "appointmentRescheduled": {
+      "subject": "Your appointment has been rescheduled",
+      "preview": "Your appointment has a new slot.",
+      "heading": "Appointment rescheduled",
+      "intro": "Your appointment has been moved to a new slot."
+    },
+    "appointmentReminder": {
+      "subject": "Reminder: your appointment is tomorrow",
+      "preview": "Your appointment is tomorrow.",
+      "heading": "Appointment tomorrow",
+      "intro": "This is a reminder of your appointment scheduled for tomorrow."
+    },
+    "adminNewAppointment": {
+      "subject": "New appointment to confirm",
+      "preview": "A new appointment request is waiting for your confirmation.",
+      "heading": "New appointment request",
+      "intro": "A new appointment has just been booked on the website. It is waiting for your confirmation."
+    },
+    "adminAppointmentCancelledByClient": {
+      "subject": "A client cancelled their appointment",
+      "preview": "A client cancelled their appointment.",
+      "heading": "Appointment cancelled by the client",
+      "intro": "The client cancelled their appointment: the slot is available again."
+    },
+    "adminAppointmentRescheduledByClient": {
+      "subject": "A client rescheduled their appointment",
+      "preview": "A client chose a new slot.",
+      "heading": "Appointment rescheduled by the client",
+      "intro": "The client chose a new slot for their appointment."
+    }
+  },
+
+  "privacy": {
+    "pageDescription": "How BYB Construction collects, uses and protects your personal data through this website, and how to exercise your rights.",
+    "intro": "This policy explains which personal data BYB Construction collects through this website, why, how long it is kept, and how you can exercise your rights.",
+    "updated": "Last updated: {date}",
+    "controller": {
+      "title": "Data controller",
+      "text": "{company}, {address}. Company number (BCE/KBO): {vat}. For any question about your data, contact us at {email}."
+    },
+    "collected": {
+      "title": "Data collected and purposes",
+      "labels": {
+        "data": "Data",
+        "purpose": "Purpose",
+        "basis": "Legal basis"
+      },
+      "appointments": {
+        "title": "Booking an appointment",
+        "data": "Name, email address, phone number, optional message, chosen service and time slot, website language.",
+        "purpose": "To record and manage your request, send you confirmations, changes and cancellations by email, and let you change or cancel your appointment yourself.",
+        "basis": "Pre-contractual steps taken at your request (Article 6(1)(b) GDPR)."
+      },
+      "contact": {
+        "title": "Contact form",
+        "data": "First name, last name, email address, phone number (optional), subject and message.",
+        "purpose": "To reply to your request.",
+        "basis": "Legitimate interest in replying to the requests we receive (Article 6(1)(f) GDPR)."
+      },
+      "security": {
+        "title": "Website security",
+        "data": "IP address and email address (temporary counters), anti-robot check.",
+        "purpose": "To protect the forms against automated submissions and abuse.",
+        "basis": "Legitimate interest in securing the website (Article 6(1)(f) GDPR)."
+      }
+    },
+    "retention": {
+      "title": "Retention periods",
+      "appointmentsUnset": "The data of an appointment is kept for as long as needed to manage it and follow up on our relationship, then erased or anonymized. You can ask for it to be erased at any time.",
+      "appointments": "The data of an appointment is anonymized {months, plural, one {# month} other {# months}} after its date. You can ask for it to be erased earlier.",
+      "contact": "Messages sent through the contact form are not stored on the website: they are forwarded by email to our team, who keep them for as long as needed to handle your request.",
+      "security": "Security counters (IP address, email address) are automatically deleted after 24 hours."
+    },
+    "processors": {
+      "title": "Recipients and processors",
+      "intro": "Your data is never sold. We use service providers who process it on our behalf:",
+      "supabase": "storage of appointments and management of the team's accounts",
+      "resend": "sending emails (confirmations, acknowledgements of receipt)",
+      "cloudinary": "hosting of the website's photos and videos",
+      "cloudflare": "anti-robot check of the forms (Turnstile)",
+      "google": "displaying maps, only if you click “Show the map”",
+      "transfers": "Some of these providers may process data outside the European Economic Area. In that case, the transfer is covered by the safeguards provided by the GDPR (adequacy decision or standard contractual clauses)."
+    },
+    "cookies": {
+      "title": "Cookies and local storage",
+      "text1": "This website uses no advertising cookies and no audience measurement, so no consent banner is needed.",
+      "text2": "It only stores on your device what it needs to work: your light or dark theme preference, your language, and the closing of the WhatsApp help bubble for the duration of your visit.",
+      "text3": "The Google Maps maps and the WhatsApp button send no data until you click on them."
+    },
+    "rights": {
+      "title": "Your rights",
+      "intro": "You can at any time:",
+      "access": "obtain a copy of the data we hold about you;",
+      "rectification": "have inaccurate data corrected;",
+      "erasure": "ask for it to be erased;",
+      "restriction": "ask for its processing to be restricted;",
+      "objection": "object to processing based on our legitimate interest;",
+      "portability": "receive your data in a structured format.",
+      "how": "To exercise these rights, write to us at {email}. We reply within one month. We may ask you to prove your identity. You can also cancel or move an appointment yourself using the link you received by email."
+    },
+    "complaint": {
+      "title": "Complaint",
+      "text": "If you believe your rights are not being respected, you can lodge a complaint with the {authority}, {address}, {website}, {email}."
     }
   },
 
@@ -774,6 +1061,8 @@
         "AUTH_LOGIN_FAILED": "Failed sign-in",
         "AUTH_PASSWORD_CHANGED": "Password changed",
         "EMAIL_SENT": "Email sent",
+        "CLIENT_DATA_ERASED": "Client data erased",
+        "APPOINTMENTS_ANONYMIZED": "Appointments anonymized (retention)",
         "EXPORT_GENERATED": "Export generated"
       },
       "details": {
@@ -901,6 +1190,41 @@
 
   "legal": {
     "pageTitle": "Legal notice",
+    "pageDescription": "Legal notice of BYB Construction: website publisher, contact details and legal information.",
+    "publisher": {
+      "title": "Website publisher",
+      "name": "Company name",
+      "legalForm": "Legal form",
+      "vat": "Company number (BCE/KBO) and VAT",
+      "address": "Registered office",
+      "otherSites": "Other sites",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "host": {
+      "title": "Hosting",
+      "intro": "This website is hosted by:"
+    },
+    "intellectualProperty": {
+      "title": "Intellectual property",
+      "text": "All content on this website (texts, images, videos, logos) is the property of {company} or used with the permission of its owners, and is protected by applicable intellectual property law. Any reproduction without prior written permission is prohibited."
+    },
+    "liability": {
+      "title": "Liability",
+      "text": "The information published on this website is indicative and may be changed at any time. It does not constitute a contractual offer."
+    },
+    "personalData": {
+      "title": "Personal data",
+      "text": "The processing of your personal data is described in our <link>privacy policy</link>."
+    },
+    "mediation": {
+      "title": "Out-of-court dispute resolution",
+      "intro": "In the event of a dispute, you may contact:"
+    },
+    "law": {
+      "title": "Applicable law",
+      "text": "This website is governed by Belgian law."
+    },
     "privacyTitle": "Privacy policy"
   },
 
@@ -921,6 +1245,11 @@
       "nameTooShort": "The name must be at least 2 characters long.",
       "nameTooLong": "The name cannot exceed 100 characters.",
       "emailInvalid": "Invalid email address.",
+      "subjectTooShort": "The subject must be at least 3 characters long.",
+      "subjectTooLong": "The subject cannot exceed 150 characters.",
+      "subjectInvalid": "The subject must fit on a single line.",
+      "messageTooShort": "Your message must be at least 10 characters long.",
+      "messageTooLong": "Your message cannot exceed 2000 characters.",
       "notesTooLong": "500 characters maximum.",
       "startDateInvalid": "Invalid start date.",
       "endDateInvalid": "Invalid end date.",
@@ -943,6 +1272,12 @@
       "passwordMismatch": "The passwords do not match."
     },
     "codes": {
+      "APPOINTMENT_IN_PAST": "This appointment has already taken place and can no longer be changed.",
+      "SLOT_TOO_SOON": "This slot is too soon to be booked online. Choose a later time or give us a call.",
+      "SLOT_TOO_FAR": "This slot is not open for booking yet. Choose a closer date.",
+      "BOOKING_LIMIT_REACHED": "This email address already has several upcoming appointments. Cancel or reschedule one before booking a new one.",
+      "EMAIL_DELIVERY_FAILED": "Your message could not be sent. Try again in a moment or give us a call.",
+      "CAPTCHA_FAILED": "The anti-bot check failed. Reload the page and try again.",
       "SLOT_NOT_FOUND": "This slot no longer exists.",
       "SLOT_UNAVAILABLE": "This slot has just been booked. Please choose another one.",
       "SLOT_ALREADY_BLOCKED": "This slot is already blocked.",

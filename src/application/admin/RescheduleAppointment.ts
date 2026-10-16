@@ -11,12 +11,14 @@ import { toIsoDate } from '@/domain/shared/IsoDate';
 export type RescheduleAppointmentInput = {
   appointmentId: string;
   newSlotId: string;
-  actorId: string;
+  /** null quand le client déplace lui-même son rendez-vous via le lien de son email. */
+  actorId: string | null;
   actorRole: ActorRole;
 };
 
 /**
- * Use case : un admin déplace un rendez-vous actif vers un autre créneau libre du même service.
+ * Use case : un admin (ou, via `RescheduleAppointmentByClient`, le client) déplace un rendez-vous actif
+ * vers un autre créneau libre du même service.
  *
  * Le déplacement (réserver le nouveau créneau, libérer l'ancien, mettre à jour le rendez-vous) est
  * atomique : il est délégué au port `AppointmentRescheduler`. Le statut du rendez-vous ne change pas :
@@ -57,7 +59,6 @@ export class RescheduleAppointment {
 
     await this.emailProvider.send({
       to: appointment.clientEmail,
-      subject: 'Votre rendez-vous a été déplacé',
       type: EmailType.APPOINTMENT_RESCHEDULED,
       data: {
         appointment,

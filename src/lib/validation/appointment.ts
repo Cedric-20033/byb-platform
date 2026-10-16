@@ -1,6 +1,7 @@
 // src/lib/validation/appointment.ts
 import { z } from 'zod';
 import { AppointmentStatus } from '@/domain/appointment/Appointment';
+import { APPOINTMENT_LOCALES } from '@/domain/appointment/AppointmentLocale';
 import { APPOINTMENT_SORT_FIELDS } from '@/domain/appointment/AppointmentRepository';
 
 /**
@@ -16,8 +17,9 @@ import { APPOINTMENT_SORT_FIELDS } from '@/domain/appointment/AppointmentReposit
  * traduisent via `useValidationMessage()`.
  */
 
-// Téléphone volontairement permissif (formats BE/FR avec ou sans indicatif).
-const phoneSchema = z.string().regex(/^[+]?[0-9\s.-]{8,20}$/, { error: 'phoneInvalid' });
+// Téléphone volontairement permissif (formats BE/FR avec ou sans indicatif). Le motif est partagé avec le formulaire de contact.
+export const PHONE_PATTERN = /^[+]?[0-9\s.-]{8,20}$/;
+const phoneSchema = z.string().regex(PHONE_PATTERN, { error: 'phoneInvalid' });
 
 const timeSchema = (error: string) => z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, { error });
 
@@ -29,6 +31,15 @@ export const createAppointmentSchema = z.object({
   clientEmail: z.email({ error: 'emailInvalid' }),
   clientPhone: phoneSchema,
   notes: z.string().max(500, { error: 'notesTooLong' }).optional(),
+  /** Langue du visiteur : celle de ses emails. */
+  locale: z.enum(APPOINTMENT_LOCALES).optional(),
+  /**
+   * Piège à robots : champ caché qu'aucun humain ne remplit. Volontairement sans règle de validation, un refus
+   * explicite dirait au robot qu'il est détecté ; l'action le teste elle-même.
+   */
+  website: z.string().max(200).optional(),
+  /** Preuve produite par le widget anti-robot (Turnstile). */
+  captchaToken: z.string().max(4096).optional(),
 });
 
 export type CreateAppointmentFormValues = z.infer<typeof createAppointmentSchema>;
@@ -41,6 +52,14 @@ export const cancelAppointmentByTokenSchema = z.object({
 });
 
 export type CancelAppointmentByTokenValues = z.infer<typeof cancelAppointmentByTokenSchema>;
+
+/** Déplacement par le client : le jeton de son email prouve son identité, `newSlotId` est le créneau choisi. */
+export const rescheduleAppointmentByTokenSchema = z.object({
+  token: z.uuid({ error: 'linkInvalid' }),
+  newSlotId: z.uuid({ error: 'slotInvalid' }),
+});
+
+export type RescheduleAppointmentByTokenValues = z.infer<typeof rescheduleAppointmentByTokenSchema>;
 
 /**
  * Recherche de créneaux disponibles (étape "Choix du créneau" du wizard).

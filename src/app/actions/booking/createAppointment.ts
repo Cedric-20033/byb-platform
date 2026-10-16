@@ -3,12 +3,16 @@
 // src/app/actions/booking/createAppointment.ts
 import { createAppointmentSchema } from '@/lib/validation/appointment';
 import { CreateAppointment } from '@/application/booking/CreateAppointment';
+import { toAppointmentLocale } from '@/domain/appointment/AppointmentLocale';
+import { DEFAULT_BOOKING_POLICY } from '@/domain/booking/BookingPolicy';
 import { SupabaseAppointmentRepository } from '@/infrastructure/supabase/repositories/SupabaseAppointmentRepository';
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
 import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider';
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
+import { getClientIp } from '@/infrastructure/http/getClientIp';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
-import { company } from '@/data/company';
+import { getAdminNotificationEmail } from '@/lib/booking/adminNotificationEmail';
+import { createPublicBookingGuard } from '@/lib/booking/createPublicBookingGuard';
 import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 
 export type CreateAppointmentActionState =
@@ -28,6 +32,14 @@ export async function createAppointmentAction(input: unknown): Promise<CreateApp
     return failure('VALIDATION_FAILED');
   }
 
+  const { website, captchaToken, locale, ...booking } = parsed.data;
+
+  // Piège à robots : un humain ne voit pas ce champ. On répond par un faux succès, sans rien créer :
+  // un refus apprendrait au robot qu'il est détecté et qu'il doit changer de méthode.
+  if (website) {
+    return { success: true, appointmentId: '' };
+  }
+
   const supabase = createServiceRoleClient();
 
   const useCase = new CreateAppointment(
@@ -35,13 +47,18 @@ export async function createAppointmentAction(input: unknown): Promise<CreateApp
     new SupabaseSlotRepository(supabase),
     new ResendEmailProvider(),
     new SupabaseAuditLogger(),
-    // Variable d'environnement prioritaire (permet de changer le destinataire
-    // sans toucher au code) ; à défaut, l'email de contact de l'entreprise.
-    process.env.ADMIN_NOTIFICATION_EMAIL ?? company.contact.email,
+    getAdminNotificationEmail(),
+    DEFAULT_BOOKING_POLICY,
   );
 
   try {
-    const appointment = await useCase.execute(parsed.data);
+    await createPublicBookingGuard(supabase).assertCanCreate({
+      ip: await getClientIp(),
+      email: booking.clientEmail,
+      captchaToken: captchaToken ?? null,
+    });
+
+    const appointment = await useCase.execute({ ...booking, locale: toAppointmentLocale(locale) });
     return { success: true, appointmentId: appointment.id };
   } catch (error) {
     return failure(toErrorCode(error));

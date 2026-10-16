@@ -1,12 +1,12 @@
-/* src/app/globals.css
+/* src/app/[locale]/globals.css
    RÈGLE CSS : tous les @import DOIVENT précéder toutes les autres règles.
-   Ordre obligatoire : @import fonts → @import tailwind → :root → règles
+   Ordre : @import tailwind → :root → règles
+
+   Les polices ne sont PLUS chargées ici depuis fonts.googleapis.com (cela envoyait l'adresse IP de chaque visiteur
+   à Google). Elles sont hébergées par le site via `next/font` dans app/[locale]/layout.tsx, qui définit les
+   variables --font-barlow-condensed et --font-inter utilisées ci-dessous.
 */
 
-/* 1. Google Fonts — doit être en PREMIER */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap');
-
-/* 2. Tailwind CSS */
 @import "tailwindcss";
 
 /* ─── Thème clair ────────────────────────────────────────────────────────────── */
@@ -27,8 +27,8 @@
   --color-muted:      #6B7280;
   --color-border:     #E2E0DB;
 
-  --font-display: 'Barlow Condensed', sans-serif;
-  --font-body:    'Inter', sans-serif;
+  --font-display: var(--font-barlow-condensed), 'Barlow Condensed', sans-serif;
+  --font-body:    var(--font-inter), 'Inter', sans-serif;
 
   --radius-sm: 4px;
   --radius-md: 8px;

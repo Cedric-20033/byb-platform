@@ -1,5 +1,5 @@
 // src/test/fakes/InMemoryAppointmentRepository.ts
-import { Appointment, type AppointmentStatus } from '@/domain/appointment/Appointment';
+import { Appointment, AppointmentStatus } from '@/domain/appointment/Appointment';
 import type {
   AppointmentContactDetails,
   AppointmentPage,
@@ -80,9 +80,21 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
       appointment.notes,
       appointment.status,
       new Date(),
+      appointment.locale,
     );
     this.appointments.set(saved.id, saved);
     return saved;
+  }
+
+  /** Mime la jointure SQL : le créneau du rendez-vous doit exister et tomber à `fromDate` ou après. */
+  async countUpcomingByEmail(email: string, fromDate: string): Promise<number> {
+    let count = 0;
+    for (const appointment of this.all()) {
+      if (appointment.clientEmail !== email || appointment.status === AppointmentStatus.CANCELLED) continue;
+      const slot = await this.slotRepository.findById(appointment.slotId);
+      if (slot && slot.date >= fromDate) count++;
+    }
+    return count;
   }
 
   async updateStatus(id: string, status: AppointmentStatus): Promise<void> {
@@ -101,6 +113,7 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
         current.notes,
         status,
         current.createdAt,
+        current.locale,
       ),
     );
   }
@@ -164,6 +177,7 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
       overrides.notes === undefined ? current.notes : overrides.notes,
       current.status,
       current.createdAt,
+      current.locale,
     );
   }
 }

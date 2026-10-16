@@ -1,7 +1,7 @@
 // src/infrastructure/supabase/repositories/SupabaseAppointmentRepository.ts
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
-import { Appointment, AppointmentStatus } from '@/domain/appointment/Appointment';
+import type { Appointment } from '@/domain/appointment/Appointment';
 import type {
   AppointmentContactDetails,
   AppointmentPage,
@@ -12,9 +12,9 @@ import type {
   SortDirection,
 } from '@/domain/appointment/AppointmentRepository';
 import type { AppointmentWithSlot } from '@/domain/appointment/AppointmentWithSlot';
+import { toAppointment, type AppointmentRow } from './appointmentMapper';
 import { buildTextSearchFilter } from './postgrestSearch';
 
-type AppointmentRow = Database['public']['Tables']['appointments']['Row'];
 // Ligne retournée par la jointure `slots!inner(...)` : les colonnes du créneau
 // s'ajoutent sous la clé `slots`, imbriquée par PostgREST.
 type AppointmentRowWithSlot = AppointmentRow & {
@@ -91,6 +91,7 @@ export class SupabaseAppointmentRepository implements AppointmentRepository {
         client_phone: appointment.clientPhone,
         notes: appointment.notes,
         status: appointment.status,
+        locale: appointment.locale,
       })
       .select()
       .single();
@@ -120,6 +121,20 @@ export class SupabaseAppointmentRepository implements AppointmentRepository {
   async delete(id: string): Promise<void> {
     const { error } = await this.supabase.from('appointments').delete().eq('id', id);
     if (error) throw new Error(error.message);
+  }
+
+  async countUpcomingByEmail(email: string, fromDate: string): Promise<number> {
+    // Comparaison exacte : les emails sont enregistrés en minuscules (voir CreateAppointment). `ilike`
+    // est évité car `_`, fréquent dans une adresse, y serait un joker.
+    const { count, error } = await this.supabase
+      .from('appointments')
+      .select('id, slots!inner(date)', { count: 'exact', head: true })
+      .eq('client_email', email)
+      .neq('status', 'cancelled')
+      .gte('slots.date', fromDate);
+
+    if (error) throw new Error(error.message);
+    return count ?? 0;
   }
 
   /** Factorise les clauses WHERE communes à `search`, `searchWithSlot` et `searchPage`. */
@@ -169,17 +184,6 @@ export class SupabaseAppointmentRepository implements AppointmentRepository {
   }
 
   private toDomain(row: AppointmentRow): Appointment {
-    return new Appointment(
-      row.id,
-      row.slot_id,
-      row.service_id,
-      row.sub_service_id,
-      row.client_email,
-      row.client_name,
-      row.client_phone,
-      row.notes,
-      row.status as AppointmentStatus,
-      new Date(row.created_at),
-    );
+    return toAppointment(row);
   }
 }
