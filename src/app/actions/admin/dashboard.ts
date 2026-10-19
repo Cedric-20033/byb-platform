@@ -2,6 +2,9 @@
 
 // src/app/actions/admin/dashboard.ts
 import { GetDashboardStats, type DashboardStats } from '@/application/admin/GetDashboardStats';
+import { GetUpcomingAppointments } from '@/application/admin/GetUpcomingAppointments';
+import { GetAppointmentInsights, type AppointmentInsights } from '@/application/admin/GetAppointmentInsights';
+import { GetFreeSlotsOutlook, type FreeSlotsOutlook } from '@/application/admin/GetFreeSlotsOutlook';
 import { ListAppointments } from '@/application/admin/ListAppointments';
 import { SupabaseAppointmentRepository } from '@/infrastructure/supabase/repositories/SupabaseAppointmentRepository';
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
@@ -75,6 +78,78 @@ export async function getPendingNotificationsAction(): Promise<NotificationsResu
       }));
 
     return { success: true, pendingCount: pending.total, items };
+  } catch (error) {
+    return failure(toErrorCode(error));
+  }
+}
+
+/**
+ * Vue minimale d'un rendez-vous pour le widget « Prochains rendez-vous » : le nom suffit à l'identifier,
+ * l'email, le téléphone et les notes restent dans la fiche (principe de minimisation des données).
+ */
+export type UpcomingAppointmentDTO = {
+  id: string;
+  clientName: string;
+  serviceId: string;
+  status: AppointmentStatus;
+  slotDate: string;
+  slotStartTime: string;
+  slotEndTime: string;
+};
+
+type UpcomingResult = { success: true; items: UpcomingAppointmentDTO[] } | ActionFailure;
+type InsightsResult = { success: true; insights: AppointmentInsights } | ActionFailure;
+type FreeSlotsResult = { success: true; outlook: FreeSlotsOutlook } | ActionFailure;
+
+/** Prochains rendez-vous actifs. Données personnelles : `appointments.view` est exigée. */
+export async function getUpcomingAppointmentsAction(): Promise<UpcomingResult> {
+  try {
+    assertPermission(await getCurrentAdmin(), 'appointments', 'view');
+
+    const supabase = await createClient();
+    const upcoming = await new GetUpcomingAppointments(new SupabaseAppointmentRepository(supabase)).execute();
+
+    return {
+      success: true,
+      items: upcoming.map(({ appointment, slotDate, slotStartTime, slotEndTime }) => ({
+        id: appointment.id,
+        clientName: appointment.clientName,
+        serviceId: appointment.serviceId,
+        status: appointment.status,
+        slotDate,
+        slotStartTime,
+        slotEndTime,
+      })),
+    };
+  } catch (error) {
+    return failure(toErrorCode(error));
+  }
+}
+
+/** Taux d'annulation et répartition par service (agrégats dérivés des rendez-vous : `appointments.view`). */
+export async function getAppointmentInsightsAction(): Promise<InsightsResult> {
+  try {
+    assertPermission(await getCurrentAdmin(), 'appointments', 'view');
+
+    const supabase = await createClient();
+    const insights = await new GetAppointmentInsights(new SupabaseAppointmentRepository(supabase)).execute();
+    return { success: true, insights };
+  } catch (error) {
+    return failure(toErrorCode(error));
+  }
+}
+
+/**
+ * Créneaux libres des 7 prochains jours. Ne lit que des créneaux, aucun rendez-vous : le droit exigé est
+ * `slots.view`, de sorte qu'un admin sans accès aux rendez-vous peut quand même suivre les disponibilités.
+ */
+export async function getFreeSlotsOutlookAction(): Promise<FreeSlotsResult> {
+  try {
+    assertPermission(await getCurrentAdmin(), 'slots', 'view');
+
+    const supabase = await createClient();
+    const outlook = await new GetFreeSlotsOutlook(new SupabaseSlotRepository(supabase)).execute();
+    return { success: true, outlook };
   } catch (error) {
     return failure(toErrorCode(error));
   }

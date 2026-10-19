@@ -261,7 +261,7 @@ absente de la matrice ou n'applique pas sa garde.
 | `signInAction`, `signOutAction`, `requestPasswordResetAction` | public |
 | `createAppointmentAction`, `cancelAppointmentByTokenAction`, `getAvailableSlotsAction` | public (réservation visiteur, service_role) |
 | `setPasswordAction`, `changePasswordAction` | session admin active |
-| `listAppointmentsAction`, `getDashboardStatsAction`, `getPendingNotificationsAction` | `appointments.view` |
+| `listAppointmentsAction`, `getDashboardStatsAction`, `getPendingNotificationsAction`, `getUpcomingAppointmentsAction`, `getAppointmentInsightsAction` | `appointments.view` |
 | `confirmAppointmentAction`, `cancelAppointmentAction` | `appointments.edit` |
 | `exportAppointmentsAction` | `appointments.view` + `appointments.export` |
 | `createAppointmentByAdminAction` | `appointments.view` + `appointments.create` (+ `slots.create` si le créneau est ponctuel) |
@@ -274,7 +274,7 @@ absente de la matrice ou n'applique pas sa garde.
 | `deleteAvailableSlotsAction` | `slots.delete` |
 | `getCalendarDataAction` | `appointments.view` (couches créneaux bloqués et jours fériés : `slots.view` et `holidays.view`, lues dans l'action) |
 | `listAppointmentHistoryAction` | `appointments.view` + `audit_logs.view` (lecture du journal filtrée sur un RDV) |
-| `listSlotsByDateAction` | `slots.view` |
+| `listSlotsByDateAction`, `getFreeSlotsOutlookAction` | `slots.view` |
 | `blockSlotAction`, `unblockSlotAction` | `slots.edit` |
 | `generateSlotsAction` | `slots.create` |
 | `listHolidaysAction` | `holidays.view` |

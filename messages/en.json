@@ -458,8 +458,50 @@
       "statAppointmentsWeek": "Appointments this week",
       "statPending": "Awaiting confirmation",
       "statBlockedSlots": "Blocked slots",
-      "chartTitle": "Appointments — this week and next",
-      "noStatsAccess": "You don't have access to appointment statistics. Use the menu to reach the sections open to you."
+      "chartTitle": "Appointments · this week and next",
+      "noStatsAccess": "You don't have access to appointment statistics. Use the menu to reach the sections open to you.",
+      "retry": "Try again",
+      "loading": "Loading",
+      "unknownService": "Unknown service",
+      "stats": {
+        "title": "Key figures"
+      },
+      "pending": {
+        "title": "Requests to process",
+        "empty": "No pending requests. You're all caught up.",
+        "meta": "{service} · {date} at {time}",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "confirmedToast": "Appointment confirmed.",
+        "cancelledToast": "Appointment cancelled.",
+        "cancelTitle": "Cancel this appointment?",
+        "cancelDescription": "{client}'s request will be cancelled and the slot freed. The client will be notified by email.",
+        "cancelConfirm": "Cancel appointment",
+        "keep": "Keep it",
+        "viewAll": "View all {count} requests"
+      },
+      "upcoming": {
+        "title": "Upcoming appointments",
+        "empty": "No appointments in the next 30 days.",
+        "meta": "{service} · {time}",
+        "calendarLink": "Calendar"
+      },
+      "insights": {
+        "title": "Activity by service",
+        "period": "From {from} to {to}",
+        "empty": "No appointments in this period.",
+        "cancellationRate": "Cancellation rate",
+        "cancellationDetail": "{cancelled} of {total} cancelled",
+        "chartLabel": "Appointments by service"
+      },
+      "freeSlots": {
+        "title": "Free slots",
+        "subtitle": "Next 7 days",
+        "total": "{count, plural, one {# free slot} other {# free slots}}",
+        "day": "{date}: {count, plural, =0 {no free slots} one {# free slot} other {# free slots}}",
+        "none": "No free slots in the next 7 days: visitors cannot book. Generate some from the Slots section.",
+        "manage": "Manage slots"
+      }
     },
     "calendar": {
       "title": "Calendar",

@@ -15,15 +15,8 @@ import type { Service } from '@/types';
 import { getPendingNotificationsAction } from '@/app/actions/admin/dashboard';
 import { cn, formatDate, t as translateField } from '@/lib/utils';
 import { buildOpenAppointmentQuery } from './appointmentsUrlState';
+import { invalidateAppointmentQueries } from './appointmentQueryKeys';
 import { useAppointmentsRealtime } from './useAppointmentsRealtime';
-
-/** Vues qui affichent des rendez-vous : toutes sont rafraîchies quand un rendez-vous change. */
-const APPOINTMENT_QUERY_KEYS = [
-  ['admin', 'notifications'],
-  ['admin', 'appointments'],
-  ['admin', 'calendar'],
-  ['admin', 'dashboard'],
-] as const;
 
 /**
  * Cloche de notifications : signale les RDV en attente de confirmation.
@@ -43,7 +36,7 @@ export function NotificationBell({ services }: { services: Service[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useAppointmentsRealtime((change) => {
-    for (const queryKey of APPOINTMENT_QUERY_KEYS) queryClient.invalidateQueries({ queryKey });
+    invalidateAppointmentQueries(queryClient);
 
     // Une demande publique naît « pending » ; un rendez-vous créé par l'équipe est confirmé d'office, et ne notifie pas.
     if (change.eventType === 'INSERT' && change.newRow?.status === 'pending') {

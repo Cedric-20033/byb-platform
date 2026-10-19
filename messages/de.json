@@ -460,8 +460,50 @@
       "statAppointmentsWeek": "Termine diese Woche",
       "statPending": "Warten auf Bestätigung",
       "statBlockedSlots": "Blockierte Zeitfenster",
-      "chartTitle": "Termine — diese und nächste Woche",
-      "noStatsAccess": "Sie haben keinen Zugriff auf die Termin-Kennzahlen. Nutzen Sie das Menü, um zu den für Sie freigegebenen Bereichen zu gelangen."
+      "chartTitle": "Termine · diese und nächste Woche",
+      "noStatsAccess": "Sie haben keinen Zugriff auf die Termin-Kennzahlen. Nutzen Sie das Menü, um zu den für Sie freigegebenen Bereichen zu gelangen.",
+      "retry": "Erneut versuchen",
+      "loading": "Wird geladen",
+      "unknownService": "Unbekannter Service",
+      "stats": {
+        "title": "Kennzahlen"
+      },
+      "pending": {
+        "title": "Offene Anfragen",
+        "empty": "Keine offenen Anfragen. Alles erledigt.",
+        "meta": "{service} · {date} um {time}",
+        "confirm": "Bestätigen",
+        "cancel": "Absagen",
+        "confirmedToast": "Termin bestätigt.",
+        "cancelledToast": "Termin abgesagt.",
+        "cancelTitle": "Diesen Termin absagen?",
+        "cancelDescription": "Die Anfrage von {client} wird abgesagt und das Zeitfenster wieder freigegeben. Der Kunde wird per E-Mail informiert.",
+        "cancelConfirm": "Termin absagen",
+        "keep": "Behalten",
+        "viewAll": "Alle {count} Anfragen anzeigen"
+      },
+      "upcoming": {
+        "title": "Nächste Termine",
+        "empty": "Keine Termine in den nächsten 30 Tagen.",
+        "meta": "{service} · {time}",
+        "calendarLink": "Kalender"
+      },
+      "insights": {
+        "title": "Aktivität nach Service",
+        "period": "Vom {from} bis {to}",
+        "empty": "Keine Termine in diesem Zeitraum.",
+        "cancellationRate": "Stornoquote",
+        "cancellationDetail": "{cancelled} von {total} abgesagt",
+        "chartLabel": "Termine pro Service"
+      },
+      "freeSlots": {
+        "title": "Freie Zeitfenster",
+        "subtitle": "Nächste 7 Tage",
+        "total": "{count, plural, one {# freies Zeitfenster} other {# freie Zeitfenster}}",
+        "day": "{date}: {count, plural, =0 {keine freien Zeitfenster} one {# freies Zeitfenster} other {# freie Zeitfenster}}",
+        "none": "Keine freien Zeitfenster in den nächsten 7 Tagen: Besucher können nicht buchen. Erstellen Sie neue im Bereich Zeitfenster.",
+        "manage": "Zeitfenster verwalten"
+      }
     },
     "calendar": {
       "title": "Kalender",

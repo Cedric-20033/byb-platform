@@ -460,8 +460,50 @@
       "statAppointmentsWeek": "RDV cette semaine",
       "statPending": "En attente de confirmation",
       "statBlockedSlots": "Créneaux bloqués",
-      "chartTitle": "Rendez-vous — semaine en cours et suivante",
-      "noStatsAccess": "Vous n'avez pas accès aux indicateurs des rendez-vous. Utilisez le menu pour accéder aux sections qui vous sont ouvertes."
+      "chartTitle": "Rendez-vous · semaine en cours et suivante",
+      "noStatsAccess": "Vous n'avez pas accès aux indicateurs des rendez-vous. Utilisez le menu pour accéder aux sections qui vous sont ouvertes.",
+      "retry": "Réessayer",
+      "loading": "Chargement",
+      "unknownService": "Service inconnu",
+      "stats": {
+        "title": "Indicateurs"
+      },
+      "pending": {
+        "title": "Demandes à traiter",
+        "empty": "Aucune demande en attente. Tout est à jour.",
+        "meta": "{service} · {date} à {time}",
+        "confirm": "Confirmer",
+        "cancel": "Annuler",
+        "confirmedToast": "Rendez-vous confirmé.",
+        "cancelledToast": "Rendez-vous annulé.",
+        "cancelTitle": "Annuler ce rendez-vous ?",
+        "cancelDescription": "La demande de {client} sera annulée et le créneau libéré. Le client en sera informé par email.",
+        "cancelConfirm": "Annuler le rendez-vous",
+        "keep": "Conserver",
+        "viewAll": "Voir les {count} demandes"
+      },
+      "upcoming": {
+        "title": "Prochains rendez-vous",
+        "empty": "Aucun rendez-vous dans les 30 prochains jours.",
+        "meta": "{service} · {time}",
+        "calendarLink": "Calendrier"
+      },
+      "insights": {
+        "title": "Activité par service",
+        "period": "Du {from} au {to}",
+        "empty": "Aucun rendez-vous sur cette période.",
+        "cancellationRate": "Taux d'annulation",
+        "cancellationDetail": "{cancelled, plural, one {# annulé} other {# annulés}} sur {total}",
+        "chartLabel": "Rendez-vous par service"
+      },
+      "freeSlots": {
+        "title": "Créneaux libres",
+        "subtitle": "7 prochains jours",
+        "total": "{count, plural, one {# créneau libre} other {# créneaux libres}}",
+        "day": "{date} : {count, plural, =0 {aucun créneau libre} one {# créneau libre} other {# créneaux libres}}",
+        "none": "Aucun créneau libre sur les 7 prochains jours : les visiteurs ne peuvent pas réserver. Générez-en depuis la section Créneaux.",
+        "manage": "Gérer les créneaux"
+      }
     },
     "calendar": {
       "title": "Calendrier",

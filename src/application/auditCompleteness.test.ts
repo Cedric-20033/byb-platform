@@ -15,6 +15,9 @@ const APPLICATION_DIR = resolve(process.cwd(), 'src/application');
 /** Use cases et utilitaires qui ne modifient aucun état (aucune trace attendue). */
 const READ_ONLY = new Set([
   'GetDashboardStats',
+  'GetUpcomingAppointments',
+  'GetAppointmentInsights',
+  'GetFreeSlotsOutlook',
   'ListAppointments',
   'GetAppointmentHistory',
   'GetCalendarRange',

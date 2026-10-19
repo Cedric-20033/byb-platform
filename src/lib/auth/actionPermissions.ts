@@ -123,6 +123,10 @@ export const ACTION_REQUIREMENTS: Record<string, ActionRequirement> = {
   // Tableau de bord (chiffres dérivés des rendez-vous)
   'admin/dashboard.ts#getDashboardStatsAction': need('appointments', 'view'),
   'admin/dashboard.ts#getPendingNotificationsAction': need('appointments', 'view'),
+  'admin/dashboard.ts#getUpcomingAppointmentsAction': need('appointments', 'view'),
+  'admin/dashboard.ts#getAppointmentInsightsAction': need('appointments', 'view'),
+  // Ne lit que des créneaux (aucune donnée de rendez-vous) : seul `slots.view` est exigé.
+  'admin/dashboard.ts#getFreeSlotsOutlookAction': need('slots', 'view'),
 
   // Journal d'audit (l'export est lui-même tracé)
   'admin/auditLogs.ts#listAuditLogsAction': need('audit_logs', 'view'),
