@@ -38,6 +38,9 @@ export const AUTH_ROUTES = {
 export const ADMIN_ROUTES = {
   DASHBOARD: '/dashboard',
   SERVICES: '/dashboard/services',
+  REALISATIONS: '/dashboard/realisations',
+  TESTIMONIALS: '/dashboard/testimonials',
+  SETTINGS: '/dashboard/settings',
   USERS: '/dashboard/users',
   PERMISSIONS: '/dashboard/permissions',
   AUDIT_LOGS: '/dashboard/audit-logs',

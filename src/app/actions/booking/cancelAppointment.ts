@@ -12,9 +12,9 @@ import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider'
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { getClientIp } from '@/infrastructure/http/getClientIp';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
-import { getAdminNotificationEmail } from '@/lib/booking/adminNotificationEmail';
 import { createPublicBookingGuard } from '@/lib/booking/createPublicBookingGuard';
 import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
+import { resolveBookingSettings } from '@/lib/settings/resolveBookingSettings';
 
 export type CancelAppointmentActionState = { success: true } | ActionFailure;
 
@@ -38,6 +38,7 @@ export async function cancelAppointmentByTokenAction(
     const supabase = createServiceRoleClient();
     await createPublicBookingGuard(supabase).assertCanUseToken({ ip: await getClientIp() });
 
+    const { adminNotificationEmail } = await resolveBookingSettings(supabase);
     const emailProvider = new ResendEmailProvider();
     const useCase = new CancelAppointmentByClient(
       new GetClientAppointment(new SupabaseClientAppointmentAccess(supabase)),
@@ -48,7 +49,7 @@ export async function cancelAppointmentByTokenAction(
         new SupabaseAuditLogger(),
       ),
       emailProvider,
-      getAdminNotificationEmail(),
+      adminNotificationEmail,
     );
 
     await useCase.execute({ token: parsed.data.token });

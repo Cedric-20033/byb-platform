@@ -77,7 +77,8 @@ export class CreateAppointment {
       input.clientName,
       input.clientPhone,
       input.notes ?? null,
-      AppointmentStatus.PENDING,
+      // Confirmation automatique : réglage de l'entreprise (`company_settings`), manuel par défaut.
+      this.policy.autoConfirm ? AppointmentStatus.CONFIRMED : AppointmentStatus.PENDING,
       now,
       input.locale ?? DEFAULT_APPOINTMENT_LOCALE,
     );

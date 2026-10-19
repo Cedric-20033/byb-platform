@@ -2,7 +2,7 @@
    RÈGLE CSS : tous les @import DOIVENT précéder toutes les autres règles.
    Ordre : @import tailwind → :root → règles
 
-   Les polices ne sont PLUS chargées ici depuis fonts.googleapis.com (cela envoyait l'adresse IP de chaque visiteur
+   Les polices ne sont PLUS chargées ici depuis les serveurs Google (cela envoyait l'adresse IP de chaque visiteur
    à Google). Elles sont hébergées par le site via `next/font` dans app/[locale]/layout.tsx, qui définit les
    variables --font-barlow-condensed et --font-inter utilisées ci-dessous.
 */

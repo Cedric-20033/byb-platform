@@ -3,10 +3,11 @@ import type { Metadata } from 'next';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { LegalPage, LegalSection } from '@/components/legal/LegalSection';
 import { renderPrivacyLink } from '@/components/legal/privacyLink';
-import { company, getPrimarySite } from '@/data/company';
+import { company } from '@/data/company';
 import { legal } from '@/data/legal';
 import { formatSiteAddress } from '@/lib/maps';
 import type { Locale } from '@/lib/routing';
+import { getPrimaryPublicSite, loadPublicCompanyInfo } from '@/lib/settings/publicCompanyInfo';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -16,16 +17,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 /**
- * Mentions légales. Tout le texte vient de `messages/*.json` (clé `legal.*`) et toutes les données de
- * `data/company.ts` et `data/legal.ts` : rien n'est écrit en dur ici, et une information non fournie par le
+ * Mentions légales. Tout le texte vient de `messages/*.json` (clé `legal.*`) et l'identité juridique vient de
+ * `data/company.ts` et `data/legal.ts`, les adresses et coordonnées des réglages de l'entreprise : rien n'est écrit en dur ici, et une information non fournie par le
  * client (forme juridique, hébergeur, médiation) n'est pas affichée plutôt qu'inventée.
  */
 export default async function MentionsLegalesPage() {
   const t = await getTranslations('legal');
   const locale = (await getLocale()) as Locale;
 
-  const headquarters = getPrimarySite();
-  const otherSites = company.sites.filter((site) => site.id !== headquarters.id);
+  const info = await loadPublicCompanyInfo();
+  const headquarters = getPrimaryPublicSite(info);
+  const otherSites = info.sites.filter((site) => site.id !== headquarters.id);
 
   return (
     <LegalPage title={t('pageTitle')}>
@@ -62,13 +64,17 @@ export default async function MentionsLegalesPage() {
 
           <dt className="font-medium text-[var(--color-foreground)]">{t('publisher.email')}</dt>
           <dd>
-            <a href={`mailto:${company.contact.email}`} className="underline underline-offset-2">
-              {company.contact.email}
+            <a href={`mailto:${info.contact.email}`} className="underline underline-offset-2">
+              {info.contact.email}
             </a>
           </dd>
 
-          <dt className="font-medium text-[var(--color-foreground)]">{t('publisher.phone')}</dt>
-          <dd>{company.contact.phone}</dd>
+          {info.contact.phone && (
+            <>
+              <dt className="font-medium text-[var(--color-foreground)]">{t('publisher.phone')}</dt>
+              <dd>{info.contact.phone}</dd>
+            </>
+          )}
         </dl>
       </LegalSection>
 

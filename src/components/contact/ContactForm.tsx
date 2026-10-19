@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, type ComponentProps } from 'react';
-import { useForm, type FieldError, type UseFormRegisterReturn } from 'react-hook-form';
+import { useForm, useWatch, type FieldError, type UseFormRegisterReturn } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocale, useTranslations } from 'next-intl';
 import { CheckCircle2, Send } from 'lucide-react';
@@ -46,14 +46,15 @@ export function ContactForm() {
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<ContactMessageFormValues>({
     resolver: zodResolver(contactMessageSchema),
     defaultValues: { locale: toAppointmentLocale(locale) },
   });
 
-  const isCaptchaPending = Boolean(TURNSTILE_SITE_KEY) && !watch('captchaToken');
+  const captchaToken = useWatch({ control, name: 'captchaToken' });
+  const isCaptchaPending = Boolean(TURNSTILE_SITE_KEY) && !captchaToken;
 
   async function onSubmit(values: ContactMessageFormValues) {
     setSubmitError(null);

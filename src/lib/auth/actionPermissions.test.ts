@@ -122,6 +122,7 @@ describe('table de vérité', () => {
         'admin/services.ts#listServicesAction',
         'admin/slots.ts#listSlotsByDateAction',
         'admin/slots.ts#listSlotsByRangeAction',
+        'admin/testimonials.ts#listTestimonialsAction',
       ].sort(),
     );
   });
@@ -225,6 +226,48 @@ describe('table de vérité', () => {
       expect(allowed(remover, 'admin/services.ts#deleteSubServiceAction')).toBe(true);
       expect(allowed(remover, 'admin/serviceMedia.ts#removeServiceMediaAction')).toBe(true);
       expect(allowed(remover, 'admin/services.ts#updateServiceAction')).toBe(false);
+    });
+  });
+
+  describe.each([
+    {
+      domain: 'testimonials',
+      view: ['admin/testimonials.ts#listTestimonialsAction'],
+      create: ['admin/testimonials.ts#createTestimonialAction'],
+      edit: [
+        'admin/testimonials.ts#updateTestimonialAction',
+        'admin/testimonials.ts#publishTestimonialAction',
+        'admin/testimonials.ts#unpublishTestimonialAction',
+        'admin/testimonials.ts#reorderTestimonialsAction',
+      ],
+      remove: ['admin/testimonials.ts#deleteTestimonialAction'],
+    },
+  ])('$domain : une permission par action', ({ domain, view, create, edit, remove }) => {
+    const gridWith = (action: 'view' | 'create' | 'edit' | 'delete') =>
+      profile(USER_ROLES.ADMIN, { [domain]: { [action]: true } });
+    // `allowed` : TOUTES les actions sont ouvertes ; `anyAllowed` : AU MOINS UNE l'est (fuite de droit).
+    const allowed = (admin: AdminProfile, keys: string[]) =>
+      keys.every((key) => isActionAllowed(admin, ACTION_REQUIREMENTS[key]));
+    const anyAllowed = (admin: AdminProfile, keys: string[]) =>
+      keys.some((key) => isActionAllowed(admin, ACTION_REQUIREMENTS[key]));
+
+    it('chaque droit n\'ouvre que ses propres actions', () => {
+      expect(allowed(gridWith('view'), view)).toBe(true);
+      expect(anyAllowed(gridWith('view'), [...create, ...edit, ...remove])).toBe(false);
+
+      expect(allowed(gridWith('create'), create)).toBe(true);
+      expect(anyAllowed(gridWith('create'), [...view, ...edit, ...remove])).toBe(false);
+
+      expect(allowed(gridWith('edit'), edit)).toBe(true);
+      expect(anyAllowed(gridWith('edit'), [...view, ...create, ...remove])).toBe(false);
+
+      expect(allowed(gridWith('delete'), remove)).toBe(true);
+      expect(anyAllowed(gridWith('delete'), [...view, ...create, ...edit])).toBe(false);
+    });
+
+    it('l\'admin par défaut peut consulter, mais ni créer, ni modifier, ni supprimer', () => {
+      expect(allowed(defaultAdmin, view)).toBe(true);
+      expect(anyAllowed(defaultAdmin, [...create, ...edit, ...remove])).toBe(false);
     });
   });
 

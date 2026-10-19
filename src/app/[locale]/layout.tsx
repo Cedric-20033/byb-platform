@@ -13,7 +13,7 @@ import '@/app/[locale]/globals.css';
 /**
  * Polices hébergées par le site lui-même. `next/font/google` télécharge les fichiers à la compilation et les sert depuis
  * le domaine du site : le navigateur du visiteur ne contacte jamais Google. Charger ces polices depuis
- * fonts.googleapis.com (ce que faisait `globals.css`) transmet l'adresse IP de chaque visiteur à Google sans son
+ * le chargement direct des polices chez leur fournisseur (ce que faisait `globals.css`) transmet l'adresse IP de chaque visiteur à Google sans son
  * accord, ce que le RGPD ne permet pas sans consentement.
  * Les variables CSS alimentent `--font-display` et `--font-body` dans globals.css.
  */

@@ -31,6 +31,9 @@ const READ_ONLY = new Set([
   'ListServices',
   // Délivre une signature d'upload : aucun état modifié (l'attache est auditée).
   'AuthorizeMediaUpload',
+  'ListTestimonials',
+  'GetPublishedTestimonials',
+  'GetCompanySettings',
 ]);
 
 /**
@@ -49,6 +52,8 @@ const NON_USE_CASES = new Set([
   'AdminActor',
   'ensureNotLastSuperadmin',
   'requireService',
+  'requireTestimonial',
+  'testimonialContent',
   // Garde de lecture partagée des use cases « par le client » : ne modifie rien.
   'requireActiveClientAppointment',
   // Quotas anti-abus : un compteur technique, pas une action métier à tracer dans le journal d'audit.

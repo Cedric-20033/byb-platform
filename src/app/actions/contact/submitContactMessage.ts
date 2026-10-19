@@ -7,9 +7,9 @@ import { toAppointmentLocale } from '@/domain/appointment/AppointmentLocale';
 import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider';
 import { getClientIp } from '@/infrastructure/http/getClientIp';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
-import { getAdminNotificationEmail } from '@/lib/booking/adminNotificationEmail';
 import { createPublicContactGuard } from '@/lib/contact/createPublicContactGuard';
 import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
+import { resolveBookingSettings } from '@/lib/settings/resolveBookingSettings';
 
 export type SubmitContactMessageActionState = { success: true } | ActionFailure;
 
@@ -34,14 +34,16 @@ export async function submitContactMessageAction(input: unknown): Promise<Submit
   }
 
   try {
-    await createPublicContactGuard(createServiceRoleClient()).assertCanSend({
+    const supabase = createServiceRoleClient();
+    await createPublicContactGuard(supabase).assertCanSend({
       ip: await getClientIp(),
       email: message.email,
       captchaToken: captchaToken ?? null,
     });
 
     const emailProvider = new ResendEmailProvider();
-    await new SubmitContactMessage(emailProvider, emailProvider, getAdminNotificationEmail()).execute({
+    const { adminNotificationEmail } = await resolveBookingSettings(supabase);
+    await new SubmitContactMessage(emailProvider, emailProvider, adminNotificationEmail).execute({
       ...message,
       locale: toAppointmentLocale(locale),
     });

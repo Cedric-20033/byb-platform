@@ -75,17 +75,18 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
     requiredPermission: { domain: 'services', action: 'view' },
   },
   {
-    labelKey: 'projects',
-    href: '/dashboard/projects',
+    // Les Réalisations sont les médias des services (`service_media`) : elles suivent les droits `services.*`.
+    labelKey: 'realisations',
+    href: ADMIN_ROUTES.REALISATIONS,
     icon: GalleryHorizontal,
-    available: false,
-    requiredPermission: { domain: 'projects', action: 'view' },
+    available: true,
+    requiredPermission: { domain: 'services', action: 'view' },
   },
   {
     labelKey: 'testimonials',
-    href: '/dashboard/testimonials',
+    href: ADMIN_ROUTES.TESTIMONIALS,
     icon: MessageSquareQuote,
-    available: false,
+    available: true,
     requiredPermission: { domain: 'testimonials', action: 'view' },
   },
   {
@@ -111,9 +112,9 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   },
   {
     labelKey: 'settings',
-    href: '/dashboard/settings',
+    href: ADMIN_ROUTES.SETTINGS,
     icon: Settings,
-    available: false,
+    available: true,
     requiredPermission: { domain: 'settings', action: 'view' },
   },
 ];

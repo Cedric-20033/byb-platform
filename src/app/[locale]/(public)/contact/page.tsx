@@ -5,8 +5,8 @@ import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { ConsentMap } from '@/components/contact/ConsentMap';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { Card } from '@/components/ui/Card';
-import { company } from '@/data/company';
 import { buildMapEmbedUrl } from '@/lib/maps';
+import { loadPublicCompanyInfo } from '@/lib/settings/publicCompanyInfo';
 import { t } from '@/lib/utils';
 
 type Props = {
@@ -22,14 +22,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /**
  * Page contact — Server Component : seules les données de l'entreprise et le formulaire (`ContactForm`,
- * seul composant interactif) y figurent. Les coordonnées et les cartes viennent de `company.sites` :
- * ajouter un site à la donnée suffit à l'afficher ici, avec sa propre carte.
+ * seul composant interactif) y figurent. Les coordonnées et les cartes viennent des réglages de l'entreprise
+ * (`/dashboard/settings`) : ajouter un site là-bas suffit à l'afficher ici, avec sa propre carte.
  *
  * Clés : contact.title, contact.subtitle, contact.info.*, contact.map.title
  */
 export default async function ContactPage() {
   const tPage = await getTranslations('contact');
   const locale = await getLocale();
+  const company = await loadPublicCompanyInfo();
 
   return (
     <>
@@ -62,11 +63,13 @@ export default async function ContactPage() {
                     </p>
                   ))}
                 </InfoItem>
-                <InfoItem icon={Phone} label={tPage('info.phone')}>
-                  <a href={`tel:${company.contact.phone}`} className="hover:text-[var(--color-primary)]">
-                    {company.contact.phone}
-                  </a>
-                </InfoItem>
+                {company.contact.phone && (
+                  <InfoItem icon={Phone} label={tPage('info.phone')}>
+                    <a href={`tel:${company.contact.phone}`} className="hover:text-[var(--color-primary)]">
+                      {company.contact.phone}
+                    </a>
+                  </InfoItem>
+                )}
                 <InfoItem icon={Mail} label={tPage('info.email')}>
                   <a href={`mailto:${company.contact.email}`} className="hover:text-[var(--color-primary)]">
                     {company.contact.email}

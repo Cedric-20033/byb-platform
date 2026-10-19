@@ -15,6 +15,7 @@
     "test:db": "supabase test db",
     "seed:slots": "tsx scripts/seed-slots.ts",
     "migrate:services": "tsx scripts/migrate-services-to-supabase.ts",
+    "migrate:testimonials": "tsx scripts/migrate-testimonials-to-supabase.ts",
     "db:types": "dotenv -e .env.local -- supabase gen types typescript --project-id udzrzmofshpygizxwvmv --schema public > src/types/database.ts"
   },
   "dependencies": {

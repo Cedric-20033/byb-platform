@@ -4,16 +4,15 @@
 import { createAppointmentSchema } from '@/lib/validation/appointment';
 import { CreateAppointment } from '@/application/booking/CreateAppointment';
 import { toAppointmentLocale } from '@/domain/appointment/AppointmentLocale';
-import { DEFAULT_BOOKING_POLICY } from '@/domain/booking/BookingPolicy';
 import { SupabaseAppointmentRepository } from '@/infrastructure/supabase/repositories/SupabaseAppointmentRepository';
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
 import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider';
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { getClientIp } from '@/infrastructure/http/getClientIp';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
-import { getAdminNotificationEmail } from '@/lib/booking/adminNotificationEmail';
 import { createPublicBookingGuard } from '@/lib/booking/createPublicBookingGuard';
 import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
+import { resolveBookingSettings } from '@/lib/settings/resolveBookingSettings';
 
 export type CreateAppointmentActionState =
   | { success: true; appointmentId: string }
@@ -42,16 +41,18 @@ export async function createAppointmentAction(input: unknown): Promise<CreateApp
 
   const supabase = createServiceRoleClient();
 
-  const useCase = new CreateAppointment(
-    new SupabaseAppointmentRepository(supabase),
-    new SupabaseSlotRepository(supabase),
-    new ResendEmailProvider(),
-    new SupabaseAuditLogger(),
-    getAdminNotificationEmail(),
-    DEFAULT_BOOKING_POLICY,
-  );
-
   try {
+    // Politique de réservation et destinataire interne : réglages de l'entreprise (repli sur les valeurs par défaut).
+    const { policy, adminNotificationEmail } = await resolveBookingSettings(supabase);
+    const useCase = new CreateAppointment(
+      new SupabaseAppointmentRepository(supabase),
+      new SupabaseSlotRepository(supabase),
+      new ResendEmailProvider(),
+      new SupabaseAuditLogger(),
+      adminNotificationEmail,
+      policy,
+    );
+
     await createPublicBookingGuard(supabase).assertCanCreate({
       ip: await getClientIp(),
       email: booking.clientEmail,

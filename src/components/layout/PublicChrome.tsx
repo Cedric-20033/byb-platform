@@ -5,6 +5,7 @@ import { FloatingCTA } from './Floatingcta';
 import { FloatingWhatsApp } from './FloatingWhatsApp';
 import { createClient } from '@/infrastructure/supabase/server';
 import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositories/SupabaseServiceRepository';
+import { loadPublicCompanyInfo } from '@/lib/settings/publicCompanyInfo';
 
 /**
  * Chrome visuel des pages publiques (navbar, footer, CTA flottant).
@@ -17,13 +18,15 @@ import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositorie
 export async function PublicChrome({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
+  // Coordonnées et numéro WhatsApp : réglages de l'entreprise (jamais l'email de notification interne).
+  const companyInfo = await loadPublicCompanyInfo();
 
   return (
     <>
       <Navbar services={services} />
       <main className="pt-16 lg:pt-20">{children}</main>
-      <Footer />
-      <FloatingWhatsApp />
+      <Footer info={companyInfo} />
+      <FloatingWhatsApp phoneNumber={companyInfo.contact.whatsapp} />
       <FloatingCTA services={services} />
     </>
   );

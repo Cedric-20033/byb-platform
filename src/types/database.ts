@@ -131,6 +131,72 @@ export type Database = {
           },
         ]
       }
+      company_settings: {
+        Row: {
+          admin_notification_email: string
+          booking_confirmation_mode: string
+          booking_default_end_time: string
+          booking_default_slot_minutes: number
+          booking_default_start_time: string
+          booking_horizon_days: number
+          booking_max_upcoming_per_email: number
+          booking_min_notice_minutes: number
+          email: string
+          facebook_url: string
+          id: boolean
+          instagram_url: string
+          linkedin_url: string
+          mobile: string
+          opening_hours: Json
+          phone: string
+          sites: Json
+          updated_at: string
+          website: string
+        }
+        Insert: {
+          admin_notification_email: string
+          booking_confirmation_mode?: string
+          booking_default_end_time?: string
+          booking_default_slot_minutes?: number
+          booking_default_start_time?: string
+          booking_horizon_days?: number
+          booking_max_upcoming_per_email?: number
+          booking_min_notice_minutes?: number
+          email: string
+          facebook_url?: string
+          id?: boolean
+          instagram_url?: string
+          linkedin_url?: string
+          mobile?: string
+          opening_hours: Json
+          phone?: string
+          sites: Json
+          updated_at?: string
+          website?: string
+        }
+        Update: {
+          admin_notification_email?: string
+          booking_confirmation_mode?: string
+          booking_default_end_time?: string
+          booking_default_slot_minutes?: number
+          booking_default_start_time?: string
+          booking_horizon_days?: number
+          booking_max_upcoming_per_email?: number
+          booking_min_notice_minutes?: number
+          email?: string
+          facebook_url?: string
+          id?: boolean
+          instagram_url?: string
+          linkedin_url?: string
+          mobile?: string
+          opening_hours?: Json
+          phone?: string
+          sites?: Json
+          updated_at?: string
+          website?: string
+        }
+        Relationships: []
+      }
       data_retention_policy: {
         Row: {
           appointment_retention_months: number | null
@@ -430,6 +496,48 @@ export type Database = {
           },
         ]
       }
+      testimonials: {
+        Row: {
+          author_location: string
+          author_name: string
+          avatar_public_id: string | null
+          content: Json
+          created_at: string
+          id: string
+          is_published: boolean
+          order: number
+          rating: number
+          testimonial_date: string
+          updated_at: string
+        }
+        Insert: {
+          author_location?: string
+          author_name: string
+          avatar_public_id?: string | null
+          content: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          order?: number
+          rating: number
+          testimonial_date: string
+          updated_at?: string
+        }
+        Update: {
+          author_location?: string
+          author_name?: string
+          avatar_public_id?: string | null
+          content?: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          order?: number
+          rating?: number
+          testimonial_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -499,6 +607,10 @@ export type Database = {
       }
       reorder_sub_services: {
         Args: { p_ordered_ids: string[]; p_service_id: string }
+        Returns: undefined
+      }
+      reorder_testimonials: {
+        Args: { p_ordered_ids: string[] }
         Returns: undefined
       }
       reschedule_appointment: {

@@ -107,6 +107,19 @@ export const ACTION_REQUIREMENTS: Record<string, ActionRequirement> = {
   'admin/serviceMedia.ts#setServiceCoverAction': need('services', 'edit'),
   'admin/serviceMedia.ts#reorderServiceMediaAction': need('services', 'edit'),
 
+  // Témoignages (alignement sur la RLS de 0020)
+  'admin/testimonials.ts#listTestimonialsAction': need('testimonials', 'view'),
+  'admin/testimonials.ts#createTestimonialAction': need('testimonials', 'create'),
+  'admin/testimonials.ts#updateTestimonialAction': need('testimonials', 'edit'),
+  'admin/testimonials.ts#publishTestimonialAction': need('testimonials', 'edit'),
+  'admin/testimonials.ts#unpublishTestimonialAction': need('testimonials', 'edit'),
+  'admin/testimonials.ts#deleteTestimonialAction': need('testimonials', 'delete'),
+  'admin/testimonials.ts#reorderTestimonialsAction': need('testimonials', 'edit'),
+
+  // Réglages de l'entreprise (alignement sur la RLS de 0022)
+  'admin/settings.ts#getCompanySettingsAction': need('settings', 'view'),
+  'admin/settings.ts#updateCompanySettingsAction': need('settings', 'edit'),
+
   // Tableau de bord (chiffres dérivés des rendez-vous)
   'admin/dashboard.ts#getDashboardStatsAction': need('appointments', 'view'),
   'admin/dashboard.ts#getPendingNotificationsAction': need('appointments', 'view'),

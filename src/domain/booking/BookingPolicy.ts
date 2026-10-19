@@ -13,11 +13,17 @@ export type BookingPolicy = {
   horizonDays: number;
   /** Rendez-vous actifs à venir qu'une même adresse email peut détenir. */
   maxUpcomingPerEmail: number;
+  /**
+   * Confirme les demandes dès la réservation. Absent = confirmation manuelle par l'équipe, ce qui garde
+   * `DEFAULT_BOOKING_POLICY` identique à l'existant.
+   */
+  autoConfirm?: boolean;
 };
 
 /**
- * Valeurs par défaut en attendant les réglages éditables du dashboard (P6.4) : le use case reçoit
- * déjà la politique en paramètre, il n'y aura donc qu'à lui en fournir une lue en base.
+ * Valeurs de repli quand les réglages de l'entreprise (table `company_settings`, P6.4) ne sont pas
+ * encore enregistrés ou illisibles : le use case reçoit la politique en paramètre, la composition
+ * lui fournit celle lue en base.
  */
 export const DEFAULT_BOOKING_POLICY: BookingPolicy = {
   minNoticeMinutes: 120,

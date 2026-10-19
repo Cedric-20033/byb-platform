@@ -44,6 +44,12 @@ export const VALIDATION_MESSAGE_KEYS = [
   'iconInvalid',
   'slugInvalid',
   'mediaInvalid',
+  'testimonialInvalid',
+  'ratingInvalid',
+  'authorNameRequired',
+  'fieldRequired',
+  'rangeInvalid',
+  'sitesInvalid',
 ] as const;
 
 export type ValidationMessageKey = (typeof VALIDATION_MESSAGE_KEYS)[number];

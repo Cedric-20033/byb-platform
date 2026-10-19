@@ -5,7 +5,6 @@ import { rescheduleAppointmentByTokenSchema } from '@/lib/validation/appointment
 import { GetClientAppointment } from '@/application/booking/GetClientAppointment';
 import { RescheduleAppointmentByClient } from '@/application/booking/RescheduleAppointmentByClient';
 import { RescheduleAppointment } from '@/application/admin/RescheduleAppointment';
-import { DEFAULT_BOOKING_POLICY } from '@/domain/booking/BookingPolicy';
 import { SupabaseAppointmentPlanner } from '@/infrastructure/supabase/repositories/SupabaseAppointmentPlanner';
 import { SupabaseAppointmentRepository } from '@/infrastructure/supabase/repositories/SupabaseAppointmentRepository';
 import { SupabaseClientAppointmentAccess } from '@/infrastructure/supabase/repositories/SupabaseClientAppointmentAccess';
@@ -14,9 +13,9 @@ import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider'
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { getClientIp } from '@/infrastructure/http/getClientIp';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
-import { getAdminNotificationEmail } from '@/lib/booking/adminNotificationEmail';
 import { createPublicBookingGuard } from '@/lib/booking/createPublicBookingGuard';
 import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
+import { resolveBookingSettings } from '@/lib/settings/resolveBookingSettings';
 
 export type RescheduleAppointmentByTokenActionState = { success: true } | ActionFailure;
 
@@ -39,6 +38,7 @@ export async function rescheduleAppointmentByTokenAction(
     const supabase = createServiceRoleClient();
     await createPublicBookingGuard(supabase).assertCanUseToken({ ip: await getClientIp() });
 
+    const { policy, adminNotificationEmail } = await resolveBookingSettings(supabase);
     const emailProvider = new ResendEmailProvider();
     const slotRepository = new SupabaseSlotRepository(supabase);
     const useCase = new RescheduleAppointmentByClient(
@@ -52,8 +52,8 @@ export async function rescheduleAppointmentByTokenAction(
         new SupabaseAuditLogger(),
       ),
       emailProvider,
-      getAdminNotificationEmail(),
-      DEFAULT_BOOKING_POLICY,
+      adminNotificationEmail,
+      policy,
     );
 
     await useCase.execute(parsed.data);
