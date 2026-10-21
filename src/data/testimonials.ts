@@ -15,6 +15,8 @@ export const testimonials: Testimonial[] = [
     authorLocation: 'Hasselt',
     content: {
       fr: "Excellent travail sur la réfection complète de notre toiture. L'équipe est sérieuse, ponctuelle et le chantier était propre chaque soir. Je recommande vivement BYB pour la qualité de leur travail et leur sens du contact client.",
+      en: "Excellent work on the complete renovation of our roof. The team is reliable, punctual and the site was clean every evening. I highly recommend BYB for the quality of their work and their customer care.",
+      de: "Hervorragende Arbeit bei der kompletten Sanierung unseres Dachs. Das Team ist zuverlässig, pünktlich und die Baustelle war jeden Abend sauber. Ich empfehle BYB uneingeschränkt wegen der Qualität der Arbeit und des Kundenservice.",
     },
     rating: 5,
     date: '2024-10-15',
@@ -26,6 +28,8 @@ export const testimonials: Testimonial[] = [
     authorLocation: 'Tongres',
     content: {
       fr: "BYB a rénové notre salle de bain et notre cuisine en 3 semaines chrono. Respect du devis, travail soigné, artisans à l'écoute. Une belle expérience du début à la fin.",
+      en: "BYB renovated our bathroom and kitchen in just 3 weeks. The quote was respected, the work was neat and the craftsmen listened to us. A great experience from start to finish.",
+      de: "BYB hat unser Bad und unsere Küche in nur 3 Wochen renoviert. Das Angebot wurde eingehalten, die Arbeit war sorgfältig und die Handwerker haben uns zugehört. Eine tolle Erfahrung von Anfang bis Ende.",
     },
     rating: 5,
     date: '2024-09-02',
@@ -36,6 +40,8 @@ export const testimonials: Testimonial[] = [
     authorLocation: 'Liège',
     content: {
       fr: "Isolation des combles réalisée rapidement et proprement. On a déjà constaté une différence sur la facture de chauffage. Très satisfait du rapport qualité-prix.",
+      en: "Attic insulation done quickly and cleanly. We have already noticed a difference on our heating bill. Very satisfied with the value for money.",
+      de: "Die Dachbodendämmung wurde schnell und sauber ausgeführt. Wir haben bereits einen Unterschied bei der Heizkostenabrechnung bemerkt. Sehr zufrieden mit dem Preis-Leistungs-Verhältnis.",
     },
     rating: 4,
     date: '2024-07-20',

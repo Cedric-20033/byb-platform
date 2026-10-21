@@ -64,8 +64,13 @@ export async function proxy(request: NextRequest) {
   return intlResponse;
 }
 
+/**
+ * Exclusions : routes techniques (`/api/*`, sonde de santé), fichiers destinés aux robots (`sitemap.xml`,
+ * `robots.txt`) et ressources statiques. Sans ces exclusions, next-intl redirigerait `/sitemap.xml` vers
+ * `/fr/sitemap.xml`, qui n'existe pas.
+ */
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$).*)',
+    '/((?!api/|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$).*)',
   ],
 };

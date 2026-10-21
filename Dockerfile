@@ -49,4 +49,4 @@ CMD ["node", "server.js"]
 #HEALTHCHECK
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget --spider http://localhost:3000 || exit 1
+  CMD wget --spider -q http://localhost:3000/api/health || exit 1

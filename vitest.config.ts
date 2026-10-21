@@ -13,6 +13,9 @@ export default defineConfig({
     environment: 'node',
     include: ['src/**/*.test.{ts,tsx}'],
     setupFiles: ['./src/test/setup.ts'],
+    // Le nombre de cœurs exposé à Vitest dans certains environnements dépasse largement
+    // les ressources disponibles et provoque des timeouts dans les tests de composants.
+    maxWorkers: 4,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],

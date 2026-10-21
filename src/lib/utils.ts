@@ -35,7 +35,9 @@ export type I18nField = {
  * @example t(service.name, 'zh') → "Toiture" (fallback fr)
  */
 export function t(field: I18nField, locale: string): string {
-  return (field as Record<string, string>)[locale] ?? field.fr;
+  const value = (field as Record<string, string | undefined>)[locale];
+  // Une traduction vide ou blanche ne doit pas masquer le français.
+  return value?.trim() ? value : field.fr;
 }
 
 // ─── Médias (images / vidéos) ─────────────────────────────────────────────────

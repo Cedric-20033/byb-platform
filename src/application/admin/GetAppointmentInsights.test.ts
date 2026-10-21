@@ -7,7 +7,7 @@ import { InMemorySlotRepository } from '@/test/fakes/InMemorySlotRepository';
 import { FixedClock } from '@/test/fakes/FixedClock';
 import { SERVICE_A, SERVICE_B, buildAppointment, buildSlot } from '@/test/fixtures/dashboardFixtures';
 
-// Période analysée : du 19/09/2026 (aujourd'hui − 29 jours) au 18/11/2026 (aujourd'hui + 30 jours).
+// Période analysée : du 20/09/2026 (aujourd'hui − 29 jours) au 18/11/2026 (aujourd'hui + 30 jours).
 const NOW = '2026-10-19T10:00:00+02:00';
 
 function build(appointmentsToSeed: ReturnType<typeof buildAppointment>[], slotDates: Record<string, string>) {
@@ -28,17 +28,17 @@ describe('GetAppointmentInsights', () => {
         buildAppointment('a-after', 's-after', AppointmentStatus.CONFIRMED, SERVICE_B),
       ],
       {
-        s1: '2026-09-19', // première journée incluse
+        s1: '2026-09-20', // première journée incluse
         s2: '2026-10-01',
         s3: '2026-10-19',
         s4: '2026-11-18', // dernière journée incluse
         s5: '2026-10-25',
-        's-before': '2026-09-18',
+        's-before': '2026-09-19',
         's-after': '2026-11-19',
       },
     ).execute();
 
-    expect(insights).toMatchObject({ from: '2026-09-19', to: '2026-11-18', total: 5, cancelled: 1, cancellationRate: 0.2 });
+    expect(insights).toMatchObject({ from: '2026-09-20', to: '2026-11-18', total: 5, cancelled: 1, cancellationRate: 0.2 });
     expect(insights.byService).toEqual([
       { serviceId: SERVICE_A, count: 3 },
       { serviceId: SERVICE_B, count: 1 },

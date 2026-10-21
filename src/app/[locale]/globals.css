@@ -24,7 +24,8 @@
   --color-surface-raised: #f0efe9;
 
   --color-foreground: #111318;
-  --color-muted:      #6B7280;
+  /* #6B7280 n'atteignait que 4,47:1 sur le fond et 4,20:1 sur les surfaces creuses (minimum WCAG AA : 4,5:1). */
+  --color-muted:      #5F6673;
   --color-border:     #E2E0DB;
 
   --font-display: var(--font-barlow-condensed), 'Barlow Condensed', sans-serif;
@@ -42,11 +43,15 @@
 
 /* ─── Thème sombre ───────────────────────────────────────────────────────────── */
 .dark {
-  --color-primary:       #4A7FD4;
-  --color-primary-hover: #5a8fe4;
+  /* Teintes éclaircies pour que le texte coloré (liens, icônes) atteigne 4,5:1 sur les surfaces sombres ;
+     le texte posé SUR ces couleurs devient donc sombre (…-foreground), le blanc n'y donnerait que 3:1. */
+  --color-primary:            #5F93E0;
+  --color-primary-hover:      #74a3e8;
+  --color-primary-foreground: #0F1117;
 
-  --color-secondary:       #E0474E;
-  --color-secondary-hover: #ea5a61;
+  --color-secondary:            #EE6E73;
+  --color-secondary-hover:      #f38589;
+  --color-secondary-foreground: #0F1117;
 
   --color-background:     #0F1117;
   --color-surface:        #1A1D27;
@@ -112,6 +117,18 @@ h1, h2, h3, h4, h5, h6 {
 /* Découpe diagonale bas de section — rappelle les toits en pente */
 .diagonal-bottom {
   clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+}
+
+/* Thème sombre : les sections posées sur la couleur primaire ou secondaire contiennent des textes écrits en dur
+   (`text-white`, `text-white/70`). Ils deviendraient illisibles sur les teintes claires du thème sombre : on les
+   redirige vers la couleur de texte prévue pour ce fond. */
+.dark .bg-\[var\(--color-primary\)\],
+.dark .bg-\[var\(--color-primary\)\] :is(.text-white, [class*="text-white/"]) {
+  color: var(--color-primary-foreground);
+}
+.dark .bg-\[var\(--color-secondary\)\],
+.dark .bg-\[var\(--color-secondary\)\] :is(.text-white, [class*="text-white/"]) {
+  color: var(--color-secondary-foreground);
 }
 
 /* Focus accessible */

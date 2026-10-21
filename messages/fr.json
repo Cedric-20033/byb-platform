@@ -5,6 +5,10 @@
     "defaultDescription": "BYB Construction, votre spécialiste en toiture, rénovation et construction en Belgique (Asselt et Liège). Plus de 20 ans d'expérience."
   },
 
+  "a11y": {
+    "skipToContent": "Aller au contenu principal"
+  },
+
   "nav": {
     "home": "Accueil",
     "services": "Services",
@@ -75,17 +79,35 @@
     "galleryVideos": "Vidéos",
     "showMore": "Voir plus ({count})",
     "bookService": "Demander un devis pour ce service",
-    "backToServices": "Retour aux services"
+    "backToServices": "Retour aux services",
+    "notFound": "Service introuvable",
+    "readyTitle": "Prêt à démarrer ?",
+    "readySubtitle": "Devis gratuit et sans engagement.",
+    "callDirectly": "Appeler directement",
+    "otherServices": "Autres services"
   },
 
   "realisations": {
     "pageTitle": "Nos réalisations",
+    "eyebrow": "Portfolio",
     "pageDescription": "Découvrez quelques-uns de nos chantiers récents.",
     "photosLabel": "Photos",
     "videosLabel": "Vidéos",
     "showMorePhotos": "Voir plus de photos ({count})",
     "showMoreVideos": "Voir plus de vidéos ({count})",
-    "noMedia": "Aucune réalisation disponible pour le moment."
+    "noMedia": "Aucune réalisation disponible pour le moment.",
+    "videoAlt": "{service} — vidéo {index}",
+    "lightbox": {
+      "close": "Fermer",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "play": "Lancer le diaporama",
+      "pause": "Mettre en pause",
+      "enterFullscreen": "Plein écran",
+      "exitFullscreen": "Quitter le plein écran",
+      "zoomIn": "Zoom avant",
+      "zoomOut": "Zoom arrière"
+    }
   },
 
   "about": {
@@ -1361,6 +1383,13 @@
     "learnMore": "En savoir plus",
     "seeAll": "Tout voir",
     "close": "Fermer",
+    "language": {
+      "label": "Langue",
+      "switchTo": "Passer en {language}",
+      "fr": "Français",
+      "en": "English",
+      "de": "Deutsch"
+    },
     "search": "Rechercher",
     "filter": "Filtrer",
     "export": "Exporter",

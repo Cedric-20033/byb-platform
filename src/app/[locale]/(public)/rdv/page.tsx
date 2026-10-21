@@ -6,6 +6,7 @@ import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositorie
 import { resolveBookingPreselection } from '@/lib/booking/resolveBookingPreselection';
 import { BookingWizard } from '@/components/booking/BookingWizard';
 import { Card } from '@/components/ui/Card';
+import { buildLocaleAlternates } from '@/lib/seo/alternates';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -16,7 +17,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   // Clés : booking.page.title, booking.page.description
   const tPage = await getTranslations({ locale, namespace: 'booking.page' });
-  return { title: tPage('title'), description: tPage('description') };
+  return {
+    title: tPage('title'),
+    description: tPage('description'),
+    // Canonique sans `?service=…` : les présélections ne sont pas des pages distinctes.
+    alternates: buildLocaleAlternates('/rdv', locale),
+  };
 }
 
 /**

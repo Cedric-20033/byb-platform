@@ -25,6 +25,10 @@ const clientFiles = listSources(SRC)
 const FORBIDDEN = [
   { label: 'CLOUDINARY_API_SECRET', pattern: /CLOUDINARY_API_SECRET/ },
   { label: 'SUPABASE_SERVICE_ROLE_KEY', pattern: /SUPABASE_SERVICE_ROLE_KEY/ },
+  // Le client service_role contourne le RLS : l'importer côté navigateur donnerait un accès total à la base.
+  { label: 'le client service_role (serviceRoleClient)', pattern: /serviceRoleClient/ },
+  { label: 'RESEND_API_KEY', pattern: /process\.env\.RESEND_API_KEY/ },
+  { label: 'TURNSTILE_SECRET_KEY', pattern: /process\.env\.TURNSTILE_SECRET_KEY/ },
   { label: 'l\'adaptateur serveur Cloudinary', pattern: /infrastructure\/cloudinary/ },
   { label: 'le SDK serveur cloudinary', pattern: /from ['"]cloudinary['"]/ },
 ];

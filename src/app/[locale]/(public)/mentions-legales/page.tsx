@@ -7,13 +7,18 @@ import { company } from '@/data/company';
 import { legal } from '@/data/legal';
 import { formatSiteAddress } from '@/lib/maps';
 import type { Locale } from '@/lib/routing';
+import { buildLocaleAlternates } from '@/lib/seo/alternates';
 import { getPrimaryPublicSite, loadPublicCompanyInfo } from '@/lib/settings/publicCompanyInfo';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   // Clés : legal.pageTitle, legal.pageDescription
   const tPage = await getTranslations({ locale, namespace: 'legal' });
-  return { title: tPage('pageTitle'), description: tPage('pageDescription') };
+  return {
+    title: tPage('pageTitle'),
+    description: tPage('pageDescription'),
+    alternates: buildLocaleAlternates('/mentions-legales', locale),
+  };
 }
 
 /**

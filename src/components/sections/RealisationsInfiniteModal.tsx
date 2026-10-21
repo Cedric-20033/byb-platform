@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { Dialog } from '@base-ui/react/dialog';
 import { X, PlayCircle } from 'lucide-react';
 import { getImageUrl, getVideoThumbnailUrl } from '@/lib/utils';
@@ -43,6 +44,7 @@ export function RealisationsInfiniteModal({
   media,
   onItemClick,
 }: RealisationsInfiniteModalProps) {
+  const tCommon = useTranslations('common');
   const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
   const [wasOpen, setWasOpen] = useState(open);
   if (open && !wasOpen) {
@@ -84,7 +86,7 @@ export function RealisationsInfiniteModal({
             <div className="flex shrink-0 items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
               <Dialog.Title className="font-[var(--font-display)] text-lg font-bold">{title}</Dialog.Title>
               <Dialog.Close
-                aria-label="Fermer"
+                aria-label={tCommon('close')}
                 className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
               >
                 <X size={20} />

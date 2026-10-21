@@ -13,6 +13,7 @@ import {
 import { formatIsoDate } from '@/lib/date';
 import { formatSiteAddress } from '@/lib/maps';
 import type { Locale } from '@/lib/routing';
+import { buildLocaleAlternates } from '@/lib/seo/alternates';
 import { t as pick } from '@/lib/utils';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -22,7 +23,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     getTranslations({ locale, namespace: 'legal' }),
     getTranslations({ locale, namespace: 'privacy' }),
   ]);
-  return { title: tLegal('privacyTitle'), description: tPrivacy('pageDescription') };
+  return {
+    title: tLegal('privacyTitle'),
+    description: tPrivacy('pageDescription'),
+    alternates: buildLocaleAlternates('/politique-confidentialite', locale),
+  };
 }
 
 const COLLECTIONS = ['appointments', 'contact', 'security'] as const;

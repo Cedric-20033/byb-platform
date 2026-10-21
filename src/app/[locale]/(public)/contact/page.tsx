@@ -7,6 +7,7 @@ import { ContactForm } from '@/components/contact/ContactForm';
 import { Card } from '@/components/ui/Card';
 import { buildMapEmbedUrl } from '@/lib/maps';
 import { loadPublicCompanyInfo } from '@/lib/settings/publicCompanyInfo';
+import { buildLocaleAlternates } from '@/lib/seo/alternates';
 import { t } from '@/lib/utils';
 
 type Props = {
@@ -17,7 +18,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   // Clés : contact.title, contact.metaDescription
   const tPage = await getTranslations({ locale, namespace: 'contact' });
-  return { title: tPage('title'), description: tPage('metaDescription') };
+  return {
+    title: tPage('title'),
+    description: tPage('metaDescription'),
+    alternates: buildLocaleAlternates('/contact', locale),
+  };
 }
 
 /**

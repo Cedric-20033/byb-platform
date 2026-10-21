@@ -11,6 +11,7 @@ import { getLocalizedPath, Locale } from '@/lib/routing';
 import { mainNavLinks } from '@/data/navigation';
 import { company } from '@/data/company';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
 import { Button } from '@/components/ui/Button';
 import { BookingDialog } from '@/components/booking/BookingDialog';
 import { isBookingPagePath } from '@/lib/booking/bookingRoutes';
@@ -125,6 +126,7 @@ export function Navbar({ services }: NavbarProps) {
               <Phone size={15} />
               {company.contact.phone}
             </a>
+            <LocaleSwitcher />
             <ThemeToggle />
             {/* Clé fr.json : nav.bookAppointment */}
             {!onBookingPage && (
@@ -136,6 +138,7 @@ export function Navbar({ services }: NavbarProps) {
 
           {/* Mobile toggle */}
           <div className="flex items-center gap-2 lg:hidden">
+            <LocaleSwitcher />
             <ThemeToggle />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}

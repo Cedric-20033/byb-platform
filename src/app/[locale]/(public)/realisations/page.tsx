@@ -7,6 +7,7 @@ import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositorie
 import { getRealisationsByService } from '@/application/catalog/GetRealisationsByService';
 import { RealisationsExplorer } from '@/components/sections/RealisationsExplorer';
 import { CtaSection } from '@/components/sections/HomesSection';
+import { buildLocaleAlternates } from '@/lib/seo/alternates';
 
 export async function generateMetadata({
   params,
@@ -16,7 +17,11 @@ export async function generateMetadata({
   const { locale } = await params;
   // Clés fr.json : realisations.pageTitle, realisations.pageDescription
   const tPage = await getTranslations({ locale, namespace: 'realisations' });
-  return { title: tPage('pageTitle'), description: tPage('pageDescription') };
+  return {
+    title: tPage('pageTitle'),
+    description: tPage('pageDescription'),
+    alternates: buildLocaleAlternates('/realisations', locale),
+  };
 }
 
 export default async function RealisationsPage() {
@@ -30,7 +35,7 @@ export default async function RealisationsPage() {
     <>
       <section className="section-padding diagonal-bottom bg-[var(--color-primary)] text-white">
         <div className="container-custom pb-8 text-center">
-          <p className="eyebrow mb-4 text-white/60">Portfolio</p>
+          <p className="eyebrow mb-4 text-white/60">{tPage('eyebrow')}</p>
           <h1 className="text-5xl font-[var(--font-display)] font-black lg:text-6xl">{tPage('pageTitle')}</h1>
           <p className="mx-auto mt-4 max-w-xl text-lg text-white/70">{tPage('pageDescription')}</p>
         </div>

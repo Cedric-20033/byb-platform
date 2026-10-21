@@ -1,5 +1,6 @@
 // src/lib/errors.ts
 import { DomainError, type DomainErrorCode } from '@/domain/shared/DomainError';
+import { reportError } from '@/lib/observability/reportError';
 
 /**
  * Erreur d'accès : l'utilisateur est identifié mais n'a pas le droit d'agir.
@@ -121,17 +122,15 @@ export class ActionError extends Error {
  *
  * - DomainError : son `code` métier est transmis tel quel.
  * - ForbiddenError / UnauthenticatedError : codes dédiés.
- * - Toute autre erreur (bug, panne réseau, erreur Postgres…) : jamais exposée.
- *   Le détail n'est journalisé qu'en développement, pour ne pas polluer les
- *   logs de production avec du bruit attendu.
+ * - Toute autre erreur (bug, panne réseau, erreur Postgres…) : jamais exposée à l'utilisateur ;
+ *   elle est signalée à la supervision (données personnelles masquées), seule trace de la cause réelle.
+ *   Les erreurs métier et les refus d'accès sont attendus : ils ne sont pas signalés.
  */
 export function toErrorCode(error: unknown): ActionErrorCode {
   if (error instanceof DomainError) return error.code;
   if (error instanceof ForbiddenError) return 'FORBIDDEN';
   if (error instanceof UnauthenticatedError) return 'UNAUTHENTICATED';
 
-  if (process.env.NODE_ENV !== 'production') {
-    console.error(error);
-  }
+  reportError(error, { source: 'server-action' });
   return 'UNKNOWN';
 }

@@ -1,15 +1,23 @@
 // src/components/admin/dashboard/AppointmentInsightsWidget.tsx
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useLocale, useTranslations } from 'next-intl';
 import { getAppointmentInsightsAction } from '@/app/actions/admin/dashboard';
 import { formatIsoDate } from '@/lib/date';
 import type { Service } from '@/types';
 import { DashboardWidget } from './DashboardWidget';
 import { serviceName } from './formatters';
-import { ServiceActivityChart } from './ServiceActivityChart';
 import { unwrapAction } from './unwrapAction';
 import { useWidgetQuery } from './useWidgetQuery';
+
+/**
+ * recharts pèse plusieurs dizaines de Ko et n'est utile qu'une fois les données reçues : son code est chargé à part,
+ * sans bloquer l'affichage du reste du tableau de bord. Pas de rendu serveur (le graphique mesure le DOM).
+ */
+const ServiceActivityChart = dynamic(() => import('./ServiceActivityChart').then((m) => m.ServiceActivityChart), {
+  ssr: false,
+});
 
 /** Taux d'annulation et rendez-vous par service sur la période (30 jours passés, 30 à venir). */
 export function AppointmentInsightsWidget({ services }: { services: Service[] }) {

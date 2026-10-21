@@ -5,6 +5,10 @@
     "defaultDescription": "BYB Building & Renovation, your specialist in roofing, renovation and construction in Belgium (Asselt and Liège). Over 20 years of experience."
   },
 
+  "a11y": {
+    "skipToContent": "Skip to main content"
+  },
+
   "nav": {
     "home": "Home",
     "services": "Services",
@@ -32,6 +36,8 @@
       "ctaSecondary": "See our projects"
     },
     "about": {
+      "imageSrc": "/Images/equipe.jpg",
+      "imageAlt": "The BYB team",
       "eyebrow": "Who are we?",
       "title": "A family business at your service",
       "description": "For over 20 years, the BYB team has been supporting individuals and businesses in all their building projects. Our strength: qualified craftsmen, trained in-house, who put their expertise at the service of quality.",
@@ -73,17 +79,35 @@
     "galleryVideos": "Videos",
     "showMore": "Show more ({count})",
     "bookService": "Request a quote for this service",
-    "backToServices": "Back to services"
+    "backToServices": "Back to services",
+    "notFound": "Service not found",
+    "readyTitle": "Ready to get started?",
+    "readySubtitle": "Free, no-obligation quote.",
+    "callDirectly": "Call us directly",
+    "otherServices": "Other services"
   },
 
   "realisations": {
     "pageTitle": "Our projects",
+    "eyebrow": "Portfolio",
     "pageDescription": "Discover some of our recent work.",
     "photosLabel": "Photos",
     "videosLabel": "Videos",
     "showMorePhotos": "Show more photos ({count})",
     "showMoreVideos": "Show more videos ({count})",
-    "noMedia": "No projects available at the moment."
+    "noMedia": "No projects available at the moment.",
+    "videoAlt": "{service} — video {index}",
+    "lightbox": {
+      "close": "Close",
+      "previous": "Previous",
+      "next": "Next",
+      "play": "Start slideshow",
+      "pause": "Pause",
+      "enterFullscreen": "Full screen",
+      "exitFullscreen": "Exit full screen",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    }
   },
 
   "about": {
@@ -795,8 +819,8 @@
     },
     "forbidden": {
       "title": "Access denied",
-      "description": "TODO_TRANSLATE Vous n'avez pas les droits pour consulter cette page. Contactez un superadmin si vous pensez qu'il s'agit d'une erreur.",
-      "back": "TODO_TRANSLATE Retour au tableau de bord"
+      "description": "You do not have permission to view this page. Contact a superadmin if you think this is a mistake.",
+      "back": "Back to the dashboard"
     },
     "permissions": {
       "title": "Permissions",
@@ -1353,6 +1377,13 @@
     "learnMore": "Learn more",
     "seeAll": "See all",
     "close": "Close",
+    "language": {
+      "label": "Language",
+      "switchTo": "Switch to {language}",
+      "fr": "Français",
+      "en": "English",
+      "de": "Deutsch"
+    },
     "search": "Search",
     "filter": "Filter",
     "export": "Export",

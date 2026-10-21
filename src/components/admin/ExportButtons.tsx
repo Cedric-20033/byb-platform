@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { FileSpreadsheet, FileText } from 'lucide-react';
 import { toast } from 'sonner';
-import * as XLSX from 'xlsx';
 import { Button } from '@/components/ui/Button';
 import { exportAppointmentsAction } from '@/app/actions/admin/appointments';
 import type { AppointmentExportRow } from '@/application/admin/ExportAppointments';
@@ -74,6 +73,8 @@ export function ExportButtons({ filters, services, locale }: ExportButtonsProps)
         return;
       }
 
+      // Import à la demande : la bibliothèque de tableur est lourde et ne sert qu'au clic sur Exporter.
+      const XLSX = await import('xlsx');
       const worksheet = XLSX.utils.json_to_sheet(result.rows.map(toSheetRow));
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, tColumns('sheetName'));

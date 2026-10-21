@@ -11,6 +11,7 @@ import { ADMIN_ROUTES, type UserRole } from '@/lib/constants';
 import type { Service } from '@/types';
 import { signOutAction } from '@/app/actions/auth';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
 import { NotificationBell } from './NotificationBell';
 import { Can } from './Can';
 
@@ -21,14 +22,11 @@ interface AdminNavbarProps {
   onMenuClick: () => void;
 }
 
-const ROLE_LABELS: Record<UserRole, string> = {
-  superadmin: 'Super admin',
-  admin: 'Admin',
-};
-
 export function AdminNavbar({ fullName, role, services, onMenuClick }: AdminNavbarProps) {
   const t = useTranslations('admin.navbar');
   const tAccount = useTranslations('auth.account');
+  const tRoles = useTranslations('admin.users.roles');
+  const tNav = useTranslations('nav');
   const locale = useLocale() as Locale;
   const [isSigningOut, startTransition] = useTransition();
 
@@ -36,7 +34,7 @@ export function AdminNavbar({ fullName, role, services, onMenuClick }: AdminNavb
     <header className="h-16 shrink-0 flex items-center justify-between gap-4 px-4 lg:px-6 border-b border-[var(--color-border)] bg-[var(--color-surface)]">
       <button
         onClick={onMenuClick}
-        aria-label="Menu"
+        aria-label={tNav('openMenu')}
         className="lg:hidden w-9 h-9 flex items-center justify-center rounded-[var(--radius-md)] hover:bg-[var(--color-surface-raised)] text-[var(--color-foreground)]"
       >
         <Menu size={20} />
@@ -50,6 +48,7 @@ export function AdminNavbar({ fullName, role, services, onMenuClick }: AdminNavb
         <Can domain="appointments" action="view">
           <NotificationBell services={services} />
         </Can>
+        <LocaleSwitcher />
         <ThemeToggle />
 
         <Link
@@ -58,7 +57,7 @@ export function AdminNavbar({ fullName, role, services, onMenuClick }: AdminNavb
           className="hidden sm:flex flex-col items-end leading-tight pl-2 rounded-[var(--radius-md)] hover:bg-[var(--color-surface-raised)] px-2 py-1 transition-colors"
         >
           <span className="text-sm font-semibold text-[var(--color-foreground)]">{fullName}</span>
-          <span className="text-xs text-[var(--color-muted)]">{ROLE_LABELS[role]}</span>
+          <span className="text-xs text-[var(--color-muted)]">{tRoles(role)}</span>
         </Link>
 
         <button

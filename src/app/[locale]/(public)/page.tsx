@@ -1,6 +1,7 @@
 // src/app/[locale]/page.tsx
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { buildLocaleAlternates } from '@/lib/seo/alternates';
 
 // ─── Imports données (couche data/ — encore source de vérité pour projects/home/testimonials/stats) ──────────────
 
@@ -28,10 +29,15 @@ const HOME_SERVICES_LIMIT = 4;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'home.hero' });
+  const [t, tMeta] = await Promise.all([
+    getTranslations({ locale, namespace: 'home.hero' }),
+    getTranslations({ locale, namespace: 'metadata' }),
+  ]);
   return {
-    title: 'BYB Construction — Construction générale en Belgique',
+    // `absolute` : le titre de l'accueil ne reprend pas le gabarit "%s | nom du site" du layout.
+    title: { absolute: tMeta('defaultTitle') },
     description: t('subtitle'),
+    alternates: buildLocaleAlternates('/', locale),
   };
 }
 
