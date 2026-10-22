@@ -2,6 +2,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import type { Appointment } from '@/domain/appointment/Appointment';
+import { DomainError } from '@/domain/shared/DomainError';
 import type {
   AppointmentContactDetails,
   AppointmentPage,
@@ -96,7 +97,15 @@ export class SupabaseAppointmentRepository implements AppointmentRepository {
       .select()
       .single();
 
-    if (error) throw new Error(error.message);
+    if (error) {
+      // 23505 : index unique partiel des rendez-vous actifs (un seul par créneau). Deux visiteurs ont lu le créneau
+      // libre en même temps et l'autre a écrit le premier : la base a tranché, le perdant doit apprendre que le
+      // créneau est pris et non qu'une erreur inattendue s'est produite.
+      if (error.code === '23505') {
+        throw new DomainError('Ce créneau vient d\'être réservé.', 'SLOT_UNAVAILABLE');
+      }
+      throw new Error(error.message);
+    }
     return this.toDomain(data);
   }
 

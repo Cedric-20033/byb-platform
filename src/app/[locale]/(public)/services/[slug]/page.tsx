@@ -20,11 +20,11 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-export function generateStaticParams() {
-  // Services come from Supabase, so the build must not depend on database availability.
-  // Next.js renders these routes on demand with current data.
-  return [];
-}
+// Les services viennent de Supabase et la page lit la session (cookies) : elle est rendue à la demande, avec les données
+// du moment, comme les autres pages publiques. Un `generateStaticParams()` (même vide) la rendrait statique et ferait
+// échouer chaque requête en production (`DYNAMIC_SERVER_USAGE`), préchargements des liens compris. Le build ne dépend
+// toujours pas de la disponibilité de la base : rien n'est généré à la compilation.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;

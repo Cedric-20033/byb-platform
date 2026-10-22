@@ -1,0 +1,9 @@
+{
+  "playwright": [
+    {
+      "reasonIncludes": "desktop uniquement",
+      "why": "Le parcours d'administration (e2e/acceptance.spec.ts) est vérifié sur le projet desktop : le tableau de bord n'a pas été audité en mobile."
+    }
+  ],
+  "vitest": []
+}

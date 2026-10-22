@@ -1,7 +1,7 @@
 // src/components/booking/steps/ConfirmationStep.tsx
 'use client';
 
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations, useLocale } from 'next-intl';
@@ -58,6 +58,8 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
   const [submitError, setSubmitError] = useState<ActionErrorCode | null>(null);
   // Un jeton Turnstile ne sert qu'une fois : le widget est remonté (nouvelle clé) après chaque refus.
   const [captchaAttempt, setCaptchaAttempt] = useState(0);
+  // Préfixe des identifiants de champs : relie chaque <label> à son champ (lecteurs d'écran, WCAG 1.3.1).
+  const fieldId = useId();
 
   const {
     register,
@@ -135,8 +137,9 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
         </div>
 
         <div>
-          <label className="text-sm font-medium block mb-1">{tBooking('name')}</label>
+          <label htmlFor={`${fieldId}-name`} className="text-sm font-medium block mb-1">{tBooking('name')}</label>
           <input
+            id={`${fieldId}-name`}
             {...register('clientName')}
             className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]"
           />
@@ -146,8 +149,9 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
         </div>
 
         <div>
-          <label className="text-sm font-medium block mb-1">{tBooking('email')}</label>
+          <label htmlFor={`${fieldId}-email`} className="text-sm font-medium block mb-1">{tBooking('email')}</label>
           <input
+            id={`${fieldId}-email`}
             type="email"
             {...register('clientEmail')}
             className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]"
@@ -158,8 +162,9 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
         </div>
 
         <div>
-          <label className="text-sm font-medium block mb-1">{tBooking('phone')}</label>
+          <label htmlFor={`${fieldId}-phone`} className="text-sm font-medium block mb-1">{tBooking('phone')}</label>
           <input
+            id={`${fieldId}-phone`}
             type="tel"
             {...register('clientPhone')}
             className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]"
@@ -170,8 +175,9 @@ export function ConfirmationStep({ onSuccess }: ConfirmationStepProps) {
         </div>
 
         <div>
-          <label className="text-sm font-medium block mb-1">{tBooking('notes')}</label>
+          <label htmlFor={`${fieldId}-notes`} className="text-sm font-medium block mb-1">{tBooking('notes')}</label>
           <textarea
+            id={`${fieldId}-notes`}
             {...register('notes')}
             rows={3}
             className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]"

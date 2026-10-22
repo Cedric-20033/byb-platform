@@ -18,8 +18,9 @@ begin
 end;
 $$;
 
--- Les mises à jour et suppressions passent par des fonctions qui comptent les lignes réellement touchées : elles
--- s'exécutent avec les droits de l'appelant, donc sous RLS (0 ligne = refusé en silence par la policy).
+-- La mise à jour passe par une fonction qui compte les lignes réellement touchées : elle s'exécute avec les droits
+-- de l'appelant, donc sous RLS (0 ligne = refusé en silence par la policy). La suppression n'en a pas besoin :
+-- `authenticated` n'a aucun privilège DELETE sur la table (0022), Postgres la refuse avant même la RLS.
 create function public.tap_update_settings() returns integer language plpgsql as $$
 declare
   v_count integer;
@@ -30,18 +31,7 @@ begin
 end;
 $$;
 
-create function public.tap_delete_settings() returns integer language plpgsql as $$
-declare
-  v_count integer;
-begin
-  delete from public.company_settings;
-  get diagnostics v_count = row_count;
-  return v_count;
-end;
-$$;
-
 grant execute on function public.tap_update_settings() to authenticated;
-grant execute on function public.tap_delete_settings() to authenticated;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Fixtures
@@ -92,7 +82,10 @@ select is(public.tap_update_settings(), 0, 'viewer : modification sans effet');
 
 select public.tap_as_user('00000000-0000-0000-0000-0000000000e3');
 select is(public.tap_update_settings(), 1, 'editor : modifie les réglages');
-select is(public.tap_delete_settings(), 0, 'editor : la ligne unique ne peut pas être supprimée');
+select throws_ok(
+  $$delete from public.company_settings$$,
+  '42501', null, 'editor : la ligne unique ne peut pas être supprimée (aucun privilège DELETE)'
+);
 
 select public.tap_as_user('00000000-0000-0000-0000-0000000000e4');
 select is(public.tap_update_settings(), 1, 'superadmin : modifie toujours');

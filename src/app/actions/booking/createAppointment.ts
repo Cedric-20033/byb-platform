@@ -6,6 +6,7 @@ import { CreateAppointment } from '@/application/booking/CreateAppointment';
 import { toAppointmentLocale } from '@/domain/appointment/AppointmentLocale';
 import { SupabaseAppointmentRepository } from '@/infrastructure/supabase/repositories/SupabaseAppointmentRepository';
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
+import { DeferredEmailProvider } from '@/infrastructure/email/DeferredEmailProvider';
 import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider';
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { getClientIp } from '@/infrastructure/http/getClientIp';
@@ -47,7 +48,8 @@ export async function createAppointmentAction(input: unknown): Promise<CreateApp
     const useCase = new CreateAppointment(
       new SupabaseAppointmentRepository(supabase),
       new SupabaseSlotRepository(supabase),
-      new ResendEmailProvider(),
+      // Les emails partent après la réponse : le visiteur ne doit pas attendre Resend pour voir sa confirmation.
+      new DeferredEmailProvider(new ResendEmailProvider()),
       new SupabaseAuditLogger(),
       adminNotificationEmail,
       policy,
