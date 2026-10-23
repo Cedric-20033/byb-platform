@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { company } from '@/data/company';
 
 const BUBBLE_FIRST_DELAY_MS = 3_000;
 const BUBBLE_VISIBLE_DURATION_MS = 5_000;
@@ -26,7 +25,7 @@ const DISMISS_STORAGE_KEY = 'byb-whatsapp-bubble-dismissed';
  * périodiquement au-dessus. Elle peut être fermée explicitement, auquel cas
  * elle ne se réaffiche plus pour la session (sessionStorage).
  */
-export function FloatingWhatsApp() {
+export function FloatingWhatsApp({ phoneNumber }: { phoneNumber: string }) {
   const t = useTranslations('whatsapp');
   const [bubbleVisible, setBubbleVisible] = useState(false);
   // Initialisation paresseuse : ne lit sessionStorage que lors du premier
@@ -67,7 +66,9 @@ export function FloatingWhatsApp() {
     sessionStorage.setItem(DISMISS_STORAGE_KEY, 'true');
   }, []);
 
-  const whatsappDigits = company.contact.whatsapp.replace(/\D/g, '');
+  const whatsappDigits = phoneNumber.replace(/\D/g, '');
+  // Numéro retiré des réglages : pas de bouton plutôt qu'un lien vers un numéro vide.
+  if (!whatsappDigits) return null;
   const whatsappUrl = `https://wa.me/${whatsappDigits}?text=${encodeURIComponent(t('prefillMessage'))}`;
 
   return (
@@ -100,6 +101,7 @@ export function FloatingWhatsApp() {
 
       <a
         href={whatsappUrl}
+        data-testid="floating-whatsapp"
         target="_blank"
         rel="noopener noreferrer"
         aria-label={t('ariaLabel')}

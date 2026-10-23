@@ -120,7 +120,7 @@ function RealisationServiceBlock({ group }: { group: RealisationServiceGroup }) 
               >
                 <Image
                   src={getVideoThumbnailUrl(video.publicId)}
-                  alt={`${serviceName} — vidéo ${i + 1}`}
+                  alt={tReal('videoAlt', { service: serviceName, index: i + 1 })}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                   sizes="(max-width: 640px) 50vw, 33vw"

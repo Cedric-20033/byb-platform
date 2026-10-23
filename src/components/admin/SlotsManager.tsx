@@ -19,16 +19,19 @@ import type { Locale } from '@/lib/routing';
 import { SlotStatus } from '@/domain/slot/Slot';
 import { listSlotsByDateAction, blockSlotAction, unblockSlotAction, generateSlotsAction } from '@/app/actions/admin/slots';
 import { generateAvailableSlotsSchema, type GenerateAvailableSlotsValues } from '@/lib/validation/appointment';
+import { todayInBrussels } from '@/lib/date';
+import { ActionError } from '@/lib/errors';
+import { useErrorMessage } from '@/lib/useErrorMessage';
+import { useValidationMessage } from '@/lib/useValidationMessage';
+import { usePermissions } from './PermissionsProvider';
+import { SlotsBulkPanel } from './SlotsBulkPanel';
+import { SlotsWeekView } from './SlotsWeekView';
 
 const STATUS_TONE = {
   [SlotStatus.AVAILABLE]: 'success',
   [SlotStatus.BOOKED]: 'info',
   [SlotStatus.BLOCKED]: 'danger',
 } as const;
-
-function todayIso(): string {
-  return new Date().toISOString().slice(0, 10);
-}
 
 /**
  * Composant pour gérer les créneaux horaires.
@@ -38,9 +41,15 @@ function todayIso(): string {
 export function SlotsManager({ locale, services }: { locale: Locale; services: Service[] }) {
   const t = useTranslations('admin.slots');
   const queryClient = useQueryClient();
-  const [date, setDate] = useState(todayIso());
+  const errorMessage = useErrorMessage();
+  const [date, setDate] = useState(() => todayInBrussels());
   const [serviceId, setServiceId] = useState(services[0]?.id ?? '');
   const [showGenerateForm, setShowGenerateForm] = useState(false);
+  const [view, setView] = useState<'day' | 'week'>('day');
+  // Sans le droit correspondant, le bouton reste absent : le serveur refuserait l'action de toute façon.
+  const { can } = usePermissions();
+  const canEdit = can('slots', 'edit');
+  const canCreate = can('slots', 'create');
 
   /**
    * Récupère la liste des créneaux horaires en fonction de la date et du service sélectionnés.
@@ -52,7 +61,7 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
     queryKey: ['admin', 'slots', date, serviceId],
     queryFn: async () => {
       const result = await listSlotsByDateAction({ date, serviceId: serviceId || undefined });
-      if (!result.success) throw new Error(result.error);
+      if (!result.success) throw new ActionError(result.error);
       return result.slots;
     },
   });
@@ -67,12 +76,12 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
     mutationFn: async (input: { slotId: string; nextStatus: SlotStatus }) => {
       const action = input.nextStatus === SlotStatus.BLOCKED ? blockSlotAction : unblockSlotAction;
       const result = await action({ slotId: input.slotId });
-      if (!result.success) throw new Error(result.error);
+      if (!result.success) throw new ActionError(result.error);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin', 'slots'] });
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => toast.error(errorMessage(error)),
   });
 
   return (
@@ -87,13 +96,30 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
         </Select>
         <DateInput label={t('selectDate')} value={date} onChange={(e) => setDate(e.target.value)} />
 
-        <Button variant="outline" size="sm" onClick={() => setShowGenerateForm((v) => !v)} className="normal-case font-medium tracking-normal ml-auto">
-          <Wand2 size={16} />
-          {t('generateTitle')}
-        </Button>
+        <div role="group" aria-label={t('viewLabel')} className="flex gap-1">
+          {(['day', 'week'] as const).map((option) => (
+            <Button
+              key={option}
+              size="sm"
+              variant={view === option ? 'primary' : 'outline'}
+              aria-pressed={view === option}
+              onClick={() => setView(option)}
+              className="normal-case font-medium tracking-normal"
+            >
+              {option === 'day' ? t('viewDay') : t('viewWeek')}
+            </Button>
+          ))}
+        </div>
+
+        {canCreate && (
+          <Button variant="outline" size="sm" onClick={() => setShowGenerateForm((v) => !v)} className="normal-case font-medium tracking-normal ml-auto">
+            <Wand2 size={16} />
+            {t('generateTitle')}
+          </Button>
+        )}
       </div>
 
-      {showGenerateForm && (
+      {canCreate && showGenerateForm && (
         <GenerateSlotsForm
           locale={locale}
           services={services}
@@ -105,6 +131,20 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
         />
       )}
 
+      <SlotsBulkPanel locale={locale} services={services} />
+
+      {view === 'week' ? (
+        <SlotsWeekView
+          locale={locale}
+          serviceId={serviceId}
+          date={date}
+          onDateChange={setDate}
+          onOpenDay={(day) => {
+            setDate(day);
+            setView('day');
+          }}
+        />
+      ) : (
       <Card className="p-4">
         {slotsQuery.isLoading ? (
           <p className="text-sm text-[var(--color-muted)] text-center py-6">{t('title')}…</p>
@@ -122,10 +162,10 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
                     {slot.startTime.slice(0, 5)}–{slot.endTime.slice(0, 5)}
                   </p>
                   <Badge tone={STATUS_TONE[slot.status]} className="mt-1">
-                    {slot.status}
+                    {t(`status.${slot.status}`)}
                   </Badge>
                 </div>
-                {slot.status !== SlotStatus.BOOKED && (
+                {canEdit && slot.status !== SlotStatus.BOOKED && (
                   <button
                     onClick={() =>
                       toggleMutation.mutate({
@@ -144,6 +184,7 @@ export function SlotsManager({ locale, services }: { locale: Locale; services: S
           </ul>
         )}
       </Card>
+      )}
     </div>
   );
 }
@@ -165,6 +206,8 @@ function GenerateSlotsForm({
   onGenerated: () => void;
 }) {
   const t = useTranslations('admin.slots');
+  const errorMessage = useErrorMessage();
+  const validationMessage = useValidationMessage();
   const service = services.find((s) => s.id === defaultServiceId);
 
   /**
@@ -192,10 +235,10 @@ function GenerateSlotsForm({
   async function onSubmit(values: GenerateAvailableSlotsValues) {
     const result = await generateSlotsAction(values);
     if (!result.success) {
-      toast.error(result.error);
+      toast.error(errorMessage(result.error));
       return;
     }
-    toast.success(`${result.created} créneaux générés.`);
+    toast.success(t('generated', { count: result.created }));
     onGenerated();
   }
 
@@ -240,7 +283,7 @@ function GenerateSlotsForm({
 
         {Object.values(errors).length > 0 && (
           <p className="col-span-full text-xs text-[var(--color-secondary)]">
-            {Object.values(errors)[0]?.message as string}
+            {validationMessage(Object.values(errors)[0]?.message)}
           </p>
         )}
       </form>

@@ -8,6 +8,10 @@ node_modules
 .vscode
 
 coverage
+test-results
+playwright-report
+supabase/.temp
+docs
 
 dist
 

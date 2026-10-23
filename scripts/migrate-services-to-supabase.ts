@@ -1,5 +1,11 @@
 // scripts/migrate-services-to-supabase.ts
 //
+// ⚠ JEU DE SEED, PAS UN OUTIL D'EXPLOITATION (P3.6). `src/data/services.ts` n'est plus la source de
+// vérité dès que le catalogue est géré depuis /dashboard/services : ce script sert à AMORCER une base
+// vide (ou de test). Le relancer sur une base en production ÉCRASE les modifications faites au
+// dashboard (sous-prestations et galerie sont remplacées). Après la première migration, éditez
+// le catalogue uniquement via le dashboard.
+//
 // Migration complète du catalogue services : upload des médias locaux vers
 // Cloudinary, puis écriture de src/data/services.ts (texte + réf. médias)
 // dans les tables Supabase `services` / `sub_services` / `service_media`.

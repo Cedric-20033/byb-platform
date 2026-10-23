@@ -6,7 +6,7 @@ import { GetAvailableSlots } from '@/application/booking/GetAvailableSlots';
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
 import { SupabaseHolidayRepository } from '@/infrastructure/supabase/repositories/SupabaseHolidayRepository';
 import { createClient } from '@/infrastructure/supabase/server';
-import { toUserMessage } from '@/lib/errors';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 
 /**
  * DTO traversant la frontière Server Action → Client Component.
@@ -26,7 +26,7 @@ export type SlotDTO = {
 
 export type GetAvailableSlotsActionState =
   | { success: true; slots: SlotDTO[] }
-  | { success: false; error: string };
+  | ActionFailure;
 
 /**
  * Lecture publique — le RLS autorise déjà l'accès anonyme à `slots`/`holidays`
@@ -38,7 +38,7 @@ export async function getAvailableSlotsAction(input: unknown): Promise<GetAvaila
   try {
     const parsed = getAvailableSlotsSchema.safeParse(input);
     if (!parsed.success) {
-      return { success: false, error: parsed.error.issues[0]?.message ?? 'Requête invalide.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const supabase = await createClient();
@@ -60,6 +60,6 @@ export async function getAvailableSlotsAction(input: unknown): Promise<GetAvaila
 
     return { success: true, slots: dto };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }

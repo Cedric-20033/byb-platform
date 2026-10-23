@@ -5,6 +5,10 @@
     "defaultDescription": "BYB Building & Renovation, your specialist in roofing, renovation and construction in Belgium (Asselt and Liège). Over 20 years of experience."
   },
 
+  "a11y": {
+    "skipToContent": "Skip to main content"
+  },
+
   "nav": {
     "home": "Home",
     "services": "Services",
@@ -32,6 +36,8 @@
       "ctaSecondary": "See our projects"
     },
     "about": {
+      "imageSrc": "/Images/equipe.jpg",
+      "imageAlt": "The BYB team",
       "eyebrow": "Who are we?",
       "title": "A family business at your service",
       "description": "For over 20 years, the BYB team has been supporting individuals and businesses in all their building projects. Our strength: qualified craftsmen, trained in-house, who put their expertise at the service of quality.",
@@ -73,17 +79,35 @@
     "galleryVideos": "Videos",
     "showMore": "Show more ({count})",
     "bookService": "Request a quote for this service",
-    "backToServices": "Back to services"
+    "backToServices": "Back to services",
+    "notFound": "Service not found",
+    "readyTitle": "Ready to get started?",
+    "readySubtitle": "Free, no-obligation quote.",
+    "callDirectly": "Call us directly",
+    "otherServices": "Other services"
   },
 
   "realisations": {
     "pageTitle": "Our projects",
+    "eyebrow": "Portfolio",
     "pageDescription": "Discover some of our recent work.",
     "photosLabel": "Photos",
     "videosLabel": "Videos",
     "showMorePhotos": "Show more photos ({count})",
     "showMoreVideos": "Show more videos ({count})",
-    "noMedia": "No projects available at the moment."
+    "noMedia": "No projects available at the moment.",
+    "videoAlt": "{service} — video {index}",
+    "lightbox": {
+      "close": "Close",
+      "previous": "Previous",
+      "next": "Next",
+      "play": "Start slideshow",
+      "pause": "Pause",
+      "enterFullscreen": "Full screen",
+      "exitFullscreen": "Exit full screen",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    }
   },
 
   "about": {
@@ -97,7 +121,7 @@
       "eyebrow": "Our values",
       "title": "What guides us every day",
       "value1Title": "Quality",
-      "value1Desc": "Every project is completed with certified materials in compliance with DTU standards.",
+      "value1Desc": "Every project is completed with certified materials in compliance with the standards in force in Belgium.",
       "value2Title": "Punctuality",
       "value2Desc": "We respect agreed deadlines. Your time is valuable.",
       "value3Title": "Transparency",
@@ -117,6 +141,8 @@
     "title": "A question? A project?",
     "subtitle": "We reply within 24 hours.",
     "form": {
+      "privacyNotice": "The information you enter is used only to reply to your request. <link>Privacy policy</link>",
+      "captchaLoadError": "The anti-bot check could not load. Reload the page.",
       "firstName": "First name",
       "lastName": "Last name",
       "email": "Email",
@@ -134,6 +160,294 @@
       "phone": "Phone",
       "email": "Email",
       "hours": "Opening hours"
+    },
+    "metaDescription": "Contact BYB Construction in Asselt or Liège: write to us through the form, call us, or find our addresses and opening hours.",
+    "map": {
+      "load": "Show the map of {name}",
+      "consent": "This map is provided by Google. Showing it sends your IP address to Google, which may use cookies.",
+      "title": "Location of {name}"
+    }
+  },
+
+  "booking": {
+    "dialogTitle": "Book an appointment",
+    "page": {
+      "title": "Book an appointment",
+      "description": "Book an appointment online with BYB Building & Renovation: choose your service and an available time slot, and receive a confirmation by email.",
+      "heading": "Book your appointment online",
+      "subtitle": "Choose your service, then an available time slot. You will receive a confirmation email."
+    },
+    "steps": {
+      "service": "Service",
+      "subService": "Work type",
+      "slot": "Time slot",
+      "confirmation": "Confirmation"
+    },
+    "service": {
+      "title": "Which service are you interested in?",
+      "subtitle": "Choose the type of work you need."
+    },
+    "subService": {
+      "title": "Tell us more about your need",
+      "subtitle": "Select the option that best matches your project.",
+      "skip": "No specific option, continue to the next step"
+    },
+    "slot": {
+      "title": "Choose a time slot",
+      "subtitle": "Select a date, then an available time.",
+      "noSlots": "No slot available on this date. Try another day.",
+      "loading": "Looking for available slots..."
+    },
+    "confirmation": {
+      "title": "Your details",
+      "subtitle": "Last step before your appointment is confirmed.",
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "notes": "Message (optional)",
+      "submit": "Confirm appointment",
+      "submitting": "Confirming...",
+      "privacyNotice": "Your details are used only to manage your appointment. <link>Privacy policy</link>",
+      "chooseAnotherSlot": "Choose another slot",
+      "captchaLoadError": "The anti-bot check could not load. Reload the page.",
+      "successTitle": "Appointment confirmed!",
+      "successMessage": "A confirmation email has just been sent to you.",
+      "errorMessage": "An error occurred. Please try again."
+    },
+    "summary": {
+      "service": "Service",
+      "subService": "Work type",
+      "date": "Date",
+      "time": "Time"
+    }
+  },
+
+  "clientAppointment": {
+    "summary": {
+      "service": "Service",
+      "subService": "Work type",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status"
+    },
+    "status": {
+      "pending": "Awaiting confirmation",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    },
+    "timeRange": "{start} to {end}",
+    "invalid": {
+      "title": "Invalid link",
+      "message": "This link is not valid or has expired. Use the link from your email, or contact us.",
+      "contact": "Contact us"
+    },
+    "cancelled": {
+      "title": "Appointment already cancelled",
+      "message": "This appointment is cancelled and the slot has been released. You can book again whenever you like."
+    },
+    "past": {
+      "title": "Past appointment",
+      "message": "This appointment has already taken place: it can no longer be cancelled or rescheduled."
+    },
+    "bookAgain": "Book a new appointment",
+    "backHome": "Back to home",
+    "cancel": {
+      "pageTitle": "Cancel my appointment",
+      "pageDescription": "Cancel your appointment in one click.",
+      "heading": "Cancel my appointment",
+      "intro": "Check the details below before cancelling.",
+      "action": "Cancel appointment",
+      "confirmTitle": "Confirm cancellation?",
+      "confirmMessage": "The slot will be released. This cannot be undone.",
+      "confirmAction": "Yes, cancel",
+      "keep": "No, keep it",
+      "submitting": "Cancelling...",
+      "successTitle": "Appointment cancelled",
+      "successMessage": "Your appointment is cancelled. A confirmation email has been sent to you.",
+      "rescheduleHint": "Prefer another date?",
+      "rescheduleAction": "Change the date"
+    },
+    "reschedule": {
+      "pageTitle": "Change my appointment",
+      "pageDescription": "Choose a new slot for your appointment.",
+      "heading": "Change my appointment",
+      "intro": "Choose a new slot for the same service.",
+      "current": "Current slot",
+      "pickTitle": "Choose a new slot",
+      "confirmTitle": "Confirm this new slot?",
+      "confirmMessage": "New slot: {date} at {time}. Your current appointment will be released.",
+      "confirmAction": "Confirm the change",
+      "back": "Choose another slot",
+      "submitting": "Moving...",
+      "successTitle": "Appointment rescheduled",
+      "successMessage": "Your appointment is on {date} at {time}. A confirmation email has been sent to you.",
+      "cancelHint": "Can't make it anymore?",
+      "cancelAction": "Cancel appointment"
+    }
+  },
+
+  "emails": {
+    "common": {
+      "greeting": "Hello {name},",
+      "manageIntro": "Something came up? You can change or cancel your appointment online.",
+      "rescheduleAction": "Change the date",
+      "cancelAction": "Cancel appointment",
+      "rebookAction": "Book a new appointment",
+      "dashboardAction": "Open the dashboard",
+      "calendarNote": "A calendar file (.ics) is attached to this email so you can add the appointment to your calendar.",
+      "calendarSummary": "{company}: {service}",
+      "timeRange": "{start} to {end}",
+      "footer": "{company} · {phone}",
+      "fields": {
+        "service": "Service",
+        "subService": "Work type",
+        "date": "Date",
+        "time": "Time",
+        "client": "Client",
+        "email": "Email",
+        "phone": "Phone",
+        "notes": "Notes",
+        "previousSlot": "Previous slot",
+        "newSlot": "New slot",
+        "reason": "Message from our team",
+        "sender": "Sender",
+        "subject": "Subject",
+        "message": "Message"
+      }
+    },
+    "adminContactMessage": {
+      "subject": "New contact message: {subject}",
+      "preview": "A visitor wrote to you through the contact form.",
+      "heading": "New contact message",
+      "intro": "A visitor wrote through the website contact form. Reply directly to this email to write back."
+    },
+    "contactAcknowledgement": {
+      "subject": "We have received your message",
+      "preview": "Your message has reached us.",
+      "heading": "Message received",
+      "intro": "Thank you for writing to us. Your message has reached us and we will reply as soon as possible. Here is a copy of what you sent us."
+    },
+    "appointmentConfirmation": {
+      "subject": "We have received your appointment request",
+      "preview": "We have received your request.",
+      "heading": "Request received",
+      "intro": "We have received your appointment request. Our team will validate it as soon as possible and you will receive a confirmation email."
+    },
+    "appointmentConfirmedByAdmin": {
+      "subject": "Your appointment is confirmed",
+      "preview": "Your appointment is confirmed.",
+      "heading": "Appointment confirmed",
+      "intro": "Your appointment is confirmed. We look forward to welcoming you."
+    },
+    "appointmentCancellation": {
+      "subject": "Your appointment has been cancelled",
+      "preview": "Your appointment has been cancelled.",
+      "heading": "Appointment cancelled",
+      "intro": "Your appointment has been cancelled. You can book a new one at any time."
+    },
+    "appointmentRescheduled": {
+      "subject": "Your appointment has been rescheduled",
+      "preview": "Your appointment has a new slot.",
+      "heading": "Appointment rescheduled",
+      "intro": "Your appointment has been moved to a new slot."
+    },
+    "appointmentReminder": {
+      "subject": "Reminder: your appointment is tomorrow",
+      "preview": "Your appointment is tomorrow.",
+      "heading": "Appointment tomorrow",
+      "intro": "This is a reminder of your appointment scheduled for tomorrow."
+    },
+    "adminNewAppointment": {
+      "subject": "New appointment to confirm",
+      "preview": "A new appointment request is waiting for your confirmation.",
+      "heading": "New appointment request",
+      "intro": "A new appointment has just been booked on the website. It is waiting for your confirmation."
+    },
+    "adminAppointmentCancelledByClient": {
+      "subject": "A client cancelled their appointment",
+      "preview": "A client cancelled their appointment.",
+      "heading": "Appointment cancelled by the client",
+      "intro": "The client cancelled their appointment: the slot is available again."
+    },
+    "adminAppointmentRescheduledByClient": {
+      "subject": "A client rescheduled their appointment",
+      "preview": "A client chose a new slot.",
+      "heading": "Appointment rescheduled by the client",
+      "intro": "The client chose a new slot for their appointment."
+    }
+  },
+
+  "privacy": {
+    "pageDescription": "How BYB Construction collects, uses and protects your personal data through this website, and how to exercise your rights.",
+    "intro": "This policy explains which personal data BYB Construction collects through this website, why, how long it is kept, and how you can exercise your rights.",
+    "updated": "Last updated: {date}",
+    "controller": {
+      "title": "Data controller",
+      "text": "{company}, {address}. Company number (BCE/KBO): {vat}. For any question about your data, contact us at {email}."
+    },
+    "collected": {
+      "title": "Data collected and purposes",
+      "labels": {
+        "data": "Data",
+        "purpose": "Purpose",
+        "basis": "Legal basis"
+      },
+      "appointments": {
+        "title": "Booking an appointment",
+        "data": "Name, email address, phone number, optional message, chosen service and time slot, website language.",
+        "purpose": "To record and manage your request, send you confirmations, changes and cancellations by email, and let you change or cancel your appointment yourself.",
+        "basis": "Pre-contractual steps taken at your request (Article 6(1)(b) GDPR)."
+      },
+      "contact": {
+        "title": "Contact form",
+        "data": "First name, last name, email address, phone number (optional), subject and message.",
+        "purpose": "To reply to your request.",
+        "basis": "Legitimate interest in replying to the requests we receive (Article 6(1)(f) GDPR)."
+      },
+      "security": {
+        "title": "Website security",
+        "data": "IP address and email address (temporary counters), anti-robot check.",
+        "purpose": "To protect the forms against automated submissions and abuse.",
+        "basis": "Legitimate interest in securing the website (Article 6(1)(f) GDPR)."
+      }
+    },
+    "retention": {
+      "title": "Retention periods",
+      "appointmentsUnset": "The data of an appointment is kept for as long as needed to manage it and follow up on our relationship, then erased or anonymized. You can ask for it to be erased at any time.",
+      "appointments": "The data of an appointment is anonymized {months, plural, one {# month} other {# months}} after its date. You can ask for it to be erased earlier.",
+      "contact": "Messages sent through the contact form are not stored on the website: they are forwarded by email to our team, who keep them for as long as needed to handle your request.",
+      "security": "Security counters (IP address, email address) are automatically deleted after 24 hours."
+    },
+    "processors": {
+      "title": "Recipients and processors",
+      "intro": "Your data is never sold. We use service providers who process it on our behalf:",
+      "supabase": "storage of appointments and management of the team's accounts",
+      "resend": "sending emails (confirmations, acknowledgements of receipt)",
+      "cloudinary": "hosting of the website's photos and videos",
+      "cloudflare": "anti-robot check of the forms (Turnstile)",
+      "google": "displaying maps, only if you click “Show the map”",
+      "transfers": "Some of these providers may process data outside the European Economic Area. In that case, the transfer is covered by the safeguards provided by the GDPR (adequacy decision or standard contractual clauses)."
+    },
+    "cookies": {
+      "title": "Cookies and local storage",
+      "text1": "This website uses no advertising cookies and no audience measurement, so no consent banner is needed.",
+      "text2": "It only stores on your device what it needs to work: your light or dark theme preference, your language, and the closing of the WhatsApp help bubble for the duration of your visit.",
+      "text3": "The Google Maps maps and the WhatsApp button send no data until you click on them."
+    },
+    "rights": {
+      "title": "Your rights",
+      "intro": "You can at any time:",
+      "access": "obtain a copy of the data we hold about you;",
+      "rectification": "have inaccurate data corrected;",
+      "erasure": "ask for it to be erased;",
+      "restriction": "ask for its processing to be restricted;",
+      "objection": "object to processing based on our legitimate interest;",
+      "portability": "receive your data in a structured format.",
+      "how": "To exercise these rights, write to us at {email}. We reply within one month. We may ask you to prove your identity. You can also cancel or move an appointment yourself using the link you received by email."
+    },
+    "complaint": {
+      "title": "Complaint",
+      "text": "If you believe your rights are not being respected, you can lodge a complaint with the {authority}, {address}, {website}, {email}."
     }
   },
 
@@ -141,11 +455,12 @@
     "nav": {
       "dashboard": "Dashboard",
       "appointments": "Appointments",
+      "calendar": "Calendar",
       "slots": "Time slots",
       "holidays": "Holidays",
       "permissions": "Permissions",
       "services": "Services",
-      "projects": "Projects",
+      "realisations": "Projects",
       "testimonials": "Testimonials",
       "users": "Users",
       "auditLogs": "Audit log",
@@ -155,8 +470,10 @@
     "navbar": {
       "logout": "Log out",
       "notifications": "Notifications",
+      "newAppointmentToast": "New appointment request: {client}",
       "noNotifications": "No notifications for now",
-      "pendingAppointments": "appointments awaiting confirmation"
+      "pendingAppointments": "appointments awaiting confirmation",
+      "notificationMeta": "{service} · {date} at {time}"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -165,7 +482,74 @@
       "statAppointmentsWeek": "Appointments this week",
       "statPending": "Awaiting confirmation",
       "statBlockedSlots": "Blocked slots",
-      "chartTitle": "Appointments — this week and next"
+      "chartTitle": "Appointments · this week and next",
+      "noStatsAccess": "You don't have access to appointment statistics. Use the menu to reach the sections open to you.",
+      "retry": "Try again",
+      "loading": "Loading",
+      "unknownService": "Unknown service",
+      "stats": {
+        "title": "Key figures"
+      },
+      "pending": {
+        "title": "Requests to process",
+        "empty": "No pending requests. You're all caught up.",
+        "meta": "{service} · {date} at {time}",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "confirmedToast": "Appointment confirmed.",
+        "cancelledToast": "Appointment cancelled.",
+        "cancelTitle": "Cancel this appointment?",
+        "cancelDescription": "{client}'s request will be cancelled and the slot freed. The client will be notified by email.",
+        "cancelConfirm": "Cancel appointment",
+        "keep": "Keep it",
+        "viewAll": "View all {count} requests"
+      },
+      "upcoming": {
+        "title": "Upcoming appointments",
+        "empty": "No appointments in the next 30 days.",
+        "meta": "{service} · {time}",
+        "calendarLink": "Calendar"
+      },
+      "insights": {
+        "title": "Activity by service",
+        "period": "From {from} to {to}",
+        "empty": "No appointments in this period.",
+        "cancellationRate": "Cancellation rate",
+        "cancellationDetail": "{cancelled} of {total} cancelled",
+        "chartLabel": "Appointments by service"
+      },
+      "freeSlots": {
+        "title": "Free slots",
+        "subtitle": "Next 7 days",
+        "total": "{count, plural, one {# free slot} other {# free slots}}",
+        "day": "{date}: {count, plural, =0 {no free slots} one {# free slot} other {# free slots}}",
+        "none": "No free slots in the next 7 days: visitors cannot book. Generate some from the Slots section.",
+        "manage": "Manage slots"
+      }
+    },
+    "calendar": {
+      "title": "Calendar",
+      "subtitle": "See appointments, blocked slots and public holidays.",
+      "loading": "Loading the calendar...",
+      "blockedSlot": "Blocked · {service}",
+      "appointmentTitle": "{client} · {service}",
+      "legend": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "blocked": "Blocked slot",
+        "holiday": "Public holiday"
+      },
+      "toolbar": {
+        "today": "Today",
+        "previous": "Previous period",
+        "next": "Next period",
+        "month": "Month",
+        "week": "Week",
+        "day": "Day"
+      },
+      "allDay": "All day",
+      "noEventsInRange": "No events in this period.",
+      "showMore": "+{total} more"
     },
     "appointments": {
       "title": "Appointments",
@@ -189,7 +573,7 @@
       "columnStatus": "Status",
       "columnCreatedAt": "Booked on",
       "columnNotes": "Notes",
-      "emptyValue": "—",
+      "emptyValue": "-",
       "confirm": "Confirm",
       "confirming": "Confirming...",
       "confirmSuccess": "Appointment confirmed.",
@@ -202,7 +586,132 @@
       "cancelDialogConfirm": "Confirm cancellation",
       "statusPending": "Pending",
       "statusConfirmed": "Confirmed",
-      "statusCancelled": "Cancelled"
+      "statusCancelled": "Cancelled",
+      "cancelSuccess": "Appointment cancelled.",
+      "cancelDialogClose": "Close",
+      "searchLabel": "Search",
+      "searchHint": "Name, email or phone",
+      "sortBy": "Sort by {column}",
+      "pagination": {
+        "summary": "{from} to {to} of {total}",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {page} of {pages}"
+      },
+      "edit": {
+        "open": "Edit",
+        "title": "Edit the appointment",
+        "description": "Correct the client's contact details or notes. The client is not notified.",
+        "close": "Close",
+        "submit": "Save",
+        "cancel": "Cancel",
+        "success": "Appointment updated."
+      },
+      "reschedule": {
+        "open": "Reschedule",
+        "title": "Reschedule the appointment",
+        "description": "Choose a new free slot for this service. The client is notified by email.",
+        "close": "Close",
+        "current": "Current slot",
+        "date": "New date",
+        "pickSlot": "Choose a free slot.",
+        "submit": "Move the appointment",
+        "cancel": "Cancel",
+        "success": "Appointment moved."
+      },
+      "delete": {
+        "open": "Delete",
+        "title": "Delete the appointment",
+        "description": "This cannot be undone: the slot is released and the client is not notified. To keep a record, cancel the appointment instead.",
+        "confirmLabel": "To confirm, type the client's name: {name}",
+        "close": "Close",
+        "submit": "Delete permanently",
+        "cancel": "Cancel",
+        "success": "Appointment deleted."
+      },
+      "create": {
+        "open": "New appointment",
+        "title": "New appointment",
+        "description": "The appointment is confirmed right away and the client receives a confirmation email.",
+        "close": "Close",
+        "serviceSection": "Service",
+        "service": "Service",
+        "servicePlaceholder": "Choose a service",
+        "subService": "Sub-service (optional)",
+        "noSubService": "None",
+        "slotSection": "Slot",
+        "modeLabel": "Slot type",
+        "modeExisting": "Free slot",
+        "modeAdHoc": "One-off slot",
+        "adHocHint": "A custom slot is created and booked for this client.",
+        "date": "Date",
+        "startTime": "Start",
+        "endTime": "End",
+        "pickService": "Choose a service first.",
+        "loadingSlots": "Looking for free slots...",
+        "noSlots": "No free slot on this date.",
+        "slotsLabel": "Free slots",
+        "clientSection": "Client",
+        "name": "Full name",
+        "email": "Email",
+        "phone": "Phone",
+        "notes": "Notes (optional)",
+        "submit": "Create and confirm",
+        "cancel": "Cancel",
+        "success": "Appointment created and confirmed."
+      },
+      "details": {
+        "title": "Appointment details",
+        "description": "{service} · {date}",
+        "open": "View the appointment details of {name}",
+        "close": "Close",
+        "appointmentSection": "Appointment",
+        "clientSection": "Client",
+        "status": "Status",
+        "service": "Service",
+        "subService": "Sub-service",
+        "slot": "Slot",
+        "bookedOn": "Booked on",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "notes": "Notes",
+        "noNotes": "No note left by the client.",
+        "reference": "Reference",
+        "unknownService": "Service not found",
+        "history": {
+          "title": "History",
+          "loading": "Loading history...",
+          "empty": "No action recorded for this appointment.",
+          "retry": "Retry",
+          "meta": "{actor} · {date}",
+          "fields": {
+            "reason": "Reason",
+            "slotDate": "Date",
+            "slotStartTime": "Start",
+            "slotEndTime": "End",
+            "changedFields": "Changed fields",
+            "status": "Status",
+            "slotFreed": "Slot released",
+            "adHocSlot": "One-off slot"
+          }
+        }
+      },
+      "exportColumns": {
+        "sheetName": "Appointments",
+        "fileName": "appointments",
+        "client": "Client",
+        "email": "Email",
+        "phone": "Phone",
+        "service": "Service",
+        "subService": "Sub-service",
+        "date": "Date",
+        "startTime": "Start time",
+        "endTime": "End time",
+        "status": "Status",
+        "notes": "Notes",
+        "bookedOn": "Booked on"
+      }
     },
     "slots": {
       "title": "Time slots",
@@ -212,6 +721,40 @@
       "noSlots": "No slots for this date.",
       "block": "Block",
       "unblock": "Unblock",
+      "viewLabel": "View",
+      "viewDay": "Day",
+      "viewWeek": "Week",
+      "weekOf": "Week of {from} to {to}",
+      "previousWeek": "Previous week",
+      "nextWeek": "Next week",
+      "weekCounts": "{available} free · {booked} booked · {blocked} blocked",
+      "openDay": "View the details of {date}",
+      "noSlotsWeek": "No slot this week.",
+      "bulk": {
+        "toggle": "Bulk actions",
+        "description": "They act on the free slots of the period. A booked slot is never changed.",
+        "service": "Service",
+        "allServices": "All services",
+        "from": "From",
+        "to": "To",
+        "windowStart": "From (optional)",
+        "windowEnd": "Until (optional)",
+        "windowHint": "The time window only applies to blocking.",
+        "block": "Block free slots",
+        "delete": "Delete free slots",
+        "confirmBlockTitle": "Block the free slots?",
+        "confirmBlock": "All free slots from {from} to {to} ({service}) will be blocked. Booked slots do not change.",
+        "confirmBlockButton": "Block",
+        "confirmDeleteTitle": "Delete the free slots?",
+        "confirmDelete": "All free slots from {from} to {to} ({service}) will be permanently deleted. Booked and blocked slots do not change.",
+        "confirmDeleteButton": "Delete",
+        "close": "Close",
+        "cancel": "Cancel",
+        "blocked": "{count} slots blocked.",
+        "blockedWithSkipped": "{count} slots blocked, {skipped} already booked slots left unchanged.",
+        "deleted": "{count} slots deleted.",
+        "nothing": "No free slot to process in this period."
+      },
       "generateTitle": "Generate slots",
       "generateFrom": "From",
       "generateTo": "To",
@@ -220,7 +763,13 @@
       "duration": "Slot duration (minutes)",
       "generateSubmit": "Generate",
       "generating": "Generating...",
-      "noPermission": "You don't have permission to generate slots. Contact a superadmin."
+      "noPermission": "You don't have permission to generate slots. Contact a superadmin.",
+      "generated": "{count, plural, =0 {No new slots} one {# slot generated} other {# slots generated}}",
+      "status": {
+        "available": "Available",
+        "booked": "Booked",
+        "blocked": "Blocked"
+      }
     },
     "holidays": {
       "title": "Holidays & closures",
@@ -228,10 +777,50 @@
       "add": "Add",
       "date": "Date",
       "label": "Label",
+      "endDate": "Until (optional)",
+      "range": "From {from} to {to}",
+      "importTitle": "Belgian public holidays",
+      "importDescription": "Adds the statutory public holidays of the year. Those that already exist are not duplicated.",
+      "importYear": "Year",
+      "importSubmit": "Import",
+      "imported": "{count} public holidays imported.",
+      "importedNone": "The public holidays of {year} already exist.",
+      "importedWithConflicts": "{count} existing appointments fall on these days: consider rescheduling or cancelling them.",
+      "addedCancelled": "Holiday added, {cancelled} appointments cancelled.",
+      "addedCancelledPartial": "Holiday added. {cancelled} appointments cancelled, {failed} could not be.",
+      "belgian": {
+        "newYear": "New Year's Day",
+        "easterMonday": "Easter Monday",
+        "labourDay": "Labour Day",
+        "ascension": "Ascension Day",
+        "whitMonday": "Whit Monday",
+        "nationalDay": "Belgian National Day",
+        "assumption": "Assumption Day",
+        "allSaints": "All Saints' Day",
+        "armistice": "Armistice Day",
+        "christmas": "Christmas Day"
+      },
+      "conflicts": {
+        "title": "Appointments already booked in this period",
+        "description": "{count} appointments fall on this holiday. What would you like to do?",
+        "close": "Close",
+        "reasonLabel": "Message sent to the clients (optional)",
+        "reasonPlaceholder": "E.g. we are closed for annual leave.",
+        "noCancelRight": "You are not allowed to cancel appointments: you can create the holiday without touching them.",
+        "abort": "Back",
+        "ignoreAndCreate": "Create without touching the appointments",
+        "cancelAndCreate": "Cancel the appointments and create"
+      },
       "recurring": "Recurring every year",
       "delete": "Delete",
       "confirmDelete": "Delete this holiday?",
-      "empty": "No holiday recorded."
+      "empty": "No holiday recorded.",
+      "added": "Holiday added."
+    },
+    "forbidden": {
+      "title": "Access denied",
+      "description": "You do not have permission to view this page. Contact a superadmin if you think this is a mistake.",
+      "back": "Back to the dashboard"
     },
     "permissions": {
       "title": "Permissions",
@@ -239,11 +828,484 @@
       "superadminNotice": "The superadmin always has full rights — this table only applies to admin accounts.",
       "columnAdmin": "Administrator",
       "saved": "Permissions updated.",
-      "save": "Save"
+      "save": "Save",
+      "loading": "Loading...",
+      "noAdmins": "No admin account to configure. Invite one from the Users page.",
+      "inactive": "Deactivated",
+      "columnDomain": "Domain",
+      "matrixCaption": "Selected administrator's rights, by domain and action",
+      "notApplicable": "Not applicable",
+      "reset": "Reset to defaults",
+      "unsaved": "{count, plural, one {# unsaved change} other {# unsaved changes}}",
+      "upToDate": "No pending changes.",
+      "presets": {
+        "title": "Presets:",
+        "readOnly": "Read only",
+        "standard": "Standard",
+        "manager": "Manager"
+      },
+      "discard": {
+        "title": "Discard changes?",
+        "description": "Unsaved changes for this administrator will be lost.",
+        "confirm": "Discard",
+        "cancel": "Keep editing"
+      },
+      "domains": {
+        "appointments": "Appointments",
+        "slots": "Time slots",
+        "holidays": "Holidays & closures",
+        "services": "Services",
+        "projects": "Projects",
+        "testimonials": "Testimonials",
+        "settings": "Settings",
+        "audit_logs": "Audit log"
+      },
+      "actions": {
+        "view": "View",
+        "create": "Create",
+        "edit": "Edit",
+        "delete": "Delete",
+        "export": "Export"
+      }
     },
     "services": { "title": "Services management", "add": "Add service", "edit": "Edit", "delete": "Delete", "confirmDelete": "Confirm deletion?" },
-    "users": { "title": "Users management", "role": "Role", "permissions": "Permissions" },
-    "auditLogs": { "title": "Audit log", "actor": "Actor", "action": "Action", "target": "Target", "date": "Date" }
+    "catalog": {
+      "title": "Service management",
+      "subtitle": "Create and organise the services shown on the website and offered for booking.",
+      "add": "Add a service",
+      "loading": "Loading...",
+      "retry": "Retry",
+      "empty": "No services yet.",
+      "emptyFiltered": "No service matches these filters.",
+      "search": "Search a service...",
+      "filterStatus": "Filter by status",
+      "status": { "all": "All", "active": "Active", "inactive": "Archived" },
+      "counts": "{media, plural, =0 {no media} one {# media file} other {# media files}} · {subs, plural, =0 {no sub-service} one {# sub-service} other {# sub-services}}",
+      "reorderHint": "Drag and drop the rows or use the arrows to change the display order.",
+      "reorderDisabled": "The order can only be changed when no search or filter is active.",
+      "dragHandle": "Move",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "actions": {
+        "edit": "Edit",
+        "preview": "View on the website",
+        "archive": "Archive",
+        "restore": "Republish",
+        "delete": "Delete"
+      },
+      "confirm": {
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "archive": {
+          "title": "Archive this service?",
+          "description": "“{name}” will disappear from the website and from booking. Existing appointments are kept."
+        },
+        "restore": {
+          "title": "Republish this service?",
+          "description": "“{name}” will be visible on the website and bookable again."
+        },
+        "delete": {
+          "title": "Permanently delete this service?",
+          "description": "“{name}”, its sub-services and its media will be deleted. This cannot be undone. Prefer archiving if clients have already booked it."
+        }
+      },
+      "toast": {
+        "created": "Service created. Add a cover image to be able to publish it.",
+        "updated": "Service updated.",
+        "archived": "Service archived.",
+        "restored": "Service republished.",
+        "deleted": "Service deleted.",
+        "subServiceSaved": "Sub-service saved.",
+        "subServiceDeleted": "Sub-service deleted.",
+        "mediaAdded": "Media added.",
+        "mediaRemoved": "Media deleted.",
+        "coverChanged": "Cover updated."
+      },
+      "form": {
+        "createTitle": "New service",
+        "editTitle": "Edit service",
+        "backToList": "Back to services",
+        "save": "Save",
+        "create": "Create service",
+        "saving": "Saving...",
+        "readOnly": "You can view this service but not edit it.",
+        "tabs": { "fr": "Français", "en": "English", "de": "Deutsch" },
+        "required": "required",
+        "completeness": "Translations: {done}/{total} complete",
+        "tabComplete": "complete",
+        "tabIncomplete": "incomplete",
+        "fallbackNote": "An empty text is shown in French on the website in this language.",
+        "name": "Name",
+        "shortDescription": "Short description",
+        "fullDescription": "Full description",
+        "slug": "URL identifier",
+        "slugHint": "Derived from the French name if left empty. Cannot be changed after creation.",
+        "slugLocked": "Locked after creation (it is part of the public URLs).",
+        "icon": "Icon"
+      },
+      "iconPicker": {
+        "search": "Search an icon...",
+        "none": "No icon matches.",
+        "selected": "Selected icon: {name}"
+      },
+      "subServices": {
+        "title": "Sub-services",
+        "empty": "No sub-services.",
+        "add": "Add a sub-service",
+        "edit": "Edit",
+        "delete": "Delete",
+        "name": "Name",
+        "description": "Description",
+        "save": "Save",
+        "cancel": "Cancel",
+        "deleteTitle": "Delete this sub-service?",
+        "deleteDescription": "“{name}” will be deleted. Appointments that reference it are kept.",
+        "saveFirst": "Save the service first to manage its sub-services."
+      },
+      "media": {
+        "title": "Media",
+        "hint": "Images (JPEG, PNG, WebP, AVIF) up to {imageMax} MB, videos (MP4, MOV, WebM) up to {videoMax} MB.",
+        "upload": "Add files",
+        "uploading": "Uploading {name}...",
+        "empty": "No media. Add at least one image to be able to publish the service.",
+        "cover": "Cover",
+        "makeCover": "Set as cover",
+        "remove": "Delete",
+        "moveEarlier": "Move earlier",
+        "moveLater": "Move later",
+        "video": "Video",
+        "imageAlt": "Image {index} of {name}",
+        "removeTitle": "Delete this media?",
+        "removeDescription": "The file will also be deleted from storage. This cannot be undone.",
+        "uploadFailed": "Uploading {name} failed.",
+        "saveFirst": "Save the service first to add media to it."
+      }
+    },
+    "realisations": {
+      "title": "Projects",
+      "subtitle": "Manage the photos and videos of the Projects page of the website, service by service.",
+      "search": "Search a service...",
+      "loading": "Loading...",
+      "retry": "Retry",
+      "empty": "No services yet.",
+      "emptyFiltered": "No service matches this search.",
+      "photos": "{count, plural, =0 {no photos} one {# photo} other {# photos}}",
+      "videos": "{count, plural, =0 {no videos} one {# video} other {# videos}}",
+      "archived": "Archived",
+      "archivedHint": "Archived service: its media are not shown on the website.",
+      "manage": "Manage media",
+      "backToList": "Back to projects",
+      "viewOnSite": "View the page on the website",
+      "serviceHint": "These media are shown on the Projects page, on the home page and on the service page."
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Contact details, sites, opening hours and booking rules for the company. Changes apply to the website as soon as you save.",
+      "loading": "Loading...",
+      "readOnly": "You can view these settings but not change them.",
+      "save": "Save",
+      "saving": "Saving...",
+      "toast": { "saved": "Settings saved." },
+      "tabs": { "fr": "Français", "en": "English", "de": "Deutsch" },
+      "fallbackNote": "If this text is empty, the French version will be shown.",
+      "sections": {
+        "contact": { "title": "Contact details", "description": "Shown on the website (footer, contact page). Leave empty to hide a line." },
+        "social": { "title": "Social networks", "description": "Full address of each page. A link left empty is not shown." },
+        "hours": { "title": "Opening hours", "description": "Free text, translatable into each language." },
+        "sites": { "title": "Sites", "description": "The company's addresses. Exactly one site is the main site." },
+        "notifications": { "title": "Internal notifications", "description": "Address that receives an email for every new appointment request, cancellation or reschedule." },
+        "booking": { "title": "Online booking", "description": "Rules applied to visitors who book an appointment." }
+      },
+      "fields": {
+        "phone": "Phone",
+        "mobile": "Mobile / WhatsApp",
+        "email": "Contact email",
+        "website": "Website",
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+        "linkedin": "LinkedIn",
+        "openingHours": "Hours",
+        "adminNotificationEmail": "Notification email"
+      },
+      "sites": {
+        "siteTitle": "Site {number}",
+        "name": "Name",
+        "street": "Street and number",
+        "postalCode": "Postal code",
+        "city": "City",
+        "country": "Country",
+        "primary": "Main site",
+        "add": "Add a site",
+        "remove": "Remove"
+      },
+      "booking": {
+        "minNotice": "Minimum notice (minutes)",
+        "minNoticeHint": "Before the start of a slot, in minutes.",
+        "horizon": "Horizon (days)",
+        "horizonHint": "How many days in advance visitors can book.",
+        "maxUpcoming": "Appointments per email",
+        "maxUpcomingHint": "Upcoming appointments allowed for the same address.",
+        "confirmationMode": "Request confirmation",
+        "confirmationHint": "Automatic: the appointment is confirmed as soon as it is booked. Manual: it stays pending until the team approves it.",
+        "modes": { "manual": "Manual (the team approves)", "auto": "Automatic" },
+        "defaultSlotMinutes": "Slot length (minutes)",
+        "defaultStartTime": "Start of day",
+        "defaultEndTime": "End of day",
+        "defaultsHint": "These three values prefill the slot generation form."
+      }
+    },
+    "testimonials": {
+      "title": "Testimonials",
+      "subtitle": "Manage the customer reviews shown on the website. Only published testimonials are visible.",
+      "add": "Add a testimonial",
+      "loading": "Loading...",
+      "retry": "Retry",
+      "empty": "No testimonials yet.",
+      "emptyFiltered": "No testimonial matches these filters.",
+      "search": "Search a testimonial...",
+      "filterStatus": "Filter by status",
+      "status": { "all": "All", "published": "Published", "draft": "Draft" },
+      "rating": "{rating}/5",
+      "reorderHint": "Drag and drop the rows or use the arrows to change the display order.",
+      "reorderDisabled": "The order can only be changed with no search or filter active.",
+      "actions": {
+        "edit": "Edit",
+        "publish": "Publish",
+        "unpublish": "Back to draft",
+        "delete": "Delete"
+      },
+      "confirm": {
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "delete": {
+          "title": "Permanently delete this testimonial?",
+          "description": "The testimonial from {name} will be deleted. This cannot be undone. Prefer draft to hide it from the website without losing it."
+        }
+      },
+      "toast": {
+        "created": "Testimonial created as a draft.",
+        "updated": "Testimonial updated.",
+        "published": "Testimonial published.",
+        "unpublished": "Testimonial moved back to draft.",
+        "deleted": "Testimonial deleted."
+      },
+      "form": {
+        "createTitle": "New testimonial",
+        "editTitle": "Edit testimonial",
+        "backToList": "Back to testimonials",
+        "save": "Save",
+        "create": "Create testimonial",
+        "saving": "Saving...",
+        "readOnly": "You can view this testimonial but not edit it.",
+        "tabs": { "fr": "Français", "en": "English", "de": "Deutsch" },
+        "required": "required",
+        "completeness": "Translations: {done}/{total} complete",
+        "tabComplete": "complete",
+        "tabIncomplete": "incomplete",
+        "fallbackNote": "An empty text is shown in French on the website in this language.",
+        "content": "Testimonial",
+        "authorName": "Author name",
+        "authorLocation": "City or town",
+        "rating": "Rating",
+        "ratingOption": "{count, plural, one {# star} other {# stars}}",
+        "date": "Review date"
+      }
+    },
+    "users": {
+      "title": "Users",
+      "subtitle": "Invite team members and manage their role and dashboard access.",
+      "search": "Search by name or email...",
+      "invite": "Invite",
+      "loading": "Loading...",
+      "empty": "No matching user.",
+      "you": "you",
+      "cancel": "Cancel",
+      "createdOn": "Created on {date}",
+      "roles": { "admin": "Admin", "superadmin": "Superadmin" },
+      "status": { "active": "Active", "inactive": "Deactivated" },
+      "filters": {
+        "role": "Filter by role",
+        "status": "Filter by status",
+        "allRoles": "All roles",
+        "allStatuses": "All statuses"
+      },
+      "actions": {
+        "resend": "Resend invitation",
+        "makeAdmin": "Make admin",
+        "makeSuperadmin": "Make superadmin",
+        "deactivate": "Deactivate",
+        "reactivate": "Reactivate"
+      },
+      "inviteDialog": {
+        "title": "Invite a user",
+        "description": "They will receive an email to choose their password and start with the default rights of their role.",
+        "fullName": "Full name",
+        "email": "Email",
+        "role": "Role",
+        "submit": "Send invitation",
+        "close": "Close"
+      },
+      "confirm": {
+        "confirm": "Confirm",
+        "deactivate": {
+          "title": "Deactivate this account?",
+          "description": "{name} will no longer be able to sign in or act on the dashboard. Their history is kept."
+        },
+        "reactivate": {
+          "title": "Reactivate this account?",
+          "description": "{name} will regain access to the dashboard with their current rights."
+        },
+        "resend": {
+          "title": "Resend the invitation?",
+          "description": "A new link will be sent to {name} to choose a password."
+        },
+        "role": {
+          "title": "Change the role?",
+          "description": "{name}'s role will change and their permissions will go back to the defaults."
+        }
+      },
+      "toast": {
+        "invited": "Invitation sent.",
+        "resend": "Invitation resent.",
+        "role": "Role updated.",
+        "deactivate": "Account deactivated.",
+        "reactivate": "Account reactivated."
+      }
+    },
+    "auditLogs": {
+      "title": "Audit log",
+      "subtitle": "History of the actions carried out on the platform. Entries can be neither edited nor deleted.",
+      "loading": "Loading...",
+      "retry": "Retry",
+      "empty": "No entry matches these filters.",
+      "emptyValue": "—",
+      "loadMore": "Load older entries",
+      "endOfLog": "End of the log.",
+      "viewDetails": "View details",
+      "filterByActor": "Filter on this actor",
+      "filterByTarget": "Filter on this target",
+      "unknownActor": "Unknown or hidden account",
+      "anonymousActor": "Anonymous visitor",
+      "systemActor": "System",
+      "filters": {
+        "title": "Log filters",
+        "role": "Role",
+        "action": "Action",
+        "targetType": "Target type",
+        "targetId": "Target identifier",
+        "targetIdPlaceholder": "Identifier, email...",
+        "dateFrom": "From",
+        "dateTo": "To",
+        "allRoles": "All roles",
+        "allActions": "All actions",
+        "allTargetTypes": "All targets",
+        "apply": "Apply",
+        "reset": "Reset",
+        "invalidPeriod": "The start date must be before the end date.",
+        "actorChip": "Actor: {name}",
+        "removeActor": "Remove the actor filter"
+      },
+      "columns": {
+        "date": "Date",
+        "actor": "Actor",
+        "action": "Action",
+        "target": "Target",
+        "ip": "IP address",
+        "details": "Details"
+      },
+      "actorRoles": {
+        "superadmin": "Superadmin",
+        "admin": "Admin",
+        "client": "Visitor",
+        "system": "System"
+      },
+      "targetTypes": {
+        "appointment": "Appointment",
+        "slot": "Time slot",
+        "holiday": "Holiday",
+        "service": "Service",
+        "user": "User",
+        "auth": "Authentication",
+        "testimonial": "Testimonial",
+        "settings": "Settings",
+        "audit_log": "Audit log"
+      },
+      "actions": {
+        "APPOINTMENT_CREATED": "Appointment requested",
+        "APPOINTMENT_CREATED_BY_ADMIN": "Appointment created by staff",
+        "APPOINTMENT_RESCHEDULED": "Appointment moved",
+        "SLOTS_BLOCKED_IN_RANGE": "Slots blocked in bulk",
+        "SLOTS_DELETED": "Slots deleted",
+        "APPOINTMENT_UPDATED": "Contact details updated",
+        "APPOINTMENT_CONFIRMED": "Appointment confirmed",
+        "APPOINTMENT_CANCELLED": "Appointment cancelled",
+        "APPOINTMENT_DELETED": "Appointment deleted",
+        "SLOT_CREATED": "Slots generated",
+        "SLOT_BLOCKED": "Slot blocked",
+        "SLOT_UNBLOCKED": "Slot unblocked",
+        "HOLIDAY_CREATED": "Holiday added",
+        "HOLIDAY_DELETED": "Holiday deleted",
+        "SERVICE_CREATED": "Service created",
+        "SERVICE_UPDATED": "Service updated",
+        "TESTIMONIAL_CREATED": "Testimonial created",
+        "TESTIMONIAL_UPDATED": "Testimonial updated",
+        "TESTIMONIAL_DELETED": "Testimonial deleted",
+        "SETTINGS_UPDATED": "Settings updated",
+        "SERVICE_DELETED": "Service deleted",
+        "USER_INVITED": "User invited",
+        "USER_INVITATION_RESENT": "Invitation resent",
+        "USER_DEACTIVATED": "Account deactivated",
+        "USER_REACTIVATED": "Account reactivated",
+        "USER_ROLE_UPDATED": "Role changed",
+        "USER_PERMISSIONS_UPDATED": "Permissions changed",
+        "AUTH_LOGIN": "Sign-in",
+        "AUTH_LOGOUT": "Sign-out",
+        "AUTH_LOGIN_FAILED": "Failed sign-in",
+        "AUTH_PASSWORD_CHANGED": "Password changed",
+        "EMAIL_SENT": "Email sent",
+        "CLIENT_DATA_ERASED": "Client data erased",
+        "APPOINTMENTS_ANONYMIZED": "Appointments anonymized (retention)",
+        "EXPORT_GENERATED": "Export generated"
+      },
+      "details": {
+        "title": "Entry details",
+        "description": "{action} — {date}",
+        "close": "Close",
+        "actor": "Actor",
+        "role": "Role",
+        "action": "Action",
+        "target": "Target",
+        "ip": "IP address",
+        "metadataTitle": "Recorded information",
+        "noMetadata": "No additional information was recorded for this action.",
+        "rawJson": "Raw data (JSON)",
+        "granted": "Granted",
+        "revoked": "Revoked",
+        "yes": "Yes",
+        "no": "No",
+        "emptyList": "(empty)"
+      },
+      "export": {
+        "csv": "Export as CSV",
+        "exporting": "Exporting...",
+        "empty": "No entry to export.",
+        "success": "Export complete: {count, plural, one {# entry} other {# entries}}.",
+        "truncated": "Export limited to the {max} most recent entries.",
+        "fileName": "audit-log",
+        "columns": {
+          "date": "Date",
+          "actor": "Actor",
+          "email": "Actor email",
+          "role": "Role",
+          "action": "Action",
+          "actionCode": "Action code",
+          "targetType": "Target type",
+          "targetId": "Target identifier",
+          "ip": "IP address",
+          "details": "Details"
+        }
+      }
+    }
   },
 
   "login": {
@@ -254,7 +1316,49 @@
     "submit": "Log in",
     "submitting": "Logging in...",
     "error": "Incorrect email or password.",
-    "backHome": "Back to site"
+    "backHome": "Back to site",
+    "emailInvalid": "Invalid email address.",
+    "passwordRequired": "Password is required."
+  },
+
+  "auth": {
+    "forgotPassword": "Forgot your password?",
+    "linkInvalid": "This link is invalid or has expired. Please request a new one.",
+    "forgot": {
+      "title": "Forgot your password",
+      "subtitle": "Enter your email: if an account exists, you will receive a link to choose a new password.",
+      "email": "Email",
+      "submit": "Send the link",
+      "submitting": "Sending...",
+      "sentTitle": "Check your inbox",
+      "sentMessage": "If an account matches this address, a reset link has just been sent. It is only valid for a limited time.",
+      "backToLogin": "Back to sign in"
+    },
+    "reset": {
+      "title": "New password",
+      "subtitle": "Choose a new password for your account.",
+      "success": "Password updated."
+    },
+    "invite": {
+      "title": "Welcome to BYB",
+      "subtitle": "Choose the password for your administrator account.",
+      "success": "Account activated."
+    },
+    "setPassword": {
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "hint": "At least 10 characters, with at least one letter and one digit.",
+      "submit": "Save password",
+      "submitting": "Saving..."
+    },
+    "account": {
+      "title": "My account",
+      "subtitle": "Manage the security of your account.",
+      "menuLabel": "My account",
+      "currentPassword": "Current password",
+      "submit": "Change password",
+      "success": "Password changed."
+    }
   },
 
   "common": {
@@ -273,6 +1377,13 @@
     "learnMore": "Learn more",
     "seeAll": "See all",
     "close": "Close",
+    "language": {
+      "label": "Language",
+      "switchTo": "Switch to {language}",
+      "fr": "Français",
+      "en": "English",
+      "de": "Deutsch"
+    },
     "search": "Search",
     "filter": "Filter",
     "export": "Export",
@@ -288,6 +1399,41 @@
 
   "legal": {
     "pageTitle": "Legal notice",
+    "pageDescription": "Legal notice of BYB Construction: website publisher, contact details and legal information.",
+    "publisher": {
+      "title": "Website publisher",
+      "name": "Company name",
+      "legalForm": "Legal form",
+      "vat": "Company number (BCE/KBO) and VAT",
+      "address": "Registered office",
+      "otherSites": "Other sites",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "host": {
+      "title": "Hosting",
+      "intro": "This website is hosted by:"
+    },
+    "intellectualProperty": {
+      "title": "Intellectual property",
+      "text": "All content on this website (texts, images, videos, logos) is the property of {company} or used with the permission of its owners, and is protected by applicable intellectual property law. Any reproduction without prior written permission is prohibited."
+    },
+    "liability": {
+      "title": "Liability",
+      "text": "The information published on this website is indicative and may be changed at any time. It does not constitute a contractual offer."
+    },
+    "personalData": {
+      "title": "Personal data",
+      "text": "The processing of your personal data is described in our <link>privacy policy</link>."
+    },
+    "mediation": {
+      "title": "Out-of-court dispute resolution",
+      "intro": "In the event of a dispute, you may contact:"
+    },
+    "law": {
+      "title": "Applicable law",
+      "text": "This website is governed by Belgian law."
+    },
     "privacyTitle": "Privacy policy"
   },
 
@@ -296,6 +1442,98 @@
     "notFoundDescription": "The page you are looking for does not exist or has been moved.",
     "backHome": "Back to home",
     "unauthorized": "Unauthorized",
-    "unauthorizedDescription": "You do not have permission to access this page."
+    "unauthorizedDescription": "You do not have permission to access this page.",
+    "validation": {
+      "invalid": "Invalid value.",
+      "phoneInvalid": "Invalid phone number.",
+      "slotInvalid": "Invalid slot.",
+      "serviceInvalid": "Invalid service.",
+      "subServiceInvalid": "Invalid sub-service.",
+      "appointmentInvalid": "Invalid appointment.",
+      "linkInvalid": "Invalid link.",
+      "nameTooShort": "The name must be at least 2 characters long.",
+      "nameTooLong": "The name cannot exceed 100 characters.",
+      "emailInvalid": "Invalid email address.",
+      "subjectTooShort": "The subject must be at least 3 characters long.",
+      "subjectTooLong": "The subject cannot exceed 150 characters.",
+      "subjectInvalid": "The subject must fit on a single line.",
+      "messageTooShort": "Your message must be at least 10 characters long.",
+      "messageTooLong": "Your message cannot exceed 2000 characters.",
+      "notesTooLong": "500 characters maximum.",
+      "startDateInvalid": "Invalid start date.",
+      "endDateInvalid": "Invalid end date.",
+      "startDateAfterEnd": "The start date must be before the end date.",
+      "startTimeInvalid": "Invalid start time.",
+      "endTimeInvalid": "Invalid end time.",
+      "startTimeAfterEnd": "The start time must be before the end time.",
+      "durationInvalid": "The duration must be between 15 and 480 minutes.",
+      "dateInvalid": "Invalid date.",
+      "labelTooShort": "The label must be at least 2 characters long.",
+      "labelTooLong": "The label cannot exceed 100 characters.",
+      "passwordTooShort": "The password must be at least 10 characters long.",
+      "passwordTooLong": "The password cannot exceed 72 characters.",
+      "passwordWeak": "The password must contain at least one letter and one digit.",
+      "frRequired": "The French text is required.",
+      "textTooLong": "This text is too long.",
+      "iconInvalid": "Invalid icon.",
+      "slugInvalid": "Lowercase letters, digits and hyphens only.",
+      "testimonialInvalid": "Invalid testimonial.",
+      "ratingInvalid": "The rating must be between 1 and 5.",
+      "authorNameRequired": "The author name is required.",
+      "fieldRequired": "This field is required.",
+      "rangeInvalid": "Value outside the allowed limits.",
+      "sitesInvalid": "There must be between 1 and 5 sites, with exactly one main site.",
+      "mediaInvalid": "Invalid file.",
+      "passwordMismatch": "The passwords do not match."
+    },
+    "codes": {
+      "APPOINTMENT_IN_PAST": "This appointment has already taken place and can no longer be changed.",
+      "SLOT_TOO_SOON": "This slot is too soon to be booked online. Choose a later time or give us a call.",
+      "SLOT_TOO_FAR": "This slot is not open for booking yet. Choose a closer date.",
+      "BOOKING_LIMIT_REACHED": "This email address already has several upcoming appointments. Cancel or reschedule one before booking a new one.",
+      "EMAIL_DELIVERY_FAILED": "Your message could not be sent. Try again in a moment or give us a call.",
+      "CAPTCHA_FAILED": "The anti-bot check failed. Reload the page and try again.",
+      "SLOT_NOT_FOUND": "This slot no longer exists.",
+      "SLOT_UNAVAILABLE": "This slot has just been booked. Please choose another one.",
+      "SLOT_ALREADY_BLOCKED": "This slot is already blocked.",
+      "HOLIDAY_CONFLICTS": "Appointments exist in this period. Choose to cancel them or to ignore them.",
+      "SLOT_IN_PAST": "This slot is in the past. Choose a date from today onwards.",
+      "SLOT_OVERLAP": "This time range overlaps another slot of this service. Choose a different time range.",
+      "SLOT_NOT_BLOCKED": "This slot is not blocked.",
+      "APPOINTMENT_NOT_FOUND": "Appointment not found or link expired.",
+      "INVALID_STATUS_TRANSITION": "This action is not possible in the appointment's current state.",
+      "HOLIDAY_NOT_FOUND": "This holiday no longer exists.",
+      "ADMIN_NOT_FOUND": "This administrator account no longer exists.",
+      "ADMIN_ALREADY_EXISTS": "An account already exists with this email address.",
+      "CANNOT_MODIFY_SELF": "You cannot modify your own account.",
+      "LAST_SUPERADMIN": "There must always be at least one active superadmin.",
+      "SERVICE_NOT_FOUND": "This service could not be found.",
+      "SERVICE_SLUG_TAKEN": "This URL identifier is already used by another service.",
+      "SERVICE_HAS_APPOINTMENTS": "This service has appointments: archive it instead of deleting it.",
+      "SERVICE_ORDER_INVALID": "The requested order does not match the current list. Please reload the page.",
+      "SERVICE_COVER_REQUIRED": "An active service must have at least one cover image.",
+      "SUB_SERVICE_NOT_FOUND": "This sub-service could not be found.",
+      "SUB_SERVICE_SLUG_TAKEN": "This URL identifier is already used by another sub-service of this service.",
+      "MEDIA_NOT_FOUND": "This media file could not be found.",
+      "MEDIA_TYPE_NOT_ALLOWED": "This file type is not allowed.",
+      "MEDIA_TOO_LARGE": "This file exceeds the maximum allowed size.",
+      "MEDIA_FOLDER_MISMATCH": "This media file does not belong to this service's folder.",
+      "TESTIMONIAL_NOT_FOUND": "This testimonial could not be found.",
+      "TESTIMONIAL_ORDER_INVALID": "The requested order does not match the current list. Reload the page.",
+      "TESTIMONIAL_RATING_INVALID": "The rating must be between 1 and 5.",
+      "SETTINGS_INVALID": "The settings you entered are invalid. Please check them and try again.",
+      "MEDIA_COVER_MUST_BE_IMAGE": "Only an image can be used as the cover.",
+      "SLUG_INVALID": "The URL identifier is invalid (lowercase letters, digits and hyphens only).",
+      "TRANSLATION_FR_REQUIRED": "The French text is required.",
+      "SUPERADMIN_NOT_EDITABLE": "A superadmin's rights cannot be edited: they always have every right.",
+      "INVALID_CURRENT_PASSWORD": "The current password is incorrect.",
+      "ACCOUNT_DISABLED": "This account has been deactivated. Please contact a superadmin.",
+      "TOO_MANY_ATTEMPTS": "Too many attempts. Please wait a few minutes before trying again.",
+      "VALIDATION_FAILED": "The information entered is invalid. Please check it and try again.",
+      "FORBIDDEN": "You do not have permission to perform this action.",
+      "UNAUTHENTICATED": "Your session has expired. Please log in again.",
+      "INVALID_CREDENTIALS": "Incorrect email or password.",
+      "UNKNOWN": "Something went wrong on our side. Please try again in a moment, or contact us if the problem persists."
+    }
   }
 }

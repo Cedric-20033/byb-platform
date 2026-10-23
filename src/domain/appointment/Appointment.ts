@@ -1,4 +1,6 @@
 // src/domain/appointment/Appointment.ts
+import { DomainError } from '../shared/DomainError';
+import { DEFAULT_APPOINTMENT_LOCALE, type AppointmentLocale } from './AppointmentLocale';
 
 /**
  * Entité métier centrale : le Rendez-vous.
@@ -19,6 +21,8 @@ export class Appointment {
     public readonly notes: string | null,
     public readonly status: AppointmentStatus,
     public readonly createdAt: Date,
+    /** Langue de réservation du client, utilisée pour ses emails. */
+    public readonly locale: AppointmentLocale = DEFAULT_APPOINTMENT_LOCALE,
   ) {}
 
   /**
@@ -37,6 +41,14 @@ export class Appointment {
   }
 
   /**
+   * Un rendez-vous actif occupe un créneau (en attente ou confirmé). Seuls les rendez-vous actifs
+   * peuvent être déplacés ou voir leurs coordonnées modifiées : un rendez-vous annulé est un historique.
+   */
+  isActive(): boolean {
+    return this.status !== AppointmentStatus.CANCELLED;
+  }
+
+  /**
    * Valide qu'une transition de statut est autorisée par les règles métier.
    * Centralise la matrice des transitions interdites (ex: réanuler un RDV déjà annulé,
    * confirmer un RDV déjà confirmé). Les use cases appellent cette méthode avant
@@ -50,7 +62,10 @@ export class Appointment {
     };
 
     if (!allowedTransitions[this.status].includes(newStatus)) {
-      throw new Error(`Transition de statut interdite : ${this.status} → ${newStatus}`);
+      throw new DomainError(
+        `Transition de statut interdite : ${this.status} → ${newStatus}`,
+        'INVALID_STATUS_TRANSITION',
+      );
     }
   }
 }

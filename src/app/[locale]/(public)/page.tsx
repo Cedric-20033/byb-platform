@@ -1,18 +1,20 @@
 // src/app/[locale]/page.tsx
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { buildLocaleAlternates } from '@/lib/seo/alternates';
 
 // ─── Imports données (couche data/ — encore source de vérité pour projects/home/testimonials/stats) ──────────────
 
 // Les composants sections reçoivent tout en props → ils ne savent pas d'où viennent les données.
 import { getHomeRealisationMedia } from '@/application/catalog/GetHomeRealisationMedia';
 import { homeAbout } from '@/data/home';
-import { testimonials } from '@/data/testimonials';
+import { GetPublishedTestimonials } from '@/application/testimonials/GetPublishedTestimonials';
 import { stats } from '@/data/stats';
 
 // Services : migrés vers Supabase (voir scripts/migrate-services-to-supabase.ts).
 import { createClient } from '@/infrastructure/supabase/server';
 import { SupabaseServiceRepository } from '@/infrastructure/supabase/repositories/SupabaseServiceRepository';
+import { SupabaseTestimonialRepository } from '@/infrastructure/supabase/repositories/SupabaseTestimonialRepository';
 
 // ─── Composants sections
 import { HeroSection } from '@/components/sections/HeroSection';
@@ -27,10 +29,15 @@ const HOME_SERVICES_LIMIT = 4;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'home.hero' });
+  const [t, tMeta] = await Promise.all([
+    getTranslations({ locale, namespace: 'home.hero' }),
+    getTranslations({ locale, namespace: 'metadata' }),
+  ]);
   return {
-    title: 'BYB Construction — Construction générale en Belgique',
+    // `absolute` : le titre de l'accueil ne reprend pas le gabarit "%s | nom du site" du layout.
+    title: { absolute: tMeta('defaultTitle') },
     description: t('subtitle'),
+    alternates: buildLocaleAlternates('/', locale),
   };
 }
 
@@ -43,6 +50,9 @@ export default async function HomePage() {
   // stable au refresh, sans jamais se limiter aux mêmes premières photos.
   const realisationItems = getHomeRealisationMedia(services);
 
+  // Témoignages publiés depuis le dashboard (data/testimonials.ts n'est plus qu'une source d'import).
+  const testimonials = await new GetPublishedTestimonials(new SupabaseTestimonialRepository(supabase)).execute();
+
   return (
     <>
       <HeroSection />
@@ -50,7 +60,8 @@ export default async function HomePage() {
       <ServicesSection services={services} limit={HOME_SERVICES_LIMIT} />
       <StatsSection stats={stats} />
       <RealisationsSection items={realisationItems} />
-      <TestimonialsSection testimonials={testimonials} />
+      {/* Sans avis publié, la section est omise plutôt que d'afficher un bloc vide. */}
+      {testimonials.length > 0 && <TestimonialsSection testimonials={testimonials} />}
       <CtaSection />
     </>
   );

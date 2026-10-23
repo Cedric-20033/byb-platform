@@ -5,6 +5,7 @@ import type { SlotRepository } from '@/domain/slot/SlotRepository';
 import type { HolidayRepository } from '@/domain/holiday/HolidayRepository';
 import type { AuditLogger } from '@/domain/shared/AuditLogger';
 import { AuditAction, type ActorRole } from '@/domain/shared/AuditLogger';
+import { dayOfWeek, eachDate } from '@/domain/shared/IsoDate';
 
 export type GenerateAvailableSlotsInput = {
   serviceId: string;
@@ -48,9 +49,8 @@ export class GenerateAvailableSlots {
 
     let createdCount = 0;
 
-    for (const date of this.eachDate(input.from, input.to)) {
-      const dayOfWeek = new Date(`${date}T00:00:00`).getDay();
-      if (!workingDays.includes(dayOfWeek)) continue;
+    for (const date of eachDate(input.from, input.to)) {
+      if (!workingDays.includes(dayOfWeek(date))) continue;
       if (holidays.some((holiday) => holiday.appliesTo(date))) continue;
 
       const existingSlots = await this.slotRepository.findByDate(date);
@@ -78,16 +78,6 @@ export class GenerateAvailableSlots {
     }
 
     return createdCount;
-  }
-
-  /** Itère chaque date (incluse) entre `from` et `to`, au format "YYYY-MM-DD". */
-  private *eachDate(from: string, to: string): Generator<string> {
-    const cursor = new Date(`${from}T00:00:00`);
-    const end = new Date(`${to}T00:00:00`);
-    while (cursor <= end) {
-      yield cursor.toISOString().slice(0, 10);
-      cursor.setDate(cursor.getDate() + 1);
-    }
   }
 
   /** Découpe une plage horaire quotidienne en créneaux de durée fixe. */

@@ -235,15 +235,88 @@ Toutes les colonnes traduisibles utilisent le type `jsonb` avec la structure :
 | `admin` | Accès défini par les permissions accordées par le superadmin |
 
 ### Permissions dynamiques (stockées en JSONB)
-```json
-{
-  "appointments": { "view": true, "create": true, "edit": true, "delete": false },
-  "services":     { "view": true, "create": false, "edit": false, "delete": false },
-  "slots":        { "view": true, "create": true, "edit": true, "delete": false },
-  "users":        { "view": false, "create": false, "edit": false, "delete": false },
-  "audit_logs":   { "view": false }
-}
-```
+
+La grille de `profiles.permissions` est **complète** : chaque domaine × chaque action
+(`view`, `create`, `edit`, `delete`, `export`), toute entrée absente ou non `true` valant refus.
+Domaines : `appointments`, `slots`, `holidays`, `services`, `projects`, `testimonials`,
+`settings`, `audit_logs` (délégables) et `users` (**non délégable** : réservé au superadmin).
+Le catalogue, les cases qui ont un sens par domaine (`APPLICABLE_ACTIONS`) et les modèles
+(« Lecture seule », « Standard », « Gestionnaire ») vivent dans `src/domain/user/PermissionCatalog.ts`.
+Les droits par défaut d'un nouvel admin sont dupliqués dans `default_admin_permissions()` (SQL) :
+`src/lib/constants.test.ts` vérifie que les deux copies restent identiques.
+
+Le superadmin les règle depuis `/dashboard/permissions` ; chaque modification est tracée dans
+`audit_logs` avec le diff case par case. Le superadmin lui-même n'a pas de grille propre.
+
+### Matrice action → permission (Server Actions)
+
+Chaque Server Action vérifie `getCurrentAdmin()` puis `assertPermission()` ; le RLS Postgres
+(migration 0006) applique la même règle en seconde barrière (INSERT → `create`, UPDATE → `edit`,
+DELETE → `delete`, SELECT → `view`). La source de vérité exécutable est
+`src/lib/auth/actionPermissions.ts` ; `actionPermissions.test.ts` échoue si une action est
+absente de la matrice ou n'applique pas sa garde.
+
+| Action | Droit exigé |
+|---|---|
+| `signInAction`, `signOutAction`, `requestPasswordResetAction` | public |
+| `createAppointmentAction`, `cancelAppointmentByTokenAction`, `getAvailableSlotsAction` | public (réservation visiteur, service_role) |
+| `setPasswordAction`, `changePasswordAction` | session admin active |
+| `listAppointmentsAction`, `getDashboardStatsAction`, `getPendingNotificationsAction`, `getUpcomingAppointmentsAction`, `getAppointmentInsightsAction` | `appointments.view` |
+| `confirmAppointmentAction`, `cancelAppointmentAction` | `appointments.edit` |
+| `exportAppointmentsAction` | `appointments.view` + `appointments.export` |
+| `createAppointmentByAdminAction` | `appointments.view` + `appointments.create` (+ `slots.create` si le créneau est ponctuel) |
+| `rescheduleAppointmentAction`, `updateAppointmentDetailsAction` | `appointments.view` + `appointments.edit` |
+| `deleteAppointmentAction` | `appointments.view` + `appointments.delete` |
+| `previewHolidayConflictsAction`, `importBelgianHolidaysAction` | `holidays.create` |
+| `createHolidayAction` (résolution « annuler ») | `holidays.create`, plus `appointments.view` et `appointments.edit` si l'admin annule les rendez-vous touchés |
+| `listSlotsByRangeAction` | `slots.view` |
+| `blockSlotsInRangeAction` | `slots.edit` |
+| `deleteAvailableSlotsAction` | `slots.delete` |
+| `getCalendarDataAction` | `appointments.view` (couches créneaux bloqués et jours fériés : `slots.view` et `holidays.view`, lues dans l'action) |
+| `listAppointmentHistoryAction` | `appointments.view` + `audit_logs.view` (lecture du journal filtrée sur un RDV) |
+| `listSlotsByDateAction`, `getFreeSlotsOutlookAction` | `slots.view` |
+| `blockSlotAction`, `unblockSlotAction` | `slots.edit` |
+| `generateSlotsAction` | `slots.create` |
+| `listHolidaysAction` | `holidays.view` |
+| `createHolidayAction` | `holidays.create` |
+| `deleteHolidayAction` | `holidays.delete` |
+| `listServicesAction` | `services.view` |
+| `createServiceAction`, `createSubServiceAction`, `authorizeMediaUploadAction`, `attachServiceMediaAction` | `services.create` |
+| `updateServiceAction`, `archiveServiceAction`, `restoreServiceAction`, `reorderServicesAction`, `updateSubServiceAction`, `reorderSubServicesAction`, `setServiceCoverAction`, `reorderServiceMediaAction` | `services.edit` |
+| `deleteServiceAction`, `deleteSubServiceAction`, `removeServiceMediaAction` | `services.delete` |
+| `listAuditLogsAction` | `audit_logs.view` |
+| `exportAuditLogsAction` | `audit_logs.view` + `audit_logs.export` |
+| `listAdminsAction`, `inviteAdminAction`, `resendInvitationAction`, `changeAdminRoleAction`, `deactivateAdminAction`, `reactivateAdminAction`, `listAdminPermissionsAction`, `updateAdminPermissionsAction` | superadmin uniquement |
+
+Le journal d'audit est en lecture seule pour tous (migration 0009 : triggers d'immutabilité, seule exception
+la mise à NULL de `actor_id` lors de la suppression d'un compte). La lecture passe par le port
+`AuditLogReader`, distinct de `AuditLogger` (ISP), avec pagination par curseur sur `(created_at, id)`.
+La jointure sur le profil de l'auteur suit le RLS de `profiles` : un admin non superadmin ne voit pas
+le nom ni l'email des autres auteurs.
+
+### Catalogue des services (P3)
+
+Le catalogue est géré depuis `/dashboard/services` ; `src/data/services.ts` n'est plus qu'un **jeu de seed**
+(`npm run migrate:services`, à ne lancer que sur une base vide : il écrase les modifications du dashboard).
+
+- **Modèle d'écriture** (`domain/service/CatalogService`) distinct du modèle de lecture publique (`Service` de
+  `@/types`) : l'édition a besoin des identifiants de chaque média et des traductions brutes.
+- **Ports** petits (ISP) : `ServiceRepository`, `SubServiceRepository`, `ServiceMediaRepository`,
+  `ServiceUsageReader` (« ce service a-t-il des rendez-vous ? »), `MediaUploader` (signature et suppression
+  d'assets, serveur uniquement, distinct de `MediaProvider` qui ne construit que des URLs).
+- **Règles** : un service est créé *archivé* ; l'activer exige une image (sinon `SERVICE_COVER_REQUIRED`) ; le
+  dernier média image d'un service actif ne peut pas être retiré ; un service réservé au moins une fois ne se
+  supprime pas (FK `restrict`), on l'archive ; le slug est figé après création ; FR obligatoire, EN/DE avec repli.
+- **Atomicité** : réordonnancement et changement de couverture passent par des fonctions SQL `security invoker`
+  (migration 0010) — le RLS s'applique donc à l'appelant.
+- **Médias** : envoi direct navigateur → Cloudinary avec une signature émise par le serveur (`folder`,
+  `allowed_formats`, `timestamp`) ; le fichier ne traverse jamais une Server Action. Variables serveur :
+  `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` ; côté navigateur seul
+  `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` (`noSecretsInClient.test.ts` garde cette frontière).
+- **Cache public** : chaque mutation appelle `revalidateCatalog()` (`src/lib/cache/revalidateCatalog.ts`).
+
+Exceptions de cohérence RLS : un résultat d'annulation/de création de RDV réserve ou libère un
+créneau, d'où la policy `slots_update_admin` qui accepte aussi `appointments.edit`/`create`.
 
 ---
 
@@ -257,6 +330,12 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 # Resend (emails)
 RESEND_API_KEY=
+
+# Cloudinary (médias du catalogue)
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=            # serveur uniquement, jamais NEXT_PUBLIC_
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
 
 # App
 NEXT_PUBLIC_APP_URL=http://localhost:3000

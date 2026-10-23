@@ -45,7 +45,7 @@ export function CancelAppointmentDialog({ open, onOpenChange, onConfirm, isSubmi
                 {t('cancelDialogTitle')}
               </Dialog.Title>
               <Dialog.Close
-                aria-label="Fermer"
+                aria-label={t('cancelDialogClose')}
                 className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors"
               >
                 <X size={20} />

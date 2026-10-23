@@ -2,8 +2,16 @@
 
 // src/app/actions/admin/slots.ts
 import { z } from 'zod';
-import { blockSlotSchema, generateAvailableSlotsSchema } from '@/lib/validation/appointment';
+import {
+  blockSlotSchema,
+  blockSlotsInRangeSchema,
+  deleteAvailableSlotsSchema,
+  generateAvailableSlotsSchema,
+  listSlotsByRangeSchema,
+} from '@/lib/validation/appointment';
 import { BlockSlot } from '@/application/admin/BlockSlot';
+import { BlockSlotsInRange } from '@/application/admin/BlockSlotsInRange';
+import { DeleteAvailableSlots } from '@/application/admin/DeleteAvailableSlots';
 import { UnblockSlot } from '@/application/admin/UnblockSlot';
 import { GenerateAvailableSlots } from '@/application/admin/GenerateAvailableSlots';
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
@@ -11,15 +19,15 @@ import { SupabaseHolidayRepository } from '@/infrastructure/supabase/repositorie
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
 import { createClient } from '@/infrastructure/supabase/server';
 import { getCurrentAdmin, assertPermission, toActorRole } from '@/lib/auth/getCurrentAdmin';
-import { toUserMessage, PERMISSION_DENIED_MESSAGE } from '@/lib/errors';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
 import type { Slot, SlotStatus } from '@/domain/slot/Slot';
 
-type SlotActionState = { success: true } | { success: false; error: string };
+type SlotActionState = { success: true } | ActionFailure;
 
-type GenerateSlotsActionState = { success: true; created: number } | { success: false; error: string };
+type GenerateSlotsActionState = { success: true; created: number } | ActionFailure;
 
 const listSlotsByDateSchema = z.object({
-  date: z.iso.date({ error: 'Date invalide (format attendu : AAAA-MM-JJ).' }),
+  date: z.iso.date(),
   serviceId: z.string().optional(),
 });
 
@@ -49,16 +57,78 @@ function toSlotDTO(slot: Slot): SlotDTO {
   };
 }
 
-type ListSlotsResult = { success: true; slots: SlotDTO[] } | { success: false; error: string };
+type ListSlotsResult = { success: true; slots: SlotDTO[] } | ActionFailure;
+type BlockInRangeResult = { success: true; blocked: number; skippedBooked: number } | ActionFailure;
+type DeleteSlotsResult = { success: true; deleted: number } | ActionFailure;
 
 /**
- * Liste les créneaux d'une journée pour l'écran admin "Créneaux" — lecture
- * simple, aucune permission dédiée (voir listHolidaysAction pour la même convention).
+ * Créneaux d'une période courte pour la vue semaine de l'écran admin. Même droit que la lecture d'une journée :
+ * `slots.view`. La période est plafonnée (voir `listSlotsByRangeSchema`) pour ne pas rapatrier tout le calendrier.
+ */
+export async function listSlotsByRangeAction(input: unknown): Promise<ListSlotsResult> {
+  try {
+    const parsed = listSlotsByRangeSchema.safeParse(input);
+    if (!parsed.success) return failure('VALIDATION_FAILED');
+
+    assertPermission(await getCurrentAdmin(), 'slots', 'view');
+
+    const supabase = await createClient();
+    const slots = await new SupabaseSlotRepository(supabase).findInRange(parsed.data);
+    return { success: true, slots: slots.map(toSlotDTO) };
+  } catch (error) {
+    return failure(toErrorCode(error));
+  }
+}
+
+/** Bloque d'un coup les créneaux libres d'une période : comme bloquer un créneau seul, `slots.edit` est exigé. */
+export async function blockSlotsInRangeAction(input: unknown): Promise<BlockInRangeResult> {
+  try {
+    const parsed = blockSlotsInRangeSchema.safeParse(input);
+    if (!parsed.success) return failure('VALIDATION_FAILED');
+
+    const admin = await getCurrentAdmin();
+    assertPermission(admin, 'slots', 'edit');
+
+    const supabase = await createClient();
+    const useCase = new BlockSlotsInRange(new SupabaseSlotRepository(supabase), new SupabaseAuditLogger());
+
+    const result = await useCase.execute({ ...parsed.data, actorId: admin.id, actorRole: toActorRole(admin.role) });
+    return { success: true, ...result };
+  } catch (error) {
+    return failure(toErrorCode(error));
+  }
+}
+
+/** Supprime les créneaux libres à venir d'une période : droit propre `slots.delete`, distinct de `edit`. */
+export async function deleteAvailableSlotsAction(input: unknown): Promise<DeleteSlotsResult> {
+  try {
+    const parsed = deleteAvailableSlotsSchema.safeParse(input);
+    if (!parsed.success) return failure('VALIDATION_FAILED');
+
+    const admin = await getCurrentAdmin();
+    assertPermission(admin, 'slots', 'delete');
+
+    const supabase = await createClient();
+    const useCase = new DeleteAvailableSlots(new SupabaseSlotRepository(supabase), new SupabaseAuditLogger());
+
+    const deleted = await useCase.execute({ ...parsed.data, actorId: admin.id, actorRole: toActorRole(admin.role) });
+    return { success: true, deleted };
+  } catch (error) {
+    return failure(toErrorCode(error));
+  }
+}
+
+/**
+ * Liste les créneaux d'une journée pour l'écran admin "Créneaux". Les créneaux sont
+ * publics en base (calendrier de réservation), mais cet écran exige `slots.view`,
+ * comme la page qui l'affiche.
  */
 export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsResult> {
   try {
     const parsed = listSlotsByDateSchema.safeParse(input);
-    if (!parsed.success) return { success: false, error: 'Date invalide.' };
+    if (!parsed.success) return failure('VALIDATION_FAILED');
+
+    assertPermission(await getCurrentAdmin(), 'slots', 'view');
 
     const supabase = await createClient();
     const repository = new SupabaseSlotRepository(supabase);
@@ -71,7 +141,7 @@ export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsRe
     const sorted = filtered.sort((a, b) => a.range.startTime.localeCompare(b.range.startTime));
     return { success: true, slots: sorted.map(toSlotDTO) };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }
 
@@ -83,7 +153,7 @@ export async function listSlotsByDateAction(input: unknown): Promise<ListSlotsRe
 export async function blockSlotAction(input: unknown): Promise<SlotActionState> {
   try {
     const parsed = blockSlotSchema.safeParse(input);
-    if (!parsed.success) return { success: false, error: 'Créneau invalide.' };
+    if (!parsed.success) return failure('VALIDATION_FAILED');
 
     const admin = await getCurrentAdmin();
     assertPermission(admin, 'slots', 'edit');
@@ -98,7 +168,7 @@ export async function blockSlotAction(input: unknown): Promise<SlotActionState> 
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }
 
@@ -112,7 +182,7 @@ export async function generateSlotsAction(input: unknown): Promise<GenerateSlots
   try {
     const parsed = generateAvailableSlotsSchema.safeParse(input);
     if (!parsed.success) {
-      return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
+      return failure('VALIDATION_FAILED');
     }
 
     const admin = await getCurrentAdmin();
@@ -132,14 +202,14 @@ export async function generateSlotsAction(input: unknown): Promise<GenerateSlots
     });
     return { success: true, created };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }
 
 export async function unblockSlotAction(input: unknown): Promise<SlotActionState> {
   try {
     const parsed = blockSlotSchema.safeParse(input);
-    if (!parsed.success) return { success: false, error: 'Créneau invalide.' };
+    if (!parsed.success) return failure('VALIDATION_FAILED');
 
     const admin = await getCurrentAdmin();
     assertPermission(admin, 'slots', 'edit');
@@ -154,6 +224,6 @@ export async function unblockSlotAction(input: unknown): Promise<SlotActionState
     });
     return { success: true };
   } catch (error) {
-    return { success: false, error: toUserMessage(error, PERMISSION_DENIED_MESSAGE) };
+    return failure(toErrorCode(error));
   }
 }

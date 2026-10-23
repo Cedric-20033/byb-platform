@@ -29,6 +29,7 @@ type BookingDialogProps = {
  */
 export function BookingDialog({ services, open, onOpenChange, initialService }: BookingDialogProps) {
   const tBooking = useTranslations('booking');
+  const tCommon = useTranslations('common');
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -41,7 +42,7 @@ export function BookingDialog({ services, open, onOpenChange, initialService }: 
                 {tBooking('dialogTitle')}
               </Dialog.Title>
               <Dialog.Close
-                aria-label="Fermer"
+                aria-label={tCommon('close')}
                 className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors"
               >
                 <X size={20} />

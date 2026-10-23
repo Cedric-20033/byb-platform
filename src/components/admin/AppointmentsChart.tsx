@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import type { DailyAppointmentCount } from '@/application/admin/GetDashboardStats';
 import { Card } from '@/components/ui/Card';
+import { formatIsoDate } from '@/lib/date';
 
 interface AppointmentsChartProps {
   title: string;
@@ -20,7 +21,7 @@ export function AppointmentsChart({ title, data }: AppointmentsChartProps) {
 
   const chartData = data.map((point) => ({
     ...point,
-    label: new Intl.DateTimeFormat(locale, { day: '2-digit', month: '2-digit' }).format(new Date(point.date)),
+    label: formatIsoDate(point.date, locale, { day: '2-digit', month: '2-digit' }),
   }));
 
   return (

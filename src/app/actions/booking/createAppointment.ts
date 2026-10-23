@@ -3,17 +3,21 @@
 // src/app/actions/booking/createAppointment.ts
 import { createAppointmentSchema } from '@/lib/validation/appointment';
 import { CreateAppointment } from '@/application/booking/CreateAppointment';
+import { toAppointmentLocale } from '@/domain/appointment/AppointmentLocale';
 import { SupabaseAppointmentRepository } from '@/infrastructure/supabase/repositories/SupabaseAppointmentRepository';
 import { SupabaseSlotRepository } from '@/infrastructure/supabase/repositories/SupabaseSlotRepository';
+import { DeferredEmailProvider } from '@/infrastructure/email/DeferredEmailProvider';
 import { ResendEmailProvider } from '@/infrastructure/email/ResendEmailProvider';
 import { SupabaseAuditLogger } from '@/infrastructure/audit/SupabaseAuditLogger';
+import { getClientIp } from '@/infrastructure/http/getClientIp';
 import { createServiceRoleClient } from '@/infrastructure/supabase/serviceRoleClient';
-import { company } from '@/data/company';
-import { toUserMessage } from '@/lib/errors';
+import { createPublicBookingGuard } from '@/lib/booking/createPublicBookingGuard';
+import { failure, toErrorCode, type ActionFailure } from '@/lib/errors';
+import { resolveBookingSettings } from '@/lib/settings/resolveBookingSettings';
 
 export type CreateAppointmentActionState =
   | { success: true; appointmentId: string }
-  | { success: false; error: string };
+  | ActionFailure;
 
 /**
  * Composition root : c'est ICI, et seulement ici, qu'on instancie les
@@ -25,25 +29,41 @@ export type CreateAppointmentActionState =
 export async function createAppointmentAction(input: unknown): Promise<CreateAppointmentActionState> {
   const parsed = createAppointmentSchema.safeParse(input);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.issues[0]?.message ?? 'Données invalides.' };
+    return failure('VALIDATION_FAILED');
+  }
+
+  const { website, captchaToken, locale, ...booking } = parsed.data;
+
+  // Piège à robots : un humain ne voit pas ce champ. On répond par un faux succès, sans rien créer :
+  // un refus apprendrait au robot qu'il est détecté et qu'il doit changer de méthode.
+  if (website) {
+    return { success: true, appointmentId: '' };
   }
 
   const supabase = createServiceRoleClient();
 
-  const useCase = new CreateAppointment(
-    new SupabaseAppointmentRepository(supabase),
-    new SupabaseSlotRepository(supabase),
-    new ResendEmailProvider(),
-    new SupabaseAuditLogger(),
-    // Variable d'environnement prioritaire (permet de changer le destinataire
-    // sans toucher au code) ; à défaut, l'email de contact de l'entreprise.
-    process.env.ADMIN_NOTIFICATION_EMAIL ?? company.contact.email,
-  );
-
   try {
-    const appointment = await useCase.execute(parsed.data);
+    // Politique de réservation et destinataire interne : réglages de l'entreprise (repli sur les valeurs par défaut).
+    const { policy, adminNotificationEmail } = await resolveBookingSettings(supabase);
+    const useCase = new CreateAppointment(
+      new SupabaseAppointmentRepository(supabase),
+      new SupabaseSlotRepository(supabase),
+      // Les emails partent après la réponse : le visiteur ne doit pas attendre Resend pour voir sa confirmation.
+      new DeferredEmailProvider(new ResendEmailProvider()),
+      new SupabaseAuditLogger(),
+      adminNotificationEmail,
+      policy,
+    );
+
+    await createPublicBookingGuard(supabase).assertCanCreate({
+      ip: await getClientIp(),
+      email: booking.clientEmail,
+      captchaToken: captchaToken ?? null,
+    });
+
+    const appointment = await useCase.execute({ ...booking, locale: toAppointmentLocale(locale) });
     return { success: true, appointmentId: appointment.id };
   } catch (error) {
-    return { success: false, error: toUserMessage(error) };
+    return failure(toErrorCode(error));
   }
 }

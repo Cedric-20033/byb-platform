@@ -14,9 +14,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<Variant, string> = {
-  primary:   'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)]',
-  secondary: 'bg-[var(--color-secondary)] text-white hover:bg-[var(--color-secondary-hover)]',
-  outline:   'border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white',
+  // Le texte suit `*-foreground` (blanc en clair, quasi noir en sombre) : un texte blanc sur le bleu clair du thème sombre
+  // n'atteindrait que 3:1 de contraste (WCAG AA exige 4,5:1).
+  primary:   'bg-[var(--color-primary)] text-[var(--color-primary-foreground)] hover:bg-[var(--color-primary-hover)]',
+  secondary: 'bg-[var(--color-secondary)] text-[var(--color-secondary-foreground)] hover:bg-[var(--color-secondary-hover)]',
+  outline:   'border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-primary-foreground)]',
   ghost:     'bg-transparent text-[var(--color-foreground)] hover:bg-[var(--color-surface-raised)]',
 };
 

@@ -11,6 +11,7 @@ import { SupabaseServiceRepository } from "@/infrastructure/supabase/repositorie
 import { Card } from "@/components/ui/Card";
 import { CtaSection } from "@/components/sections/HomesSection";
 import { getLocalizedPath, Locale } from '@/lib/routing';
+import { buildLocaleAlternates } from '@/lib/seo/alternates';
 
 export async function generateMetadata({
   params,
@@ -20,7 +21,11 @@ export async function generateMetadata({
   const { locale } = await params;
   // Clés fr.json : services.pageTitle, services.pageDescription
   const tPage = await getTranslations({ locale, namespace: "services" });
-  return { title: tPage("pageTitle"), description: tPage("pageDescription") };
+  return {
+    title: tPage("pageTitle"),
+    description: tPage("pageDescription"),
+    alternates: buildLocaleAlternates("/services", locale),
+  };
 }
 
 export default async function ServicesPage() {

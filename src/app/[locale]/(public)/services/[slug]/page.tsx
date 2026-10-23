@@ -7,8 +7,8 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { t, getImageUrl } from "@/lib/utils";
 import { getLocalizedPath, Locale } from "@/lib/routing";
+import { buildLocaleAlternates } from "@/lib/seo/alternates";
 import { createClient } from "@/infrastructure/supabase/server";
-import { createServiceRoleClient } from "@/infrastructure/supabase/serviceRoleClient";
 import { SupabaseServiceRepository } from "@/infrastructure/supabase/repositories/SupabaseServiceRepository";
 import { company } from "@/data/company";
 import { Button } from "@/components/ui/Button";
@@ -20,22 +20,24 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-export async function generateStaticParams() {
-  // Client service_role : generateStaticParams s'exécute au build, hors
-  // requête HTTP — next/headers (donc le client cookies-aware) n'y est pas disponible.
-  const supabase = createServiceRoleClient();
-  const services = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
-  return services.map((s) => ({ slug: s.slug }));
-}
+// Les services viennent de Supabase et la page lit la session (cookies) : elle est rendue à la demande, avec les données
+// du moment, comme les autres pages publiques. Un `generateStaticParams()` (même vide) la rendrait statique et ferait
+// échouer chaque requête en production (`DYNAMIC_SERVER_USAGE`), préchargements des liens compris. Le build ne dépend
+// toujours pas de la disponibilité de la base : rien n'est généré à la compilation.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const supabase = await createClient();
   const service = await new SupabaseServiceRepository(supabase).findBySlug(slug);
-  if (!service) return { title: "Service introuvable" };
+  if (!service) {
+    const tPage = await getTranslations({ locale, namespace: "services" });
+    return { title: tPage("notFound") };
+  }
   return {
     title: t(service.name, locale),
     description: t(service.shortDescription, locale),
+    alternates: buildLocaleAlternates(`/services/${slug}`, locale),
     openGraph: { images: [{ url: getImageUrl(service.coverImage) }] },
   };
 }
@@ -43,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
   const locale = await getLocale() as Locale;
-  // Clés fr.json : services.backToServices, services.subServices, services.gallery, services.bookService
+  // Clés : services.backToServices, subServices, gallery, bookService, readyTitle, readySubtitle, callDirectly, otherServices
   const tPage = await getTranslations("services");
 
   const supabase = await createClient();
@@ -91,7 +93,6 @@ export default async function ServiceDetailPage({ params }: Props) {
 
               {service.subServices.length > 0 && (
                 <div>
-                  {/* Clé fr.json : services.subServices */}
                   <h2 className="font-[var(--font-display)] font-black text-2xl mb-5">
                     {tPage("subServices")}
                   </h2>
@@ -126,13 +127,12 @@ export default async function ServiceDetailPage({ params }: Props) {
             <aside className="space-y-4">
               <div className="sticky top-24 p-6 rounded-[var(--radius-xl)] bg-[var(--color-primary)] text-white space-y-4">
                 <h3 className="font-[var(--font-display)] font-black text-xl">
-                  Prêt à démarrer ?
+                  {tPage("readyTitle")}
                 </h3>
                 <p className="text-white/75 text-sm">
-                  Devis gratuit et sans engagement.
+                  {tPage("readySubtitle")}
                 </p>
-                {/* Clé fr.json : services.bookService — ouvre le wizard
-                    directement sur ce service, sans repasser par /contact. */}
+                {/* Ouvre le wizard directement sur ce service, sans repasser par /contact. */}
                 <ServiceBookingButton
                   services={allServices}
                   initialService={service}
@@ -144,14 +144,14 @@ export default async function ServiceDetailPage({ params }: Props) {
                     variant="outline"
                     className="w-full border-white/40 text-white hover:bg-white hover:text-[var(--color-primary)]"
                   >
-                    Appeler directement
+                    {tPage("callDirectly")}
                   </Button>
                 </a>
               </div>
 
               <div className="p-5 rounded-[var(--radius-xl)] bg-[var(--color-surface)] border border-[var(--color-border)]">
                 <h3 className="font-[var(--font-display)] font-bold text-sm uppercase tracking-wider text-[var(--color-muted)] mb-3">
-                  Autres services
+                  {tPage("otherServices")}
                 </h3>
                 <ul className="space-y-2">
                   {otherServices.map((s) => (
@@ -160,7 +160,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                         href={getLocalizedPath(`/services/${s.slug}`, locale)}
                         className="text-sm hover:text-[var(--color-primary)] transition-colors"
                       >
-                        → {t(s.name, locale)}
+                        {t(s.name, locale)}
                       </Link>
                     </li>
                   ))}

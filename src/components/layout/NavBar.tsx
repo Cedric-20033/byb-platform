@@ -11,8 +11,10 @@ import { getLocalizedPath, Locale } from '@/lib/routing';
 import { mainNavLinks } from '@/data/navigation';
 import { company } from '@/data/company';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
 import { Button } from '@/components/ui/Button';
 import { BookingDialog } from '@/components/booking/BookingDialog';
+import { isBookingPagePath } from '@/lib/booking/bookingRoutes';
 import type { Service } from '@/types';
 import { ShowImage } from '../ui/ShowImage';
 
@@ -25,6 +27,8 @@ export function Navbar({ services }: NavbarProps) {
   const tNav = useTranslations('nav');
   const locale = useLocale() as Locale;
   const pathname = usePathname();
+  // La page /rdv héberge déjà le wizard : ses boutons d'ouverture en modale sont masqués.
+  const onBookingPage = isBookingPagePath(pathname);
 
   const [isMenuOpen, setIsMenuOpen]   = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -39,8 +43,12 @@ export function Navbar({ services }: NavbarProps) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Ferme le menu mobile à chaque changement de route
-  useEffect(() => { setIsMenuOpen(false); setOpenDropdown(null); }, [pathname]);
+  const [previousPathname, setPreviousPathname] = useState(pathname);
+  if (previousPathname !== pathname) {
+    setPreviousPathname(pathname);
+    setIsMenuOpen(false);
+    setOpenDropdown(null);
+  }
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' || pathname === `/${locale}` : pathname.includes(href);
@@ -118,15 +126,19 @@ export function Navbar({ services }: NavbarProps) {
               <Phone size={15} />
               {company.contact.phone}
             </a>
+            <LocaleSwitcher />
             <ThemeToggle />
             {/* Clé fr.json : nav.bookAppointment */}
-            <Button size="sm" variant="secondary" onClick={() => setBookingOpen(true)}>
-              {tNav('bookAppointment')}
-            </Button>
+            {!onBookingPage && (
+              <Button size="sm" variant="secondary" onClick={() => setBookingOpen(true)}>
+                {tNav('bookAppointment')}
+              </Button>
+            )}
           </div>
 
           {/* Mobile toggle */}
           <div className="flex items-center gap-2 lg:hidden">
+            <LocaleSwitcher />
             <ThemeToggle />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -172,18 +184,20 @@ export function Navbar({ services }: NavbarProps) {
                 )}
               </div>
             ))}
-            <div className="pt-4 border-t border-[var(--color-border)]">
-              <Button
-                variant="secondary"
-                className="w-full"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  setBookingOpen(true);
-                }}
-              >
-                {tNav('bookAppointment')}
-              </Button>
-            </div>
+            {!onBookingPage && (
+              <div className="pt-4 border-t border-[var(--color-border)]">
+                <Button
+                  variant="secondary"
+                  className="w-full"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setBookingOpen(true);
+                  }}
+                >
+                  {tNav('bookAppointment')}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -9,12 +9,17 @@ import { stats } from '@/data/stats';
 import { company } from '@/data/company';
 import { StatsSection } from '@/components/sections/StatsSection';
 import { CtaSection } from '@/components/sections/HomesSection';
+import { buildLocaleAlternates } from '@/lib/seo/alternates';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   // Clés fr.json : about.pageTitle, about.pageDescription
   const tPage = await getTranslations({ locale, namespace: 'about' });
-  return { title: tPage('pageTitle'), description: tPage('pageDescription') };
+  return {
+    title: tPage('pageTitle'),
+    description: tPage('pageDescription'),
+    alternates: buildLocaleAlternates('/a-propos', locale),
+  };
 }
 
 export default async function AboutPage() {

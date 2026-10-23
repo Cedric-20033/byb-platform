@@ -1,26 +1,7 @@
 // src/infrastructure/cloudinary/CloudinaryMediaProvider.ts
 import { v2 as cloudinary } from 'cloudinary';
 import type { MediaProvider, MediaKind, MediaTransformOptions, MediaUploadOptions } from '@/domain/shared/MediaProvider';
-
-let configured = false;
-
-/**
- * Configuration paresseuse (au premier appel, pas à l'import du module).
- * Nécessaire pour les scripts tsx (scripts/migrate-services-to-supabase.ts) :
- * ceux-ci chargent .env.local eux-mêmes au runtime, après que les imports
- * ES modules — dont celui-ci — ont déjà été résolus. Configurer au niveau
- * module capturerait des variables d'environnement encore vides.
- */
-function ensureConfigured(): void {
-  if (configured) return;
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-    secure: true,
-  });
-  configured = true;
-}
+import { ensureCloudinaryConfigured } from './ensureCloudinaryConfigured';
 
 /**
  * Implémentation Cloudinary du contrat MediaProvider.
@@ -35,7 +16,7 @@ function ensureConfigured(): void {
  */
 export class CloudinaryMediaProvider implements MediaProvider {
   getUrl(publicId: string, kind: MediaKind, options: MediaTransformOptions = {}): string {
-    ensureConfigured();
+    ensureCloudinaryConfigured();
     return cloudinary.url(publicId, {
       secure: true,
       resource_type: kind === 'video' ? 'video' : 'image',
@@ -48,7 +29,7 @@ export class CloudinaryMediaProvider implements MediaProvider {
   }
 
   getVideoThumbnailUrl(publicId: string): string {
-    ensureConfigured();
+    ensureCloudinaryConfigured();
     // Cloudinary génère une frame fixe depuis une vidéo en demandant
     // simplement une sortie jpg sur une ressource de type "video".
     return cloudinary.url(publicId, {
@@ -60,7 +41,7 @@ export class CloudinaryMediaProvider implements MediaProvider {
   }
 
   async upload(file: Buffer, folder: string, kind: MediaKind, options: MediaUploadOptions = {}): Promise<string> {
-    ensureConfigured();
+    ensureCloudinaryConfigured();
     const result = await new Promise<{ public_id: string }>((resolve, reject) => {
       cloudinary.uploader
         .upload_stream(
@@ -84,7 +65,7 @@ export class CloudinaryMediaProvider implements MediaProvider {
   }
 
   async delete(publicId: string, kind: MediaKind): Promise<void> {
-    ensureConfigured();
+    ensureCloudinaryConfigured();
     await cloudinary.uploader.destroy(publicId, {
       resource_type: kind === 'video' ? 'video' : 'image',
     });

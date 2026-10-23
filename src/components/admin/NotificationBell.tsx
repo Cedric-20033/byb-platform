@@ -2,7 +2,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { useTranslations, useLocale } from 'next-intl';
 import { Bell } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -13,19 +14,35 @@ import { ADMIN_ROUTES } from '@/lib/constants';
 import type { Service } from '@/types';
 import { getPendingNotificationsAction } from '@/app/actions/admin/dashboard';
 import { cn, formatDate, t as translateField } from '@/lib/utils';
+import { buildOpenAppointmentQuery } from './appointmentsUrlState';
+import { invalidateAppointmentQueries } from './appointmentQueryKeys';
+import { useAppointmentsRealtime } from './useAppointmentsRealtime';
 
 /**
  * Cloche de notifications : signale les RDV en attente de confirmation.
- * Rafraîchie toutes les 60s via TanStack Query — un compromis simple entre
- * "temps réel" (Supabase Realtime, hors périmètre actuel) et une valeur figée.
+ *
+ * Mise à jour en TEMPS RÉEL par Supabase Realtime (voir useAppointmentsRealtime) : un rendez-vous demandé,
+ * confirmé ou annulé rafraîchit la cloche, les listes, le calendrier et les statistiques, et une nouvelle demande
+ * affiche un toast. L'interrogation toutes les 2 minutes reste comme filet de sécurité : une connexion Realtime
+ * peut se couper sans prévenir (réseau mobile, veille de l'ordinateur).
  * `services` provient du layout admin (Server Component, Supabase) — ce
  * composant client ne touche jamais data/ ni le repository directement.
  */
 export function NotificationBell({ services }: { services: Service[] }) {
   const t = useTranslations('admin.navbar');
   const locale = useLocale() as Locale;
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useAppointmentsRealtime((change) => {
+    invalidateAppointmentQueries(queryClient);
+
+    // Une demande publique naît « pending » ; un rendez-vous créé par l'équipe est confirmé d'office, et ne notifie pas.
+    if (change.eventType === 'INSERT' && change.newRow?.status === 'pending') {
+      toast.info(t('newAppointmentToast', { client: String(change.newRow.client_name ?? '') }));
+    }
+  });
 
   const { data } = useQuery({
     queryKey: ['admin', 'notifications', 'pending'],
@@ -34,7 +51,7 @@ export function NotificationBell({ services }: { services: Service[] }) {
       if (!result.success) throw new Error(result.error);
       return result;
     },
-    refetchInterval: 60_000,
+    refetchInterval: 120_000,
   });
 
   useEffect(() => {
@@ -94,14 +111,17 @@ export function NotificationBell({ services }: { services: Service[] }) {
                   return (
                     <Link
                       key={item.id}
-                      href={getLocalizedPath(ADMIN_ROUTES.APPOINTMENTS, locale)}
+                      href={`${getLocalizedPath(ADMIN_ROUTES.APPOINTMENTS, locale)}?${buildOpenAppointmentQuery(item.id)}`}
                       onClick={() => setOpen(false)}
                       className="block px-4 py-3 hover:bg-[var(--color-surface-raised)] transition-colors border-b border-[var(--color-border)] last:border-0"
                     >
                       <p className="text-sm font-medium">{item.clientName}</p>
                       <p className="text-xs text-[var(--color-muted)] mt-0.5">
-                        {service ? translateField(service.name, locale) : item.serviceId} · {formatDate(item.slotDate, locale)} à{' '}
-                        {item.slotStartTime}
+                        {t('notificationMeta', {
+                          service: service ? translateField(service.name, locale) : item.serviceId,
+                          date: formatDate(item.slotDate, locale),
+                          time: item.slotStartTime,
+                        })}
                       </p>
                     </Link>
                   );

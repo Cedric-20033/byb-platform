@@ -27,7 +27,7 @@ export class UnblockSlot {
       throw new DomainError('Créneau introuvable.', 'SLOT_NOT_FOUND');
     }
     if (!slot.canBeUnblocked()) {
-      throw new DomainError("Ce créneau n'est pas bloqué.", 'SLOT_ALREADY_BLOCKED');
+      throw new DomainError("Ce créneau n'est pas bloqué.", 'SLOT_NOT_BLOCKED');
     }
 
     await this.slotRepository.updateStatus(slot.id, 'available' as SlotStatus);

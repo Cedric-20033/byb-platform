@@ -20,6 +20,7 @@ import { SupabaseHolidayRepository } from '../src/infrastructure/supabase/reposi
 import { SupabaseServiceRepository } from '../src/infrastructure/supabase/repositories/SupabaseServiceRepository';
 import { SupabaseAuditLogger } from '../src/infrastructure/audit/SupabaseAuditLogger';
 import { ActorRole } from '../src/domain/shared/AuditLogger';
+import { addDays, toIsoDate } from '../src/domain/shared/IsoDate';
 
 // tsx n'exécute pas le chargement automatique de .env.local propre à Next.js —
 // on le lit nous-mêmes s'il existe, sans introduire de dépendance supplémentaire.
@@ -76,9 +77,9 @@ async function main() {
   // exactement les services actifs tels qu'ils existent réellement en base.
   const activeServices = await new SupabaseServiceRepository(supabase).findAll({ activeOnly: true });
 
-  const today = new Date();
-  const from = today.toISOString().slice(0, 10);
-  const to = new Date(today.getTime() + CONFIG.daysAhead * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  // Jours calendaires belges : indépendants du fuseau de la machine qui lance le script.
+  const from = toIsoDate(new Date());
+  const to = addDays(from, CONFIG.daysAhead);
 
   // Un même artisan ne peut pas être à deux endroits en même temps, mais le
   // schéma actuel lie chaque créneau à un service (voir le commentaire dans

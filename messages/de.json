@@ -1,10 +1,12 @@
 {
-  "_note": "À compléter par un traducteur natif. Structure identique à fr.json.",
-
   "metadata": {
     "siteName": "BYB Bau & Renovierung",
     "defaultTitle": "BYB — Ihr vertrauenswürdiger Handwerker",
     "defaultDescription": "BYB Bau & Renovierung, Ihr Spezialist für Dachdeckerarbeiten, Renovierung und Neubau in Belgien (Asselt und Lüttich). Über 20 Jahre Erfahrung."
+  },
+
+  "a11y": {
+    "skipToContent": "Zum Hauptinhalt springen"
   },
 
   "nav": {
@@ -34,6 +36,8 @@
       "ctaSecondary": "Referenzen ansehen"
     },
     "about": {
+      "imageSrc": "/Images/equipe.jpg",
+      "imageAlt": "Das BYB-Team",
       "eyebrow": "Wer sind wir?",
       "title": "Ein Unternehmen zu Ihren Diensten",
       "description": "Seit über 20 Jahren begleitet BYB Privatpersonen und Unternehmen bei all ihren Bauprojekten.",
@@ -75,17 +79,35 @@
     "galleryVideos": "Videos",
     "showMore": "Mehr anzeigen ({count})",
     "bookService": "Angebot für diese Leistung anfordern",
-    "backToServices": "Zurück zu den Leistungen"
+    "backToServices": "Zurück zu den Leistungen",
+    "notFound": "Leistung nicht gefunden",
+    "readyTitle": "Bereit loszulegen?",
+    "readySubtitle": "Kostenloses, unverbindliches Angebot.",
+    "callDirectly": "Direkt anrufen",
+    "otherServices": "Weitere Leistungen"
   },
 
   "realisations": {
     "pageTitle": "Unsere Referenzen",
+    "eyebrow": "Portfolio",
     "pageDescription": "Entdecken Sie einige unserer aktuellen Projekte.",
     "photosLabel": "Fotos",
     "videosLabel": "Videos",
     "showMorePhotos": "Mehr Fotos anzeigen ({count})",
     "showMoreVideos": "Mehr Videos anzeigen ({count})",
-    "noMedia": "Derzeit keine Referenzen verfügbar."
+    "noMedia": "Derzeit keine Referenzen verfügbar.",
+    "videoAlt": "{service} — Video {index}",
+    "lightbox": {
+      "close": "Schließen",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "play": "Diashow starten",
+      "pause": "Pausieren",
+      "enterFullscreen": "Vollbild",
+      "exitFullscreen": "Vollbild beenden",
+      "zoomIn": "Vergrößern",
+      "zoomOut": "Verkleinern"
+    }
   },
 
   "about": {
@@ -99,7 +121,7 @@
       "eyebrow": "Unsere Werte",
       "title": "Was uns täglich leitet",
       "value1Title": "Qualität",
-      "value1Desc": "Jedes Projekt wird mit zertifizierten Materialien gemäß DTU-Normen durchgeführt.",
+      "value1Desc": "Jedes Projekt wird mit zertifizierten Materialien gemäß den in Belgien geltenden Normen durchgeführt.",
       "value2Title": "Pünktlichkeit",
       "value2Desc": "Wir halten vereinbarte Fristen ein. Ihre Zeit ist wertvoll.",
       "value3Title": "Transparenz",
@@ -119,6 +141,8 @@
     "title": "Eine Frage? Ein Projekt?",
     "subtitle": "Wir antworten innerhalb von 24 Stunden.",
     "form": {
+      "privacyNotice": "Ihre Angaben werden ausschließlich zur Beantwortung Ihrer Anfrage verwendet. <link>Datenschutzerklärung</link>",
+      "captchaLoadError": "Die Anti-Roboter-Prüfung konnte nicht geladen werden. Laden Sie die Seite neu.",
       "firstName": "Vorname",
       "lastName": "Nachname",
       "email": "E-Mail",
@@ -136,6 +160,294 @@
       "phone": "Telefon",
       "email": "E-Mail",
       "hours": "Öffnungszeiten"
+    },
+    "metaDescription": "Kontaktieren Sie BYB Construction in Asselt oder Liège: Schreiben Sie uns über das Formular, rufen Sie uns an oder finden Sie unsere Adressen und Öffnungszeiten.",
+    "map": {
+      "load": "Karte von {name} anzeigen",
+      "consent": "Diese Karte wird von Google bereitgestellt. Beim Anzeigen wird Ihre IP-Adresse an Google übermittelt, das Cookies verwenden kann.",
+      "title": "Standort {name}"
+    }
+  },
+
+  "booking": {
+    "dialogTitle": "Termin buchen",
+    "page": {
+      "title": "Termin buchen",
+      "description": "Buchen Sie online einen Termin bei BYB Bau & Renovierung: Wählen Sie Ihre Leistung und ein freies Zeitfenster, Sie erhalten eine Bestätigung per E-Mail.",
+      "heading": "Buchen Sie Ihren Termin online",
+      "subtitle": "Wählen Sie Ihre Leistung und anschließend ein freies Zeitfenster. Sie erhalten eine Bestätigungs-E-Mail."
+    },
+    "steps": {
+      "service": "Leistung",
+      "subService": "Ausführung",
+      "slot": "Zeitfenster",
+      "confirmation": "Bestätigung"
+    },
+    "service": {
+      "title": "Welche Leistung interessiert Sie?",
+      "subtitle": "Wählen Sie die gewünschte Art der Arbeiten."
+    },
+    "subService": {
+      "title": "Präzisieren Sie Ihren Bedarf",
+      "subtitle": "Wählen Sie die Option, die am besten zu Ihrem Projekt passt.",
+      "skip": "Keine bestimmte Ausführung, weiter zum nächsten Schritt"
+    },
+    "slot": {
+      "title": "Wählen Sie ein Zeitfenster",
+      "subtitle": "Wählen Sie ein Datum und anschließend eine freie Uhrzeit.",
+      "noSlots": "An diesem Datum ist kein Zeitfenster frei. Versuchen Sie einen anderen Tag.",
+      "loading": "Freie Zeitfenster werden gesucht..."
+    },
+    "confirmation": {
+      "title": "Ihre Kontaktdaten",
+      "subtitle": "Letzter Schritt vor der Bestätigung Ihres Termins.",
+      "name": "Vollständiger Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "notes": "Nachricht (optional)",
+      "submit": "Termin bestätigen",
+      "submitting": "Bestätigung läuft...",
+      "privacyNotice": "Ihre Angaben werden ausschließlich zur Verwaltung Ihres Termins verwendet. <link>Datenschutzerklärung</link>",
+      "chooseAnotherSlot": "Anderes Zeitfenster wählen",
+      "captchaLoadError": "Die Anti-Roboter-Prüfung konnte nicht geladen werden. Laden Sie die Seite neu.",
+      "successTitle": "Termin bestätigt!",
+      "successMessage": "Eine Bestätigungs-E-Mail wurde soeben an Sie gesendet.",
+      "errorMessage": "Ein Fehler ist aufgetreten. Bitte erneut versuchen."
+    },
+    "summary": {
+      "service": "Leistung",
+      "subService": "Ausführung",
+      "date": "Datum",
+      "time": "Uhrzeit"
+    }
+  },
+
+  "clientAppointment": {
+    "summary": {
+      "service": "Leistung",
+      "subService": "Ausführung",
+      "date": "Datum",
+      "time": "Uhrzeit",
+      "status": "Status"
+    },
+    "status": {
+      "pending": "Wartet auf Bestätigung",
+      "confirmed": "Bestätigt",
+      "cancelled": "Storniert"
+    },
+    "timeRange": "{start} bis {end}",
+    "invalid": {
+      "title": "Ungültiger Link",
+      "message": "Dieser Link ist ungültig oder abgelaufen. Verwenden Sie den Link aus Ihrer E-Mail oder kontaktieren Sie uns.",
+      "contact": "Kontakt aufnehmen"
+    },
+    "cancelled": {
+      "title": "Termin bereits storniert",
+      "message": "Dieser Termin ist storniert, das Zeitfenster wurde freigegeben. Sie können jederzeit einen neuen Termin buchen."
+    },
+    "past": {
+      "title": "Vergangener Termin",
+      "message": "Dieser Termin hat bereits stattgefunden und kann nicht mehr storniert oder verschoben werden."
+    },
+    "bookAgain": "Neuen Termin buchen",
+    "backHome": "Zurück zur Startseite",
+    "cancel": {
+      "pageTitle": "Meinen Termin stornieren",
+      "pageDescription": "Stornieren Sie Ihren Termin mit einem Klick.",
+      "heading": "Meinen Termin stornieren",
+      "intro": "Prüfen Sie die folgenden Angaben, bevor Sie stornieren.",
+      "action": "Termin stornieren",
+      "confirmTitle": "Stornierung bestätigen?",
+      "confirmMessage": "Das Zeitfenster wird freigegeben. Dies kann nicht rückgängig gemacht werden.",
+      "confirmAction": "Ja, stornieren",
+      "keep": "Nein, behalten",
+      "submitting": "Stornierung läuft...",
+      "successTitle": "Termin storniert",
+      "successMessage": "Ihr Termin ist storniert. Eine Bestätigungs-E-Mail wurde an Sie gesendet.",
+      "rescheduleHint": "Lieber ein anderes Datum?",
+      "rescheduleAction": "Datum ändern"
+    },
+    "reschedule": {
+      "pageTitle": "Meinen Termin ändern",
+      "pageDescription": "Wählen Sie ein neues Zeitfenster für Ihren Termin.",
+      "heading": "Meinen Termin ändern",
+      "intro": "Wählen Sie ein neues Zeitfenster für dieselbe Leistung.",
+      "current": "Aktuelles Zeitfenster",
+      "pickTitle": "Neues Zeitfenster wählen",
+      "confirmTitle": "Dieses neue Zeitfenster bestätigen?",
+      "confirmMessage": "Neues Zeitfenster: {date}, {time}. Ihr aktueller Termin wird freigegeben.",
+      "confirmAction": "Verschiebung bestätigen",
+      "back": "Anderes Zeitfenster wählen",
+      "submitting": "Verschiebung läuft...",
+      "successTitle": "Termin verschoben",
+      "successMessage": "Ihr Termin findet statt am {date}, {time}. Eine Bestätigungs-E-Mail wurde an Sie gesendet.",
+      "cancelHint": "Sie können nicht mehr kommen?",
+      "cancelAction": "Termin stornieren"
+    }
+  },
+
+  "emails": {
+    "common": {
+      "greeting": "Guten Tag {name},",
+      "manageIntro": "Etwas dazwischengekommen? Sie können Ihren Termin online ändern oder stornieren.",
+      "rescheduleAction": "Datum ändern",
+      "cancelAction": "Termin stornieren",
+      "rebookAction": "Neuen Termin buchen",
+      "dashboardAction": "Dashboard öffnen",
+      "calendarNote": "Dieser E-Mail ist eine Kalenderdatei (.ics) beigefügt, um den Termin Ihrem Kalender hinzuzufügen.",
+      "calendarSummary": "{company}: {service}",
+      "timeRange": "{start} bis {end}",
+      "footer": "{company} · {phone}",
+      "fields": {
+        "service": "Leistung",
+        "subService": "Ausführung",
+        "date": "Datum",
+        "time": "Uhrzeit",
+        "client": "Kunde",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "notes": "Notizen",
+        "previousSlot": "Bisheriges Zeitfenster",
+        "newSlot": "Neues Zeitfenster",
+        "reason": "Nachricht unseres Teams",
+        "sender": "Absender",
+        "subject": "Betreff",
+        "message": "Nachricht"
+      }
+    },
+    "adminContactMessage": {
+      "subject": "Neue Kontaktnachricht: {subject}",
+      "preview": "Ein Besucher hat Ihnen über das Kontaktformular geschrieben.",
+      "heading": "Neue Kontaktnachricht",
+      "intro": "Ein Besucher hat über das Kontaktformular der Website geschrieben. Antworten Sie direkt auf diese E-Mail, um ihm zu schreiben."
+    },
+    "contactAcknowledgement": {
+      "subject": "Wir haben Ihre Nachricht erhalten",
+      "preview": "Ihre Nachricht ist bei uns angekommen.",
+      "heading": "Nachricht erhalten",
+      "intro": "Vielen Dank für Ihre Nachricht. Sie ist bei uns angekommen und wir antworten Ihnen so schnell wie möglich. Hier ist eine Kopie Ihrer Nachricht."
+    },
+    "appointmentConfirmation": {
+      "subject": "Ihre Terminanfrage ist bei uns eingegangen",
+      "preview": "Wir haben Ihre Anfrage erhalten.",
+      "heading": "Anfrage erhalten",
+      "intro": "Wir haben Ihre Terminanfrage erhalten. Unser Team prüft sie so schnell wie möglich, Sie erhalten eine Bestätigungs-E-Mail."
+    },
+    "appointmentConfirmedByAdmin": {
+      "subject": "Ihr Termin ist bestätigt",
+      "preview": "Ihr Termin ist bestätigt.",
+      "heading": "Termin bestätigt",
+      "intro": "Ihr Termin ist bestätigt. Wir freuen uns darauf, Sie zu empfangen."
+    },
+    "appointmentCancellation": {
+      "subject": "Ihr Termin wurde storniert",
+      "preview": "Ihr Termin wurde storniert.",
+      "heading": "Termin storniert",
+      "intro": "Ihr Termin wurde storniert. Sie können jederzeit einen neuen buchen."
+    },
+    "appointmentRescheduled": {
+      "subject": "Ihr Termin wurde verschoben",
+      "preview": "Ihr Termin hat ein neues Zeitfenster.",
+      "heading": "Termin verschoben",
+      "intro": "Ihr Termin wurde auf ein neues Zeitfenster verschoben."
+    },
+    "appointmentReminder": {
+      "subject": "Erinnerung: Ihr Termin ist morgen",
+      "preview": "Ihr Termin ist morgen.",
+      "heading": "Termin morgen",
+      "intro": "Wir erinnern Sie an Ihren Termin morgen."
+    },
+    "adminNewAppointment": {
+      "subject": "Neuer Termin zur Bestätigung",
+      "preview": "Eine neue Terminanfrage wartet auf Ihre Bestätigung.",
+      "heading": "Neue Terminanfrage",
+      "intro": "Auf der Website wurde soeben ein neuer Termin gebucht. Er wartet auf Ihre Bestätigung."
+    },
+    "adminAppointmentCancelledByClient": {
+      "subject": "Ein Kunde hat seinen Termin storniert",
+      "preview": "Ein Kunde hat seinen Termin storniert.",
+      "heading": "Termin vom Kunden storniert",
+      "intro": "Der Kunde hat seinen Termin storniert: Das Zeitfenster ist wieder frei."
+    },
+    "adminAppointmentRescheduledByClient": {
+      "subject": "Ein Kunde hat seinen Termin verschoben",
+      "preview": "Ein Kunde hat ein neues Zeitfenster gewählt.",
+      "heading": "Termin vom Kunden verschoben",
+      "intro": "Der Kunde hat ein neues Zeitfenster für seinen Termin gewählt."
+    }
+  },
+
+  "privacy": {
+    "pageDescription": "Wie BYB Construction über diese Website personenbezogene Daten erhebt, verwendet und schützt, und wie Sie Ihre Rechte ausüben.",
+    "intro": "Diese Erklärung beschreibt, welche personenbezogenen Daten BYB Construction über diese Website erhebt, zu welchem Zweck, wie lange sie gespeichert werden und wie Sie Ihre Rechte ausüben können.",
+    "updated": "Letzte Aktualisierung: {date}",
+    "controller": {
+      "title": "Verantwortlicher",
+      "text": "{company}, {address}. Unternehmensnummer (BCE/KBO): {vat}. Bei Fragen zu Ihren Daten erreichen Sie uns unter {email}."
+    },
+    "collected": {
+      "title": "Erhobene Daten und Zwecke",
+      "labels": {
+        "data": "Daten",
+        "purpose": "Zweck",
+        "basis": "Rechtsgrundlage"
+      },
+      "appointments": {
+        "title": "Terminbuchung",
+        "data": "Name, E-Mail-Adresse, Telefonnummer, optionale Nachricht, gewählte Leistung und gewähltes Zeitfenster, Sprache der Website.",
+        "purpose": "Ihre Anfrage erfassen und bearbeiten, Ihnen Bestätigungen, Änderungen und Stornierungen per E-Mail senden und es Ihnen ermöglichen, Ihren Termin selbst zu ändern oder zu stornieren.",
+        "basis": "Vorvertragliche Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 Buchst. b DSGVO)."
+      },
+      "contact": {
+        "title": "Kontaktformular",
+        "data": "Vorname, Nachname, E-Mail-Adresse, Telefonnummer (optional), Betreff und Nachricht.",
+        "purpose": "Ihre Anfrage beantworten.",
+        "basis": "Berechtigtes Interesse an der Beantwortung eingehender Anfragen (Art. 6 Abs. 1 Buchst. f DSGVO)."
+      },
+      "security": {
+        "title": "Sicherheit der Website",
+        "data": "IP-Adresse und E-Mail-Adresse (vorübergehende Zähler), Anti-Roboter-Prüfung.",
+        "purpose": "Die Formulare vor automatisierten Absendungen und Missbrauch schützen.",
+        "basis": "Berechtigtes Interesse an der Sicherheit der Website (Art. 6 Abs. 1 Buchst. f DSGVO)."
+      }
+    },
+    "retention": {
+      "title": "Aufbewahrungsfristen",
+      "appointmentsUnset": "Die Daten eines Termins werden so lange aufbewahrt, wie es für seine Abwicklung und die Pflege unserer Beziehung erforderlich ist, und anschließend gelöscht oder anonymisiert. Sie können jederzeit ihre Löschung verlangen.",
+      "appointments": "Die Daten eines Termins werden {months, plural, one {# Monat} other {# Monate}} nach dem Termin anonymisiert. Sie können ihre Löschung auch früher verlangen.",
+      "contact": "Über das Kontaktformular gesendete Nachrichten werden nicht auf der Website gespeichert: Sie werden per E-Mail an unser Team weitergeleitet, das sie so lange aufbewahrt, wie es für die Bearbeitung Ihrer Anfrage nötig ist.",
+      "security": "Sicherheitszähler (IP-Adresse, E-Mail-Adresse) werden nach 24 Stunden automatisch gelöscht."
+    },
+    "processors": {
+      "title": "Empfänger und Auftragsverarbeiter",
+      "intro": "Ihre Daten werden niemals verkauft. Wir setzen Dienstleister ein, die sie in unserem Auftrag verarbeiten:",
+      "supabase": "Speicherung der Termine und Verwaltung der Konten des Teams",
+      "resend": "Versand von E-Mails (Bestätigungen, Eingangsbestätigungen)",
+      "cloudinary": "Hosting der Fotos und Videos der Website",
+      "cloudflare": "Anti-Roboter-Prüfung der Formulare (Turnstile)",
+      "google": "Anzeige von Karten, nur wenn Sie auf „Karte anzeigen“ klicken",
+      "transfers": "Einige dieser Dienstleister können Daten außerhalb des Europäischen Wirtschaftsraums verarbeiten. In diesem Fall wird die Übermittlung durch die in der DSGVO vorgesehenen Garantien abgesichert (Angemessenheitsbeschluss oder Standardvertragsklauseln)."
+    },
+    "cookies": {
+      "title": "Cookies und lokaler Speicher",
+      "text1": "Diese Website verwendet keine Werbe-Cookies und keine Reichweitenmessung, daher ist kein Einwilligungsbanner erforderlich.",
+      "text2": "Sie speichert auf Ihrem Gerät nur, was für den Betrieb nötig ist: Ihre Einstellung für das helle oder dunkle Design, Ihre Sprache und das Schließen der WhatsApp-Hilfeblase für die Dauer Ihres Besuchs.",
+      "text3": "Die Google-Maps-Karten und die WhatsApp-Schaltfläche übermitteln keine Daten, solange Sie nicht darauf klicken."
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "intro": "Sie können jederzeit:",
+      "access": "eine Kopie der über Sie gespeicherten Daten erhalten;",
+      "rectification": "unrichtige Daten berichtigen lassen;",
+      "erasure": "deren Löschung verlangen;",
+      "restriction": "die Einschränkung ihrer Verarbeitung verlangen;",
+      "objection": "der auf unserem berechtigten Interesse beruhenden Verarbeitung widersprechen;",
+      "portability": "Ihre Daten in einem strukturierten Format erhalten.",
+      "how": "Um diese Rechte auszuüben, schreiben Sie uns an {email}. Wir antworten innerhalb eines Monats. Wir können Sie bitten, Ihre Identität nachzuweisen. Sie können einen Termin auch selbst über den per E-Mail erhaltenen Link stornieren oder verschieben."
+    },
+    "complaint": {
+      "title": "Beschwerde",
+      "text": "Wenn Sie der Ansicht sind, dass Ihre Rechte nicht eingehalten werden, können Sie eine Beschwerde bei der {authority}, {address}, {website}, {email} einreichen."
     }
   },
 
@@ -143,11 +455,12 @@
     "nav": {
       "dashboard": "Dashboard",
       "appointments": "Termine",
+      "calendar": "Kalender",
       "slots": "Zeitfenster",
       "holidays": "Feiertage",
       "permissions": "Berechtigungen",
       "services": "Leistungen",
-      "projects": "Referenzen",
+      "realisations": "Referenzen",
       "testimonials": "Bewertungen",
       "users": "Benutzer",
       "auditLogs": "Audit-Protokoll",
@@ -157,8 +470,10 @@
     "navbar": {
       "logout": "Abmelden",
       "notifications": "Benachrichtigungen",
+      "newAppointmentToast": "Neue Terminanfrage: {client}",
       "noNotifications": "Derzeit keine Benachrichtigungen",
-      "pendingAppointments": "Termine warten auf Bestätigung"
+      "pendingAppointments": "Termine warten auf Bestätigung",
+      "notificationMeta": "{service} · {date} um {time}"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -167,7 +482,74 @@
       "statAppointmentsWeek": "Termine diese Woche",
       "statPending": "Warten auf Bestätigung",
       "statBlockedSlots": "Blockierte Zeitfenster",
-      "chartTitle": "Termine — diese und nächste Woche"
+      "chartTitle": "Termine · diese und nächste Woche",
+      "noStatsAccess": "Sie haben keinen Zugriff auf die Termin-Kennzahlen. Nutzen Sie das Menü, um zu den für Sie freigegebenen Bereichen zu gelangen.",
+      "retry": "Erneut versuchen",
+      "loading": "Wird geladen",
+      "unknownService": "Unbekannter Service",
+      "stats": {
+        "title": "Kennzahlen"
+      },
+      "pending": {
+        "title": "Offene Anfragen",
+        "empty": "Keine offenen Anfragen. Alles erledigt.",
+        "meta": "{service} · {date} um {time}",
+        "confirm": "Bestätigen",
+        "cancel": "Absagen",
+        "confirmedToast": "Termin bestätigt.",
+        "cancelledToast": "Termin abgesagt.",
+        "cancelTitle": "Diesen Termin absagen?",
+        "cancelDescription": "Die Anfrage von {client} wird abgesagt und das Zeitfenster wieder freigegeben. Der Kunde wird per E-Mail informiert.",
+        "cancelConfirm": "Termin absagen",
+        "keep": "Behalten",
+        "viewAll": "Alle {count} Anfragen anzeigen"
+      },
+      "upcoming": {
+        "title": "Nächste Termine",
+        "empty": "Keine Termine in den nächsten 30 Tagen.",
+        "meta": "{service} · {time}",
+        "calendarLink": "Kalender"
+      },
+      "insights": {
+        "title": "Aktivität nach Service",
+        "period": "Vom {from} bis {to}",
+        "empty": "Keine Termine in diesem Zeitraum.",
+        "cancellationRate": "Stornoquote",
+        "cancellationDetail": "{cancelled} von {total} abgesagt",
+        "chartLabel": "Termine pro Service"
+      },
+      "freeSlots": {
+        "title": "Freie Zeitfenster",
+        "subtitle": "Nächste 7 Tage",
+        "total": "{count, plural, one {# freies Zeitfenster} other {# freie Zeitfenster}}",
+        "day": "{date}: {count, plural, =0 {keine freien Zeitfenster} one {# freies Zeitfenster} other {# freie Zeitfenster}}",
+        "none": "Keine freien Zeitfenster in den nächsten 7 Tagen: Besucher können nicht buchen. Erstellen Sie neue im Bereich Zeitfenster.",
+        "manage": "Zeitfenster verwalten"
+      }
+    },
+    "calendar": {
+      "title": "Kalender",
+      "subtitle": "Termine, blockierte Zeitfenster und Feiertage im Überblick.",
+      "loading": "Kalender wird geladen...",
+      "blockedSlot": "Blockiert · {service}",
+      "appointmentTitle": "{client} · {service}",
+      "legend": {
+        "pending": "Ausstehend",
+        "confirmed": "Bestätigt",
+        "blocked": "Blockiertes Zeitfenster",
+        "holiday": "Feiertag"
+      },
+      "toolbar": {
+        "today": "Heute",
+        "previous": "Voriger Zeitraum",
+        "next": "Nächster Zeitraum",
+        "month": "Monat",
+        "week": "Woche",
+        "day": "Tag"
+      },
+      "allDay": "Ganztägig",
+      "noEventsInRange": "Keine Ereignisse in diesem Zeitraum.",
+      "showMore": "+{total} weitere"
     },
     "appointments": {
       "title": "Termine",
@@ -191,7 +573,7 @@
       "columnStatus": "Status",
       "columnCreatedAt": "Gebucht am",
       "columnNotes": "Notizen",
-      "emptyValue": "—",
+      "emptyValue": "-",
       "confirm": "Bestätigen",
       "confirming": "Bestätigung läuft...",
       "confirmSuccess": "Termin bestätigt.",
@@ -204,7 +586,132 @@
       "cancelDialogConfirm": "Stornierung bestätigen",
       "statusPending": "Ausstehend",
       "statusConfirmed": "Bestätigt",
-      "statusCancelled": "Storniert"
+      "statusCancelled": "Storniert",
+      "cancelSuccess": "Termin storniert.",
+      "cancelDialogClose": "Schließen",
+      "searchLabel": "Suche",
+      "searchHint": "Name, E-Mail oder Telefon",
+      "sortBy": "Sortieren nach {column}",
+      "pagination": {
+        "summary": "{from} bis {to} von {total}",
+        "previous": "Zurück",
+        "next": "Weiter",
+        "page": "Seite {page} von {pages}"
+      },
+      "edit": {
+        "open": "Bearbeiten",
+        "title": "Termin bearbeiten",
+        "description": "Korrigieren Sie die Kontaktdaten oder Notizen des Kunden. Der Kunde wird nicht benachrichtigt.",
+        "close": "Schließen",
+        "submit": "Speichern",
+        "cancel": "Abbrechen",
+        "success": "Termin aktualisiert."
+      },
+      "reschedule": {
+        "open": "Verschieben",
+        "title": "Termin verschieben",
+        "description": "Wählen Sie ein neues freies Zeitfenster für diese Leistung. Der Kunde wird per E-Mail benachrichtigt.",
+        "close": "Schließen",
+        "current": "Aktuelles Zeitfenster",
+        "date": "Neues Datum",
+        "pickSlot": "Wählen Sie ein freies Zeitfenster.",
+        "submit": "Termin verschieben",
+        "cancel": "Abbrechen",
+        "success": "Termin verschoben."
+      },
+      "delete": {
+        "open": "Löschen",
+        "title": "Termin löschen",
+        "description": "Dies kann nicht rückgängig gemacht werden: Das Zeitfenster wird freigegeben und der Kunde nicht benachrichtigt. Um eine Spur zu behalten, stornieren Sie den Termin stattdessen.",
+        "confirmLabel": "Zur Bestätigung geben Sie den Namen des Kunden ein: {name}",
+        "close": "Schließen",
+        "submit": "Endgültig löschen",
+        "cancel": "Abbrechen",
+        "success": "Termin gelöscht."
+      },
+      "create": {
+        "open": "Neuer Termin",
+        "title": "Neuer Termin",
+        "description": "Der Termin wird sofort bestätigt und der Kunde erhält eine Bestätigungs-E-Mail.",
+        "close": "Schließen",
+        "serviceSection": "Leistung",
+        "service": "Leistung",
+        "servicePlaceholder": "Leistung auswählen",
+        "subService": "Teilleistung (optional)",
+        "noSubService": "Keine",
+        "slotSection": "Zeitfenster",
+        "modeLabel": "Art des Zeitfensters",
+        "modeExisting": "Freies Zeitfenster",
+        "modeAdHoc": "Einmaliges Zeitfenster",
+        "adHocHint": "Ein individuelles Zeitfenster wird erstellt und für diesen Kunden gebucht.",
+        "date": "Datum",
+        "startTime": "Beginn",
+        "endTime": "Ende",
+        "pickService": "Wählen Sie zuerst eine Leistung.",
+        "loadingSlots": "Freie Zeitfenster werden gesucht...",
+        "noSlots": "Kein freies Zeitfenster an diesem Datum.",
+        "slotsLabel": "Freie Zeitfenster",
+        "clientSection": "Kunde",
+        "name": "Vollständiger Name",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "notes": "Notizen (optional)",
+        "submit": "Erstellen und bestätigen",
+        "cancel": "Abbrechen",
+        "success": "Termin erstellt und bestätigt."
+      },
+      "details": {
+        "title": "Termindetails",
+        "description": "{service} · {date}",
+        "open": "Termindetails von {name} anzeigen",
+        "close": "Schließen",
+        "appointmentSection": "Termin",
+        "clientSection": "Kunde",
+        "status": "Status",
+        "service": "Leistung",
+        "subService": "Teilleistung",
+        "slot": "Zeitfenster",
+        "bookedOn": "Gebucht am",
+        "name": "Name",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "notes": "Notizen",
+        "noNotes": "Keine Notiz des Kunden.",
+        "reference": "Referenz",
+        "unknownService": "Leistung nicht gefunden",
+        "history": {
+          "title": "Verlauf",
+          "loading": "Verlauf wird geladen...",
+          "empty": "Für diesen Termin wurde keine Aktion erfasst.",
+          "retry": "Erneut versuchen",
+          "meta": "{actor} · {date}",
+          "fields": {
+            "reason": "Grund",
+            "slotDate": "Datum",
+            "slotStartTime": "Beginn",
+            "slotEndTime": "Ende",
+            "changedFields": "Geänderte Felder",
+            "status": "Status",
+            "slotFreed": "Zeitfenster freigegeben",
+            "adHocSlot": "Einmaliges Zeitfenster"
+          }
+        }
+      },
+      "exportColumns": {
+        "sheetName": "Termine",
+        "fileName": "termine",
+        "client": "Kunde",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "service": "Leistung",
+        "subService": "Teilleistung",
+        "date": "Datum",
+        "startTime": "Beginn",
+        "endTime": "Ende",
+        "status": "Status",
+        "notes": "Notizen",
+        "bookedOn": "Gebucht am"
+      }
     },
     "slots": {
       "title": "Zeitfenster",
@@ -214,6 +721,40 @@
       "noSlots": "Keine Zeitfenster für dieses Datum.",
       "block": "Blockieren",
       "unblock": "Freigeben",
+      "viewLabel": "Ansicht",
+      "viewDay": "Tag",
+      "viewWeek": "Woche",
+      "weekOf": "Woche vom {from} bis {to}",
+      "previousWeek": "Vorherige Woche",
+      "nextWeek": "Nächste Woche",
+      "weekCounts": "{available} frei · {booked} gebucht · {blocked} blockiert",
+      "openDay": "Details für {date} anzeigen",
+      "noSlotsWeek": "Kein Zeitfenster in dieser Woche.",
+      "bulk": {
+        "toggle": "Sammelaktionen",
+        "description": "Sie wirken auf die freien Zeitfenster des Zeitraums. Ein gebuchtes Zeitfenster wird nie geändert.",
+        "service": "Leistung",
+        "allServices": "Alle Leistungen",
+        "from": "Von",
+        "to": "Bis",
+        "windowStart": "Ab (optional)",
+        "windowEnd": "Bis (optional)",
+        "windowHint": "Das Zeitfenster gilt nur für das Blockieren.",
+        "block": "Freie Zeitfenster blockieren",
+        "delete": "Freie Zeitfenster löschen",
+        "confirmBlockTitle": "Freie Zeitfenster blockieren?",
+        "confirmBlock": "Alle freien Zeitfenster vom {from} bis {to} ({service}) werden blockiert. Gebuchte Zeitfenster bleiben unverändert.",
+        "confirmBlockButton": "Blockieren",
+        "confirmDeleteTitle": "Freie Zeitfenster löschen?",
+        "confirmDelete": "Alle freien Zeitfenster vom {from} bis {to} ({service}) werden endgültig gelöscht. Gebuchte und blockierte Zeitfenster bleiben unverändert.",
+        "confirmDeleteButton": "Löschen",
+        "close": "Schließen",
+        "cancel": "Abbrechen",
+        "blocked": "{count} Zeitfenster blockiert.",
+        "blockedWithSkipped": "{count} Zeitfenster blockiert, {skipped} bereits gebuchte Zeitfenster blieben unverändert.",
+        "deleted": "{count} Zeitfenster gelöscht.",
+        "nothing": "Kein freies Zeitfenster in diesem Zeitraum."
+      },
       "generateTitle": "Zeitfenster generieren",
       "generateFrom": "Von",
       "generateTo": "Bis",
@@ -222,7 +763,13 @@
       "duration": "Dauer (Minuten)",
       "generateSubmit": "Generieren",
       "generating": "Generiere...",
-      "noPermission": "Sie haben keine Berechtigung, Zeitfenster zu generieren. Kontaktieren Sie einen Superadmin."
+      "noPermission": "Sie haben keine Berechtigung, Zeitfenster zu generieren. Kontaktieren Sie einen Superadmin.",
+      "generated": "{count, plural, =0 {Keine neuen Zeitfenster} one {# Zeitfenster generiert} other {# Zeitfenster generiert}}",
+      "status": {
+        "available": "Verfügbar",
+        "booked": "Gebucht",
+        "blocked": "Blockiert"
+      }
     },
     "holidays": {
       "title": "Feiertage & Schließtage",
@@ -230,10 +777,50 @@
       "add": "Hinzufügen",
       "date": "Datum",
       "label": "Bezeichnung",
+      "endDate": "Bis (optional)",
+      "range": "Vom {from} bis {to}",
+      "importTitle": "Belgische Feiertage",
+      "importDescription": "Fügt die gesetzlichen Feiertage des Jahres hinzu. Bereits vorhandene werden nicht doppelt angelegt.",
+      "importYear": "Jahr",
+      "importSubmit": "Importieren",
+      "imported": "{count} Feiertage importiert.",
+      "importedNone": "Die Feiertage von {year} sind bereits vorhanden.",
+      "importedWithConflicts": "{count} bestehende Termine fallen auf diese Tage: Bitte verschieben oder stornieren Sie sie.",
+      "addedCancelled": "Urlaub hinzugefügt, {cancelled} Termine storniert.",
+      "addedCancelledPartial": "Urlaub hinzugefügt. {cancelled} Termine storniert, {failed} konnten nicht storniert werden.",
+      "belgian": {
+        "newYear": "Neujahr",
+        "easterMonday": "Ostermontag",
+        "labourDay": "Tag der Arbeit",
+        "ascension": "Christi Himmelfahrt",
+        "whitMonday": "Pfingstmontag",
+        "nationalDay": "Belgischer Nationalfeiertag",
+        "assumption": "Mariä Himmelfahrt",
+        "allSaints": "Allerheiligen",
+        "armistice": "Waffenstillstandstag",
+        "christmas": "Weihnachten"
+      },
+      "conflicts": {
+        "title": "Bereits gebuchte Termine in diesem Zeitraum",
+        "description": "{count} Termine fallen auf diesen Urlaub. Was möchten Sie tun?",
+        "close": "Schließen",
+        "reasonLabel": "Nachricht an die Kunden (optional)",
+        "reasonPlaceholder": "Z. B.: Wir haben wegen Betriebsurlaub geschlossen.",
+        "noCancelRight": "Sie dürfen keine Termine stornieren: Sie können den Urlaub anlegen, ohne sie zu ändern.",
+        "abort": "Zurück",
+        "ignoreAndCreate": "Anlegen, ohne die Termine zu ändern",
+        "cancelAndCreate": "Termine stornieren und anlegen"
+      },
       "recurring": "Jährlich wiederkehrend",
       "delete": "Löschen",
       "confirmDelete": "Diesen Feiertag löschen?",
-      "empty": "Kein Feiertag erfasst."
+      "empty": "Kein Feiertag erfasst.",
+      "added": "Feiertag hinzugefügt."
+    },
+    "forbidden": {
+      "title": "Zugriff verweigert",
+      "description": "Sie haben keine Berechtigung, diese Seite anzusehen. Wenden Sie sich an einen Superadmin, falls Sie einen Fehler vermuten.",
+      "back": "Zurück zum Dashboard"
     },
     "permissions": {
       "title": "Berechtigungen",
@@ -241,11 +828,484 @@
       "superadminNotice": "Der Superadmin hat immer alle Rechte — diese Tabelle betrifft nur Admin-Konten.",
       "columnAdmin": "Administrator",
       "saved": "Berechtigungen aktualisiert.",
-      "save": "Speichern"
+      "save": "Speichern",
+      "loading": "Laden...",
+      "noAdmins": "Kein Admin-Konto zu konfigurieren. Laden Sie eines auf der Seite Benutzer ein.",
+      "inactive": "Deaktiviert",
+      "columnDomain": "Bereich",
+      "matrixCaption": "Rechte des ausgewählten Administrators, nach Bereich und Aktion",
+      "notApplicable": "Nicht zutreffend",
+      "reset": "Auf Standard zurücksetzen",
+      "unsaved": "{count, plural, one {# nicht gespeicherte Änderung} other {# nicht gespeicherte Änderungen}}",
+      "upToDate": "Keine ausstehenden Änderungen.",
+      "presets": {
+        "title": "Vorlagen:",
+        "readOnly": "Nur Lesen",
+        "standard": "Standard",
+        "manager": "Manager"
+      },
+      "discard": {
+        "title": "Änderungen verwerfen?",
+        "description": "Nicht gespeicherte Änderungen für diesen Administrator gehen verloren.",
+        "confirm": "Verwerfen",
+        "cancel": "Weiter bearbeiten"
+      },
+      "domains": {
+        "appointments": "Termine",
+        "slots": "Zeitfenster",
+        "holidays": "Feiertage & Schließtage",
+        "services": "Leistungen",
+        "projects": "Referenzen",
+        "testimonials": "Bewertungen",
+        "settings": "Einstellungen",
+        "audit_logs": "Audit-Protokoll"
+      },
+      "actions": {
+        "view": "Ansehen",
+        "create": "Erstellen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "export": "Exportieren"
+      }
     },
     "services": { "title": "Leistungsverwaltung", "add": "Leistung hinzufügen", "edit": "Bearbeiten", "delete": "Löschen", "confirmDelete": "Löschen bestätigen?" },
-    "users": { "title": "Benutzerverwaltung", "role": "Rolle", "permissions": "Berechtigungen" },
-    "auditLogs": { "title": "Audit-Protokoll", "actor": "Akteur", "action": "Aktion", "target": "Ziel", "date": "Datum" }
+    "catalog": {
+      "title": "Leistungsverwaltung",
+      "subtitle": "Erstellen und ordnen Sie die auf der Website angezeigten und buchbaren Leistungen.",
+      "add": "Leistung hinzufügen",
+      "loading": "Wird geladen...",
+      "retry": "Erneut versuchen",
+      "empty": "Noch keine Leistungen.",
+      "emptyFiltered": "Keine Leistung entspricht diesen Filtern.",
+      "search": "Leistung suchen...",
+      "filterStatus": "Nach Status filtern",
+      "status": { "all": "Alle", "active": "Aktiv", "inactive": "Archiviert" },
+      "counts": "{media, plural, =0 {keine Medien} one {# Medium} other {# Medien}} · {subs, plural, =0 {keine Teilleistung} one {# Teilleistung} other {# Teilleistungen}}",
+      "reorderHint": "Ziehen Sie die Zeilen per Drag-and-drop oder nutzen Sie die Pfeile, um die Reihenfolge zu ändern.",
+      "reorderDisabled": "Die Reihenfolge kann nur ohne aktive Suche oder aktiven Filter geändert werden.",
+      "dragHandle": "Verschieben",
+      "moveUp": "Nach oben",
+      "moveDown": "Nach unten",
+      "actions": {
+        "edit": "Bearbeiten",
+        "preview": "Auf der Website ansehen",
+        "archive": "Archivieren",
+        "restore": "Erneut veröffentlichen",
+        "delete": "Löschen"
+      },
+      "confirm": {
+        "confirm": "Bestätigen",
+        "cancel": "Abbrechen",
+        "archive": {
+          "title": "Diese Leistung archivieren?",
+          "description": "„{name}“ verschwindet von der Website und aus der Buchung. Bestehende Termine bleiben erhalten."
+        },
+        "restore": {
+          "title": "Diese Leistung erneut veröffentlichen?",
+          "description": "„{name}“ ist wieder auf der Website sichtbar und buchbar."
+        },
+        "delete": {
+          "title": "Diese Leistung endgültig löschen?",
+          "description": "„{name}“, ihre Teilleistungen und Medien werden gelöscht. Das kann nicht rückgängig gemacht werden. Archivieren Sie lieber, wenn Kunden sie bereits gebucht haben."
+        }
+      },
+      "toast": {
+        "created": "Leistung erstellt. Fügen Sie ein Titelbild hinzu, um sie zu veröffentlichen.",
+        "updated": "Leistung aktualisiert.",
+        "archived": "Leistung archiviert.",
+        "restored": "Leistung erneut veröffentlicht.",
+        "deleted": "Leistung gelöscht.",
+        "subServiceSaved": "Teilleistung gespeichert.",
+        "subServiceDeleted": "Teilleistung gelöscht.",
+        "mediaAdded": "Medium hinzugefügt.",
+        "mediaRemoved": "Medium gelöscht.",
+        "coverChanged": "Titelbild aktualisiert."
+      },
+      "form": {
+        "createTitle": "Neue Leistung",
+        "editTitle": "Leistung bearbeiten",
+        "backToList": "Zurück zu den Leistungen",
+        "save": "Speichern",
+        "create": "Leistung erstellen",
+        "saving": "Wird gespeichert...",
+        "readOnly": "Sie können diese Leistung ansehen, aber nicht bearbeiten.",
+        "tabs": { "fr": "Français", "en": "English", "de": "Deutsch" },
+        "required": "erforderlich",
+        "completeness": "Übersetzungen: {done}/{total} vollständig",
+        "tabComplete": "vollständig",
+        "tabIncomplete": "unvollständig",
+        "fallbackNote": "Ein leerer Text wird in dieser Sprache auf der Website auf Französisch angezeigt.",
+        "name": "Name",
+        "shortDescription": "Kurzbeschreibung",
+        "fullDescription": "Vollständige Beschreibung",
+        "slug": "URL-Kennung",
+        "slugHint": "Wird aus dem französischen Namen abgeleitet, wenn leer. Nach der Erstellung nicht änderbar.",
+        "slugLocked": "Nach der Erstellung gesperrt (sie ist Teil der öffentlichen URLs).",
+        "icon": "Symbol"
+      },
+      "iconPicker": {
+        "search": "Symbol suchen...",
+        "none": "Kein Symbol gefunden.",
+        "selected": "Ausgewähltes Symbol: {name}"
+      },
+      "subServices": {
+        "title": "Teilleistungen",
+        "empty": "Keine Teilleistungen.",
+        "add": "Teilleistung hinzufügen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "name": "Name",
+        "description": "Beschreibung",
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "deleteTitle": "Diese Teilleistung löschen?",
+        "deleteDescription": "„{name}“ wird gelöscht. Termine, die darauf verweisen, bleiben erhalten.",
+        "saveFirst": "Speichern Sie zuerst die Leistung, um ihre Teilleistungen zu verwalten."
+      },
+      "media": {
+        "title": "Medien",
+        "hint": "Bilder (JPEG, PNG, WebP, AVIF) bis {imageMax} MB, Videos (MP4, MOV, WebM) bis {videoMax} MB.",
+        "upload": "Dateien hinzufügen",
+        "uploading": "{name} wird hochgeladen...",
+        "empty": "Keine Medien. Fügen Sie mindestens ein Bild hinzu, um die Leistung zu veröffentlichen.",
+        "cover": "Titelbild",
+        "makeCover": "Als Titelbild festlegen",
+        "remove": "Löschen",
+        "moveEarlier": "Nach vorne",
+        "moveLater": "Nach hinten",
+        "video": "Video",
+        "imageAlt": "Bild {index} von {name}",
+        "removeTitle": "Dieses Medium löschen?",
+        "removeDescription": "Die Datei wird auch aus dem Speicher gelöscht. Das kann nicht rückgängig gemacht werden.",
+        "uploadFailed": "Das Hochladen von {name} ist fehlgeschlagen.",
+        "saveFirst": "Speichern Sie zuerst die Leistung, um Medien hinzuzufügen."
+      }
+    },
+    "realisations": {
+      "title": "Referenzen",
+      "subtitle": "Verwalten Sie die Fotos und Videos der Referenzseite der Website, Leistung für Leistung.",
+      "search": "Leistung suchen...",
+      "loading": "Wird geladen...",
+      "retry": "Erneut versuchen",
+      "empty": "Noch keine Leistungen.",
+      "emptyFiltered": "Keine Leistung entspricht dieser Suche.",
+      "photos": "{count, plural, =0 {keine Fotos} one {# Foto} other {# Fotos}}",
+      "videos": "{count, plural, =0 {keine Videos} one {# Video} other {# Videos}}",
+      "archived": "Archiviert",
+      "archivedHint": "Archivierte Leistung: Ihre Medien werden auf der Website nicht angezeigt.",
+      "manage": "Medien verwalten",
+      "backToList": "Zurück zu den Referenzen",
+      "viewOnSite": "Seite auf der Website ansehen",
+      "serviceHint": "Diese Medien werden auf der Referenzseite, auf der Startseite und auf der Leistungsseite angezeigt."
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "subtitle": "Kontaktdaten, Standorte, Öffnungszeiten und Buchungsregeln des Unternehmens. Änderungen gelten für die Website, sobald Sie speichern.",
+      "loading": "Wird geladen...",
+      "readOnly": "Sie können diese Einstellungen einsehen, aber nicht ändern.",
+      "save": "Speichern",
+      "saving": "Wird gespeichert...",
+      "toast": { "saved": "Einstellungen gespeichert." },
+      "tabs": { "fr": "Français", "en": "English", "de": "Deutsch" },
+      "fallbackNote": "Ist dieser Text leer, wird die französische Version angezeigt.",
+      "sections": {
+        "contact": { "title": "Kontaktdaten", "description": "Auf der Website angezeigt (Fußzeile, Kontaktseite). Leer lassen, um eine Zeile auszublenden." },
+        "social": { "title": "Soziale Netzwerke", "description": "Vollständige Adresse jeder Seite. Ein leerer Link wird nicht angezeigt." },
+        "hours": { "title": "Öffnungszeiten", "description": "Freitext, in jeder Sprache übersetzbar." },
+        "sites": { "title": "Standorte", "description": "Die Adressen des Unternehmens. Genau ein Standort ist der Hauptstandort." },
+        "notifications": { "title": "Interne Benachrichtigungen", "description": "Adresse, die bei jeder neuen Terminanfrage, Stornierung oder Verschiebung eine E-Mail erhält." },
+        "booking": { "title": "Online-Buchung", "description": "Regeln für Besucher, die einen Termin buchen." }
+      },
+      "fields": {
+        "phone": "Telefon",
+        "mobile": "Mobil / WhatsApp",
+        "email": "Kontakt-E-Mail",
+        "website": "Website",
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+        "linkedin": "LinkedIn",
+        "openingHours": "Zeiten",
+        "adminNotificationEmail": "Benachrichtigungs-E-Mail"
+      },
+      "sites": {
+        "siteTitle": "Standort {number}",
+        "name": "Name",
+        "street": "Straße und Hausnummer",
+        "postalCode": "Postleitzahl",
+        "city": "Stadt",
+        "country": "Land",
+        "primary": "Hauptstandort",
+        "add": "Standort hinzufügen",
+        "remove": "Entfernen"
+      },
+      "booking": {
+        "minNotice": "Mindestvorlauf (Minuten)",
+        "minNoticeHint": "Vor Beginn eines Zeitfensters, in Minuten.",
+        "horizon": "Zeithorizont (Tage)",
+        "horizonHint": "Wie viele Tage im Voraus Besucher buchen können.",
+        "maxUpcoming": "Termine pro E-Mail",
+        "maxUpcomingHint": "Anstehende Termine, die für dieselbe Adresse erlaubt sind.",
+        "confirmationMode": "Bestätigung der Anfragen",
+        "confirmationHint": "Automatisch: Der Termin wird sofort bei der Buchung bestätigt. Manuell: Er bleibt ausstehend, bis das Team ihn freigibt.",
+        "modes": { "manual": "Manuell (das Team gibt frei)", "auto": "Automatisch" },
+        "defaultSlotMinutes": "Dauer eines Zeitfensters (Minuten)",
+        "defaultStartTime": "Tagesbeginn",
+        "defaultEndTime": "Tagesende",
+        "defaultsHint": "Diese drei Werte füllen das Formular zur Erzeugung von Zeitfenstern vor."
+      }
+    },
+    "testimonials": {
+      "title": "Kundenstimmen",
+      "subtitle": "Verwalten Sie die auf der Website angezeigten Kundenbewertungen. Nur veröffentlichte Kundenstimmen sind sichtbar.",
+      "add": "Kundenstimme hinzufügen",
+      "loading": "Wird geladen...",
+      "retry": "Erneut versuchen",
+      "empty": "Noch keine Kundenstimmen.",
+      "emptyFiltered": "Keine Kundenstimme entspricht diesen Filtern.",
+      "search": "Kundenstimme suchen...",
+      "filterStatus": "Nach Status filtern",
+      "status": { "all": "Alle", "published": "Veröffentlicht", "draft": "Entwurf" },
+      "rating": "{rating}/5",
+      "reorderHint": "Ziehen Sie die Zeilen oder nutzen Sie die Pfeile, um die Anzeigereihenfolge zu ändern.",
+      "reorderDisabled": "Die Reihenfolge kann nur ohne aktive Suche oder Filter geändert werden.",
+      "actions": {
+        "edit": "Bearbeiten",
+        "publish": "Veröffentlichen",
+        "unpublish": "Zurück zum Entwurf",
+        "delete": "Löschen"
+      },
+      "confirm": {
+        "confirm": "Bestätigen",
+        "cancel": "Abbrechen",
+        "delete": {
+          "title": "Diese Kundenstimme endgültig löschen?",
+          "description": "Die Kundenstimme von {name} wird gelöscht. Dies kann nicht rückgängig gemacht werden. Nutzen Sie lieber den Entwurf, um sie von der Website zu nehmen, ohne sie zu verlieren."
+        }
+      },
+      "toast": {
+        "created": "Kundenstimme als Entwurf erstellt.",
+        "updated": "Kundenstimme aktualisiert.",
+        "published": "Kundenstimme veröffentlicht.",
+        "unpublished": "Kundenstimme wieder als Entwurf gespeichert.",
+        "deleted": "Kundenstimme gelöscht."
+      },
+      "form": {
+        "createTitle": "Neue Kundenstimme",
+        "editTitle": "Kundenstimme bearbeiten",
+        "backToList": "Zurück zu den Kundenstimmen",
+        "save": "Speichern",
+        "create": "Kundenstimme erstellen",
+        "saving": "Wird gespeichert...",
+        "readOnly": "Sie können diese Kundenstimme ansehen, aber nicht bearbeiten.",
+        "tabs": { "fr": "Français", "en": "English", "de": "Deutsch" },
+        "required": "Pflichtfeld",
+        "completeness": "Übersetzungen: {done}/{total} vollständig",
+        "tabComplete": "vollständig",
+        "tabIncomplete": "unvollständig",
+        "fallbackNote": "Ein leerer Text wird auf der Website in dieser Sprache auf Französisch angezeigt.",
+        "content": "Kundenstimme",
+        "authorName": "Name des Autors",
+        "authorLocation": "Ort",
+        "rating": "Bewertung",
+        "ratingOption": "{count, plural, one {# Stern} other {# Sterne}}",
+        "date": "Datum der Bewertung"
+      }
+    },
+    "users": {
+      "title": "Benutzer",
+      "subtitle": "Laden Sie Teammitglieder ein und verwalten Sie deren Rolle und Zugriff auf das Dashboard.",
+      "search": "Nach Name oder E-Mail suchen...",
+      "invite": "Einladen",
+      "loading": "Laden...",
+      "empty": "Kein passender Benutzer.",
+      "you": "Sie",
+      "cancel": "Abbrechen",
+      "createdOn": "Erstellt am {date}",
+      "roles": { "admin": "Admin", "superadmin": "Superadmin" },
+      "status": { "active": "Aktiv", "inactive": "Deaktiviert" },
+      "filters": {
+        "role": "Nach Rolle filtern",
+        "status": "Nach Status filtern",
+        "allRoles": "Alle Rollen",
+        "allStatuses": "Alle Status"
+      },
+      "actions": {
+        "resend": "Einladung erneut senden",
+        "makeAdmin": "Zum Admin machen",
+        "makeSuperadmin": "Zum Superadmin machen",
+        "deactivate": "Deaktivieren",
+        "reactivate": "Reaktivieren"
+      },
+      "inviteDialog": {
+        "title": "Benutzer einladen",
+        "description": "Per E-Mail wählt die Person ihr Passwort und startet mit den Standardrechten ihrer Rolle.",
+        "fullName": "Vollständiger Name",
+        "email": "E-Mail",
+        "role": "Rolle",
+        "submit": "Einladung senden",
+        "close": "Schließen"
+      },
+      "confirm": {
+        "confirm": "Bestätigen",
+        "deactivate": {
+          "title": "Dieses Konto deaktivieren?",
+          "description": "{name} kann sich nicht mehr anmelden oder im Dashboard handeln. Der Verlauf bleibt erhalten."
+        },
+        "reactivate": {
+          "title": "Dieses Konto reaktivieren?",
+          "description": "{name} erhält mit den aktuellen Rechten wieder Zugriff auf das Dashboard."
+        },
+        "resend": {
+          "title": "Einladung erneut senden?",
+          "description": "{name} erhält einen neuen Link, um ein Passwort zu wählen."
+        },
+        "role": {
+          "title": "Rolle ändern?",
+          "description": "Die Rolle von {name} wird geändert und die Berechtigungen werden auf die Standardwerte zurückgesetzt."
+        }
+      },
+      "toast": {
+        "invited": "Einladung gesendet.",
+        "resend": "Einladung erneut gesendet.",
+        "role": "Rolle aktualisiert.",
+        "deactivate": "Konto deaktiviert.",
+        "reactivate": "Konto reaktiviert."
+      }
+    },
+    "auditLogs": {
+      "title": "Audit-Protokoll",
+      "subtitle": "Verlauf der auf der Plattform durchgeführten Aktionen. Einträge können weder geändert noch gelöscht werden.",
+      "loading": "Laden...",
+      "retry": "Erneut versuchen",
+      "empty": "Kein Eintrag entspricht diesen Filtern.",
+      "emptyValue": "—",
+      "loadMore": "Ältere Einträge laden",
+      "endOfLog": "Ende des Protokolls.",
+      "viewDetails": "Details anzeigen",
+      "filterByActor": "Nach diesem Akteur filtern",
+      "filterByTarget": "Nach diesem Ziel filtern",
+      "unknownActor": "Unbekanntes oder nicht sichtbares Konto",
+      "anonymousActor": "Anonymer Besucher",
+      "systemActor": "System",
+      "filters": {
+        "title": "Protokollfilter",
+        "role": "Rolle",
+        "action": "Aktion",
+        "targetType": "Zieltyp",
+        "targetId": "Kennung des Ziels",
+        "targetIdPlaceholder": "Kennung, E-Mail...",
+        "dateFrom": "Von",
+        "dateTo": "Bis",
+        "allRoles": "Alle Rollen",
+        "allActions": "Alle Aktionen",
+        "allTargetTypes": "Alle Ziele",
+        "apply": "Anwenden",
+        "reset": "Zurücksetzen",
+        "invalidPeriod": "Das Startdatum muss vor dem Enddatum liegen.",
+        "actorChip": "Akteur: {name}",
+        "removeActor": "Akteurfilter entfernen"
+      },
+      "columns": {
+        "date": "Datum",
+        "actor": "Akteur",
+        "action": "Aktion",
+        "target": "Ziel",
+        "ip": "IP-Adresse",
+        "details": "Details"
+      },
+      "actorRoles": {
+        "superadmin": "Superadmin",
+        "admin": "Admin",
+        "client": "Besucher",
+        "system": "System"
+      },
+      "targetTypes": {
+        "appointment": "Termin",
+        "slot": "Zeitfenster",
+        "holiday": "Feiertag",
+        "service": "Leistung",
+        "user": "Benutzer",
+        "auth": "Authentifizierung",
+        "testimonial": "Kundenstimme",
+        "settings": "Einstellungen",
+        "audit_log": "Audit-Protokoll"
+      },
+      "actions": {
+        "APPOINTMENT_CREATED": "Termin angefragt",
+        "APPOINTMENT_CREATED_BY_ADMIN": "Termin vom Team erstellt",
+        "APPOINTMENT_RESCHEDULED": "Termin verschoben",
+        "SLOTS_BLOCKED_IN_RANGE": "Zeitfenster gesammelt blockiert",
+        "SLOTS_DELETED": "Zeitfenster gelöscht",
+        "APPOINTMENT_UPDATED": "Kontaktdaten geändert",
+        "APPOINTMENT_CONFIRMED": "Termin bestätigt",
+        "APPOINTMENT_CANCELLED": "Termin storniert",
+        "APPOINTMENT_DELETED": "Termin gelöscht",
+        "SLOT_CREATED": "Zeitfenster generiert",
+        "SLOT_BLOCKED": "Zeitfenster blockiert",
+        "SLOT_UNBLOCKED": "Zeitfenster freigegeben",
+        "HOLIDAY_CREATED": "Feiertag hinzugefügt",
+        "HOLIDAY_DELETED": "Feiertag gelöscht",
+        "SERVICE_CREATED": "Leistung erstellt",
+        "SERVICE_UPDATED": "Leistung geändert",
+        "TESTIMONIAL_CREATED": "Kundenstimme erstellt",
+        "TESTIMONIAL_UPDATED": "Kundenstimme geändert",
+        "TESTIMONIAL_DELETED": "Kundenstimme gelöscht",
+        "SETTINGS_UPDATED": "Einstellungen geändert",
+        "SERVICE_DELETED": "Leistung gelöscht",
+        "USER_INVITED": "Benutzer eingeladen",
+        "USER_INVITATION_RESENT": "Einladung erneut gesendet",
+        "USER_DEACTIVATED": "Konto deaktiviert",
+        "USER_REACTIVATED": "Konto reaktiviert",
+        "USER_ROLE_UPDATED": "Rolle geändert",
+        "USER_PERMISSIONS_UPDATED": "Berechtigungen geändert",
+        "AUTH_LOGIN": "Anmeldung",
+        "AUTH_LOGOUT": "Abmeldung",
+        "AUTH_LOGIN_FAILED": "Fehlgeschlagene Anmeldung",
+        "AUTH_PASSWORD_CHANGED": "Passwort geändert",
+        "EMAIL_SENT": "E-Mail gesendet",
+        "CLIENT_DATA_ERASED": "Kundendaten gelöscht",
+        "APPOINTMENTS_ANONYMIZED": "Termine anonymisiert (Aufbewahrung)",
+        "EXPORT_GENERATED": "Export erstellt"
+      },
+      "details": {
+        "title": "Details des Eintrags",
+        "description": "{action} — {date}",
+        "close": "Schließen",
+        "actor": "Akteur",
+        "role": "Rolle",
+        "action": "Aktion",
+        "target": "Ziel",
+        "ip": "IP-Adresse",
+        "metadataTitle": "Erfasste Informationen",
+        "noMetadata": "Für diese Aktion wurden keine weiteren Informationen erfasst.",
+        "rawJson": "Rohdaten (JSON)",
+        "granted": "Gewährt",
+        "revoked": "Entzogen",
+        "yes": "Ja",
+        "no": "Nein",
+        "emptyList": "(leer)"
+      },
+      "export": {
+        "csv": "Als CSV exportieren",
+        "exporting": "Export läuft...",
+        "empty": "Kein Eintrag zum Exportieren.",
+        "success": "Export abgeschlossen: {count, plural, one {# Eintrag} other {# Einträge}}.",
+        "truncated": "Export auf die {max} neuesten Einträge begrenzt.",
+        "fileName": "audit-protokoll",
+        "columns": {
+          "date": "Datum",
+          "actor": "Akteur",
+          "email": "E-Mail des Akteurs",
+          "role": "Rolle",
+          "action": "Aktion",
+          "actionCode": "Aktionscode",
+          "targetType": "Zieltyp",
+          "targetId": "Kennung des Ziels",
+          "ip": "IP-Adresse",
+          "details": "Details"
+        }
+      }
+    }
   },
 
   "login": {
@@ -256,7 +1316,49 @@
     "submit": "Anmelden",
     "submitting": "Anmeldung läuft...",
     "error": "Falsche E-Mail oder falsches Passwort.",
-    "backHome": "Zurück zur Website"
+    "backHome": "Zurück zur Website",
+    "emailInvalid": "Ungültige E-Mail-Adresse.",
+    "passwordRequired": "Das Passwort ist erforderlich."
+  },
+
+  "auth": {
+    "forgotPassword": "Passwort vergessen?",
+    "linkInvalid": "Dieser Link ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen an.",
+    "forgot": {
+      "title": "Passwort vergessen",
+      "subtitle": "Geben Sie Ihre E-Mail-Adresse ein: Falls ein Konto existiert, erhalten Sie einen Link, um ein neues Passwort zu wählen.",
+      "email": "E-Mail",
+      "submit": "Link senden",
+      "submitting": "Wird gesendet...",
+      "sentTitle": "Prüfen Sie Ihr Postfach",
+      "sentMessage": "Falls ein Konto zu dieser Adresse gehört, wurde soeben ein Link zum Zurücksetzen gesendet. Er ist nur begrenzt gültig.",
+      "backToLogin": "Zurück zur Anmeldung"
+    },
+    "reset": {
+      "title": "Neues Passwort",
+      "subtitle": "Wählen Sie ein neues Passwort für Ihr Konto.",
+      "success": "Passwort aktualisiert."
+    },
+    "invite": {
+      "title": "Willkommen bei BYB",
+      "subtitle": "Wählen Sie das Passwort für Ihr Administratorkonto.",
+      "success": "Konto aktiviert."
+    },
+    "setPassword": {
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "hint": "Mindestens 10 Zeichen, mit mindestens einem Buchstaben und einer Ziffer.",
+      "submit": "Passwort speichern",
+      "submitting": "Wird gespeichert..."
+    },
+    "account": {
+      "title": "Mein Konto",
+      "subtitle": "Verwalten Sie die Sicherheit Ihres Kontos.",
+      "menuLabel": "Mein Konto",
+      "currentPassword": "Aktuelles Passwort",
+      "submit": "Passwort ändern",
+      "success": "Passwort geändert."
+    }
   },
 
   "common": {
@@ -275,6 +1377,13 @@
     "learnMore": "Mehr erfahren",
     "seeAll": "Alle anzeigen",
     "close": "Schließen",
+    "language": {
+      "label": "Sprache",
+      "switchTo": "Wechseln zu {language}",
+      "fr": "Français",
+      "en": "English",
+      "de": "Deutsch"
+    },
     "search": "Suchen",
     "filter": "Filtern",
     "export": "Exportieren",
@@ -290,6 +1399,41 @@
 
   "legal": {
     "pageTitle": "Impressum",
+    "pageDescription": "Impressum von BYB Construction: Herausgeber der Website, Kontaktdaten und rechtliche Angaben.",
+    "publisher": {
+      "title": "Herausgeber der Website",
+      "name": "Firmenname",
+      "legalForm": "Rechtsform",
+      "vat": "Unternehmensnummer (BCE/KBO) und MwSt.-Nummer",
+      "address": "Firmensitz",
+      "otherSites": "Weitere Standorte",
+      "email": "E-Mail",
+      "phone": "Telefon"
+    },
+    "host": {
+      "title": "Hosting",
+      "intro": "Diese Website wird gehostet von:"
+    },
+    "intellectualProperty": {
+      "title": "Geistiges Eigentum",
+      "text": "Alle Inhalte dieser Website (Texte, Bilder, Videos, Logos) sind Eigentum von {company} oder werden mit Genehmigung der Rechteinhaber verwendet und durch das geltende Recht zum Schutz des geistigen Eigentums geschützt. Jede Vervielfältigung ohne vorherige schriftliche Genehmigung ist untersagt."
+    },
+    "liability": {
+      "title": "Haftung",
+      "text": "Die auf dieser Website veröffentlichten Informationen sind unverbindlich und können jederzeit geändert werden. Sie stellen kein vertragliches Angebot dar."
+    },
+    "personalData": {
+      "title": "Personenbezogene Daten",
+      "text": "Die Verarbeitung Ihrer personenbezogenen Daten ist in unserer <link>Datenschutzerklärung</link> beschrieben."
+    },
+    "mediation": {
+      "title": "Außergerichtliche Streitbeilegung",
+      "intro": "Im Streitfall können Sie sich wenden an:"
+    },
+    "law": {
+      "title": "Anwendbares Recht",
+      "text": "Diese Website unterliegt belgischem Recht."
+    },
     "privacyTitle": "Datenschutzerklärung"
   },
 
@@ -298,6 +1442,98 @@
     "notFoundDescription": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
     "backHome": "Zur Startseite",
     "unauthorized": "Nicht autorisiert",
-    "unauthorizedDescription": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen."
+    "unauthorizedDescription": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen.",
+    "validation": {
+      "invalid": "Ungültiger Wert.",
+      "phoneInvalid": "Ungültige Telefonnummer.",
+      "slotInvalid": "Ungültiges Zeitfenster.",
+      "serviceInvalid": "Ungültige Leistung.",
+      "subServiceInvalid": "Ungültige Teilleistung.",
+      "appointmentInvalid": "Ungültiger Termin.",
+      "linkInvalid": "Ungültiger Link.",
+      "nameTooShort": "Der Name muss mindestens 2 Zeichen lang sein.",
+      "nameTooLong": "Der Name darf 100 Zeichen nicht überschreiten.",
+      "emailInvalid": "Ungültige E-Mail-Adresse.",
+      "subjectTooShort": "Der Betreff muss mindestens 3 Zeichen lang sein.",
+      "subjectTooLong": "Der Betreff darf höchstens 150 Zeichen lang sein.",
+      "subjectInvalid": "Der Betreff muss in eine einzige Zeile passen.",
+      "messageTooShort": "Ihre Nachricht muss mindestens 10 Zeichen lang sein.",
+      "messageTooLong": "Ihre Nachricht darf höchstens 2000 Zeichen lang sein.",
+      "notesTooLong": "Maximal 500 Zeichen.",
+      "startDateInvalid": "Ungültiges Startdatum.",
+      "endDateInvalid": "Ungültiges Enddatum.",
+      "startDateAfterEnd": "Das Startdatum muss vor dem Enddatum liegen.",
+      "startTimeInvalid": "Ungültige Startzeit.",
+      "endTimeInvalid": "Ungültige Endzeit.",
+      "startTimeAfterEnd": "Die Startzeit muss vor der Endzeit liegen.",
+      "durationInvalid": "Die Dauer muss zwischen 15 und 480 Minuten liegen.",
+      "dateInvalid": "Ungültiges Datum.",
+      "labelTooShort": "Die Bezeichnung muss mindestens 2 Zeichen lang sein.",
+      "labelTooLong": "Die Bezeichnung darf 100 Zeichen nicht überschreiten.",
+      "passwordTooShort": "Das Passwort muss mindestens 10 Zeichen lang sein.",
+      "passwordTooLong": "Das Passwort darf 72 Zeichen nicht überschreiten.",
+      "passwordWeak": "Das Passwort muss mindestens einen Buchstaben und eine Ziffer enthalten.",
+      "frRequired": "Der französische Text ist erforderlich.",
+      "textTooLong": "Dieser Text ist zu lang.",
+      "iconInvalid": "Ungültiges Symbol.",
+      "slugInvalid": "Nur Kleinbuchstaben, Ziffern und Bindestriche.",
+      "testimonialInvalid": "Ungültige Kundenstimme.",
+      "ratingInvalid": "Die Bewertung muss zwischen 1 und 5 liegen.",
+      "authorNameRequired": "Der Name des Autors ist erforderlich.",
+      "fieldRequired": "Dieses Feld ist erforderlich.",
+      "rangeInvalid": "Wert außerhalb der zulässigen Grenzen.",
+      "sitesInvalid": "Es sind 1 bis 5 Standorte erforderlich, davon genau ein Hauptstandort.",
+      "mediaInvalid": "Ungültige Datei.",
+      "passwordMismatch": "Die Passwörter stimmen nicht überein."
+    },
+    "codes": {
+      "APPOINTMENT_IN_PAST": "Dieser Termin hat bereits stattgefunden und kann nicht mehr geändert werden.",
+      "SLOT_TOO_SOON": "Dieses Zeitfenster ist zu kurzfristig für eine Online-Buchung. Wählen Sie eine spätere Zeit oder rufen Sie uns an.",
+      "SLOT_TOO_FAR": "Dieses Zeitfenster ist noch nicht buchbar. Wählen Sie ein näheres Datum.",
+      "BOOKING_LIMIT_REACHED": "Für diese E-Mail-Adresse bestehen bereits mehrere kommende Termine. Stornieren oder verschieben Sie einen, bevor Sie einen neuen buchen.",
+      "EMAIL_DELIVERY_FAILED": "Ihre Nachricht konnte nicht gesendet werden. Versuchen Sie es gleich noch einmal oder rufen Sie uns an.",
+      "CAPTCHA_FAILED": "Die Anti-Roboter-Prüfung ist fehlgeschlagen. Laden Sie die Seite neu und versuchen Sie es erneut.",
+      "SLOT_NOT_FOUND": "Dieses Zeitfenster existiert nicht mehr.",
+      "SLOT_UNAVAILABLE": "Dieses Zeitfenster wurde soeben gebucht. Bitte wählen Sie ein anderes.",
+      "SLOT_ALREADY_BLOCKED": "Dieses Zeitfenster ist bereits blockiert.",
+      "HOLIDAY_CONFLICTS": "In diesem Zeitraum bestehen Termine. Wählen Sie, ob sie storniert oder ignoriert werden sollen.",
+      "SLOT_IN_PAST": "Dieses Zeitfenster liegt in der Vergangenheit. Wählen Sie ein Datum ab heute.",
+      "SLOT_OVERLAP": "Dieser Zeitraum überschneidet sich mit einem anderen Zeitfenster dieser Leistung. Wählen Sie einen anderen Zeitraum.",
+      "SLOT_NOT_BLOCKED": "Dieses Zeitfenster ist nicht blockiert.",
+      "APPOINTMENT_NOT_FOUND": "Termin nicht gefunden oder Link abgelaufen.",
+      "INVALID_STATUS_TRANSITION": "Diese Aktion ist im aktuellen Status des Termins nicht möglich.",
+      "HOLIDAY_NOT_FOUND": "Dieser Feiertag existiert nicht mehr.",
+      "ADMIN_NOT_FOUND": "Dieses Administratorkonto existiert nicht mehr.",
+      "ADMIN_ALREADY_EXISTS": "Mit dieser E-Mail-Adresse existiert bereits ein Konto.",
+      "CANNOT_MODIFY_SELF": "Sie können Ihr eigenes Konto nicht ändern.",
+      "LAST_SUPERADMIN": "Es muss immer mindestens ein aktiver Superadmin vorhanden sein.",
+      "SERVICE_NOT_FOUND": "Diese Leistung wurde nicht gefunden.",
+      "SERVICE_SLUG_TAKEN": "Diese URL-Kennung wird bereits von einer anderen Leistung verwendet.",
+      "SERVICE_HAS_APPOINTMENTS": "Für diese Leistung bestehen Termine: Archivieren Sie sie, statt sie zu löschen.",
+      "SERVICE_ORDER_INVALID": "Die gewünschte Reihenfolge passt nicht zur aktuellen Liste. Bitte laden Sie die Seite neu.",
+      "SERVICE_COVER_REQUIRED": "Eine aktive Leistung benötigt mindestens ein Titelbild.",
+      "SUB_SERVICE_NOT_FOUND": "Diese Teilleistung wurde nicht gefunden.",
+      "SUB_SERVICE_SLUG_TAKEN": "Diese URL-Kennung wird bereits von einer anderen Teilleistung dieser Leistung verwendet.",
+      "MEDIA_NOT_FOUND": "Diese Mediendatei wurde nicht gefunden.",
+      "MEDIA_TYPE_NOT_ALLOWED": "Dieser Dateityp ist nicht erlaubt.",
+      "MEDIA_TOO_LARGE": "Diese Datei überschreitet die maximal zulässige Größe.",
+      "MEDIA_FOLDER_MISMATCH": "Diese Mediendatei gehört nicht zum Ordner dieser Leistung.",
+      "TESTIMONIAL_NOT_FOUND": "Diese Kundenstimme wurde nicht gefunden.",
+      "TESTIMONIAL_ORDER_INVALID": "Die gewünschte Reihenfolge passt nicht zur aktuellen Liste. Laden Sie die Seite neu.",
+      "TESTIMONIAL_RATING_INVALID": "Die Bewertung muss zwischen 1 und 5 liegen.",
+      "SETTINGS_INVALID": "Die eingegebenen Einstellungen sind ungültig. Bitte prüfen Sie sie und versuchen Sie es erneut.",
+      "MEDIA_COVER_MUST_BE_IMAGE": "Nur ein Bild kann als Titelbild verwendet werden.",
+      "SLUG_INVALID": "Die URL-Kennung ist ungültig (nur Kleinbuchstaben, Ziffern und Bindestriche).",
+      "TRANSLATION_FR_REQUIRED": "Der französische Text ist erforderlich.",
+      "SUPERADMIN_NOT_EDITABLE": "Die Rechte eines Superadmins sind nicht änderbar: Er hat immer alle Rechte.",
+      "INVALID_CURRENT_PASSWORD": "Das aktuelle Passwort ist falsch.",
+      "ACCOUNT_DISABLED": "Dieses Konto wurde deaktiviert. Bitte wenden Sie sich an einen Superadmin.",
+      "TOO_MANY_ATTEMPTS": "Zu viele Versuche. Bitte warten Sie einige Minuten, bevor Sie es erneut versuchen.",
+      "VALIDATION_FAILED": "Die eingegebenen Angaben sind ungültig. Bitte prüfen Sie sie und versuchen Sie es erneut.",
+      "FORBIDDEN": "Sie haben keine Berechtigung, diese Aktion auszuführen.",
+      "UNAUTHENTICATED": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "INVALID_CREDENTIALS": "Falsche E-Mail oder falsches Passwort.",
+      "UNKNOWN": "Bei uns ist ein Fehler aufgetreten. Bitte versuchen Sie es gleich noch einmal oder kontaktieren Sie uns, falls das Problem weiterhin besteht."
+    }
   }
 }

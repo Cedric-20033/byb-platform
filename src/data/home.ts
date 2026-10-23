@@ -22,9 +22,9 @@ export const homeAbout: HomeAboutData = {
     {
       id: 'quality',
       label: {
-        fr: 'Artisans certifiés RGE',
-        en: 'RGE-certified craftsmen',
-        de: 'RGE-zertifizierte Handwerker',
+        fr: 'Artisans qualifiés',
+        en: 'Qualified craftsmen',
+        de: 'Qualifizierte Handwerker',
       },
     },
     {
@@ -38,9 +38,9 @@ export const homeAbout: HomeAboutData = {
     {
       id: 'certifiedMaterials',
       label: {
-        fr: 'Matériaux certifiés, normes DTU',
-        en: 'Certified materials, DTU standards',
-        de: 'Zertifizierte Materialien, DTU-Normen',
+        fr: 'Matériaux certifiés, normes en vigueur',
+        en: 'Certified materials, standards in force',
+        de: 'Zertifizierte Materialien, geltende Normen',
       },
     },
     {

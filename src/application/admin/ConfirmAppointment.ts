@@ -48,7 +48,6 @@ export class ConfirmAppointment {
 
     await this.emailProvider.send({
       to: appointment.clientEmail,
-      subject: 'Votre rendez-vous est confirmé',
       type: EmailType.APPOINTMENT_CONFIRMED_BY_ADMIN,
       data: { appointment },
     });

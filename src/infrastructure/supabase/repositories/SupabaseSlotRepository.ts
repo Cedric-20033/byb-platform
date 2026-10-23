@@ -3,10 +3,22 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import { Slot, SlotStatus } from '@/domain/slot/Slot';
 import { TimeRange } from '@/domain/shared/TimeRange';
-import type { SlotRepository } from '@/domain/slot/SlotRepository';
+import type { SlotRangeFilter, SlotRepository } from '@/domain/slot/SlotRepository';
 import { DomainError } from '@/domain/shared/DomainError';
 
 type SlotRow = Database['public']['Tables']['slots']['Row'];
+
+/**
+ * Taille maximale d'une liste d'identifiants dans un filtre `in(...)` : elle voyage dans l'URL de la requête,
+ * et une génération sur plusieurs mois peut produire des milliers de créneaux.
+ */
+const IDS_PER_REQUEST = 100;
+
+function chunk<T>(items: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let index = 0; index < items.length; index += size) chunks.push(items.slice(index, index + size));
+  return chunks;
+}
 
 /**
  * Transitions de statut autorisées en base, indexées par statut CIBLE.
@@ -50,6 +62,61 @@ export class SupabaseSlotRepository implements SlotRepository {
 
     if (error) throw new Error(error.message);
     return data.map(this.toDomain);
+  }
+
+  async findBlockedBetween(from: string, to: string): Promise<Slot[]> {
+    const { data, error } = await this.supabase
+      .from('slots')
+      .select('*')
+      .eq('status', 'blocked')
+      .gte('date', from)
+      .lte('date', to)
+      .order('date', { ascending: true })
+      .order('start_time', { ascending: true });
+
+    if (error) throw new Error(error.message);
+    return data.map(this.toDomain);
+  }
+
+  async findInRange(filter: SlotRangeFilter): Promise<Slot[]> {
+    let query = this.supabase.from('slots').select('*').gte('date', filter.from).lte('date', filter.to);
+    if (filter.serviceId) query = query.eq('service_id', filter.serviceId);
+
+    const { data, error } = await query.order('date', { ascending: true }).order('start_time', { ascending: true });
+    if (error) throw new Error(error.message);
+    return data.map(this.toDomain);
+  }
+
+  async updateStatusByIds(ids: string[], from: SlotStatus, to: SlotStatus): Promise<number> {
+    let changed = 0;
+    for (const batch of chunk(ids, IDS_PER_REQUEST)) {
+      const { data, error } = await this.supabase
+        .from('slots')
+        .update({ status: to })
+        .in('id', batch)
+        .eq('status', from)
+        .select('id');
+
+      if (error) throw new Error(error.message);
+      changed += data?.length ?? 0;
+    }
+    return changed;
+  }
+
+  async deleteByIds(ids: string[], onlyStatus: SlotStatus): Promise<number> {
+    let deleted = 0;
+    for (const batch of chunk(ids, IDS_PER_REQUEST)) {
+      const { data, error } = await this.supabase
+        .from('slots')
+        .delete()
+        .in('id', batch)
+        .eq('status', onlyStatus)
+        .select('id');
+
+      if (error) throw new Error(error.message);
+      deleted += data?.length ?? 0;
+    }
+    return deleted;
   }
 
   async save(slot: Omit<Slot, 'id'>): Promise<Slot> {

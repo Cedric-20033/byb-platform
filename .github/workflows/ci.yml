@@ -1,0 +1,141 @@
+# .github/workflows/ci.yml
+#
+# P10.5 : suite complète. Règle : aucun test rouge, et aucun test ignoré sans justification
+# (scripts/check-no-skipped-tests.mjs, liste blanche dans scripts/allowed-skips.json).
+#
+#   quality      à chaque push / PR : lint, types, tests unitaires AVEC seuils de couverture, build
+#   database     à chaque push / PR : pgTAP (RLS, RPC, contraintes)
+#   integration  à chaque push / PR : concurrence et charge légère contre une vraie base
+#   e2e          pull request, manuel et nuit : navigateur complet (build de production, base locale, jeu de données seedé)
+#
+# Le job `e2e` est déclenché par les PR depuis la première suite verte (confirmée le 2026-10-23).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, types, tests unitaires, couverture, build
+    runs-on: ubuntu-latest
+    env:
+      # Valeurs factices : suffisent à compiler ; aucune requête réelle n'est émise au build.
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      # Les seuils de vitest.config.ts font échouer cette étape si la couverture baisse (90 % domaine et application).
+      - run: npm run test:coverage -- --reporter=default --reporter=json --outputFile.json=vitest-report.json
+      - run: npm run check:skipped -- vitest vitest-report.json
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage
+          path: |
+            coverage/
+            vitest-report.json
+
+  database:
+    name: Tests base de données (pgTAP + RLS)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      # Démarre uniquement la base (migrations appliquées automatiquement), pas toute la stack.
+      - run: supabase db start
+      - run: supabase test db
+
+  integration:
+    name: Intégration (concurrence, charge légère)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      # Pile complète (PostgREST requis par supabase-js), sans les services inutiles ici.
+      - run: supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor
+      - name: Variables de la base locale
+        run: |
+          eval "$(supabase status -o env)"
+          echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL" >> "$GITHUB_ENV"
+          echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY" >> "$GITHUB_ENV"
+      - run: npm run test:integration
+
+  e2e:
+    name: Tests E2E (build de production)
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      # Comptes créés par `npm run e2e:seed` sur une base locale jetable : leurs mots de passe n'ont aucune valeur.
+      E2E_ADMIN_EMAIL: e2e-admin@byb.test
+      E2E_ADMIN_PASSWORD: E2e-Passw0rd-ci
+      E2E_SUPERADMIN_EMAIL: e2e-superadmin@byb.test
+      E2E_SUPERADMIN_PASSWORD: E2e-Passw0rd-ci
+      E2E_DISABLED_EMAIL: e2e-disabled@byb.test
+      E2E_DISABLED_PASSWORD: E2e-Passw0rd-ci
+      E2E_PRODUCTION: '1'
+      # Requises par la validation de l'environnement en production (src/lib/env.ts) ; sans effet réel ici.
+      NEXT_PUBLIC_APP_URL: https://ci.byb.test
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ci
+      CLOUDINARY_API_KEY: ci
+      CLOUDINARY_API_SECRET: ci
+      RESEND_API_KEY: re_ci_dummy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - run: supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor
+      - name: Variables de la base locale
+        run: |
+          eval "$(supabase status -o env)"
+          echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY" >> "$GITHUB_ENV"
+          echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY" >> "$GITHUB_ENV"
+      - run: npm run e2e:seed
+      # Les variables NEXT_PUBLIC_* sont figées dans le bundle au build : elles doivent exister avant.
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - name: Aucun test ignoré sans justification
+        if: always()
+        run: npm run check:skipped -- playwright playwright-results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            playwright-results.json

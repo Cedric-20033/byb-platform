@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { Star, Quote, ArrowRight, CheckCircle2 } from "lucide-react";
 import { t } from "@/lib/utils";
-import { company } from "@/data/company";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { ShowImage } from "../ui/ShowImage";

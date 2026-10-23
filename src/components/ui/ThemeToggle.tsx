@@ -1,7 +1,7 @@
 // src/components/ui/ThemeToggle.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 // Importe useTheme depuis notre ThemeProvider local, pas depuis next-themes
@@ -10,8 +10,11 @@ import { useTheme } from '@/components/ui/ThemeProvider';
 export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
   // Évite le flash SSR : le composant ne s'affiche qu'après hydratation
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   if (!mounted) return <div className={cn('w-9 h-9', className)} />;
 

@@ -17,11 +17,13 @@ export type Database = {
       appointments: {
         Row: {
           access_token: string
+          anonymized_at: string | null
           client_email: string
           client_name: string
           client_phone: string
           created_at: string
           id: string
+          locale: string
           notes: string | null
           service_id: string
           slot_id: string
@@ -31,11 +33,13 @@ export type Database = {
         }
         Insert: {
           access_token?: string
+          anonymized_at?: string | null
           client_email: string
           client_name: string
           client_phone: string
           created_at?: string
           id?: string
+          locale?: string
           notes?: string | null
           service_id: string
           slot_id: string
@@ -45,11 +49,13 @@ export type Database = {
         }
         Update: {
           access_token?: string
+          anonymized_at?: string | null
           client_email?: string
           client_name?: string
           client_phone?: string
           created_at?: string
           id?: string
+          locale?: string
           notes?: string | null
           service_id?: string
           slot_id?: string
@@ -59,10 +65,24 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "appointments_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "appointments_slot_id_fkey"
             columns: ["slot_id"]
             isOneToOne: false
             referencedRelation: "slots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_sub_service_id_fkey"
+            columns: ["sub_service_id"]
+            isOneToOne: false
+            referencedRelation: "sub_services"
             referencedColumns: ["id"]
           },
         ]
@@ -111,10 +131,95 @@ export type Database = {
           },
         ]
       }
+      company_settings: {
+        Row: {
+          admin_notification_email: string
+          booking_confirmation_mode: string
+          booking_default_end_time: string
+          booking_default_slot_minutes: number
+          booking_default_start_time: string
+          booking_horizon_days: number
+          booking_max_upcoming_per_email: number
+          booking_min_notice_minutes: number
+          email: string
+          facebook_url: string
+          id: boolean
+          instagram_url: string
+          linkedin_url: string
+          mobile: string
+          opening_hours: Json
+          phone: string
+          sites: Json
+          updated_at: string
+          website: string
+        }
+        Insert: {
+          admin_notification_email: string
+          booking_confirmation_mode?: string
+          booking_default_end_time?: string
+          booking_default_slot_minutes?: number
+          booking_default_start_time?: string
+          booking_horizon_days?: number
+          booking_max_upcoming_per_email?: number
+          booking_min_notice_minutes?: number
+          email: string
+          facebook_url?: string
+          id?: boolean
+          instagram_url?: string
+          linkedin_url?: string
+          mobile?: string
+          opening_hours: Json
+          phone?: string
+          sites: Json
+          updated_at?: string
+          website?: string
+        }
+        Update: {
+          admin_notification_email?: string
+          booking_confirmation_mode?: string
+          booking_default_end_time?: string
+          booking_default_slot_minutes?: number
+          booking_default_start_time?: string
+          booking_horizon_days?: number
+          booking_max_upcoming_per_email?: number
+          booking_min_notice_minutes?: number
+          email?: string
+          facebook_url?: string
+          id?: boolean
+          instagram_url?: string
+          linkedin_url?: string
+          mobile?: string
+          opening_hours?: Json
+          phone?: string
+          sites?: Json
+          updated_at?: string
+          website?: string
+        }
+        Relationships: []
+      }
+      data_retention_policy: {
+        Row: {
+          appointment_retention_months: number | null
+          id: boolean
+          updated_at: string
+        }
+        Insert: {
+          appointment_retention_months?: number | null
+          id?: boolean
+          updated_at?: string
+        }
+        Update: {
+          appointment_retention_months?: number | null
+          id?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       holidays: {
         Row: {
           created_at: string
           date: string
+          end_date: string
           id: string
           is_recurring: boolean
           label: string
@@ -122,6 +227,7 @@ export type Database = {
         Insert: {
           created_at?: string
           date: string
+          end_date: string
           id?: string
           is_recurring?: boolean
           label: string
@@ -129,6 +235,7 @@ export type Database = {
         Update: {
           created_at?: string
           date?: string
+          end_date?: string
           id?: string
           is_recurring?: boolean
           label?: string
@@ -141,6 +248,7 @@ export type Database = {
           email: string
           full_name: string
           id: string
+          is_active: boolean
           permissions: Json
           role: string
           updated_at: string
@@ -150,6 +258,7 @@ export type Database = {
           email: string
           full_name: string
           id: string
+          is_active?: boolean
           permissions?: Json
           role?: string
           updated_at?: string
@@ -159,9 +268,28 @@ export type Database = {
           email?: string
           full_name?: string
           id?: string
+          is_active?: boolean
           permissions?: Json
           role?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      rate_limit_events: {
+        Row: {
+          id: number
+          key: string
+          occurred_at: string
+        }
+        Insert: {
+          id?: never
+          key: string
+          occurred_at?: string
+        }
+        Update: {
+          id?: never
+          key?: string
+          occurred_at?: string
         }
         Relationships: []
       }
@@ -242,6 +370,53 @@ export type Database = {
         }
         Relationships: []
       }
+      slot_generation_rules: {
+        Row: {
+          created_at: string
+          daily_end_time: string
+          daily_start_time: string
+          horizon_days: number
+          id: string
+          is_enabled: boolean
+          service_id: string
+          slot_minutes: number
+          updated_at: string
+          working_days: number[]
+        }
+        Insert: {
+          created_at?: string
+          daily_end_time?: string
+          daily_start_time?: string
+          horizon_days?: number
+          id?: string
+          is_enabled?: boolean
+          service_id: string
+          slot_minutes?: number
+          updated_at?: string
+          working_days?: number[]
+        }
+        Update: {
+          created_at?: string
+          daily_end_time?: string
+          daily_start_time?: string
+          horizon_days?: number
+          id?: string
+          is_enabled?: boolean
+          service_id?: string
+          slot_minutes?: number
+          updated_at?: string
+          working_days?: number[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slot_generation_rules_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: true
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       slots: {
         Row: {
           created_at: string
@@ -273,7 +448,15 @@ export type Database = {
           status?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "slots_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       sub_services: {
         Row: {
@@ -313,16 +496,91 @@ export type Database = {
           },
         ]
       }
+      testimonials: {
+        Row: {
+          author_location: string
+          author_name: string
+          avatar_public_id: string | null
+          content: Json
+          created_at: string
+          id: string
+          is_published: boolean
+          order: number
+          rating: number
+          testimonial_date: string
+          updated_at: string
+        }
+        Insert: {
+          author_location?: string
+          author_name: string
+          avatar_public_id?: string | null
+          content: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          order?: number
+          rating: number
+          testimonial_date: string
+          updated_at?: string
+        }
+        Update: {
+          author_location?: string
+          author_name?: string
+          avatar_public_id?: string | null
+          content?: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          order?: number
+          rating?: number
+          testimonial_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      admin_create_appointment: {
+        Args: {
+          p_client_email: string
+          p_client_name: string
+          p_client_phone: string
+          p_date?: string
+          p_end_time?: string
+          p_notes?: string
+          p_service_id: string
+          p_slot_id?: string
+          p_start_time?: string
+          p_sub_service_id?: string
+        }
+        Returns: string
+      }
+      anonymize_appointments: { Args: { p_ids: string[] }; Returns: number }
+      anonymize_expired_appointments: {
+        Args: { p_today?: string }
+        Returns: number
+      }
+      assert_client_data_permission: {
+        Args: { p_action: string }
+        Returns: undefined
+      }
+      can_do: { Args: { p_action: string; p_domain: string }; Returns: boolean }
       cancel_appointment_by_token: {
         Args: { p_token: string }
         Returns: undefined
       }
       current_role_name: { Args: never; Returns: string }
+      default_admin_permissions: { Args: never; Returns: Json }
+      delete_appointment: {
+        Args: { p_appointment_id: string }
+        Returns: undefined
+      }
+      erase_client_data: { Args: { p_email: string }; Returns: Json }
+      export_client_data: { Args: { p_email: string }; Returns: Json }
+      generate_rolling_slots: { Args: { p_today?: string }; Returns: number }
       get_appointment_by_token: {
         Args: { p_token: string }
         Returns: {
@@ -337,6 +595,31 @@ export type Database = {
       has_permission: {
         Args: { p_action: string; p_domain: string }
         Returns: boolean
+      }
+      purge_rate_limit_events: { Args: never; Returns: number }
+      reorder_service_media: {
+        Args: { p_ordered_ids: string[]; p_service_id: string }
+        Returns: undefined
+      }
+      reorder_services: {
+        Args: { p_ordered_ids: string[] }
+        Returns: undefined
+      }
+      reorder_sub_services: {
+        Args: { p_ordered_ids: string[]; p_service_id: string }
+        Returns: undefined
+      }
+      reorder_testimonials: {
+        Args: { p_ordered_ids: string[] }
+        Returns: undefined
+      }
+      reschedule_appointment: {
+        Args: { p_appointment_id: string; p_new_slot_id: string }
+        Returns: undefined
+      }
+      set_service_cover: {
+        Args: { p_media_id: string; p_service_id: string }
+        Returns: undefined
       }
     }
     Enums: {
@@ -356,12 +639,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -385,11 +668,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -410,11 +693,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -435,11 +718,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -452,11 +735,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }

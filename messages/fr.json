@@ -5,6 +5,10 @@
     "defaultDescription": "BYB Construction, votre spécialiste en toiture, rénovation et construction en Belgique (Asselt et Liège). Plus de 20 ans d'expérience."
   },
 
+  "a11y": {
+    "skipToContent": "Aller au contenu principal"
+  },
+
   "nav": {
     "home": "Accueil",
     "services": "Services",
@@ -32,7 +36,7 @@
       "ctaSecondary": "Voir nos réalisations"
     },
     "about": {
-      "imageSrc": "/images/equipe.jpg",
+      "imageSrc": "/Images/equipe.jpg",
       "imageAlt": "équipe BYB",
       "eyebrow": "Qui sommes-nous ?",
       "title": "Une entreprise familiale à votre service",
@@ -75,17 +79,35 @@
     "galleryVideos": "Vidéos",
     "showMore": "Voir plus ({count})",
     "bookService": "Demander un devis pour ce service",
-    "backToServices": "Retour aux services"
+    "backToServices": "Retour aux services",
+    "notFound": "Service introuvable",
+    "readyTitle": "Prêt à démarrer ?",
+    "readySubtitle": "Devis gratuit et sans engagement.",
+    "callDirectly": "Appeler directement",
+    "otherServices": "Autres services"
   },
 
   "realisations": {
     "pageTitle": "Nos réalisations",
+    "eyebrow": "Portfolio",
     "pageDescription": "Découvrez quelques-uns de nos chantiers récents.",
     "photosLabel": "Photos",
     "videosLabel": "Vidéos",
     "showMorePhotos": "Voir plus de photos ({count})",
     "showMoreVideos": "Voir plus de vidéos ({count})",
-    "noMedia": "Aucune réalisation disponible pour le moment."
+    "noMedia": "Aucune réalisation disponible pour le moment.",
+    "videoAlt": "{service} — vidéo {index}",
+    "lightbox": {
+      "close": "Fermer",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "play": "Lancer le diaporama",
+      "pause": "Mettre en pause",
+      "enterFullscreen": "Plein écran",
+      "exitFullscreen": "Quitter le plein écran",
+      "zoomIn": "Zoom avant",
+      "zoomOut": "Zoom arrière"
+    }
   },
 
   "about": {
@@ -99,7 +121,7 @@
       "eyebrow": "Nos valeurs",
       "title": "Ce qui nous guide au quotidien",
       "value1Title": "Qualité",
-      "value1Desc": "Chaque chantier est réalisé avec des matériaux certifiés et dans le respect des normes DTU.",
+      "value1Desc": "Chaque chantier est réalisé avec des matériaux certifiés et dans le respect des normes en vigueur en Belgique.",
       "value2Title": "Ponctualité",
       "value2Desc": "Nous respectons les délais convenus. Votre temps est précieux.",
       "value3Title": "Transparence",
@@ -119,6 +141,8 @@
     "title": "Une question ? Un projet ?",
     "subtitle": "Répondons-nous dans les 24 heures.",
     "form": {
+      "privacyNotice": "Les informations saisies servent uniquement à répondre à votre demande. <link>Politique de confidentialité</link>",
+      "captchaLoadError": "La vérification anti-robot n'a pas pu se charger. Rechargez la page.",
       "firstName": "Prénom",
       "lastName": "Nom",
       "email": "Email",
@@ -136,11 +160,23 @@
       "phone": "Téléphone",
       "email": "Email",
       "hours": "Horaires"
+    },
+    "metaDescription": "Contactez BYB Construction à Asselt ou à Liège : écrivez-nous via le formulaire, appelez-nous ou retrouvez nos adresses et horaires.",
+    "map": {
+      "load": "Afficher la carte de {name}",
+      "consent": "Cette carte est fournie par Google. L'afficher transmet votre adresse IP à Google, qui peut utiliser des cookies.",
+      "title": "Localisation {name}"
     }
   },
 
   "booking": {
     "dialogTitle": "Prendre rendez-vous",
+    "page": {
+      "title": "Prendre rendez-vous",
+      "description": "Réservez en ligne un rendez-vous avec BYB Bâtiment & Rénovation : choisissez votre prestation et un créneau disponible, vous recevez une confirmation par email.",
+      "heading": "Prenez rendez-vous en ligne",
+      "subtitle": "Choisissez votre prestation, puis un créneau disponible. Vous recevez un email de confirmation."
+    },
     "steps": {
       "service": "Service",
       "subService": "Prestation",
@@ -154,7 +190,7 @@
     "subService": {
       "title": "Précisez votre besoin",
       "subtitle": "Sélectionnez la prestation qui correspond le mieux à votre projet.",
-      "skip": "Aucune prestation spécifique — passer à l'étape suivante"
+      "skip": "Aucune prestation spécifique, passer à l'étape suivante"
     },
     "slot": {
       "title": "Choisissez un créneau",
@@ -171,6 +207,9 @@
       "notes": "Message (facultatif)",
       "submit": "Confirmer le rendez-vous",
       "submitting": "Confirmation en cours...",
+      "privacyNotice": "Vos coordonnées servent uniquement à gérer votre rendez-vous. <link>Politique de confidentialité</link>",
+      "chooseAnotherSlot": "Choisir un autre créneau",
+      "captchaLoadError": "La vérification anti-robot n'a pas pu se charger. Rechargez la page.",
       "successTitle": "Rendez-vous confirmé !",
       "successMessage": "Un email de confirmation vient de vous être envoyé.",
       "errorMessage": "Une erreur est survenue. Veuillez réessayer."
@@ -183,15 +222,245 @@
     }
   },
 
+  "clientAppointment": {
+    "summary": {
+      "service": "Service",
+      "subService": "Prestation",
+      "date": "Date",
+      "time": "Heure",
+      "status": "Statut"
+    },
+    "status": {
+      "pending": "En attente de confirmation",
+      "confirmed": "Confirmé",
+      "cancelled": "Annulé"
+    },
+    "timeRange": "{start} à {end}",
+    "invalid": {
+      "title": "Lien invalide",
+      "message": "Ce lien n'est pas valide ou a expiré. Utilisez le lien reçu par email, ou contactez-nous.",
+      "contact": "Nous contacter"
+    },
+    "cancelled": {
+      "title": "Rendez-vous déjà annulé",
+      "message": "Ce rendez-vous est annulé : le créneau a été libéré. Vous pouvez reprendre rendez-vous quand vous le souhaitez."
+    },
+    "past": {
+      "title": "Rendez-vous passé",
+      "message": "Ce rendez-vous a déjà eu lieu : il ne peut plus être annulé ni déplacé."
+    },
+    "bookAgain": "Prendre un nouveau rendez-vous",
+    "backHome": "Retour à l'accueil",
+    "cancel": {
+      "pageTitle": "Annuler mon rendez-vous",
+      "pageDescription": "Annulez votre rendez-vous en un clic.",
+      "heading": "Annuler mon rendez-vous",
+      "intro": "Vérifiez les informations ci-dessous avant d'annuler.",
+      "action": "Annuler le rendez-vous",
+      "confirmTitle": "Confirmer l'annulation ?",
+      "confirmMessage": "Le créneau sera libéré. Cette action est définitive.",
+      "confirmAction": "Oui, annuler",
+      "keep": "Non, le conserver",
+      "submitting": "Annulation...",
+      "successTitle": "Rendez-vous annulé",
+      "successMessage": "Votre rendez-vous est annulé. Un email de confirmation vous a été envoyé.",
+      "rescheduleHint": "Vous préférez changer de date ?",
+      "rescheduleAction": "Modifier la date"
+    },
+    "reschedule": {
+      "pageTitle": "Modifier mon rendez-vous",
+      "pageDescription": "Choisissez un nouveau créneau pour votre rendez-vous.",
+      "heading": "Modifier mon rendez-vous",
+      "intro": "Choisissez un nouveau créneau pour la même prestation.",
+      "current": "Créneau actuel",
+      "pickTitle": "Choisissez un nouveau créneau",
+      "confirmTitle": "Confirmer ce nouveau créneau ?",
+      "confirmMessage": "Nouveau créneau : {date} à {time}. Votre rendez-vous actuel sera libéré.",
+      "confirmAction": "Confirmer le déplacement",
+      "back": "Choisir un autre créneau",
+      "submitting": "Déplacement...",
+      "successTitle": "Rendez-vous déplacé",
+      "successMessage": "Votre rendez-vous a lieu : {date} à {time}. Un email de confirmation vous a été envoyé.",
+      "cancelHint": "Vous ne pouvez plus venir ?",
+      "cancelAction": "Annuler le rendez-vous"
+    }
+  },
+
+  "emails": {
+    "common": {
+      "greeting": "Bonjour {name},",
+      "manageIntro": "Un imprévu ? Vous pouvez modifier ou annuler votre rendez-vous en ligne.",
+      "rescheduleAction": "Modifier la date",
+      "cancelAction": "Annuler le rendez-vous",
+      "rebookAction": "Prendre un nouveau rendez-vous",
+      "dashboardAction": "Ouvrir le tableau de bord",
+      "calendarNote": "Un fichier calendrier (.ics) est joint à cet email pour ajouter le rendez-vous à votre agenda.",
+      "calendarSummary": "{company} : {service}",
+      "timeRange": "{start} à {end}",
+      "footer": "{company} · {phone}",
+      "fields": {
+        "service": "Service",
+        "subService": "Prestation",
+        "date": "Date",
+        "time": "Heure",
+        "client": "Client",
+        "email": "Email",
+        "phone": "Téléphone",
+        "notes": "Notes",
+        "previousSlot": "Ancien créneau",
+        "newSlot": "Nouveau créneau",
+        "reason": "Message de notre équipe",
+        "sender": "Expéditeur",
+        "subject": "Objet",
+        "message": "Message"
+      }
+    },
+    "adminContactMessage": {
+      "subject": "Nouveau message de contact : {subject}",
+      "preview": "Un visiteur vous a écrit via le formulaire de contact.",
+      "heading": "Nouveau message de contact",
+      "intro": "Un visiteur a écrit via le formulaire de contact du site. Répondez directement à cet email pour lui écrire."
+    },
+    "contactAcknowledgement": {
+      "subject": "Nous avons bien reçu votre message",
+      "preview": "Votre message nous est bien parvenu.",
+      "heading": "Message reçu",
+      "intro": "Merci de nous avoir écrit. Votre message nous est bien parvenu et nous vous répondons dans les meilleurs délais. Voici une copie de ce que vous nous avez envoyé."
+    },
+    "appointmentConfirmation": {
+      "subject": "Votre demande de rendez-vous a bien été reçue",
+      "preview": "Nous avons bien reçu votre demande.",
+      "heading": "Demande reçue",
+      "intro": "Nous avons bien reçu votre demande de rendez-vous. Notre équipe la valide dans les meilleurs délais, vous recevrez un email de confirmation."
+    },
+    "appointmentConfirmedByAdmin": {
+      "subject": "Votre rendez-vous est confirmé",
+      "preview": "Votre rendez-vous est confirmé.",
+      "heading": "Rendez-vous confirmé",
+      "intro": "Votre rendez-vous est confirmé. Nous avons hâte de vous accueillir."
+    },
+    "appointmentCancellation": {
+      "subject": "Annulation de votre rendez-vous",
+      "preview": "Votre rendez-vous a été annulé.",
+      "heading": "Rendez-vous annulé",
+      "intro": "Votre rendez-vous a été annulé. Vous pouvez en reprendre un à tout moment."
+    },
+    "appointmentRescheduled": {
+      "subject": "Votre rendez-vous a été déplacé",
+      "preview": "Votre rendez-vous a changé de créneau.",
+      "heading": "Rendez-vous déplacé",
+      "intro": "Votre rendez-vous a été déplacé vers un nouveau créneau."
+    },
+    "appointmentReminder": {
+      "subject": "Rappel : votre rendez-vous a lieu demain",
+      "preview": "Votre rendez-vous a lieu demain.",
+      "heading": "Rendez-vous demain",
+      "intro": "Nous vous rappelons votre rendez-vous prévu demain."
+    },
+    "adminNewAppointment": {
+      "subject": "Nouveau rendez-vous à confirmer",
+      "preview": "Une nouvelle demande de rendez-vous attend votre confirmation.",
+      "heading": "Nouvelle demande de rendez-vous",
+      "intro": "Un nouveau rendez-vous vient d'être pris sur le site. Il attend votre confirmation."
+    },
+    "adminAppointmentCancelledByClient": {
+      "subject": "Un client a annulé son rendez-vous",
+      "preview": "Un client a annulé son rendez-vous.",
+      "heading": "Rendez-vous annulé par le client",
+      "intro": "Le client a annulé son rendez-vous : le créneau est de nouveau disponible."
+    },
+    "adminAppointmentRescheduledByClient": {
+      "subject": "Un client a déplacé son rendez-vous",
+      "preview": "Un client a choisi un nouveau créneau.",
+      "heading": "Rendez-vous déplacé par le client",
+      "intro": "Le client a choisi un nouveau créneau pour son rendez-vous."
+    }
+  },
+
+  "privacy": {
+    "pageDescription": "Comment BYB Construction collecte, utilise et protège vos données personnelles via ce site, et comment exercer vos droits.",
+    "intro": "Cette politique explique quelles données personnelles BYB Construction collecte via ce site, pourquoi, combien de temps elles sont conservées et comment exercer vos droits.",
+    "updated": "Dernière mise à jour : {date}",
+    "controller": {
+      "title": "Responsable du traitement",
+      "text": "{company}, {address}. Numéro d'entreprise (BCE) : {vat}. Pour toute question relative à vos données, contactez-nous à {email}."
+    },
+    "collected": {
+      "title": "Données collectées et finalités",
+      "labels": {
+        "data": "Données",
+        "purpose": "Finalité",
+        "basis": "Base légale"
+      },
+      "appointments": {
+        "title": "Prise de rendez-vous",
+        "data": "Nom, adresse email, numéro de téléphone, message facultatif, prestation et créneau choisis, langue du site.",
+        "purpose": "Enregistrer et gérer votre demande, vous envoyer les confirmations, modifications et annulations par email, et vous permettre de modifier ou d'annuler vous-même votre rendez-vous.",
+        "basis": "Mesures précontractuelles prises à votre demande (article 6.1.b du RGPD)."
+      },
+      "contact": {
+        "title": "Formulaire de contact",
+        "data": "Prénom, nom, adresse email, numéro de téléphone (facultatif), objet et message.",
+        "purpose": "Répondre à votre demande.",
+        "basis": "Intérêt légitime à répondre aux demandes reçues (article 6.1.f du RGPD)."
+      },
+      "security": {
+        "title": "Sécurité du site",
+        "data": "Adresse IP et adresse email (compteurs temporaires), vérification anti-robot.",
+        "purpose": "Protéger les formulaires contre les envois automatisés et les abus.",
+        "basis": "Intérêt légitime à sécuriser le site (article 6.1.f du RGPD)."
+      }
+    },
+    "retention": {
+      "title": "Durées de conservation",
+      "appointmentsUnset": "Les données d'un rendez-vous sont conservées le temps nécessaire à sa gestion et au suivi de la relation, puis effacées ou anonymisées. Vous pouvez demander leur effacement à tout moment.",
+      "appointments": "Les données d'un rendez-vous sont anonymisées {months, plural, one {# mois} other {# mois}} après sa date. Vous pouvez demander leur effacement plus tôt.",
+      "contact": "Les messages envoyés par le formulaire de contact ne sont pas enregistrés sur le site : ils sont transmis par email à notre équipe, qui les conserve le temps nécessaire au traitement de votre demande.",
+      "security": "Les compteurs de sécurité (adresse IP, adresse email) sont supprimés automatiquement au bout de 24 heures."
+    },
+    "processors": {
+      "title": "Destinataires et sous-traitants",
+      "intro": "Vos données ne sont jamais vendues. Nous faisons appel à des prestataires qui les traitent pour notre compte :",
+      "supabase": "stockage des rendez-vous et gestion des comptes de l'équipe",
+      "resend": "envoi des emails (confirmations, accusés de réception)",
+      "cloudinary": "hébergement des photos et vidéos du site",
+      "cloudflare": "vérification anti-robot des formulaires (Turnstile)",
+      "google": "affichage des cartes, uniquement si vous cliquez sur « Afficher la carte »",
+      "transfers": "Certains de ces prestataires peuvent traiter des données en dehors de l'Espace économique européen. Dans ce cas, le transfert est encadré par les garanties prévues par le RGPD (décision d'adéquation ou clauses contractuelles types)."
+    },
+    "cookies": {
+      "title": "Cookies et stockage local",
+      "text1": "Ce site n'utilise aucun cookie publicitaire ni mesure d'audience : aucun bandeau de consentement n'est donc nécessaire.",
+      "text2": "Il enregistre uniquement, sur votre appareil, ce qui est nécessaire à son fonctionnement : votre préférence de thème clair ou sombre, votre langue, et la fermeture de la bulle d'aide WhatsApp pour la durée de votre visite.",
+      "text3": "Les cartes Google Maps et le bouton WhatsApp ne transmettent aucune donnée tant que vous ne cliquez pas dessus."
+    },
+    "rights": {
+      "title": "Vos droits",
+      "intro": "Vous pouvez à tout moment :",
+      "access": "obtenir une copie des données que nous détenons sur vous ;",
+      "rectification": "faire corriger des données inexactes ;",
+      "erasure": "demander leur effacement ;",
+      "restriction": "demander la limitation de leur traitement ;",
+      "objection": "vous opposer à un traitement fondé sur notre intérêt légitime ;",
+      "portability": "recevoir vos données dans un format structuré.",
+      "how": "Pour exercer ces droits, écrivez-nous à {email}. Nous vous répondons dans un délai d'un mois. Nous pouvons vous demander de justifier de votre identité. Vous pouvez aussi annuler ou déplacer un rendez-vous vous-même grâce au lien reçu par email."
+    },
+    "complaint": {
+      "title": "Réclamation",
+      "text": "Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de l'{authority}, {address}, {website}, {email}."
+    }
+  },
+
   "admin": {
     "nav": {
       "dashboard": "Tableau de bord",
       "appointments": "Rendez-vous",
+      "calendar": "Calendrier",
       "slots": "Créneaux",
       "holidays": "Jours fériés",
       "permissions": "Permissions",
       "services": "Services",
-      "projects": "Réalisations",
+      "realisations": "Réalisations",
       "testimonials": "Témoignages",
       "users": "Utilisateurs",
       "auditLogs": "Journal d'audit",
@@ -201,8 +470,10 @@
     "navbar": {
       "logout": "Déconnexion",
       "notifications": "Notifications",
+      "newAppointmentToast": "Nouvelle demande de rendez-vous : {client}",
       "noNotifications": "Aucune notification pour le moment",
-      "pendingAppointments": "rendez-vous en attente de confirmation"
+      "pendingAppointments": "rendez-vous en attente de confirmation",
+      "notificationMeta": "{service} · {date} à {time}"
     },
     "dashboard": {
       "title": "Tableau de bord",
@@ -211,7 +482,74 @@
       "statAppointmentsWeek": "RDV cette semaine",
       "statPending": "En attente de confirmation",
       "statBlockedSlots": "Créneaux bloqués",
-      "chartTitle": "Rendez-vous — semaine en cours et suivante"
+      "chartTitle": "Rendez-vous · semaine en cours et suivante",
+      "noStatsAccess": "Vous n'avez pas accès aux indicateurs des rendez-vous. Utilisez le menu pour accéder aux sections qui vous sont ouvertes.",
+      "retry": "Réessayer",
+      "loading": "Chargement",
+      "unknownService": "Service inconnu",
+      "stats": {
+        "title": "Indicateurs"
+      },
+      "pending": {
+        "title": "Demandes à traiter",
+        "empty": "Aucune demande en attente. Tout est à jour.",
+        "meta": "{service} · {date} à {time}",
+        "confirm": "Confirmer",
+        "cancel": "Annuler",
+        "confirmedToast": "Rendez-vous confirmé.",
+        "cancelledToast": "Rendez-vous annulé.",
+        "cancelTitle": "Annuler ce rendez-vous ?",
+        "cancelDescription": "La demande de {client} sera annulée et le créneau libéré. Le client en sera informé par email.",
+        "cancelConfirm": "Annuler le rendez-vous",
+        "keep": "Conserver",
+        "viewAll": "Voir les {count} demandes"
+      },
+      "upcoming": {
+        "title": "Prochains rendez-vous",
+        "empty": "Aucun rendez-vous dans les 30 prochains jours.",
+        "meta": "{service} · {time}",
+        "calendarLink": "Calendrier"
+      },
+      "insights": {
+        "title": "Activité par service",
+        "period": "Du {from} au {to}",
+        "empty": "Aucun rendez-vous sur cette période.",
+        "cancellationRate": "Taux d'annulation",
+        "cancellationDetail": "{cancelled, plural, one {# annulé} other {# annulés}} sur {total}",
+        "chartLabel": "Rendez-vous par service"
+      },
+      "freeSlots": {
+        "title": "Créneaux libres",
+        "subtitle": "7 prochains jours",
+        "total": "{count, plural, one {# créneau libre} other {# créneaux libres}}",
+        "day": "{date} : {count, plural, =0 {aucun créneau libre} one {# créneau libre} other {# créneaux libres}}",
+        "none": "Aucun créneau libre sur les 7 prochains jours : les visiteurs ne peuvent pas réserver. Générez-en depuis la section Créneaux.",
+        "manage": "Gérer les créneaux"
+      }
+    },
+    "calendar": {
+      "title": "Calendrier",
+      "subtitle": "Visualisez les rendez-vous, les créneaux bloqués et les jours fériés.",
+      "loading": "Chargement du calendrier...",
+      "blockedSlot": "Bloqué · {service}",
+      "appointmentTitle": "{client} · {service}",
+      "legend": {
+        "pending": "En attente",
+        "confirmed": "Confirmé",
+        "blocked": "Créneau bloqué",
+        "holiday": "Jour férié"
+      },
+      "toolbar": {
+        "today": "Aujourd'hui",
+        "previous": "Période précédente",
+        "next": "Période suivante",
+        "month": "Mois",
+        "week": "Semaine",
+        "day": "Jour"
+      },
+      "allDay": "Toute la journée",
+      "noEventsInRange": "Aucun événement sur cette période.",
+      "showMore": "+{total} de plus"
     },
     "appointments": {
       "title": "Rendez-vous",
@@ -235,7 +573,7 @@
       "columnStatus": "Statut",
       "columnCreatedAt": "Réservé le",
       "columnNotes": "Notes",
-      "emptyValue": "—",
+      "emptyValue": "-",
       "confirm": "Confirmer",
       "confirming": "Confirmation...",
       "confirmSuccess": "Rendez-vous confirmé.",
@@ -243,12 +581,137 @@
       "cancelling": "Annulation...",
       "cancelDialogTitle": "Annuler ce rendez-vous ?",
       "cancelDialogDescription": "Un message optionnel sera envoyé au client par email pour expliquer l'annulation.",
-      "cancelReasonPlaceholder": "Ex. : Créneau indisponible suite à un imprevu, merci de nous recontacter pour reprogrammer.",
+      "cancelReasonPlaceholder": "Ex. : Créneau indisponible suite à un imprévu, merci de nous recontacter pour reprogrammer.",
       "cancelDialogDismiss": "Retour",
       "cancelDialogConfirm": "Confirmer l'annulation",
       "statusPending": "En attente",
       "statusConfirmed": "Confirmé",
-      "statusCancelled": "Annulé"
+      "statusCancelled": "Annulé",
+      "cancelSuccess": "Rendez-vous annulé.",
+      "cancelDialogClose": "Fermer",
+      "searchLabel": "Recherche",
+      "searchHint": "Nom, email ou téléphone",
+      "sortBy": "Trier par {column}",
+      "pagination": {
+        "summary": "{from} à {to} sur {total}",
+        "previous": "Précédent",
+        "next": "Suivant",
+        "page": "Page {page} sur {pages}"
+      },
+      "edit": {
+        "open": "Modifier",
+        "title": "Modifier le rendez-vous",
+        "description": "Corrigez les coordonnées ou les notes du client. Le client n'est pas prévenu.",
+        "close": "Fermer",
+        "submit": "Enregistrer",
+        "cancel": "Annuler",
+        "success": "Rendez-vous modifié."
+      },
+      "reschedule": {
+        "open": "Replanifier",
+        "title": "Replanifier le rendez-vous",
+        "description": "Choisissez un nouveau créneau libre pour ce service. Le client est prévenu par email.",
+        "close": "Fermer",
+        "current": "Créneau actuel",
+        "date": "Nouvelle date",
+        "pickSlot": "Choisissez un créneau libre.",
+        "submit": "Déplacer le rendez-vous",
+        "cancel": "Annuler",
+        "success": "Rendez-vous déplacé."
+      },
+      "delete": {
+        "open": "Supprimer",
+        "title": "Supprimer le rendez-vous",
+        "description": "Cette action est définitive : le créneau est libéré et le client n'est pas prévenu. Pour garder une trace, annulez plutôt le rendez-vous.",
+        "confirmLabel": "Pour confirmer, saisissez le nom du client : {name}",
+        "close": "Fermer",
+        "submit": "Supprimer définitivement",
+        "cancel": "Annuler",
+        "success": "Rendez-vous supprimé."
+      },
+      "create": {
+        "open": "Nouveau rendez-vous",
+        "title": "Nouveau rendez-vous",
+        "description": "Le rendez-vous est confirmé d'office et le client reçoit un email de confirmation.",
+        "close": "Fermer",
+        "serviceSection": "Prestation",
+        "service": "Service",
+        "servicePlaceholder": "Choisir un service",
+        "subService": "Sous-prestation (facultatif)",
+        "noSubService": "Aucune",
+        "slotSection": "Créneau",
+        "modeLabel": "Type de créneau",
+        "modeExisting": "Créneau libre",
+        "modeAdHoc": "Créneau ponctuel",
+        "adHocHint": "Un créneau sur mesure est créé et réservé pour ce client.",
+        "date": "Date",
+        "startTime": "Début",
+        "endTime": "Fin",
+        "pickService": "Choisissez d'abord un service.",
+        "loadingSlots": "Recherche des créneaux libres...",
+        "noSlots": "Aucun créneau libre à cette date.",
+        "slotsLabel": "Créneaux libres",
+        "clientSection": "Client",
+        "name": "Nom complet",
+        "email": "Email",
+        "phone": "Téléphone",
+        "notes": "Notes (facultatif)",
+        "submit": "Créer et confirmer",
+        "cancel": "Annuler",
+        "success": "Rendez-vous créé et confirmé."
+      },
+      "details": {
+        "title": "Fiche du rendez-vous",
+        "description": "{service} · {date}",
+        "open": "Voir la fiche du rendez-vous de {name}",
+        "close": "Fermer",
+        "appointmentSection": "Rendez-vous",
+        "clientSection": "Client",
+        "status": "Statut",
+        "service": "Service",
+        "subService": "Sous-prestation",
+        "slot": "Créneau",
+        "bookedOn": "Réservé le",
+        "name": "Nom",
+        "email": "Email",
+        "phone": "Téléphone",
+        "notes": "Notes",
+        "noNotes": "Aucune note laissée par le client.",
+        "reference": "Référence",
+        "unknownService": "Service introuvable",
+        "history": {
+          "title": "Historique",
+          "loading": "Chargement de l'historique...",
+          "empty": "Aucune action enregistrée pour ce rendez-vous.",
+          "retry": "Réessayer",
+          "meta": "{actor} · {date}",
+          "fields": {
+            "reason": "Motif",
+            "slotDate": "Date",
+            "slotStartTime": "Début",
+            "slotEndTime": "Fin",
+            "changedFields": "Champs modifiés",
+            "status": "Statut",
+            "slotFreed": "Créneau libéré",
+            "adHocSlot": "Créneau ponctuel"
+          }
+        }
+      },
+      "exportColumns": {
+        "sheetName": "Rendez-vous",
+        "fileName": "rendez-vous",
+        "client": "Client",
+        "email": "Email",
+        "phone": "Téléphone",
+        "service": "Service",
+        "subService": "Sous-prestation",
+        "date": "Date",
+        "startTime": "Heure début",
+        "endTime": "Heure fin",
+        "status": "Statut",
+        "notes": "Notes",
+        "bookedOn": "Réservé le"
+      }
     },
     "slots": {
       "title": "Créneaux",
@@ -258,6 +721,40 @@
       "noSlots": "Aucun créneau pour cette date.",
       "block": "Bloquer",
       "unblock": "Débloquer",
+      "viewLabel": "Affichage",
+      "viewDay": "Jour",
+      "viewWeek": "Semaine",
+      "weekOf": "Semaine du {from} au {to}",
+      "previousWeek": "Semaine précédente",
+      "nextWeek": "Semaine suivante",
+      "weekCounts": "{available} libres · {booked} réservés · {blocked} bloqués",
+      "openDay": "Voir le détail du {date}",
+      "noSlotsWeek": "Aucun créneau cette semaine.",
+      "bulk": {
+        "toggle": "Actions en lot",
+        "description": "Agissent sur les créneaux libres de la période. Un créneau réservé n'est jamais modifié.",
+        "service": "Service",
+        "allServices": "Tous les services",
+        "from": "Du",
+        "to": "Au",
+        "windowStart": "À partir de (facultatif)",
+        "windowEnd": "Jusqu'à (facultatif)",
+        "windowHint": "La plage horaire ne s'applique qu'au blocage.",
+        "block": "Bloquer les créneaux libres",
+        "delete": "Supprimer les créneaux libres",
+        "confirmBlockTitle": "Bloquer les créneaux libres ?",
+        "confirmBlock": "Tous les créneaux libres du {from} au {to} ({service}) seront bloqués. Les créneaux réservés ne changent pas.",
+        "confirmBlockButton": "Bloquer",
+        "confirmDeleteTitle": "Supprimer les créneaux libres ?",
+        "confirmDelete": "Tous les créneaux libres du {from} au {to} ({service}) seront supprimés définitivement. Les créneaux réservés et bloqués ne changent pas.",
+        "confirmDeleteButton": "Supprimer",
+        "close": "Fermer",
+        "cancel": "Annuler",
+        "blocked": "{count} créneaux bloqués.",
+        "blockedWithSkipped": "{count} créneaux bloqués, {skipped} créneaux déjà réservés non modifiés.",
+        "deleted": "{count} créneaux supprimés.",
+        "nothing": "Aucun créneau libre à traiter sur cette période."
+      },
       "generateTitle": "Générer des créneaux",
       "generateFrom": "Du",
       "generateTo": "Au",
@@ -266,7 +763,13 @@
       "duration": "Durée d'un créneau (minutes)",
       "generateSubmit": "Générer",
       "generating": "Génération en cours...",
-      "noPermission": "Vous n'avez pas les droits pour générer des créneaux. Contactez un superadmin."
+      "noPermission": "Vous n'avez pas les droits pour générer des créneaux. Contactez un superadmin.",
+      "generated": "{count, plural, =0 {Aucun nouveau créneau} one {# créneau généré} other {# créneaux générés}}",
+      "status": {
+        "available": "Disponible",
+        "booked": "Réservé",
+        "blocked": "Bloqué"
+      }
     },
     "holidays": {
       "title": "Jours fériés & congés",
@@ -274,10 +777,50 @@
       "add": "Ajouter",
       "date": "Date",
       "label": "Libellé",
+      "endDate": "Jusqu'au (facultatif)",
+      "range": "Du {from} au {to}",
+      "importTitle": "Jours fériés belges",
+      "importDescription": "Ajoute les jours fériés légaux de l'année. Ceux qui existent déjà ne sont pas dupliqués.",
+      "importYear": "Année",
+      "importSubmit": "Importer",
+      "imported": "{count} jours fériés importés.",
+      "importedNone": "Les jours fériés de {year} existent déjà.",
+      "importedWithConflicts": "{count} rendez-vous existants tombent sur ces jours : pensez à les replanifier ou à les annuler.",
+      "addedCancelled": "Congé ajouté, {cancelled} rendez-vous annulés.",
+      "addedCancelledPartial": "Congé ajouté. {cancelled} rendez-vous annulés, {failed} n'ont pas pu l'être.",
+      "belgian": {
+        "newYear": "Nouvel An",
+        "easterMonday": "Lundi de Pâques",
+        "labourDay": "Fête du Travail",
+        "ascension": "Ascension",
+        "whitMonday": "Lundi de Pentecôte",
+        "nationalDay": "Fête nationale",
+        "assumption": "Assomption",
+        "allSaints": "Toussaint",
+        "armistice": "Armistice",
+        "christmas": "Noël"
+      },
+      "conflicts": {
+        "title": "Rendez-vous déjà pris sur cette période",
+        "description": "{count} rendez-vous tombent sur ce congé. Que souhaitez-vous faire ?",
+        "close": "Fermer",
+        "reasonLabel": "Message envoyé aux clients (facultatif)",
+        "reasonPlaceholder": "Ex. : nous sommes fermés pour congés annuels.",
+        "noCancelRight": "Vous n'avez pas le droit d'annuler des rendez-vous : vous pouvez créer le congé sans y toucher.",
+        "abort": "Retour",
+        "ignoreAndCreate": "Créer sans toucher aux rendez-vous",
+        "cancelAndCreate": "Annuler les rendez-vous et créer"
+      },
       "recurring": "Récurrent chaque année",
       "delete": "Supprimer",
       "confirmDelete": "Supprimer ce jour férié ?",
-      "empty": "Aucun jour férié enregistré."
+      "empty": "Aucun jour férié enregistré.",
+      "added": "Jour férié ajouté."
+    },
+    "forbidden": {
+      "title": "Accès refusé",
+      "description": "Vous n'avez pas les droits pour consulter cette page. Contactez un superadmin si vous pensez qu'il s'agit d'une erreur.",
+      "back": "Retour au tableau de bord"
     },
     "permissions": {
       "title": "Permissions",
@@ -285,7 +828,45 @@
       "superadminNotice": "Le superadmin a toujours tous les droits — ce tableau ne s'applique qu'aux comptes admin.",
       "columnAdmin": "Administrateur",
       "saved": "Permissions mises à jour.",
-      "save": "Enregistrer"
+      "save": "Enregistrer",
+      "loading": "Chargement...",
+      "noAdmins": "Aucun compte admin à configurer. Invitez-en un depuis la page Utilisateurs.",
+      "inactive": "Désactivé",
+      "columnDomain": "Domaine",
+      "matrixCaption": "Droits de l'administrateur sélectionné, par domaine et par action",
+      "notApplicable": "Sans objet",
+      "reset": "Réinitialiser aux défauts",
+      "unsaved": "{count, plural, one {# modification non enregistrée} other {# modifications non enregistrées}}",
+      "upToDate": "Aucune modification en attente.",
+      "presets": {
+        "title": "Modèles :",
+        "readOnly": "Lecture seule",
+        "standard": "Standard",
+        "manager": "Gestionnaire"
+      },
+      "discard": {
+        "title": "Abandonner les modifications ?",
+        "description": "Les modifications non enregistrées de cet administrateur seront perdues.",
+        "confirm": "Abandonner",
+        "cancel": "Continuer l'édition"
+      },
+      "domains": {
+        "appointments": "Rendez-vous",
+        "slots": "Créneaux",
+        "holidays": "Jours fériés et congés",
+        "services": "Services",
+        "projects": "Réalisations",
+        "testimonials": "Témoignages",
+        "settings": "Paramètres",
+        "audit_logs": "Journal d'audit"
+      },
+      "actions": {
+        "view": "Consulter",
+        "create": "Créer",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "export": "Exporter"
+      }
     },
     "services": {
       "title": "Gestion des services",
@@ -294,17 +875,442 @@
       "delete": "Supprimer",
       "confirmDelete": "Confirmer la suppression ?"
     },
+    "catalog": {
+      "title": "Gestion des services",
+      "subtitle": "Créez et organisez les prestations affichées sur le site et proposées à la réservation.",
+      "add": "Ajouter un service",
+      "loading": "Chargement...",
+      "retry": "Réessayer",
+      "empty": "Aucun service pour le moment.",
+      "emptyFiltered": "Aucun service ne correspond à ces filtres.",
+      "search": "Rechercher un service...",
+      "filterStatus": "Filtrer par statut",
+      "status": { "all": "Tous", "active": "Actif", "inactive": "Archivé" },
+      "counts": "{media, plural, =0 {aucun média} one {# média} other {# médias}} · {subs, plural, =0 {aucune sous-prestation} one {# sous-prestation} other {# sous-prestations}}",
+      "reorderHint": "Glissez-déposez les lignes ou utilisez les flèches pour changer l'ordre d'affichage.",
+      "reorderDisabled": "L'ordre ne peut être modifié que sans recherche ni filtre actif.",
+      "dragHandle": "Déplacer",
+      "moveUp": "Monter",
+      "moveDown": "Descendre",
+      "actions": {
+        "edit": "Modifier",
+        "preview": "Voir sur le site",
+        "archive": "Archiver",
+        "restore": "Republier",
+        "delete": "Supprimer"
+      },
+      "confirm": {
+        "confirm": "Confirmer",
+        "cancel": "Annuler",
+        "archive": {
+          "title": "Archiver ce service ?",
+          "description": "« {name} » disparaîtra du site et de la réservation. Les rendez-vous existants sont conservés."
+        },
+        "restore": {
+          "title": "Republier ce service ?",
+          "description": "« {name} » redeviendra visible sur le site et réservable."
+        },
+        "delete": {
+          "title": "Supprimer définitivement ce service ?",
+          "description": "« {name} », ses sous-prestations et ses médias seront supprimés. Cette action est irréversible. Préférez l'archivage si des clients l'ont déjà réservé."
+        }
+      },
+      "toast": {
+        "created": "Service créé. Ajoutez une image de couverture pour pouvoir le publier.",
+        "updated": "Service mis à jour.",
+        "archived": "Service archivé.",
+        "restored": "Service republié.",
+        "deleted": "Service supprimé.",
+        "subServiceSaved": "Sous-prestation enregistrée.",
+        "subServiceDeleted": "Sous-prestation supprimée.",
+        "mediaAdded": "Média ajouté.",
+        "mediaRemoved": "Média supprimé.",
+        "coverChanged": "Couverture mise à jour."
+      },
+      "form": {
+        "createTitle": "Nouveau service",
+        "editTitle": "Modifier le service",
+        "backToList": "Retour aux services",
+        "save": "Enregistrer",
+        "create": "Créer le service",
+        "saving": "Enregistrement...",
+        "readOnly": "Vous pouvez consulter ce service mais pas le modifier.",
+        "tabs": { "fr": "Français", "en": "English", "de": "Deutsch" },
+        "required": "obligatoire",
+        "completeness": "Traductions : {done}/{total} complètes",
+        "tabComplete": "complète",
+        "tabIncomplete": "incomplète",
+        "fallbackNote": "Un texte vide s'affiche en français sur le site dans cette langue.",
+        "name": "Nom",
+        "shortDescription": "Description courte",
+        "fullDescription": "Description complète",
+        "slug": "Identifiant d'URL",
+        "slugHint": "Dérivé du nom français si laissé vide. Impossible à modifier après la création.",
+        "slugLocked": "Figé après la création (il fait partie des URL publiques).",
+        "icon": "Icône"
+      },
+      "iconPicker": {
+        "search": "Rechercher une icône...",
+        "none": "Aucune icône ne correspond.",
+        "selected": "Icône sélectionnée : {name}"
+      },
+      "subServices": {
+        "title": "Sous-prestations",
+        "empty": "Aucune sous-prestation.",
+        "add": "Ajouter une sous-prestation",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "name": "Nom",
+        "description": "Description",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "deleteTitle": "Supprimer cette sous-prestation ?",
+        "deleteDescription": "« {name} » sera supprimée. Les rendez-vous qui la référencent sont conservés.",
+        "saveFirst": "Enregistrez d'abord le service pour gérer ses sous-prestations."
+      },
+      "media": {
+        "title": "Médias",
+        "hint": "Images (JPEG, PNG, WebP, AVIF) jusqu'à {imageMax} Mo, vidéos (MP4, MOV, WebM) jusqu'à {videoMax} Mo.",
+        "upload": "Ajouter des fichiers",
+        "uploading": "Envoi de {name}...",
+        "empty": "Aucun média. Ajoutez au moins une image pour pouvoir publier le service.",
+        "cover": "Couverture",
+        "makeCover": "Définir comme couverture",
+        "remove": "Supprimer",
+        "moveEarlier": "Déplacer avant",
+        "moveLater": "Déplacer après",
+        "video": "Vidéo",
+        "imageAlt": "Image {index} de {name}",
+        "removeTitle": "Supprimer ce média ?",
+        "removeDescription": "Le fichier sera aussi supprimé du stockage. Cette action est irréversible.",
+        "uploadFailed": "L'envoi de {name} a échoué.",
+        "saveFirst": "Enregistrez d'abord le service pour y ajouter des médias."
+      }
+    },
+    "realisations": {
+      "title": "Réalisations",
+      "subtitle": "Gérez les photos et vidéos de la page Réalisations du site, service par service.",
+      "search": "Rechercher un service...",
+      "loading": "Chargement...",
+      "retry": "Réessayer",
+      "empty": "Aucun service pour le moment.",
+      "emptyFiltered": "Aucun service ne correspond à cette recherche.",
+      "photos": "{count, plural, =0 {aucune photo} one {# photo} other {# photos}}",
+      "videos": "{count, plural, =0 {aucune vidéo} one {# vidéo} other {# vidéos}}",
+      "archived": "Archivé",
+      "archivedHint": "Service archivé : ses médias ne sont pas affichés sur le site.",
+      "manage": "Gérer les médias",
+      "backToList": "Retour aux réalisations",
+      "viewOnSite": "Voir la page sur le site",
+      "serviceHint": "Ces médias s'affichent sur la page Réalisations, sur l'accueil et sur la fiche du service."
+    },
+    "settings": {
+      "title": "Paramètres",
+      "subtitle": "Coordonnées, sites, horaires et règles de réservation de l'entreprise. Les changements s'appliquent au site dès l'enregistrement.",
+      "loading": "Chargement...",
+      "readOnly": "Vous pouvez consulter ces paramètres mais pas les modifier.",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "toast": { "saved": "Paramètres enregistrés." },
+      "tabs": { "fr": "Français", "en": "English", "de": "Deutsch" },
+      "fallbackNote": "Si ce texte est vide, la version française sera affichée.",
+      "sections": {
+        "contact": { "title": "Coordonnées", "description": "Affichées sur le site (pied de page, page contact). Laissez vide pour masquer une ligne." },
+        "social": { "title": "Réseaux sociaux", "description": "Adresse complète de chaque page. Un lien laissé vide n'est pas affiché." },
+        "hours": { "title": "Horaires d'ouverture", "description": "Texte libre, traduisible dans chaque langue." },
+        "sites": { "title": "Sites", "description": "Les adresses de l'entreprise. Un seul site est le site principal." },
+        "notifications": { "title": "Notifications internes", "description": "Adresse qui reçoit un email pour chaque nouvelle demande de rendez-vous, annulation ou déplacement." },
+        "booking": { "title": "Réservation en ligne", "description": "Règles appliquées aux visiteurs qui prennent rendez-vous." }
+      },
+      "fields": {
+        "phone": "Téléphone",
+        "mobile": "Mobile / WhatsApp",
+        "email": "Email de contact",
+        "website": "Site web",
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+        "linkedin": "LinkedIn",
+        "openingHours": "Horaires",
+        "adminNotificationEmail": "Email de notification"
+      },
+      "sites": {
+        "siteTitle": "Site {number}",
+        "name": "Nom",
+        "street": "Rue et numéro",
+        "postalCode": "Code postal",
+        "city": "Ville",
+        "country": "Pays",
+        "primary": "Site principal",
+        "add": "Ajouter un site",
+        "remove": "Retirer"
+      },
+      "booking": {
+        "minNotice": "Délai minimal (minutes)",
+        "minNoticeHint": "Avant le début d'un créneau, en minutes.",
+        "horizon": "Horizon (jours)",
+        "horizonHint": "Jusqu'à combien de jours à l'avance on peut réserver.",
+        "maxUpcoming": "Rendez-vous par email",
+        "maxUpcomingHint": "Rendez-vous à venir autorisés pour une même adresse.",
+        "confirmationMode": "Confirmation des demandes",
+        "confirmationHint": "Automatique : le rendez-vous est confirmé dès la réservation. Manuelle : il reste en attente jusqu'à validation par l'équipe.",
+        "modes": { "manual": "Manuelle (l'équipe valide)", "auto": "Automatique" },
+        "defaultSlotMinutes": "Durée d'un créneau (minutes)",
+        "defaultStartTime": "Début de journée",
+        "defaultEndTime": "Fin de journée",
+        "defaultsHint": "Ces trois valeurs préremplissent le formulaire de génération de créneaux."
+      }
+    },
+    "testimonials": {
+      "title": "Témoignages",
+      "subtitle": "Gérez les avis de vos clients affichés sur le site. Seuls les témoignages publiés sont visibles.",
+      "add": "Ajouter un témoignage",
+      "loading": "Chargement...",
+      "retry": "Réessayer",
+      "empty": "Aucun témoignage pour le moment.",
+      "emptyFiltered": "Aucun témoignage ne correspond à ces filtres.",
+      "search": "Rechercher un témoignage...",
+      "filterStatus": "Filtrer par statut",
+      "status": { "all": "Tous", "published": "Publié", "draft": "Brouillon" },
+      "rating": "{rating}/5",
+      "reorderHint": "Glissez-déposez les lignes ou utilisez les flèches pour changer l'ordre d'affichage.",
+      "reorderDisabled": "L'ordre ne peut être modifié que sans recherche ni filtre actif.",
+      "actions": {
+        "edit": "Modifier",
+        "publish": "Publier",
+        "unpublish": "Repasser en brouillon",
+        "delete": "Supprimer"
+      },
+      "confirm": {
+        "confirm": "Confirmer",
+        "cancel": "Annuler",
+        "delete": {
+          "title": "Supprimer définitivement ce témoignage ?",
+          "description": "Le témoignage de {name} sera supprimé. Cette action est irréversible. Préférez le brouillon pour le retirer du site sans le perdre."
+        }
+      },
+      "toast": {
+        "created": "Témoignage créé en brouillon.",
+        "updated": "Témoignage mis à jour.",
+        "published": "Témoignage publié.",
+        "unpublished": "Témoignage repassé en brouillon.",
+        "deleted": "Témoignage supprimé."
+      },
+      "form": {
+        "createTitle": "Nouveau témoignage",
+        "editTitle": "Modifier le témoignage",
+        "backToList": "Retour aux témoignages",
+        "save": "Enregistrer",
+        "create": "Créer le témoignage",
+        "saving": "Enregistrement...",
+        "readOnly": "Vous pouvez consulter ce témoignage mais pas le modifier.",
+        "tabs": { "fr": "Français", "en": "English", "de": "Deutsch" },
+        "required": "obligatoire",
+        "completeness": "Traductions : {done}/{total} complètes",
+        "tabComplete": "complète",
+        "tabIncomplete": "incomplète",
+        "fallbackNote": "Un texte vide s'affiche en français sur le site dans cette langue.",
+        "content": "Témoignage",
+        "authorName": "Nom de l'auteur",
+        "authorLocation": "Ville ou commune",
+        "rating": "Note",
+        "ratingOption": "{count, plural, one {# étoile} other {# étoiles}}",
+        "date": "Date de l'avis"
+      }
+    },
     "users": {
-      "title": "Gestion des utilisateurs",
-      "role": "Rôle",
-      "permissions": "Permissions"
+      "title": "Utilisateurs",
+      "subtitle": "Invitez des collaborateurs et gérez leur rôle et leur accès au tableau de bord.",
+      "search": "Rechercher par nom ou email...",
+      "invite": "Inviter",
+      "loading": "Chargement...",
+      "empty": "Aucun utilisateur ne correspond.",
+      "you": "vous",
+      "cancel": "Annuler",
+      "createdOn": "Créé le {date}",
+      "roles": { "admin": "Admin", "superadmin": "Superadmin" },
+      "status": { "active": "Actif", "inactive": "Désactivé" },
+      "filters": {
+        "role": "Filtrer par rôle",
+        "status": "Filtrer par statut",
+        "allRoles": "Tous les rôles",
+        "allStatuses": "Tous les statuts"
+      },
+      "actions": {
+        "resend": "Renvoyer l'invitation",
+        "makeAdmin": "Passer admin",
+        "makeSuperadmin": "Passer superadmin",
+        "deactivate": "Désactiver",
+        "reactivate": "Réactiver"
+      },
+      "inviteDialog": {
+        "title": "Inviter un utilisateur",
+        "description": "Un email lui permettra de choisir son mot de passe. Il démarre avec les droits par défaut de son rôle.",
+        "fullName": "Nom complet",
+        "email": "Email",
+        "role": "Rôle",
+        "submit": "Envoyer l'invitation",
+        "close": "Fermer"
+      },
+      "confirm": {
+        "confirm": "Confirmer",
+        "deactivate": {
+          "title": "Désactiver ce compte ?",
+          "description": "{name} ne pourra plus se connecter ni agir sur le tableau de bord. Son historique est conservé."
+        },
+        "reactivate": {
+          "title": "Réactiver ce compte ?",
+          "description": "{name} retrouvera l'accès au tableau de bord avec ses droits actuels."
+        },
+        "resend": {
+          "title": "Renvoyer l'invitation ?",
+          "description": "Un nouveau lien sera envoyé à {name} pour choisir son mot de passe."
+        },
+        "role": {
+          "title": "Changer le rôle ?",
+          "description": "Le rôle de {name} sera modifié et ses permissions repartiront des valeurs par défaut."
+        }
+      },
+      "toast": {
+        "invited": "Invitation envoyée.",
+        "resend": "Invitation renvoyée.",
+        "role": "Rôle mis à jour.",
+        "deactivate": "Compte désactivé.",
+        "reactivate": "Compte réactivé."
+      }
     },
     "auditLogs": {
-      "title": "Journal des actions",
-      "actor": "Auteur",
-      "action": "Action",
-      "target": "Cible",
-      "date": "Date"
+      "title": "Journal d'audit",
+      "subtitle": "Historique des actions menées sur la plateforme. Les entrées ne peuvent être ni modifiées ni supprimées.",
+      "loading": "Chargement...",
+      "retry": "Réessayer",
+      "empty": "Aucune entrée ne correspond à ces filtres.",
+      "emptyValue": "—",
+      "loadMore": "Charger les entrées plus anciennes",
+      "endOfLog": "Fin du journal.",
+      "viewDetails": "Voir le détail",
+      "filterByActor": "Filtrer sur cet auteur",
+      "filterByTarget": "Filtrer sur cette cible",
+      "unknownActor": "Compte inconnu ou non visible",
+      "anonymousActor": "Visiteur anonyme",
+      "systemActor": "Système",
+      "filters": {
+        "title": "Filtres du journal",
+        "role": "Rôle",
+        "action": "Action",
+        "targetType": "Type de cible",
+        "targetId": "Identifiant de la cible",
+        "targetIdPlaceholder": "Identifiant, email...",
+        "dateFrom": "Du",
+        "dateTo": "Au",
+        "allRoles": "Tous les rôles",
+        "allActions": "Toutes les actions",
+        "allTargetTypes": "Toutes les cibles",
+        "apply": "Appliquer",
+        "reset": "Réinitialiser",
+        "invalidPeriod": "La date de début doit précéder la date de fin.",
+        "actorChip": "Auteur : {name}",
+        "removeActor": "Retirer le filtre sur l'auteur"
+      },
+      "columns": {
+        "date": "Date",
+        "actor": "Auteur",
+        "action": "Action",
+        "target": "Cible",
+        "ip": "Adresse IP",
+        "details": "Détail"
+      },
+      "actorRoles": {
+        "superadmin": "Superadmin",
+        "admin": "Admin",
+        "client": "Visiteur",
+        "system": "Système"
+      },
+      "targetTypes": {
+        "appointment": "Rendez-vous",
+        "slot": "Créneau",
+        "holiday": "Jour férié",
+        "service": "Service",
+        "user": "Utilisateur",
+        "auth": "Authentification",
+        "testimonial": "Témoignage",
+        "settings": "Paramètres",
+        "audit_log": "Journal d'audit"
+      },
+      "actions": {
+        "APPOINTMENT_CREATED": "Rendez-vous demandé",
+        "APPOINTMENT_CREATED_BY_ADMIN": "Rendez-vous créé par l'équipe",
+        "APPOINTMENT_RESCHEDULED": "Rendez-vous déplacé",
+        "SLOTS_BLOCKED_IN_RANGE": "Créneaux bloqués en lot",
+        "SLOTS_DELETED": "Créneaux supprimés",
+        "APPOINTMENT_UPDATED": "Coordonnées modifiées",
+        "APPOINTMENT_CONFIRMED": "Rendez-vous confirmé",
+        "APPOINTMENT_CANCELLED": "Rendez-vous annulé",
+        "APPOINTMENT_DELETED": "Rendez-vous supprimé",
+        "SLOT_CREATED": "Créneaux générés",
+        "SLOT_BLOCKED": "Créneau bloqué",
+        "SLOT_UNBLOCKED": "Créneau débloqué",
+        "HOLIDAY_CREATED": "Jour férié ajouté",
+        "HOLIDAY_DELETED": "Jour férié supprimé",
+        "SERVICE_CREATED": "Service créé",
+        "SERVICE_UPDATED": "Service modifié",
+        "TESTIMONIAL_CREATED": "Témoignage créé",
+        "TESTIMONIAL_UPDATED": "Témoignage modifié",
+        "TESTIMONIAL_DELETED": "Témoignage supprimé",
+        "SETTINGS_UPDATED": "Paramètres modifiés",
+        "SERVICE_DELETED": "Service supprimé",
+        "USER_INVITED": "Utilisateur invité",
+        "USER_INVITATION_RESENT": "Invitation renvoyée",
+        "USER_DEACTIVATED": "Compte désactivé",
+        "USER_REACTIVATED": "Compte réactivé",
+        "USER_ROLE_UPDATED": "Rôle modifié",
+        "USER_PERMISSIONS_UPDATED": "Permissions modifiées",
+        "AUTH_LOGIN": "Connexion",
+        "AUTH_LOGOUT": "Déconnexion",
+        "AUTH_LOGIN_FAILED": "Échec de connexion",
+        "AUTH_PASSWORD_CHANGED": "Mot de passe modifié",
+        "EMAIL_SENT": "Email envoyé",
+        "CLIENT_DATA_ERASED": "Données d'un client effacées",
+        "APPOINTMENTS_ANONYMIZED": "Rendez-vous anonymisés (conservation)",
+        "EXPORT_GENERATED": "Export généré"
+      },
+      "details": {
+        "title": "Détail de l'entrée",
+        "description": "{action} — {date}",
+        "close": "Fermer",
+        "actor": "Auteur",
+        "role": "Rôle",
+        "action": "Action",
+        "target": "Cible",
+        "ip": "Adresse IP",
+        "metadataTitle": "Informations enregistrées",
+        "noMetadata": "Aucune information supplémentaire n'a été enregistrée pour cette action.",
+        "rawJson": "Données brutes (JSON)",
+        "granted": "Accordé",
+        "revoked": "Retiré",
+        "yes": "Oui",
+        "no": "Non",
+        "emptyList": "(vide)"
+      },
+      "export": {
+        "csv": "Exporter en CSV",
+        "exporting": "Export en cours...",
+        "empty": "Aucune entrée à exporter.",
+        "success": "Export terminé : {count, plural, one {# entrée} other {# entrées}}.",
+        "truncated": "Export limité aux {max} entrées les plus récentes.",
+        "fileName": "journal-audit",
+        "columns": {
+          "date": "Date",
+          "actor": "Auteur",
+          "email": "Email de l'auteur",
+          "role": "Rôle",
+          "action": "Action",
+          "actionCode": "Code de l'action",
+          "targetType": "Type de cible",
+          "targetId": "Identifiant de la cible",
+          "ip": "Adresse IP",
+          "details": "Détails"
+        }
+      }
     }
   },
 
@@ -316,7 +1322,49 @@
     "submit": "Se connecter",
     "submitting": "Connexion...",
     "error": "Email ou mot de passe incorrect.",
-    "backHome": "Retour au site"
+    "backHome": "Retour au site",
+    "emailInvalid": "Adresse email invalide.",
+    "passwordRequired": "Le mot de passe est requis."
+  },
+
+  "auth": {
+    "forgotPassword": "Mot de passe oublié ?",
+    "linkInvalid": "Ce lien est invalide ou a expiré. Demandez-en un nouveau.",
+    "forgot": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Saisissez votre email : si un compte existe, vous recevrez un lien pour choisir un nouveau mot de passe.",
+      "email": "Email",
+      "submit": "Envoyer le lien",
+      "submitting": "Envoi...",
+      "sentTitle": "Vérifiez votre boîte mail",
+      "sentMessage": "Si un compte correspond à cette adresse, un lien de réinitialisation vient d'être envoyé. Il n'est valable que pour une durée limitée.",
+      "backToLogin": "Retour à la connexion"
+    },
+    "reset": {
+      "title": "Nouveau mot de passe",
+      "subtitle": "Choisissez un nouveau mot de passe pour votre compte.",
+      "success": "Mot de passe mis à jour."
+    },
+    "invite": {
+      "title": "Bienvenue chez BYB",
+      "subtitle": "Choisissez le mot de passe de votre compte administrateur.",
+      "success": "Compte activé."
+    },
+    "setPassword": {
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "hint": "10 caractères minimum, avec au moins une lettre et un chiffre.",
+      "submit": "Enregistrer le mot de passe",
+      "submitting": "Enregistrement..."
+    },
+    "account": {
+      "title": "Mon compte",
+      "subtitle": "Gérez la sécurité de votre compte.",
+      "menuLabel": "Mon compte",
+      "currentPassword": "Mot de passe actuel",
+      "submit": "Changer le mot de passe",
+      "success": "Mot de passe modifié."
+    }
   },
 
   "common": {
@@ -335,6 +1383,13 @@
     "learnMore": "En savoir plus",
     "seeAll": "Tout voir",
     "close": "Fermer",
+    "language": {
+      "label": "Langue",
+      "switchTo": "Passer en {language}",
+      "fr": "Français",
+      "en": "English",
+      "de": "Deutsch"
+    },
     "search": "Rechercher",
     "filter": "Filtrer",
     "export": "Exporter",
@@ -350,6 +1405,41 @@
 
   "legal": {
     "pageTitle": "Mentions légales",
+    "pageDescription": "Mentions légales de BYB Construction : éditeur du site, coordonnées et informations légales.",
+    "publisher": {
+      "title": "Éditeur du site",
+      "name": "Dénomination",
+      "legalForm": "Forme juridique",
+      "vat": "N° d'entreprise (BCE) et TVA",
+      "address": "Siège",
+      "otherSites": "Autres sites",
+      "email": "Email",
+      "phone": "Téléphone"
+    },
+    "host": {
+      "title": "Hébergement",
+      "intro": "Ce site est hébergé par :"
+    },
+    "intellectualProperty": {
+      "title": "Propriété intellectuelle",
+      "text": "L'ensemble du contenu de ce site (textes, images, vidéos, logos) est la propriété de {company} ou utilisé avec l'autorisation de ses titulaires, et est protégé par la législation applicable en matière de propriété intellectuelle. Toute reproduction sans autorisation écrite préalable est interdite."
+    },
+    "liability": {
+      "title": "Responsabilité",
+      "text": "Les informations publiées sur ce site sont données à titre indicatif et peuvent être modifiées à tout moment. Elles ne constituent pas une offre contractuelle."
+    },
+    "personalData": {
+      "title": "Données personnelles",
+      "text": "Le traitement de vos données personnelles est décrit dans notre <link>politique de confidentialité</link>."
+    },
+    "mediation": {
+      "title": "Règlement extrajudiciaire des litiges",
+      "intro": "En cas de litige, vous pouvez vous adresser à :"
+    },
+    "law": {
+      "title": "Droit applicable",
+      "text": "Le présent site est soumis au droit belge."
+    },
     "privacyTitle": "Politique de confidentialité"
   },
 
@@ -358,6 +1448,98 @@
     "notFoundDescription": "La page que vous cherchez n'existe pas ou a été déplacée.",
     "backHome": "Retour à l'accueil",
     "unauthorized": "Accès non autorisé",
-    "unauthorizedDescription": "Vous n'avez pas les droits pour accéder à cette page."
+    "unauthorizedDescription": "Vous n'avez pas les droits pour accéder à cette page.",
+    "validation": {
+      "invalid": "Valeur invalide.",
+      "phoneInvalid": "Numéro de téléphone invalide.",
+      "slotInvalid": "Créneau invalide.",
+      "serviceInvalid": "Service invalide.",
+      "subServiceInvalid": "Sous-prestation invalide.",
+      "appointmentInvalid": "Rendez-vous invalide.",
+      "linkInvalid": "Lien invalide.",
+      "nameTooShort": "Le nom doit contenir au moins 2 caractères.",
+      "nameTooLong": "Le nom ne peut pas dépasser 100 caractères.",
+      "emailInvalid": "Adresse email invalide.",
+      "subjectTooShort": "L'objet doit contenir au moins 3 caractères.",
+      "subjectTooLong": "L'objet ne peut pas dépasser 150 caractères.",
+      "subjectInvalid": "L'objet doit tenir sur une seule ligne.",
+      "messageTooShort": "Votre message doit contenir au moins 10 caractères.",
+      "messageTooLong": "Votre message ne peut pas dépasser 2000 caractères.",
+      "notesTooLong": "500 caractères maximum.",
+      "startDateInvalid": "Date de début invalide.",
+      "endDateInvalid": "Date de fin invalide.",
+      "startDateAfterEnd": "La date de début doit précéder la date de fin.",
+      "startTimeInvalid": "Heure de début invalide.",
+      "endTimeInvalid": "Heure de fin invalide.",
+      "startTimeAfterEnd": "L'heure de début doit précéder l'heure de fin.",
+      "durationInvalid": "La durée doit être comprise entre 15 et 480 minutes.",
+      "dateInvalid": "Date invalide.",
+      "labelTooShort": "Le libellé doit contenir au moins 2 caractères.",
+      "labelTooLong": "Le libellé ne peut pas dépasser 100 caractères.",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 10 caractères.",
+      "passwordTooLong": "Le mot de passe ne peut pas dépasser 72 caractères.",
+      "passwordWeak": "Le mot de passe doit contenir au moins une lettre et un chiffre.",
+      "frRequired": "Le texte en français est obligatoire.",
+      "textTooLong": "Ce texte est trop long.",
+      "iconInvalid": "Icône invalide.",
+      "slugInvalid": "Minuscules, chiffres et tirets uniquement.",
+      "testimonialInvalid": "Témoignage invalide.",
+      "ratingInvalid": "La note doit être comprise entre 1 et 5.",
+      "authorNameRequired": "Le nom de l'auteur est obligatoire.",
+      "fieldRequired": "Ce champ est obligatoire.",
+      "rangeInvalid": "Valeur hors des limites autorisées.",
+      "sitesInvalid": "Il faut entre 1 et 5 sites, dont exactement un site principal.",
+      "mediaInvalid": "Fichier invalide.",
+      "passwordMismatch": "Les mots de passe ne correspondent pas."
+    },
+    "codes": {
+      "APPOINTMENT_IN_PAST": "Ce rendez-vous est déjà passé : il ne peut plus être modifié.",
+      "SLOT_TOO_SOON": "Ce créneau est trop proche pour être réservé en ligne. Choisissez un horaire plus tardif ou appelez-nous.",
+      "SLOT_TOO_FAR": "Ce créneau n'est pas encore ouvert à la réservation. Choisissez une date plus proche.",
+      "BOOKING_LIMIT_REACHED": "Cette adresse email a déjà plusieurs rendez-vous à venir. Annulez ou déplacez-en un avant d'en réserver un nouveau.",
+      "EMAIL_DELIVERY_FAILED": "Votre message n'a pas pu être envoyé. Réessayez dans un instant ou appelez-nous.",
+      "CAPTCHA_FAILED": "La vérification anti-robot a échoué. Rechargez la page et réessayez.",
+      "SLOT_NOT_FOUND": "Ce créneau n'existe plus.",
+      "SLOT_UNAVAILABLE": "Ce créneau vient d'être réservé. Veuillez en choisir un autre.",
+      "SLOT_ALREADY_BLOCKED": "Ce créneau est déjà bloqué.",
+      "HOLIDAY_CONFLICTS": "Des rendez-vous existent sur cette période. Choisissez de les annuler ou de les ignorer.",
+      "SLOT_IN_PAST": "Ce créneau est déjà passé. Choisissez une date à partir d'aujourd'hui.",
+      "SLOT_OVERLAP": "Cette plage horaire chevauche un autre créneau de ce service. Choisissez une autre plage.",
+      "SLOT_NOT_BLOCKED": "Ce créneau n'est pas bloqué.",
+      "APPOINTMENT_NOT_FOUND": "Rendez-vous introuvable ou lien expiré.",
+      "INVALID_STATUS_TRANSITION": "Cette action n'est pas possible dans l'état actuel du rendez-vous.",
+      "HOLIDAY_NOT_FOUND": "Ce jour férié n'existe plus.",
+      "ADMIN_NOT_FOUND": "Ce compte administrateur n'existe plus.",
+      "ADMIN_ALREADY_EXISTS": "Un compte existe déjà avec cette adresse email.",
+      "CANNOT_MODIFY_SELF": "Vous ne pouvez pas modifier votre propre compte.",
+      "LAST_SUPERADMIN": "Il doit toujours rester au moins un superadmin actif.",
+      "SERVICE_NOT_FOUND": "Ce service est introuvable.",
+      "SERVICE_SLUG_TAKEN": "Cet identifiant d'URL est déjà utilisé par un autre service.",
+      "SERVICE_HAS_APPOINTMENTS": "Ce service a des rendez-vous : archivez-le plutôt que de le supprimer.",
+      "SERVICE_ORDER_INVALID": "L'ordre demandé ne correspond pas à la liste actuelle. Rechargez la page.",
+      "SERVICE_COVER_REQUIRED": "Un service actif doit avoir au moins une image de couverture.",
+      "SUB_SERVICE_NOT_FOUND": "Cette sous-prestation est introuvable.",
+      "SUB_SERVICE_SLUG_TAKEN": "Cet identifiant d'URL est déjà utilisé par une autre sous-prestation de ce service.",
+      "MEDIA_NOT_FOUND": "Ce média est introuvable.",
+      "MEDIA_TYPE_NOT_ALLOWED": "Ce type de fichier n'est pas autorisé.",
+      "MEDIA_TOO_LARGE": "Ce fichier dépasse la taille maximale autorisée.",
+      "MEDIA_FOLDER_MISMATCH": "Ce média n'appartient pas au dossier de ce service.",
+      "TESTIMONIAL_NOT_FOUND": "Ce témoignage est introuvable.",
+      "TESTIMONIAL_ORDER_INVALID": "L'ordre demandé ne correspond pas à la liste actuelle. Rechargez la page.",
+      "TESTIMONIAL_RATING_INVALID": "La note doit être comprise entre 1 et 5.",
+      "SETTINGS_INVALID": "Les paramètres saisis sont invalides. Vérifiez-les et réessayez.",
+      "MEDIA_COVER_MUST_BE_IMAGE": "Seule une image peut servir de couverture.",
+      "SLUG_INVALID": "L'identifiant d'URL est invalide (minuscules, chiffres et tirets uniquement).",
+      "TRANSLATION_FR_REQUIRED": "Le texte en français est obligatoire.",
+      "SUPERADMIN_NOT_EDITABLE": "Les droits d'un superadmin ne sont pas modifiables : il a toujours tous les droits.",
+      "INVALID_CURRENT_PASSWORD": "Le mot de passe actuel est incorrect.",
+      "ACCOUNT_DISABLED": "Ce compte a été désactivé. Contactez un superadmin.",
+      "TOO_MANY_ATTEMPTS": "Trop de tentatives. Veuillez patienter quelques minutes avant de réessayer.",
+      "VALIDATION_FAILED": "Les informations saisies sont invalides. Vérifiez-les et réessayez.",
+      "FORBIDDEN": "Vous n'avez pas la permission d'effectuer cette action.",
+      "UNAUTHENTICATED": "Votre session a expiré. Veuillez vous reconnecter.",
+      "INVALID_CREDENTIALS": "Email ou mot de passe incorrect.",
+      "UNKNOWN": "Une erreur est survenue de notre côté. Veuillez réessayer dans un instant, ou nous contacter si le problème persiste."
+    }
   }
 }

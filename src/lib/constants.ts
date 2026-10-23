@@ -22,66 +22,45 @@ export const PUBLIC_ROUTES = {
 } as const;
 
 /**
+ * Routes d'authentification (hors dashboard, accessibles sans session).
+ */
+export const AUTH_ROUTES = {
+  LOGIN: '/login',
+  FORGOT_PASSWORD: '/forgot-password',
+  RESET_PASSWORD: '/reset-password',
+  ACCEPT_INVITATION: '/accept-invitation',
+} as const;
+
+/**
  * Routes du dashboard admin.
  * Toutes ces routes sont protégées par le middleware.
  */
 export const ADMIN_ROUTES = {
   DASHBOARD: '/dashboard',
   SERVICES: '/dashboard/services',
+  REALISATIONS: '/dashboard/realisations',
+  TESTIMONIALS: '/dashboard/testimonials',
+  SETTINGS: '/dashboard/settings',
   USERS: '/dashboard/users',
   PERMISSIONS: '/dashboard/permissions',
   AUDIT_LOGS: '/dashboard/audit-logs',
   APPOINTMENTS: '/dashboard/appointments',
+  CALENDAR: '/dashboard/calendar',
   SLOTS: '/dashboard/slots',
   HOLIDAYS: '/dashboard/holidays',
+  ACCOUNT: '/dashboard/account',
 } as const;
 
 /**
- * Rôles RBAC disponibles dans l'application.
+ * Le modèle RBAC (rôles, domaines, actions, permissions par défaut) appartient
+ * au domaine : il est défini dans `domain/user/` et simplement ré-exporté ici
+ * pour que les imports historiques `@/lib/constants` restent valides.
  */
-export const USER_ROLES = {
-  SUPERADMIN: 'superadmin',
-  ADMIN: 'admin',
-} as const;
-
-export type UserRole = (typeof USER_ROLES)[keyof typeof USER_ROLES];
-
-/**
- * Domaines de permissions pour le système RBAC.
- * Le superadmin ajuste ces permissions pour chaque admin depuis /dashboard/permissions.
- * Le superadmin lui-même n'a pas besoin d'entrée dans ce système : son rôle
- * suffit à tout autoriser (voir les policies RLS : current_role_name() = 'superadmin').
- */
-export const PERMISSION_DOMAINS = [
-  'appointments',
-  'slots',
-  'holidays',
-  'services',
-  'users',
-  'audit_logs',
-] as const;
-
-export type PermissionDomain = (typeof PERMISSION_DOMAINS)[number];
-
-/**
- * Actions disponibles par domaine de permission.
- * 'export' est distinct de 'view' : le cahier des charges autorise l'admin
- * à consulter les RDV sans nécessairement pouvoir en extraire les données.
- */
-export const PERMISSION_ACTIONS = ['view', 'create', 'edit', 'delete', 'export'] as const;
-export type PermissionAction = (typeof PERMISSION_ACTIONS)[number];
-
-/**
- * Permissions par défaut attribuées à un nouvel admin, reflétant le périmètre
- * exact du cahier des charges : consultation + recherche + export des RDV,
- * gestion complète des jours fériés, aucun droit sur services/utilisateurs/logs.
- * Le superadmin peut ajuster individuellement chaque case depuis /dashboard/permissions.
- */
-export const DEFAULT_ADMIN_PERMISSIONS: Record<PermissionDomain, Record<PermissionAction, boolean>> = {
-  appointments: { view: true, create: false, edit: false, delete: false, export: true },
-  slots: { view: true, create: false, edit: false, delete: false, export: false },
-  holidays: { view: true, create: true, edit: true, delete: true, export: false },
-  services: { view: true, create: false, edit: false, delete: false, export: false },
-  users: { view: false, create: false, edit: false, delete: false, export: false },
-  audit_logs: { view: false, create: false, edit: false, delete: false, export: false },
-} as const;
+export { USER_ROLES, type UserRole } from '@/domain/user/UserRole';
+export {
+  PERMISSION_DOMAINS,
+  PERMISSION_ACTIONS,
+  DEFAULT_ADMIN_PERMISSIONS,
+  type PermissionDomain,
+  type PermissionAction,
+} from '@/domain/user/PermissionCatalog';

@@ -3,6 +3,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { cloudinaryImageUrl, cloudinaryVideoUrl, cloudinaryVideoThumbnailUrl } from '@/lib/cloudinary-url';
+import { formatInstant, formatIsoDate } from '@/lib/date';
 
 /**
  * Fusionne les classes Tailwind en résolvant les conflits.
@@ -34,7 +35,9 @@ export type I18nField = {
  * @example t(service.name, 'zh') → "Toiture" (fallback fr)
  */
 export function t(field: I18nField, locale: string): string {
-  return (field as Record<string, string>)[locale] ?? field.fr;
+  const value = (field as Record<string, string | undefined>)[locale];
+  // Une traduction vide ou blanche ne doit pas masquer le français.
+  return value?.trim() ? value : field.fr;
 }
 
 // ─── Médias (images / vidéos) ─────────────────────────────────────────────────
@@ -75,26 +78,20 @@ export function getVideoThumbnailUrl(publicId: string): string {
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
 
 /**
- * Transforme une chaîne en slug URL-safe.
- * "Toiture Pentue" → "toiture-pentue"
+ * Transforme une chaîne en slug URL-safe ("Toiture Pentue" → "toiture-pentue").
+ * La règle vit dans le domaine, qui l'applique aussi à la création des services.
  */
-export function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
+export { slugify } from '@/domain/shared/Slug';
 
 /**
- * Formate une date ISO selon la locale active.
+ * Formate une date selon la locale active.
+ * - "YYYY-MM-DD" (jour calendaire, ex. date de créneau) : affiché tel quel, sans décalage de fuseau.
+ * - Instant (Date ou ISO avec heure, ex. createdAt) : affiché dans le fuseau de l'entreprise.
  * @example formatDate('2024-10-15', 'fr') → "15 octobre 2024"
  */
 export function formatDate(date: string | Date, locale: string): string {
-  return new Intl.DateTimeFormat(locale, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(typeof date === 'string' ? new Date(date) : date);
+  if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return formatIsoDate(date, locale);
+  }
+  return formatInstant(date, locale);
 }

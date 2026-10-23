@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { CheckCircle2 } from 'lucide-react';
-import type { Service } from '@/types';
+import type { Service, SubService } from '@/types';
 import { cn } from '@/lib/utils';
 import { useBookingStore, type BookingStep } from './useBookingStore';
 import { ServiceStep } from './steps/ServiceStep';
@@ -14,8 +14,13 @@ import { ConfirmationStep } from './steps/ConfirmationStep';
 
 type BookingWizardProps = {
   services: Service[];
-  /** Service pré-choisi (voir BookingDialog) — saute l'étape 'service'. */
+  /** Service pré-choisi (voir BookingDialog, page /rdv) — saute l'étape 'service'. */
   initialService?: Service;
+  /**
+   * Sous-prestation pré-choisie (lien `/rdv?service=…&sub=…`). Suppose
+   * `initialService` ; saute alors aussi l'étape 'subService'.
+   */
+  initialSubService?: SubService;
 };
 
 const STEP_ORDER: BookingStep[] = ['service', 'subService', 'slot', 'confirmation'];
@@ -27,11 +32,12 @@ const STEP_ORDER: BookingStep[] = ['service', 'subService', 'slot', 'confirmatio
  * et un indicateur de progression. Chaque étape gère sa propre interaction ;
  * ce composant reste un simple aiguillage.
  */
-export function BookingWizard({ services, initialService }: BookingWizardProps) {
+export function BookingWizard({ services, initialService, initialSubService }: BookingWizardProps) {
   const tSteps = useTranslations('booking.steps');
   const step = useBookingStore((state) => state.step);
   const reset = useBookingStore((state) => state.reset);
   const selectService = useBookingStore((state) => state.selectService);
+  const selectSubService = useBookingStore((state) => state.selectSubService);
   const setStep = useBookingStore((state) => state.setStep);
   const [isDone, setIsDone] = useState(false);
 
@@ -41,12 +47,21 @@ export function BookingWizard({ services, initialService }: BookingWizardProps) 
     return () => reset();
   }, [reset]);
 
-  // Présélection depuis une fiche service : on saute directement à l'étape
-  // pertinente au premier rendu, plutôt que de faire recliquer l'utilisateur
-  // sur un service qu'il a déjà choisi en arrivant sur cette page.
+  // Présélection depuis une fiche service ou un lien /rdv : on saute directement
+  // à l'étape pertinente au premier rendu, plutôt que de faire recliquer
+  // l'utilisateur sur un choix qu'il a déjà fait en arrivant ici.
   useEffect(() => {
     if (!initialService) return;
+
+    // selectService remet la sous-prestation à null : il doit précéder selectSubService.
     selectService(initialService);
+
+    if (initialSubService) {
+      selectSubService(initialSubService);
+      setStep('slot');
+      return;
+    }
+
     setStep(initialService.subServices.length > 0 ? 'subService' : 'slot');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

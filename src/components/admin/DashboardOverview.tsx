@@ -1,39 +1,38 @@
 // src/components/admin/DashboardOverview.tsx
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { useTranslations } from 'next-intl';
-import { CalendarCheck, CalendarClock, Hourglass, Ban } from 'lucide-react';
-import { getDashboardStatsAction } from '@/app/actions/admin/dashboard';
-import { StatCard } from './StatCard';
-import { AppointmentsChart } from './AppointmentsChart';
+import type { Service } from '@/types';
+import { Can } from './Can';
+import { StatsWidget } from './dashboard/StatsWidget';
+import { PendingAppointmentsWidget } from './dashboard/PendingAppointmentsWidget';
+import { UpcomingAppointmentsWidget } from './dashboard/UpcomingAppointmentsWidget';
+import { AppointmentInsightsWidget } from './dashboard/AppointmentInsightsWidget';
+import { FreeSlotsWidget } from './dashboard/FreeSlotsWidget';
 
 /**
- * Composant pour afficher l'aperçu du tableau de bord.
- * @returns 
+ * Page d'accueil du dashboard : une composition de widgets indépendants.
+ *
+ * Chaque widget est enveloppé dans le droit qu'il exige (le même que celui de son action serveur) : sans le
+ * droit, il n'est pas rendu et sa requête n'est jamais lancée. Chaque widget charge, échoue et se relance
+ * seul : une panne sur l'un laisse les autres intacts. `services` vient du Server Component de la page.
  */
-export function DashboardOverview() {
-  const t = useTranslations('admin.dashboard');
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['admin', 'dashboard', 'stats'],
-    queryFn: async () => {
-      const result = await getDashboardStatsAction();
-      if (!result.success) throw new Error(result.error);
-      return result.stats;
-    },
-  });
-
+export function DashboardOverview({ services }: { services: Service[] }) {
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <StatCard icon={CalendarCheck} label={t('statAppointmentsToday')} value={isLoading ? '—' : data!.appointmentsToday} tone="primary" />
-        <StatCard icon={CalendarClock} label={t('statAppointmentsWeek')} value={isLoading ? '—' : data!.appointmentsThisWeek} tone="primary" />
-        <StatCard icon={Hourglass} label={t('statPending')} value={isLoading ? '—' : data!.pendingCount} tone="secondary" />
-        <StatCard icon={Ban} label={t('statBlockedSlots')} value={isLoading ? '—' : data!.blockedSlotsToday} tone="neutral" />
-      </div>
+      <Can domain="appointments" action="view">
+        <StatsWidget />
+      </Can>
 
-      {data && <AppointmentsChart title={t('chartTitle')} data={data.last14Days} />}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+        <Can domain="appointments" action="view">
+          <PendingAppointmentsWidget services={services} />
+          <UpcomingAppointmentsWidget services={services} />
+          <AppointmentInsightsWidget services={services} />
+        </Can>
+        <Can domain="slots" action="view">
+          <FreeSlotsWidget />
+        </Can>
+      </div>
     </div>
   );
 }
