@@ -1,11 +1,23 @@
+# docker-compose.yaml
+#
+# Lancement de l'image de production avec le fichier `.env` du dossier (copie de `.env.example`).
+# Docker Compose lit ce même fichier pour les arguments de build ci-dessous (variables NEXT_PUBLIC_*, figées dans
+# le bundle) et l'injecte dans le conteneur pour les secrets (lus au démarrage, absents de l'image).
+#
+#   docker compose up --build
 services:
   byb:
-
     container_name: byb-platform
 
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:?NEXT_PUBLIC_SUPABASE_URL est requise dans .env}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:?NEXT_PUBLIC_SUPABASE_ANON_KEY est requise dans .env}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:?NEXT_PUBLIC_APP_URL est requise dans .env}
+        NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:-}
+        NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
 
     ports:
       - "3000:3000"

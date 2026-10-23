@@ -1,0 +1,77 @@
+# .github/workflows/database-migrations.yml
+#
+# P11.1 : les migrations Supabase des environnements distants sont appliquées par la CI, jamais à la main.
+#
+#   préproduction : automatique à chaque push sur `main` qui modifie `supabase/migrations/`
+#   production    : déclenchement manuel (workflow_dispatch) sur `main`, derrière l'approbation de l'environnement
+#                   GitHub `production` (relecteurs obligatoires à configurer, voir docs/ENVIRONNEMENTS.md)
+#
+# Chaque environnement GitHub porte ses propres valeurs :
+#   variable  SUPABASE_PROJECT_REF   référence du projet (Project Settings > General), pas un secret
+#   secret    SUPABASE_DB_PASSWORD   mot de passe de la base de CE projet
+#   secret    SUPABASE_ACCESS_TOKEN  jeton personnel du compte Supabase qui a accès au projet
+# Les deux projets ont des références différentes : c'est ce qui empêche d'écrire en production par erreur.
+name: Database migrations
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environnement cible
+        type: choice
+        options: [preprod, production]
+        default: preprod
+      dry_run:
+        description: Simuler seulement (liste les migrations en attente, n'écrit rien)
+        type: boolean
+        default: true
+
+jobs:
+  migrate:
+    name: Migrations (${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'preprod' }})
+    runs-on: ubuntu-latest
+    # Le nom de l'environnement déclenche ses règles de protection (approbation en production).
+    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'preprod' }}
+    # Deux exécutions simultanées sur la même base se marcheraient dessus ; on les met en file, sans en annuler.
+    concurrency:
+      group: db-migrate-${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'preprod' }}
+      cancel-in-progress: false
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
+    steps:
+      # Une migration ne s'applique qu'à partir de `main` : jamais depuis une branche non relue.
+      - name: Refuser une branche autre que main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Les migrations ne s'appliquent que depuis main (branche actuelle : ${{ github.ref_name }})."
+          exit 1
+
+      - name: Vérifier la configuration de l'environnement
+        run: |
+          for name in SUPABASE_ACCESS_TOKEN SUPABASE_DB_PASSWORD SUPABASE_PROJECT_REF; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name n'est pas défini pour cet environnement GitHub."
+              exit 1
+            fi
+          done
+
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - run: supabase link --project-ref "$SUPABASE_PROJECT_REF"
+
+      # Toujours exécutée : le journal de la CI garde la liste exacte des migrations qui vont (ou iraient) être appliquées.
+      - name: Migrations en attente
+        run: supabase db push --dry-run
+
+      - name: Appliquer les migrations
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run == false
+        run: supabase db push

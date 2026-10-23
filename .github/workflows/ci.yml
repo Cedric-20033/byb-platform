@@ -6,10 +6,9 @@
 #   quality      à chaque push / PR : lint, types, tests unitaires AVEC seuils de couverture, build
 #   database     à chaque push / PR : pgTAP (RLS, RPC, contraintes)
 #   integration  à chaque push / PR : concurrence et charge légère contre une vraie base
-#   e2e          manuel et nuit : navigateur complet (build de production, base locale, jeu de données seedé)
+#   e2e          pull request, manuel et nuit : navigateur complet (build de production, base locale, jeu de données seedé)
 #
-# Le job `e2e` n'est pas encore déclenché par les PR : il faut d'abord le lancer à la main (workflow_dispatch) et le
-# voir passer au vert une première fois. Une fois stable, ajouter `pull_request` à sa condition `if`.
+# Le job `e2e` est déclenché par les PR depuis la première suite verte (confirmée le 2026-10-23).
 name: CI
 
 on:
@@ -90,7 +89,7 @@ jobs:
 
   e2e:
     name: Tests E2E (build de production)
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:

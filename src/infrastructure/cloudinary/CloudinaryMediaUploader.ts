@@ -6,20 +6,7 @@ import type {
   UploadAuthorizationRequest,
 } from '@/domain/service/MediaUploader';
 import type { MediaKind } from '@/domain/shared/MediaProvider';
-
-let configured = false;
-
-/** Configuration paresseuse, comme `CloudinaryMediaProvider` : les variables d'env sont lues au premier appel. */
-function ensureConfigured(): void {
-  if (configured) return;
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-    secure: true,
-  });
-  configured = true;
-}
+import { ensureCloudinaryConfigured } from './ensureCloudinaryConfigured';
 
 /**
  * Envoi direct navigateur → Cloudinary : le serveur ne signe que les paramètres, le fichier
@@ -32,7 +19,7 @@ function ensureConfigured(): void {
  */
 export class CloudinaryMediaUploader implements MediaUploader {
   authorizeUpload({ kind, folder, allowedFormats }: UploadAuthorizationRequest): UploadAuthorization {
-    ensureConfigured();
+    ensureCloudinaryConfigured();
     const { cloud_name, api_key, api_secret } = cloudinary.config();
     if (!cloud_name || !api_key || !api_secret) {
       throw new Error('Configuration Cloudinary incomplète (CLOUDINARY_*).');
@@ -56,7 +43,7 @@ export class CloudinaryMediaUploader implements MediaUploader {
   }
 
   async deleteAsset(publicId: string, kind: MediaKind): Promise<void> {
-    ensureConfigured();
+    ensureCloudinaryConfigured();
     await cloudinary.uploader.destroy(publicId, { resource_type: kind === 'video' ? 'video' : 'image' });
   }
 }
